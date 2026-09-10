@@ -1,0 +1,51 @@
+# Course website.
+#
+#   quarto render            -> builds _site/index.html
+#   quarto publish gh-pages  -> renders + pushes _site/ to the gh-pages branch
+#                               (GitHub Pages serves that branch). First run
+#                               asks to confirm; after that it is one command.
+#
+# Only index.qmd is rendered here. The slide decks keep their own project file
+# in materialsLecture/slides/ and are rendered there as before. When a unit's
+# materials are ready, add them under `resources:` so they are copied into
+# _site/ and the navbar links resolve, e.g.
+#   resources:
+#     - materialsLecture/slides/html/01_introduction.html
+
+project:
+  type: website
+  output-dir: _site
+  render:
+    - index.qmd
+
+website:
+  title: "Data Handling 2026"
+  site-url: "https://aureliensallin.ch/BEcon_3230_Datahandling_ImportCleaningandVisualization/"
+  search: false
+  navbar:
+    background: "#f4f5f6"
+    foreground: "#111827"
+    pinned: true
+    left:
+      - text: "Objectives"
+        href: "index.html#objectives"
+      - text: "Schedule"
+        href: "index.html#schedule"
+      - text: "Using the slides"
+        href: "index.html#using-the-slides"
+    # Per-unit menus go here once materials are published, e.g.
+    #   - text: "Unit 1"
+    #     menu:
+    #       - text: "Slides"
+    #         href: "materialsLecture/slides/html/01_introduction.html"
+    #       - text: "Exercises"
+    #         href: "materialsExercises/01_tools_functions/exercises/01_tools_functions_handout.html"
+  page-footer:
+    border: true
+    center: "Data Handling 2026 &nbsp;&middot;&nbsp; &copy; 2026 Aur&eacute;lien Sallin &nbsp;&middot;&nbsp; University of St.Gallen"
+
+format:
+  html:
+    theme: [cosmo, style/hsgtheme_site.scss]
+    toc: false
+    anchor-sections: false

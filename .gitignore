@@ -4,3 +4,13 @@
 .Ruserdata
 datahandlingform-4a1ada22d5ac.json
 .claude
+
+CLAUDE.md
+
+# Private key
+*google_private_key*.json
+datahandlingform-*.json
+/.quarto/
+
+# Quarto website build output
+/_site/

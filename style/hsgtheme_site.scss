@@ -1,0 +1,185 @@
+/*-- scss:defaults --*/
+
+// Course website theme. Colours and fonts are taken from
+// style/hsgtheme_slides.scss so the site and the decks match.
+
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Open+Sans:wght@400;600&display=swap');
+
+// palette (same values as the slide theme) ------------------------------
+$hsg-green:   #02934a !default;   // single accent colour
+$accent-warm: #b45309 !default;   // amber, used sparingly
+$ink:         #111827 !default;   // near-black body text
+$muted:       #6b7280 !default;   // de-emphasised text
+$rule:        #e5e7eb !default;   // hairlines
+
+$body-bg:    #ffffff !default;
+$body-color: $ink !default;
+$link-color: $hsg-green !default;
+
+$font-family-sans-serif: 'Open Sans', Lato, sans-serif !default;
+$headings-font-family:   'Lato', sans-serif !default;
+$headings-font-weight:   700 !default;
+$headings-color:         $hsg-green !default;
+
+$table-border-color: $rule !default;
+
+/*-- scss:rules --*/
+
+body {
+  font-size: 1.02rem;
+  line-height: 1.6;
+}
+
+main.content {
+  max-width: 900px;
+}
+
+// navbar (the grey menu bar) ------------------------------------------
+.navbar {
+  border-bottom: 2px solid $hsg-green;
+}
+.navbar .navbar-title {
+  font-family: 'Lato', sans-serif;
+  font-weight: 700;
+  color: $hsg-green;
+}
+.navbar .nav-link { font-weight: 600; }
+
+// page footer ---------------------------------------------------------
+.nav-footer {
+  color: $muted;
+  font-size: .82rem;
+  border-top: 1px solid $rule;
+}
+.nav-footer a { color: $muted; }
+
+h1.title {
+  font-size: 2.1rem;
+  line-height: 1.25;
+  margin-bottom: .25rem;
+}
+
+h2 {
+  font-size: 1.45rem;
+  margin-top: 2.4rem;
+  padding-bottom: .3rem;
+  border-bottom: 2px solid $hsg-green;
+}
+
+h3 { font-size: 1.15rem; margin-top: 1.6rem; }
+
+a { text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+// course meta block under the title -------------------------------------
+.course-meta {
+  color: $muted;
+  font-size: .95rem;
+  margin-bottom: 2rem;
+  line-height: 1.7;
+}
+.course-meta strong { color: $ink; }
+
+// objectives - small print in a light grey box -------------------------
+.objectives {
+  background: #f5f6f7;
+  border: 1px solid #e6e8ea;
+  border-radius: 6px;
+  padding: 1rem 1.25rem .7rem;
+  margin-top: .8rem;
+  font-size: .9rem;
+  line-height: 1.55;
+  color: $ink;
+}
+.objectives > p:first-child {
+  margin-top: 0;
+  color: $muted;
+}
+.objectives ul { margin-bottom: .2rem; }
+.objectives li { margin-bottom: .5rem; }
+.objectives strong { color: $hsg-green; }
+
+// schedule table ---------------------------------------------------------
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: .95rem;
+  margin-top: 1rem;
+}
+thead th {
+  text-align: left;
+  font-family: 'Lato', sans-serif;
+  font-weight: 700;
+  color: $ink;
+  border-bottom: 2px solid $hsg-green !important;
+  padding: .55rem .7rem;
+  white-space: nowrap;
+}
+tbody td {
+  padding: .7rem;
+  border-bottom: 1px solid $rule;
+  vertical-align: top;
+}
+tbody tr:hover { background: #f6fbf8; }
+
+// first column: dates, kept narrow and non-wrapping
+tbody td:first-child {
+  white-space: nowrap;
+  color: $muted;
+  font-variant-numeric: tabular-nums;
+}
+
+// placeholder for material that is not published yet
+.soon {
+  color: $muted;
+  font-style: italic;
+}
+
+// collapsible "how to use the slides" callout - kept deliberately quiet so it
+// reads as reference material, not a main section
+.callout.callout-style-simple {
+  border: none;
+  border-top: 1px solid $rule;
+  border-radius: 0;
+  margin-top: 3rem;
+  padding: .4rem 0 0;
+}
+.callout.callout-style-simple > .callout-header {
+  background: none !important;
+  padding: .4rem 0;
+  opacity: 1;
+}
+.callout.callout-style-simple .callout-title-container {
+  font-family: 'Lato', sans-serif;
+  font-weight: 700;
+  font-size: .95rem;
+  color: $muted;
+}
+.callout.callout-style-simple .callout-icon-container { display: none; }
+.callout.callout-style-simple > .callout-body {
+  font-size: .92rem;
+  color: $ink;
+  padding: .3rem 0 .5rem;
+}
+.callout.callout-style-simple .callout-body strong { color: $ink; }
+.callout.callout-style-simple table { font-size: .9rem; }
+
+// small note boxes -------------------------------------------------------
+.note {
+  border-left: 3px solid $accent-warm;
+  background: #fdf8f3;
+  padding: .8rem 1rem;
+  margin: 1.2rem 0;
+  font-size: .95rem;
+}
+
+// keyboard keys
+kbd {
+  background: #f3f4f6;
+  border: 1px solid $rule;
+  border-bottom-width: 2px;
+  border-radius: 4px;
+  padding: .1rem .4rem;
+  font-size: .85em;
+  color: $ink;
+}

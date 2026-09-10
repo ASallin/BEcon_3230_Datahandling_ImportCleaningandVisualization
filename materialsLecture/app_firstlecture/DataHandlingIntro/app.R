@@ -16,11 +16,10 @@ library(dplyr)   # you use %>% and data.frame ops
 # Trick: when using it locally to test, use the full path C:(/Users.)
 # If deploying it online, use the relative path to the JSON file.
 authenticate_gs4 <- function() {
-  
-  # if (file.exists("C:/Users/aurel/OneDrive/Documents/DataHandling/datahandling-lecture/materials/app_firstlecture/DataHandlingIntro/datahandlingform-4a1ada22d5ac.json")) {
-  if (file.exists("datahandlingform-4a1ada22d5ac.json")) {
+
+  if (file.exists("20260909_google_private_key")) {
     # gs4_auth(path = "C:/Users/aurel/OneDrive/Documents/DataHandling/datahandling-lecture/materials/app_firstlecture/DataHandlingIntro/datahandlingform-4a1ada22d5ac.json")
-    gs4_auth(path = "datahandlingform-4a1ada22d5ac.json")
+    gs4_auth(path = "20260909_google_private_key")
     return(invisible(TRUE))
   }
   stop("No Google service account credentials found. Set GCP_SA_JSON or add service-account.json to the app.")
@@ -37,7 +36,7 @@ sheet_id <- "13jZFfQHdqN5fI4PqGZZCvHGSgPbDPKBhdSmQ4WClyME"
 ss <- as_sheets_id(sheet_id)
 
 fieldsMandatory <- c("used_R", "literacy", "major", "enrolled_dsf")
-fieldsAll <- c("home_town", "literacy", "used_R", "major",  "enrolled_dsf", "assoc_data")  
+fieldsAll <- c("home_town", "literacy", "used_R", "major",  "enrolled_dsf", "assoc_data")
 
 humanTime <- function() format(Sys.time(), "%Y%m%d-%H%M%OS")
 epochTime  <- function() as.integer(Sys.time())
@@ -67,7 +66,7 @@ shinyApp(
     div(
       id = "form",
       textInput("home_town", labelMandatory("What do you consider to be your 'home town' (enter the home town in English)?")),
-      sliderInput("literacy", 
+      sliderInput("literacy",
                   "How would you describe your programming literacy from 1 (low) to 10 (expert)",
                   0, 10, 1, ticks = TRUE),
       tags$div(
@@ -107,7 +106,7 @@ shinyApp(
     # , downloadButton("downloadBtn", "Download responses")
   ),
   server = function(input, output, session) {
-    
+
     observe({
       # handle checkbox and numeric mandatory fields correctly
       mandatoryFilled <- all(vapply(fieldsMandatory, function(x) {
@@ -118,13 +117,13 @@ shinyApp(
       }, logical(1)))
       shinyjs::toggleState(id = "submit", condition = mandatoryFilled)
     })
-    
+
     formData <- reactive({
       data <- sapply(fieldsAll, function(x) input[[x]])
       data <- c(data, timestamp = epochTime())
       t(data)
     })
-    
+
     observeEvent(input$submit, {
       shinyjs::disable("submit")
       shinyjs::show("submit_msg")
@@ -144,12 +143,12 @@ shinyApp(
         shinyjs::hide("submit_msg")
       })
     })
-    
+
     observeEvent(input$submit_another, {
       shinyjs::show("form")
       shinyjs::hide("thankyou_msg")
     })
-    
+
     # If you re-enable the table:
     # output$responsesTable <- DT::renderDataTable(
     #   loadData(),

@@ -1,13 +1,13 @@
 ---
 title: "Who is in this class?"
-output: 
+output:
   flexdashboard::flex_dashboard:
     orientation: columns
     vertical_layout: fill
 runtime: shiny
 ---
 
-<style> 
+<style>
 
 
 .section.sidebar {
@@ -123,7 +123,7 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
   color: #ffffff;
 }
 
-</style>      
+</style>
 
 ```{r setup, include=FALSE}
 # This code is based on Christopher Gandrud's Shiny examples:
@@ -205,7 +205,7 @@ Column {data-width=650}
 
 ```{r home_town-map}
 # Map student home_towns
-leaflet() %>% 
+leaflet() %>%
   addTiles() %>%
   addCircleMarkers(data = home_town_coords, lng = ~lon, lat = ~lat, color = "#02934a")
 ```
@@ -219,24 +219,24 @@ Column {data-width=350}
 ```{r}
 # Function to find countries that each home_town is in
 coords2country = function(points)
-{  
+{
     # Function from: http://stackoverflow.com/a/14342127
     countriesSP <- getMap(resolution='low')
 
     #setting CRS directly to that from rworldmap
-    pointsSP = SpatialPoints(points, proj4string=CRS(proj4string(countriesSP)))  
+    pointsSP = SpatialPoints(points, proj4string=CRS(proj4string(countriesSP)))
 
-    # use 'over' to get indices of the Polygons object containing each point 
+    # use 'over' to get indices of the Polygons object containing each point
     indices = over(pointsSP, countriesSP)
 
     # return the ADMIN names of each country
-    indices$ISO3  
+    indices$ISO3
 }
 countries <- coords2country(na.omit(home_town_coords))
 
 # Find country counts
 countries_count <- table(countries)
-countries_count <- countries_count[countries_count > 0] 
+countries_count <- countries_count[countries_count > 0]
 countries_count <- as.data.frame(table(countries), stringsAsFactors = FALSE)
 names(countries_count) <- c("countries", "Freq")
 countries_count <- subset(countries_count, Freq > 0)
@@ -257,12 +257,12 @@ ggplot(countries_count, aes(x = countries, y = Freq)) +
 ```{r}
 # # Maximum distance for relationship
 # max_distance <- 1e6  # 10'000 km in meters
-# 
+#
 # # Find distances between each home town
 # distances <- vector()
 # for (i in 1:nrow(home_town_coords)) {
 #     temp_indv <- home_town_coords[i, ]
-#     
+#
 #     temp_distances <- distm(home_town_coords, temp_indv) %>% data.frame
 #     temp_distances$id <- i
 #     temp_distances$other_id <- 1:nrow(home_town_coords)
@@ -270,14 +270,14 @@ ggplot(countries_count, aes(x = countries, y = Freq)) +
 #     distances <- rbind(distances, temp_distances)
 # }
 # distances <- distances[, c(2, 3, 1)]
-# 
+#
 # # remove self edges and filter without the if-guard
 # distances <- subset(distances, id != other_id & distance <= max_distance)
-# 
+#
 # # simpleNetwork expects two columns: source, target
 # edges <- distances[, c("id","other_id")]
 # names(edges) <- c("source","target")
-# 
+#
 # networkD3::simpleNetwork(edges, zoom = TRUE,
 #                          linkColour = "#02934a", nodeColour = "#02934a", charge = 0)
 
@@ -285,7 +285,7 @@ renderPlot({
   df_overall <- student_data %>%
     count(major, .drop = FALSE) %>%
     mutate(pct = n / sum(n))
-  
+
   ggplot(df_overall, aes(x = major, y = pct)) +
     geom_col(fill = "dodgerblue2") +
     scale_x_discrete(drop = FALSE) +
@@ -306,8 +306,8 @@ Choose your filter {.sidebar}
 -----------------------------------------------------------------------
 
 ```{r}
-radioButtons("view_type", 
-             label = "View:", 
+radioButtons("view_type",
+             label = "View:",
              choices = c("Overall", "Per Major"),
              selected = "Overall")
 
@@ -330,14 +330,14 @@ renderPlot({
   df_overall <- student_data %>%
     count(literacy, .drop = FALSE) %>%
     mutate(pct = n / sum(n))
-  
+
   vals <- as.numeric(as.character(df_overall$literacy))
   vals <- vals[!is.na(vals)]
   if (length(vals) == 0) return(NULL)
-  
+
   m <- mean(vals, na.rm = TRUE)
   s <- sd(vals, na.rm = TRUE)
-  
+
   ggplot(df_overall, aes(x = literacy, y = pct)) +
     geom_col(fill = "#02934a") +
     scale_x_discrete(drop = FALSE) +
@@ -355,22 +355,22 @@ renderPlot({
 ```{r}
 renderPlot({
   req(input$view_type == "Per Major")
-  
+
   data_sub <- student_data %>%
     filter(major == input$majors) %>%
     mutate(literacy = factor(literacy, levels = r_skills))  # keep all levels
-  
+
   df_major <- data_sub %>%
     count(literacy, .drop = FALSE) %>%
     mutate(pct = if (sum(n) > 0) n / sum(n) else 0)
-  
+
   vals <- rep(as.numeric(as.character(df_major$literacy)), df_major$n)
   vals <- vals[!is.na(vals)]
   if (length(vals) == 0) return(NULL)
-  
+
   m <- mean(vals, na.rm = TRUE)
   s <- sd(vals, na.rm = TRUE)
-  
+
   ggplot(df_major, aes(x = literacy, y = pct)) +
     geom_col(fill = "#02934a") +
     geom_text(aes(label = scales::percent(pct, accuracy = 1)),
@@ -412,8 +412,8 @@ renderPlot({
     ggplot(r_exp_percents, aes(x = `Used R`, y = Pct)) +
       geom_bar(stat = "identity", fill = "#02934a") +
       scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
-      theme_classic()  
-    
+      theme_classic()
+
 })
 ```
 
@@ -437,8 +437,8 @@ renderPlot({
     ggplot(dsf_percents, aes(x = `Enrolled in DSF`, y = Pct)) +
         geom_bar(stat = "identity", fill = "dodgerblue4") +
       scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
-      theme_classic()  
-    
+      theme_classic()
+
 })
 ```
 
@@ -458,7 +458,7 @@ plotOutput("assoc_cloud", width = "800px", height = "600px")   # height in px or
 
 ```{r, context="server"}
 output$assoc_cloud <- renderPlot({
-  
+
   txt <- tolower(na.omit(student_data$assoc_data))
   if (length(txt) == 0) return(NULL)
 
@@ -470,22 +470,22 @@ output$assoc_cloud <- renderPlot({
             "data","dataset","données","daten")
   tokens <- tokens[!tokens %in% stop]
   if (length(tokens) == 0) return(NULL)
-  
+
   txt_clean <- gsub(" ", "_", tokens)
   dfm <- dfm(tokens(txt_clean))
-  
-  
+
+
   # replace underscores in feature names
   featmap <- data.frame(
     from = featnames(dfm),
     to   = stringr::str_wrap(gsub("_", " ", featnames(dfm)), width = 15),
     stringsAsFactors = FALSE
   )
-  
+
   dfm <- dfm_replace(dfm, pattern = featmap$from, replacement = featmap$to)
-  
+
   pal <- colorRampPalette(RColorBrewer::brewer.pal(11, "Spectral"))(50)
-  
+
   # plot wordcloud
   textplot_wordcloud(
     dfm,

@@ -1,0 +1,62 @@
+---
+title: "Data Handling: Import, Cleaning and Visualisation"
+---
+
+::: {.course-meta}
+**BEcon 3230** · University of St.Gallen · Autumn Semester 2026
+
+**Lecturer:** Dr. Aurélien Sallin — [aurelien.sallin@unisg.ch](mailto:aurelien.sallin@unisg.ch)<br>
+**Teaching assistants:** Ana Armendariz Pacheco, Andrea Burro
+:::
+
+## Objectives
+
+::: {.objectives}
+By the end of the course, you will be able to...
+
+- **Use essential tools for working with data.** We will work with the programming language R, but the concepts apply to any programming language.
+- **Manage a data project from start to finish.** You will practice collecting, cleaning, and analysing data to carry out a complete project in Economics (research, consulting, ...).
+- **Formulate meaningful questions from data.** You will learn how to explore datasets and identify relevant questions.
+- **Communicate insights effectively.** You will gain experience in presenting results clearly and persuasively.
+:::
+
+## Schedule
+
+| Date | Unit | Course Materials | Exercises |
+|------|------|--------|-----------|
+| 17.09.2026 | Introduction: Big Data / Data Science, course overview | [soon]{.soon} | [soon]{.soon} |
+
+: {tbl-colwidths="[12,52,18,18]"}
+
+::: {#using-the-slides .callout-note collapse="true" appearance="simple"}
+## How to use the slides — shortcuts &amp; making a PDF
+
+The slides are Quarto [reveal.js](https://quarto.org/docs/presentations/revealjs/) presentations. They open in your normal browser, no software to install.
+
+**Getting around a deck**
+
+| Key | Does |
+|-----|------|
+| <kbd>←</kbd> <kbd>→</kbd> | previous / next slide |
+| <kbd>O</kbd> or <kbd>Esc</kbd> | overview of all slides |
+| <kbd>F</kbd> | full screen |
+| <kbd>S</kbd> | speaker notes |
+| <kbd>E</kbd> | read the deck as one scrolling page |
+| <kbd>?</kbd> | list of all shortcuts |
+
+**Making a PDF**
+
+There is no separate PDF to download. To print one yourself:
+
+1. Open the slides and add `?print-pdf` to the end of the address, then reload:
+
+   ```
+   .../01_introduction.html?print-pdf
+   ```
+
+2. Press <kbd>Ctrl</kbd>+<kbd>P</kbd> (<kbd>⌘</kbd>+<kbd>P</kbd> on a Mac).
+
+3. In the print dialog set **Destination:** *Save as PDF*, **Layout:** *Landscape*, **Margins:** *None*, **Background graphics:** *on* (otherwise you get white boxes where the colours should be), then save.
+
+Use Chrome or Edge. Firefox and Safari do not honour the reveal.js print stylesheet and will give you one very long page instead of slides.
+:::

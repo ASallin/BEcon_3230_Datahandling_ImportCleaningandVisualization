@@ -436,22 +436,20 @@ cat("success!")
 
 ## {class="inverse" background-image="../../img/roadahead2.jpg" background-size="100%" background-repeat="cover"}
 
-## Two special lectures
+## One special lecture
 
 <br>
 
-#### **23.10.2025**: APIs
+#### **22.10.2026**: APIs
 
-  - Minna Heim, Ex-BEcon in St. Gallen, Data Science at ETH Zurich
+- Minna Heim, Ex-BEcon in St. Gallen, Data Science at ETH Zurich
 
-
-#### **27.11.2025**: Data Handling @Bank for International Settlements
-
-  - Andrew Li, Ex-MiQeF, Macroeconomic Analyst
 
 
 
 ## Part I: Data (Science) fundamentals
+
+::: {style="font-size: 0.85em;"}
 
 ```{r echo = FALSE, warning=FALSE}
 library(readxl)
@@ -459,43 +457,63 @@ library(knitr)
 library(magrittr)
 library(kableExtra)
 
-sched <- read_xlsx("../../schedule2026.xlsx")
+sched <- read_xlsx("../../schedule2026.xlsx") |>
+    dplyr::mutate(
+        Lecturer = dplyr::case_when(
+            Lecturer == "Aurélien Sallin" ~ "Aurélien",
+            Lecturer == "Ana Armendariz Pacheco" ~ "Ana",
+            Lecturer == "Andrea Burro" ~ "Andrea",
+            Lecturer == "Minna Heim" ~ "Minna Heim",
+            Lecturer == "Aurélien Sallin, Minna Heim" ~ "Aurélien, Minna Heim",
+            Lecturer == "Federica Mascolo" ~ "Federica",
+            is.na(Lecturer) ~ "",
+        )
+    ) |>
+     dplyr::mutate(
+        Date = ifelse(is.na(Date), "", as.character(Date))
+     )
 
-tab <- sched[1:10, c(1, 5)] |>
-  dplyr::select(everything())
+tab <- sched[c(1:6, 8:10), c(1, 5, 6)] |>
+    dplyr::select(everything())
 
-colnames(tab) <- c("Date", "Topic")
+colnames(tab) <- c("Date", "Topic", "Lecturer")
 
 tab |>
-  kable(format = "html") |>
-  kable_styling(full_width = T) |>
-  column_spec(1, width = "200px") |>
-  column_spec(2, width = "950px") |>
-  row_spec(c(1, 3, 4, 6, 7, 8, 10), bold = T, color = "green") |>
-  row_spec(7, bold = T, color = "firebrick4") |>
-  row_spec(c(2, 3, 5, 6, 7, 9), extra_css = "border-bottom: 20px solid white;") |>
-  row_spec(c(1, 8), extra_css = "border-bottom: 0px solid white;")
+    kable(format = "html") |>
+    kable_styling(full_width = T) |>
+    column_spec(1, width = "200px") |>
+    column_spec(2, width = "800px") |>
+    column_spec(3, width = "300px") |>
+    row_spec(c(1, 3, 4, 6, 7, 9), bold = T, color = "green") |>
+    row_spec(
+      c(2, 3, 5, 7, 8), # larger vertical space
+      extra_css = "border-bottom: 20px solid white;"
+    ) |>
+    row_spec(c(1, 4, 6, 7), extra_css = "border-bottom: 0px solid white;") # smaller vertical space
 ```
+
+:::
 
 
 
 ## Part II: Data gathering and preparation
 
 ```{r, echo=FALSE}
-tab <- sched[11:17, c(1, 5)] |>
+tab <- sched[11:17, c(1, 5, 6)] |>
     dplyr::select(everything())
 
-colnames(tab) <- c("Date", "Topic")
+colnames(tab) <- c("Date", "Topic", "Lecturer")
 
 tab |>
     kable(format = "html") |>
     kable_styling(full_width = T) |>
     column_spec(1, width = "200px") |>
-    column_spec(2, width = "950px") |>
-    row_spec(c(1, 2), bold = T, color = "firebrick4") |>
-    row_spec(c(3, 5, 6), bold = T, color = "green") |>
-    row_spec(c(2, 4, 5), extra_css = "border-bottom: 25px solid white;") |>
-    row_spec(c(1, 2), extra_css = "border-bottom: 0px solid white;")
+    column_spec(2, width = "800px") |>
+    column_spec(3, width = "300px") |>
+    row_spec(c(1), bold = T, color = "firebrick4") |>
+    row_spec(c(4,  7), bold = T, color = "green") |>
+    row_spec(c(1, 3, 6), extra_css = "border-bottom: 25px solid white;") |>
+    row_spec(c(2, 4, 5), extra_css = "border-bottom: 0px solid white;")
 ```
 
 
@@ -503,20 +521,21 @@ tab |>
 ## Part III: Analysis, visualisation, output
 
 ```{r, echo=FALSE}
-tab <- sched[18:nrow(sched), c(1, 5)] |>
-  dplyr::select( everything())
+tab <- sched[18:nrow(sched), c(1, 5, 6)] |>
+    dplyr::select(everything())
 
-colnames(tab) <- c("Date", "Topic")
+colnames(tab) <- c("Date", "Topic", "Lecturer")
 
 tab |>
-  kable( format = "html") |>
-  kable_styling(full_width = T) |>
-  column_spec(1, width = "200px") |>
-  column_spec(2, width = "950px") |>
-  row_spec(c(1, 2), bold = T, color = "green") |>
-  row_spec(c(4), bold = T, color = "firebrick4") |>
-  row_spec(c(1, 3), extra_css = "border-bottom: 25px solid white;") |>
-  row_spec(c(2, 4), extra_css = "border-bottom: 0px solid white;")
+    kable(format = "html") |>
+    kable_styling(full_width = T) |>
+    column_spec(1, width = "200px") |>
+    column_spec(2, width = "800px") |>
+    column_spec(3, width = "300px") |>
+    row_spec(c(1, 3, 4), bold = T, color = "green") |>
+    row_spec(c(6), bold = T, color = "firebrick4") |>
+    row_spec(c(3, 5), extra_css = "border-bottom: 25px solid white;") |>
+    row_spec(c(1, 2, 4), extra_css = "border-bottom: 0px solid white;")
 ```
 
 
