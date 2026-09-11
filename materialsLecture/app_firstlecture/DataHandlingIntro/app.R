@@ -13,16 +13,34 @@ library(dplyr)   # you use %>% and data.frame ops
 # One-time auth for google sheets -----------------------------------------
 
 # one-time auth at startup.
-# Trick: when using it locally to test, use the full path C:(/Users.)
-# If deploying it online, use the relative path to the JSON file.
+# Looks for the service-account key in several places so the app works both
+# when deployed (relative path, bundled next to app.R) and when run locally
+# from any working directory. Edit `key_local` to your own machine's path.
 authenticate_gs4 <- function() {
 
-  if (file.exists("20260909_google_private_key")) {
-    # gs4_auth(path = "C:/Users/aurel/OneDrive/Documents/DataHandling/datahandling-lecture/materials/app_firstlecture/DataHandlingIntro/datahandlingform-4a1ada22d5ac.json")
-    gs4_auth(path = "20260909_google_private_key")
+  key_name  <- "20260909_google_private_key.json"
+  key_local <- file.path(
+    "C:/Users/aurel/OneDrive/Documents/DataHandling",
+    "BEcon3230_Datahandling_ImportCleaningandVisualization",
+    "materialsLecture/app_firstlecture/DataHandlingIntro",
+    key_name
+  )
+
+  key_candidates <- c(
+    key_name,   # deployed / working dir == app dir
+    key_local   # local: absolute path on this machine
+  )
+
+  key_path <- key_candidates[file.exists(key_candidates)][1]
+
+  if (!is.na(key_path)) {
+    gs4_auth(path = key_path)
     return(invisible(TRUE))
   }
-  stop("No Google service account credentials found. Set GCP_SA_JSON or add service-account.json to the app.")
+  stop(
+    "No Google service account credentials found. Looked in:\n  ",
+    paste(key_candidates, collapse = "\n  ")
+  )
 }
 
 authenticate_gs4()

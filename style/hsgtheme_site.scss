@@ -53,6 +53,15 @@ main.content {
 }
 .nav-footer a { color: $muted; }
 
+// banner image under the title / meta block
+.banner {
+  display: block;
+  width: 100%;
+  margin: 1.6rem 0 2.2rem;
+  border: 1px solid $rule;
+  border-radius: 6px;
+}
+
 h1.title {
   font-size: 2.1rem;
   line-height: 1.25;

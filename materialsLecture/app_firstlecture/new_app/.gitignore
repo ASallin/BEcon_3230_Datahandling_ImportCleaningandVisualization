@@ -1,0 +1,11 @@
+# Secrets and credentials — never commit
+.env
+.Renviron
+*.json
+
+# Deployment / R cruft
+rsconnect/
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata

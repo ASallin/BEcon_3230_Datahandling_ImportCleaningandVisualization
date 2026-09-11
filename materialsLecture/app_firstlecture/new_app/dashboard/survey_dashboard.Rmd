@@ -1,0 +1,479 @@
+---
+title: "Who is in this class?"
+output:
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+    includes:
+      after_body: refresh_footer.html
+runtime: shiny
+---
+
+<style>
+.section.sidebar { background-color: #e6fff2; }
+.navbar-inverse { background-color: #02934a; border-color: #0da861; }
+.navbar-inverse .navbar-brand,
+.navbar-inverse .navbar-text,
+.navbar-inverse .navbar-nav > li > a { color: #ffffff; }
+.navbar-inverse .navbar-nav > li > a:hover,
+.navbar-inverse .navbar-nav > li > a:focus,
+.navbar-inverse .navbar-nav > .active > a,
+.navbar-inverse .navbar-nav > .active > a:hover,
+.navbar-inverse .navbar-nav > .active > a:focus {
+  color: #ffffff; background-color: #0da861;
+}
+
+/* bigger, bolder pane titles */
+.chart-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #222;
+  border-bottom: 1px solid #e3e3e3;
+}
+/* colour meaning: green = your own skill / the course, grey = the machine (LLMs) */
+.value-box .caption { font-size: 1rem; }
+.tile-num { font-size: 2.6rem; font-weight: 700; line-height: 1; color: #111; }
+.tile-txt { margin-top: .4rem; font-size: 1.05rem; }
+.tile-sub { margin-top: .2rem; color: #666; font-size: .9rem; }
+.story    { font-size: 1rem; line-height: 1.45; }
+
+/* global refresh footer (see refresh_footer.html) */
+#dash-footer {
+  position: fixed; left: 0; right: 0; bottom: 0;
+  display: flex; align-items: center; gap: 12px;
+  background: #f7f7f7; border-top: 1px solid #ddd;
+  padding: 6px 16px; z-index: 1030;
+}
+#dash-footer .updated { color: #666; font-size: .85rem; }
+body { padding-bottom: 46px; }
+.section.sidebar { bottom: 46px; }
+</style>
+
+```{r setup, include=FALSE}
+# Live dashboard of the class survey.
+#   * data comes from the Postgres "responses" table (filled by the form app)
+#   * home towns are geocoded with OpenStreetMap / Nominatim (no API key),
+#     results cached in "geocode_cache" so each town is looked up once
+#   * the dashboard reloads only when you press "Refresh data" (footer)
+# See ../README.md for setup.
+
+library(flexdashboard)
+library(shiny)
+library(DBI)
+library(RPostgres)
+library(dplyr)
+library(ggplot2)
+library(scales)
+library(leaflet)
+library(tidygeocoder)
+library(quanteda)
+library(quanteda.textplots)
+
+source("db.R")
+
+GREEN <- "#02934a"   # your own skill / the course
+GREY  <- "#7a7a7a"   # the machine: LLMs / AI
+BLUE  <- "#1f5c99"   # neutral secondary (majors, etc.)
+
+r_skills <- 0:10
+majors   <- c("VWL", "BWL", "BIA", "BLaw", "BLE", "other")
+
+# ---- data access -----------------------------------------------------
+fetch_responses <- function() {
+  con <- db_connect(); on.exit(dbDisconnect(con))
+  DBI::dbGetQuery(con, "
+    SELECT home_town, literacy, ai_use, used_r, major, enrolled_dsf,
+           assoc_data, predicted_grade
+    FROM responses
+  ")
+}
+
+clean_data <- function(df) {
+  if (nrow(df) == 0)
+    df <- data.frame(home_town = character(), literacy = integer(),
+                     ai_use = integer(), used_r = logical(), major = character(),
+                     enrolled_dsf = logical(), assoc_data = character(),
+                     predicted_grade = double())
+  df$literacy_n      <- suppressWarnings(as.numeric(df$literacy))
+  df$ai_use_n        <- suppressWarnings(as.numeric(df$ai_use))
+  df$predicted_grade <- suppressWarnings(as.numeric(df$predicted_grade))
+  df$literacy     <- factor(df$literacy, levels = r_skills)
+  df$ai_use       <- factor(df$ai_use, levels = r_skills)
+  df$major        <- factor(df$major, levels = majors)
+  df$used_r       <- as.logical(df$used_r)
+  df$enrolled_dsf <- as.logical(df$enrolled_dsf)
+  df$assoc_data   <- as.character(df$assoc_data)
+  df
+}
+
+# ---- geocoding, with the results cached in Postgres -----------------
+# Returns one row per distinct town: place, lat, lon, country (ISO3).
+# Towns the geocoder cannot place are simply left out.
+geocode_towns <- function(towns) {
+  towns <- unique(trimws(towns))
+  towns <- towns[!is.na(towns) & nzchar(towns)]
+  empty <- data.frame(place = character(), lat = double(),
+                      lon = double(), country = character())
+  if (length(towns) == 0) return(empty)
+
+  con <- db_connect(); on.exit(dbDisconnect(con))
+
+  # (1) what we already looked up before
+  cache <- DBI::dbReadTable(con, "geocode_cache")
+  cache <- cache[is.finite(cache$lat) & is.finite(cache$lon),
+                 c("place", "lat", "lon", "country"), drop = FALSE]
+  known   <- cache[cache$place %in% towns, , drop = FALSE]
+  missing <- setdiff(towns, known$place)
+
+  # (2) look the rest up with the ArcGIS geocoder: free, no API key, and it
+  #     ranks candidates by prominence the way Google Maps does. OpenStreetMap
+  #     does not - its "importance" score puts a 50-person hamlet in France
+  #     above Arbon TG - which is why small Swiss towns kept landing abroad.
+  #     full_results = TRUE also returns the country, so no map file is needed.
+  if (length(missing) > 0) {
+    res <- tryCatch(
+      tidygeocoder::geocode(
+        data.frame(place = missing), address = place,
+        method = "arcgis", quiet = TRUE, full_results = TRUE
+      ),
+      error = function(e) NULL
+    )
+
+    # (3) keep only the towns we could actually place, and remember them.
+    #     Failures are not written, so they are retried on the next Refresh.
+    if (!is.null(res) && nrow(res) > 0) {
+      cc <- if ("attributes.Country" %in% names(res))
+        res[["attributes.Country"]] else NA_character_
+      fresh <- data.frame(place = res$place, lat = res$lat,
+                          lon = res$long, country = cc)
+      fresh <- fresh[is.finite(fresh$lat) & is.finite(fresh$lon), , drop = FALSE]
+      if (nrow(fresh) > 0) {
+        try(DBI::dbAppendTable(con, "geocode_cache", fresh), silent = TRUE)
+        known <- rbind(known, fresh)
+      }
+    }
+  }
+
+  known
+}
+
+# ---- reactive pipeline: reloads ONLY on the Refresh button ---------
+survey <- eventReactive(input$refresh, {
+  clean_data(fetch_responses())
+}, ignoreNULL = FALSE)          # also runs once at startup
+
+last_updated <- reactive({ survey(); Sys.time() })
+
+# feeds the "last updated" text in the global footer (refresh_footer.html)
+output$updated_txt <- renderText(
+  sprintf("last updated %s", format(last_updated(), "%H:%M:%S"))
+)
+
+town_coords <- reactive({ geocode_towns(survey()$home_town) })
+
+# same Overall / Per-Major filter for both charts on the "Programming & AI" page
+this_view <- reactive({
+  d <- survey()
+  if (identical(input$view_type, "Per Major")) {
+    list(d = d[d$major == input$major_pick, , drop = FALSE],
+         sub = paste("Major:", input$major_pick))
+  } else {
+    list(d = d, sub = NULL)
+  }
+})
+
+empty_plot <- function(msg = "Waiting for the first responses...") {
+  ggplot() + annotate("text", x = 0, y = 0, label = msg, size = 5) +
+    theme_void()
+}
+
+# 0-10 self-rating bar chart (literacy, AI use); `colname` is a string
+rating_bars <- function(d, colname, xlab, fill) {
+  if (nrow(d) == 0) return(empty_plot("No responses in this group yet"))
+  x  <- factor(d[[colname]], levels = r_skills)
+  df <- as.data.frame(table(value = x), stringsAsFactors = FALSE)
+  df$value <- factor(df$value, levels = r_skills)
+  df$pct   <- if (sum(df$Freq) > 0) df$Freq / sum(df$Freq) else 0
+  vals <- rep(as.numeric(as.character(df$value)), df$Freq)
+  m <- if (length(vals)) mean(vals, na.rm = TRUE) else NA_real_
+
+  ggplot(df, aes(value, pct)) +
+    geom_col(fill = fill) +
+    { if (!is.na(m)) geom_vline(xintercept = m, colour = "red",
+                                linewidth = .8, linetype = 3) } +
+    scale_x_discrete(drop = FALSE) +
+    scale_y_continuous(labels = percent, limits = c(0, 1)) +
+    labs(x = xlab, y = "Share of students",
+         caption = if (!is.na(m)) sprintf("mean = %.1f", m) else NULL) +
+    theme_classic(base_size = 15)
+}
+
+# predicted grade vs a 0-10 self-rating, with a 95% CI on the correlation
+grade_scatter <- function(d, xcol, xlab, colour = GREEN) {
+  d <- d[is.finite(d[[xcol]]) & is.finite(d$predicted_grade), , drop = FALSE]
+  if (nrow(d) < 5 || sd(d[[xcol]]) == 0 || sd(d$predicted_grade) == 0)
+    return(empty_plot("Not enough answers yet"))
+
+  ct  <- suppressWarnings(cor.test(d[[xcol]], d$predicted_grade))
+  sub <- sprintf("r = %+.2f   (95%% CI %+.2f to %+.2f,  n = %d)",
+                 unname(ct$estimate), ct$conf.int[1], ct$conf.int[2], nrow(d))
+
+  ggplot(d, aes(.data[[xcol]], predicted_grade)) +
+    geom_jitter(width = .18, height = .04, alpha = .55, colour = colour, size = 2.4) +
+    geom_smooth(method = "lm", formula = y ~ x, se = TRUE,
+                colour = "grey30", fill = "grey80", linewidth = .9) +
+    scale_x_continuous(breaks = seq(0, 10, 2), limits = c(-0.5, 10.5)) +
+    scale_y_continuous(limits = c(1, 6), breaks = 1:6) +
+    labs(x = xlab, y = "Predicted grade", subtitle = sub) +
+    theme_classic(base_size = 15)
+}
+
+```
+
+Home towns {data-icon="fa-map-marker"}
+=====================================================================
+
+Column {data-width=650}
+---------------------------------------------------------------------
+
+### Responses so far {data-height=120}
+
+```{r}
+flexdashboard::renderValueBox({
+  flexdashboard::valueBox(nrow(survey()), caption = "responses (and counting...)",
+                          icon = "fa-users", color = GREEN)
+})
+```
+
+### Where you are from
+
+```{r}
+renderLeaflet({
+  pts <- town_coords()
+  pts <- pts[is.finite(pts$lat) & is.finite(pts$lon), , drop = FALSE]
+  counts <- as.data.frame(table(trimws(survey()$home_town)),
+                          stringsAsFactors = FALSE)
+  names(counts) <- c("place", "n")
+  pts <- merge(pts, counts, by = "place", all.x = TRUE)
+  pts$n[is.na(pts$n)] <- 1
+
+  m <- leaflet() |> addTiles()
+  if (nrow(pts) > 0) {
+    m <- m |> addCircleMarkers(
+      data = pts, lng = ~lon, lat = ~lat,
+      radius = ~pmin(4 + 2 * n, 20), color = GREEN,
+      stroke = FALSE, fillOpacity = 0.6,
+      label = ~sprintf("%s (%d)", place, n)
+    )
+  }
+  m
+})
+```
+
+Column {data-width=350}
+---------------------------------------------------------------------
+
+### Home countries
+
+```{r}
+renderPlot({
+  tc <- town_coords()
+  tc <- tc[!is.na(tc$country) & nzchar(tc$country), , drop = FALSE]
+  if (nrow(tc) == 0) return(empty_plot())
+
+  # town_coords() has one row per town; weight each town by how many
+  # students named it so the bars count students, not towns
+  per_town <- as.data.frame(table(trimws(survey()$home_town)),
+                            stringsAsFactors = FALSE)
+  names(per_town) <- c("place", "n")
+  tc <- merge(tc, per_town, by = "place", all.x = TRUE)
+  tc$n[is.na(tc$n)] <- 1
+
+  counts <- aggregate(n ~ country, data = tc, FUN = sum)
+  counts <- counts[order(-counts$n), ]
+  counts$country <- factor(counts$country, levels = counts$country)
+
+  ggplot(counts, aes(country, n)) +
+    geom_col(fill = GREEN) +
+    labs(x = NULL, y = "Students") +
+    theme_classic(base_size = 14)
+})
+```
+
+### Choice of major
+
+```{r}
+renderPlot({
+  d <- survey()
+  if (nrow(d) == 0) return(empty_plot())
+
+  df <- d |>
+    count(major, .drop = FALSE) |>
+    mutate(pct = n / sum(n))
+
+  ggplot(df, aes(major, pct)) +
+    geom_col(fill = BLUE) +
+    scale_x_discrete(drop = FALSE) +
+    scale_y_continuous(labels = percent, limits = c(0, 1)) +
+    labs(x = NULL, y = "Share of students") +
+    theme_classic(base_size = 14)
+})
+```
+
+Programming & AI {data-icon="fa-code"}
+=====================================================================
+
+Inputs {.sidebar data-width=200}
+---------------------------------------------------------------------
+
+```{r}
+radioButtons("view_type", "View",
+             choices = c("Overall", "Per Major"), selected = "Overall")
+
+conditionalPanel(
+  "input.view_type == 'Per Major'",
+  selectInput("major_pick", "Major:", choices = majors, selected = "VWL")
+)
+```
+
+Column {data-width=380}
+---------------------------------------------------------------------
+
+### How much programming can you do?  (0 = none, 10 = expert)
+
+```{r}
+renderPlot({
+  v <- this_view()
+  p <- rating_bars(v$d, "literacy", "Self-reported programming literacy", GREEN)
+  if (!is.null(v$sub)) p <- p + labs(subtitle = v$sub)
+  p
+})
+```
+
+Column {data-width=360}
+---------------------------------------------------------------------
+
+### Artificial dependence 🤖  (0 = never, 10 = it writes my code)
+
+```{r}
+renderPlot({
+  v <- this_view()
+  p <- rating_bars(v$d, "ai_use", "How often you lean on an LLM", GREY)
+  if (!is.null(v$sub)) p <- p + labs(subtitle = v$sub)
+  p
+})
+```
+
+Column {data-width=260}
+---------------------------------------------------------------------
+
+### R and Data Science Fundamentals
+
+<p style="margin:.2rem 0 .6rem">
+<img src="https://www.r-project.org/logo/Rlogo.svg" alt="R" style="height:52px">
+</p>
+
+```{r}
+renderUI({
+  d <- survey()
+  if (!nrow(d)) return(HTML("<em>waiting for responses…</em>"))
+  used <- 100 * mean(d$used_r, na.rm = TRUE)
+  dsf  <- 100 * mean(d$enrolled_dsf, na.rm = TRUE)
+  HTML(sprintf(
+    "<div class='tile-num'>%.0f%%</div>
+     <div class='tile-txt'>have used R before.</div>
+     <div class='tile-sub'>The rest of you will by December.</div>
+     <hr style='margin:1.1rem 0'>
+     <div class='tile-num'>%.0f%%</div>
+     <div class='tile-txt'>are in the DSF programme.</div>
+     <div class='tile-sub'>Everyone is welcome here either way.</div>",
+    used, dsf))
+})
+```
+
+Predicted grades {data-icon="fa-line-chart"}
+=====================================================================
+
+Column {data-width=370}
+---------------------------------------------------------------------
+
+### My hypothesis {data-height=210}
+
+<div class="story">
+
+I expect **both** correlations to come out positive:
+
+- confidence from prior knowledge, interest, curiosity
+- confidence from AI use, if it really makes you more effective
+
+</div>
+
+### What you predicted
+
+```{r}
+renderPlot({
+  g <- survey()$predicted_grade
+  g <- g[is.finite(g)]
+  if (length(g) < 1) return(empty_plot("No predictions yet"))
+  med <- median(g)
+
+  ggplot(data.frame(g = g), aes(g)) +
+    geom_histogram(binwidth = 0.25, boundary = 0, fill = GREEN, colour = "white") +
+    geom_vline(xintercept = 4, colour = "grey55", linetype = 2) +
+    scale_x_continuous(limits = c(1, 6), breaks = 1:6) +
+    labs(x = "Predicted grade", y = "Students",
+         subtitle = sprintf("median = %.2f   ·   grey line = pass (4.0)", med)) +
+    theme_classic(base_size = 14)
+})
+```
+
+Column {data-width=600}
+---------------------------------------------------------------------
+
+### Does knowing more make you more confident?
+
+```{r}
+renderPlot({
+  grade_scatter(survey(), "literacy_n", "Programming literacy", GREEN)
+})
+```
+
+### Does leaning on AI make you more confident? 🤖
+
+```{r}
+renderPlot({
+  grade_scatter(survey(), "ai_use_n", "How often you lean on an LLM", GREY)
+})
+```
+
+
+When you hear "data", you think of... {data-icon="fa-cloud"}
+=====================================================================
+
+Column
+---------------------------------------------------------------------
+
+### First word that comes to mind
+
+```{r}
+renderPlot({
+  d <- survey()
+  txt <- tolower(na.omit(d$assoc_data))
+  txt <- txt[nzchar(trimws(txt))]
+  if (length(txt) < 3) return(empty_plot("Not enough words yet"))
+
+  txt <- gsub("[^[:alnum:]\\säöüÄÖÜéèêàâîôûçß]", " ", txt)
+  stop_words <- c("the","and","a","an","to","of","in","on","for","is","are",
+                  "mit","und","der","die","das","de","la","le","et","des",
+                  "data","dataset","donnees","daten")
+
+  toks <- tokens(txt, remove_punct = TRUE) |>
+    tokens_remove(stop_words)
+  dfmat <- dfm(toks)
+  if (sum(dfmat) == 0) return(empty_plot("Not enough words yet"))
+
+  pal <- colorRampPalette(RColorBrewer::brewer.pal(11, "Spectral"))(50)
+  textplot_wordcloud(dfmat, max_words = 100, min_count = 1,
+                     color = pal, rotation = 0.15, random_color = TRUE)
+})
+```

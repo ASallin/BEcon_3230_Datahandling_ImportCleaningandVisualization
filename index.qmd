@@ -9,6 +9,8 @@ title: "Data Handling: Import, Cleaning and Visualisation"
 **Teaching assistants:** Ana Armendariz Pacheco, Andrea Burro
 :::
 
+![](img/data_science_pipeline.png){.banner fig-alt="The data science pipeline: import, tidy, transform, visualise, model and communicate data."}
+
 ## Objectives
 
 ::: {.objectives}
@@ -29,7 +31,7 @@ By the end of the course, you will be able to...
 : {tbl-colwidths="[12,52,18,18]"}
 
 ::: {#using-the-slides .callout-note collapse="true" appearance="simple"}
-## How to use the slides — shortcuts &amp; making a PDF
+## ⌨️ How to use the slides — shortcuts &amp; making a PDF
 
 The slides are Quarto [reveal.js](https://quarto.org/docs/presentations/revealjs/) presentations. They open in your normal browser, no software to install.
 

@@ -15,6 +15,8 @@ format:
     self-contained: true
     slide-number: c
     theme: ../../style/hsgtheme_slides.scss
+    # shown at the bottom of every slide, and in scroll view
+    footer: "[← Course page](https://aureliensallin.ch/BEcon_3230_Datahandling_ImportCleaningandVisualization/)"
 highlight-style: dracula
 cache: false
 echo: false
@@ -800,3 +802,17 @@ You don't see the point of learning to code functions and loops since AI can do 
 ::::
 
 # Questions?
+
+##
+
+<br><br>
+
+::: {style="text-align: center; font-size: 1.4em;"}
+[← Back to the course page](https://aureliensallin.ch/BEcon_3230_Datahandling_ImportCleaningandVisualization/)
+:::
+
+<br>
+
+::: {style="text-align: center;"}
+All slides, exercises and materials live there.
+:::
