@@ -26,7 +26,7 @@ By the end of the course, you will be able to...
 
 | Date | Unit | Course Materials | Exercises |
 |------|------|--------|-----------|
-| 17.09.2026 | Introduction: Big Data / Data Science, course overview | [soon]{.soon} | [soon]{.soon} |
+| 17.09.2026 | Introduction: Big Data / Data Science, course overview | [soon]{.soon} | [Handout](materialsExercises/01_tools_functions/exercises/01_tools_programming_handout.html)<br>[Slides](materialsExercises/01_tools_functions/exercises/01_tools_programming_slides.html) |
 
 : {tbl-colwidths="[12,52,18,18]"}
 
@@ -50,6 +50,8 @@ There is no separate PDF to download. To print one yourself:
 2. Press <kbd>Ctrl</kbd>+<kbd>P</kbd> (<kbd>⌘</kbd>+<kbd>P</kbd> on a Mac).
 
 3. In the print dialog set **Destination:** *Save as PDF*, **Layout:** *Landscape*, **Margins:** *None*, **Background graphics:** *on* (otherwise you get white boxes where the colours should be), then save.
+
+![](img/save_pdf_quarto.gif){fig-alt="Screen recording: adding ?print-pdf to the slide address, opening the print dialog and saving the slides as a PDF."}
 
 Use Chrome or Edge. Firefox and Safari do not honour the reveal.js print stylesheet and will give you one very long page instead of slides.
 :::

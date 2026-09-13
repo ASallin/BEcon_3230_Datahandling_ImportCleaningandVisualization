@@ -17,6 +17,9 @@ project:
   output-dir: _site
   render:
     - index.qmd
+  resources:
+    - materialsExercises/01_tools_functions/exercises/01_tools_programming_handout.html
+    - materialsExercises/01_tools_functions/exercises/01_tools_programming_slides.html
 
 website:
   title: "Data Handling 2026"

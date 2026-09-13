@@ -10,6 +10,7 @@ format:
   revealjs:
     theme: simple
     slide-number: true
+    smaller: true
     transition: none
     embed-resources: true
     width: 1200

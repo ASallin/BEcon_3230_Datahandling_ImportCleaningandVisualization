@@ -37,10 +37,10 @@ library(purrr)
 
 ## Introduce yourself!
 
-- Go to this app (use the QR code): [https://datahandling.shinyapps.io/FormDataHandling/](https://datahandling.shinyapps.io/FormDataHandling/)
+- Go to this app (use the QR code): [https://datahandling.shinyapps.io/form/](https://datahandling.shinyapps.io/form/)
 
 ```{r , echo=FALSE, out.width = "35%", fig.align='center', purl=FALSE}
-include_graphics("../../img/QR_APP_2025.gif")
+include_graphics("../../img/qrcode_datahandling.shinyapps.io.png")
 ```
 
 ##
@@ -235,6 +235,24 @@ include_graphics("../../img/text.png")
 ```
 
 
+## Relevance for modern economic research
+
+:::: {.columns}
+
+::: {.column width="50%"}
+```{r genai1, echo=FALSE, out.width = "100%", fig.align='center',  purl=FALSE}
+include_graphics("../../img/jel_genai1.png")
+```
+:::
+
+::: {.column width="50%"}
+```{r genai2, echo=FALSE, out.width = "100%", fig.align='center',  purl=FALSE}
+include_graphics("../../img/jel_genai2.png")
+```
+:::
+
+::::
+
 
 ## Data science in Economics skill set
 
@@ -262,7 +280,7 @@ What kind of person does all this? [Think of him or her as a hybrid of data hack
 
 
 
-## Data science in 2025: past its golden age?
+## Data science in 2026: past its golden age?
 
 Between 2014 and 2021, data scientists saw unprecedented career and salary growth, fueled by the explosion of big data and artificial intelligence.
 
@@ -275,16 +293,21 @@ Between 2014 and 2021, data scientists saw unprecedented career and salary growt
 [**Or so it seems...**]{.accent-bold}
 
 
-## Learning programming in 2025: why?
+## Still learning programming in 2026: why?
+
+- AI has made **learning to code more enjoyable**: flatter learning curve for beginners -> higher returns on effort investment at the beginning -> not stuck -> fun!
+- **AI ≠ mastery**. Everyone can code with AI. \ But: A data scientist is someone who has developed skills, flair for data, creativity, and solid fundamentals. This has become the talent employers seek after.
+- develop a **mindset for data analysis and problem solving**: solution-oriented and pragmatism, communication and story-telling, algorithmic thinking, debugging and patience with mistakes, attention to detail, etc.
+- learn the language you need to **prompt LLMs efficiently**.
 
 
-  ➡️ ... AI has made **learning to code more enjoyable**: flatter learning curve for beginners 🎢 -> higher returns on effort investment at the beginning -> not stuck -> fun!
+## Learning programming in the age of vibe coding
 
-  ➡️ ... **AI ≠ mastery**. Everyone can code with AI. But: A data scientist is someone who has developed skills, flair for data, creativity, and solid fundamentals. This has become the talent employers seek after 💸.
+```{r vibecoding, echo=FALSE, out.width = "80%", fig.align='center',  purl=FALSE}
+include_graphics("../../img/meme_datascientist_vibecoding.png")
+```
 
-  ➡️ ... develop a **mindset for data analysis and problem solving 🧩**: solution-oriented and pragmatism, communication and story-telling, algorithmic thinking, debugging and patience with mistakes, attention to detail, etc.
-
-  ➡️ ... learn the language you need to **prompt LLMs efficiently** 🤖.
+Vibe coding generally implies **delegating a substantial part of the implementation and reasoning to the AI**, with the human steering through high-level instructions and testing the results.
 
 
 ## {class="inverse" background-image="../../img/break-picture.png" background-size="100%" background-repeat="cover"}
@@ -408,35 +431,25 @@ cat("success!")
 
 ## Course concept: lectures
 
-- Lectures (Thursday morning)
+#### Weekly plenary sessions
+
   - Background/Concepts
   - Illustration of concepts
   - Illustration of 'hands-on' approaches
-
+  - We will alternate between front-of-class teaching and coding tasks. When coding, code along or just watch.
+  - As interactive as possible, with questions encouraged.
 
 
 ## Course concept: exercises
 
-- Exercise sheets (handed out every other week)
+### In-class exercise sessions (bi-weekly evening sessions)
+
   - Some conceptual questions
   - Hands-on exercises/tutorials in R
-  - *First Exercises (set up R/RStudio) is available on StudyNet/Canvas today*
-
-
-
-## Course concept: exercise sessions
-
-- In-class exercise sessions (bi-weekly evening sessions)
-    - Discussion of exercises and additional input with Federica and Andrea
-    - Recap of concepts
-    - Q&A, support
-    - time for more coding!
-
-
-## Lecture style
-
-- I believe in **active participation** and **hands-on learning**.
-- I
+  - Recap of concepts
+  - Q&A, support
+  - Discussion of exercises and additional input with Ana and Andrea
+  - *First Exercises (set up R/RStudio) is available on Canvas today*
 
 
 # The road ahead
@@ -450,7 +463,6 @@ cat("success!")
 #### **22.10.2026**: APIs
 
 - Minna Heim, Ex-BEcon in St. Gallen, Data Science at ETH Zurich
-
 
 
 
@@ -557,7 +569,7 @@ The examination consists of three parts:
 ## Exam information: group project
 
 #### Goals
-- Use real-world data in a project to practice and reinforce the concepts covered in the course.
+Use real-world data in a project to practice and reinforce the concepts covered in the course.
 
 #### Project timeline
 
@@ -569,22 +581,19 @@ The examination consists of three parts:
 
 ## Central written examination
 
-#### Goal
-Demonstrate your understanding of the concepts and practical applications covered in the course. Beyond the critical use of LLMs, students must demonstrate their own grasp of the group project and ensure fair collaboration in group work, avoiding free-riding.
+#### Goals
+Demonstrate your understanding of the concepts and practical applications covered in the course and in the group project beyond the use of LLMs.
 
 
 #### Important information
 - **December 17th, 2026**: Decentral written examination (**digital, BYOD**).
-- Multiple choice questions.
+- Multiple choice questions (Multiple Choice; True False; Only one Correct) on the course content and on the group project.
+- Essay questions on the group project.
 - Duration: 60mn.
 
 #### What to expect
-- We will release samples of multiple choice questions in the lecture and via Quizzes on Canvas/Studynet (exact same format and style of exam questions).
-- Essay questions on the group project.
-
-
-## A note on AI and the learning process
-
+- We will release samples of multiple choice questions in the lecture and via Quizzes on Canvas(exact same format and style of exam questions).
+- We will release a mock exam during the break.
 
 
 
@@ -592,18 +601,10 @@ Demonstrate your understanding of the concepts and practical applications covere
 
 ## Core course resources
 
-- All information and materials (notes, slides, course sheet, syllabus, etc.) are available on Canvas.
-- Use github to be always updated about the course material
+- All the necessary information and resources are available on Canvas.
+- This year, all course materials (slides, code, data) are pushed on the following page: [https://aureliensallin.ch/BEcon_3230_Datahandling_ImportCleaningandVisualization/](https://aureliensallin.ch/BEcon_3230_Datahandling_ImportCleaningandVisualization/)
+- Slides are made available in `html` format (Quarto slides). You can easily convert them to PDF. Instructions are provided in the course materials and Canvas.
 
-  - Install git on your computer as explained [here](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
-  - Clone the course repository using:
-
-
-```{r eval = FALSE}
-git clone https://github.com/ASallin/datahandling-lecture.git # to clone
-git checkout 2025 # to switch to the branch "2025*
-git pull origin 2025 # to update
-```
 
 
 
@@ -630,6 +631,25 @@ git pull origin 2025 # to update
 - Thousands of 'R-packages' covering diverse aspects of data analysis.
 - Learn from open sources.
 
+::: {.notes}
+**Short history**
+
+- Early 1990s: **Ross Ihaka and Robert Gentleman** (University of Auckland) write R as a free implementation inspired by S, for teaching statistics. The name: their first initials, and a nod to S.
+- 1995: released as free software (GNU GPL). 1997: CRAN starts. 29 February 2000: R 1.0.0.
+- 2011: RStudio IDE. 2010s: tidyverse (Hadley Wickham), ggplot2, R Markdown. 2022: RStudio the company becomes Posit, Quarto appears (these slides are made with it).
+- Today: more than 20,000 packages on CRAN.
+
+**Advantages, in more depth**
+
+- Built by statisticians for data: data frames, missing values (`NA`) and vectorised operations are part of the language, not add-ons.
+- Economics fits well: regressions, panel data, time series, fast fixed-effects estimation (`fixest`), regression tables (`modelsummary`). New econometric methods often come out as an R package first.
+- Graphics: ggplot2 is still the reference for publication-quality plots.
+- Reproducibility: code, results and text in one document (Quarto), so a report or paper can be re-run from the raw data.
+- Free: no licence, unlike Stata or MATLAB. You keep using it after you leave HSG.
+- R vs Python: not a war. Python is stronger for general programming and machine learning, R for statistics and data analysis. The concepts in this course transfer, and many teams use both.
+- Honest caveats: R has quirks (several ways to do the same thing), and it can be slow or memory-hungry on very large data unless you use the right tools (`data.table`, `arrow`, `duckdb`).
+:::
+
 
 ## R
 
@@ -649,6 +669,14 @@ include_graphics("../../img/rstudio.png")
 
 ```
 Install RStudio from [here](https://www.rstudio.com/products/rstudio/download/#download)!
+
+
+## R!
+```{r echo=FALSE, fig.align='center', out.width="30%"}
+
+include_graphics("../../img/meme_r.jpg")
+
+```
 
 
 
@@ -790,6 +818,5 @@ You don't see the point of learning to code functions and loops since AI can do 
 <br><br>
 
 ::: {style="text-align: center; font-size: 1.4em;"}
-[:point_left: Back to the course page](https://aureliensallin.ch/BEcon_3230_Datahandling_ImportCleaningandVisualization/)
+[👈](https://aureliensallin.ch/BEcon_3230_Datahandling_ImportCleaningandVisualization/)
 :::
-
