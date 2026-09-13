@@ -8,7 +8,6 @@ date: "2026-09-17"
 date-format: "D MMMM YYYY"
 format:
   html:
-    theme: ../../../style/hsgtheme.scss
     embed-resources: true
     self-contained: true
     self-contained-math: true
@@ -55,6 +54,7 @@ and pasting it. If something does not work, raise your hand.
 | 5 | Objects, and the arrow `<-` |
 | 6 | Packages |
 | 7 | Quarto |
+| Self-study | Vectors |
 
 # Part 1. R and RStudio
 
@@ -209,26 +209,28 @@ A **directory** is a folder. Directories sit inside other directories and form a
 
 ```
 Documents
-  r_course
-    data
-      swiss.csv
-    code
-      hello_world.R
+  2026_Data_Handling
+    course
+    exercises
+      data
+        swiss.csv
+      code
+        hello_world.R
 ```
 
 A **path** is the address of a file or a folder. An **absolute path** starts at the top
 of your disk and works from anywhere:
 
 ```
-C:/Users/anna/Documents/r_course/data/swiss.csv     (Windows)
-/Users/anna/Documents/r_course/data/swiss.csv       (Mac)
+C:/Users/anna/Documents/2026_Data_Handling/exercises/data/swiss.csv     (Windows)
+/Users/anna/Documents/2026_Data_Handling/exercises/data/swiss.csv       (Mac)
 ```
 
 A **relative path** starts from wherever you currently are:
 
 ```
-data/swiss.csv     the file swiss.csv, in the folder data, inside the current folder
-../swiss.csv       swiss.csv, one folder up from here
+exercises/data/swiss.csv     swiss.csv, in the folder data, inside exercises
+../swiss.csv                 swiss.csv, one folder up from here
 ```
 
 Absolute paths break as soon as the folder moves, because nobody else has a folder
@@ -239,7 +241,7 @@ The **working directory** is where R currently is. Every relative path is read f
 ```{r eval=FALSE, purl=FALSE}
 getwd()                                     # which folder am I in?
 list.files()                                # what is in it?
-setwd("C:/Users/anna/Documents/r_course")   # move somewhere else
+setwd("C:/Users/anna/Documents/2026_Data_Handling")   # move somewhere else
 ```
 
 Run `getwd()` and `list.files()` whenever R says a file does not exist. Usually the
@@ -257,12 +259,17 @@ computer, so your relative paths always work and you never need `setwd()`.
 ::: {.callout-note}
 ## Exercise 3: set up your course folder
 
-1. In your file browser, create a folder called `r_course`, for example in Documents.
-2. Inside it, create two subfolders, `data` and `code`.
-3. In RStudio, click the **Project** button in the top-right corner, choose
-   **New Project... > Existing Directory**, browse to `r_course`, and click
+1. In your file browser, create a folder called `2026_Data_Handling`, for example in
+   Documents.
+2. Inside it, create two subfolders, `course` and `exercises`.
+3. Inside `exercises`, create two subfolders, `data` and `code`.
+4. In RStudio, click the **Project** button in the top-right corner, choose
+   **New Project... > Existing Directory**, browse to `2026_Data_Handling`, and click
    **Create Project**.
-4. Check with `getwd()`. The path should end in `/r_course`.
+5. Check with `getwd()`. The path should end in `/2026_Data_Handling`.
+
+`course` is for the lecture material, `exercises` for the exercise sessions. We use the
+same structure in both.
 :::
 
 # Part 4. Scripts
@@ -273,7 +280,7 @@ run it again.
 
 - `Ctrl+Enter` (`Cmd+Enter`) runs the current line, or the selected lines
 - the **Run** button does the same
-- `source("code/my_script.R")` runs a whole script from the Console
+- `source("exercises/code/my_script.R")` runs a whole script from the Console
 
 Writing a line in the Source pane does nothing until you send it to R.
 
@@ -285,11 +292,11 @@ Writing a line in the Source pane does nothing until you send it to R.
 3. Type `print("Hello world")` on the first line.
 4. Put the cursor on that line and press `Ctrl+Enter` (`Cmd+Enter`). Watch it appear in
    the Console and run.
-5. Save the file into the `code` subfolder as `hello_world.R`.
+5. Save the file into `exercises/code` as `hello_world.R`.
 6. Back in the Console, run the saved file:
 
 ```{r eval=FALSE}
-source("code/hello_world.R")
+source("exercises/code/hello_world.R")
 ```
 
 The path in step 6 is relative, and it works because the project set your working
@@ -346,40 +353,13 @@ ls()              # list the objects currently in memory
 rm(list = ls())   # remove all of them
 ```
 
-## More than one value: vectors
-
-An object can hold several values at once. You build one with `c()`, for "combine":
-
-```{r}
-income <- c(52000, 48000, 61000, 55000, 49000)
-income
-```
-
-This is a **vector**: an ordered set of values of the same type, and a column of a data
-set is exactly this. Vectors can hold text too, in which case each value goes in
-quotation marks:
-
-```{r}
-canton <- c("SG", "ZH", "BE", "SG", "VD")
-canton
-```
-
-Useful things to ask about a vector:
-
-```{r}
-length(income)   # how many values
-mean(income)     # their average
-```
-
 ::: {.callout-note}
 ## Exercise 5: objects
 
 1. Store your age in an object called `age`, and print it.
 2. Create `radius <- 3`, then create `area` as $\pi r^2$ and round it to two decimals.
    `pi` already exists in R.
-3. Create a vector `grades` holding 4.5, 5, 5.5, 4 and 6. How many values does it have?
-   What is the average?
-4. Type `Age`, with a capital A. What happens, and why?
+3. Type `Age`, with a capital A. What happens, and why?
 :::
 
 ::: {.callout-tip collapse="true"}
@@ -392,10 +372,6 @@ age
 radius <- 3
 area <- pi * radius^2
 round(area, 2)
-
-grades <- c(4.5, 5, 5.5, 4, 6)
-length(grades)
-mean(grades)
 ```
 
 ```{r error=TRUE}
@@ -482,6 +458,50 @@ and the data cannot disagree.
 Have a look: `File > New File > Quarto Document...`, accept the defaults, and click
 **Render**. The first time, RStudio asks to install a couple of supporting packages; say
 yes. We come back to Quarto later in the course.
+
+# Self-study: vectors
+
+We come back to vectors in week 3. Read this part at home if you want a head start.
+
+An object can hold several values at once. You build one with `c()`, for "combine":
+
+```{r}
+income <- c(52000, 48000, 61000, 55000, 49000)
+income
+```
+
+This is a **vector**: an ordered set of values of the same type, and a column of a data
+set is exactly this. Vectors can hold text too, in which case each value goes in
+quotation marks:
+
+```{r}
+canton <- c("SG", "ZH", "BE", "SG", "VD")
+canton
+```
+
+Useful things to ask about a vector:
+
+```{r}
+length(income)   # how many values
+mean(income)     # their average
+```
+
+::: {.callout-note}
+## Exercise 7: vectors
+
+1. Create a vector `grades` holding 4.5, 5, 5.5, 4 and 6.
+2. How many values does it have? What is the average?
+:::
+
+::: {.callout-tip collapse="true"}
+## Solution to Exercise 7
+
+```{r}
+grades <- c(4.5, 5, 5.5, 4, 6)
+length(grades)
+mean(grades)
+```
+:::
 
 # Reference
 
