@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 510" width="820" height="510" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+
+  <rect x="8" y="8" width="804" height="494" rx="9" fill="#ffffff" stroke="#b6bcc4" stroke-width="1.5"/>
+  <path d="M8 17 a9 9 0 0 1 9 -9 h786 a9 9 0 0 1 9 9 v25 h-804 z" fill="#eceff3"/>
+  <circle cx="27" cy="25" r="5" fill="#d9dde2"/>
+  <circle cx="43" cy="25" r="5" fill="#d9dde2"/>
+  <circle cx="59" cy="25" r="5" fill="#d9dde2"/>
+  <text x="76" y="30" font-size="12.5" fill="#5a6570">RStudio</text>
+  <line x1="8" y1="42" x2="812" y2="42" stroke="#b6bcc4" stroke-width="1.5"/>
+
+  <!-- Source: top left -->
+  <rect x="22" y="56" width="382" height="200" rx="5" fill="#ffffff" stroke="#b6bcc4"/>
+  <path d="M22 61 a5 5 0 0 1 5 -5 h372 a5 5 0 0 1 5 5 v22 h-382 z" fill="#f4f6f8"/>
+  <line x1="22" y1="83" x2="404" y2="83" stroke="#dfe3e8"/>
+  <text x="34" y="76" font-size="11" fill="#7a848f">hello_world.R</text>
+  <text x="34" y="108" font-size="13.5" font-weight="600" fill="#2c5f8a">1. Source</text>
+  <text x="34" y="128" font-size="11.5" fill="#4c5560">top left</text>
+  <text x="34" y="154" font-size="11.5" fill="#333c46">Write and save scripts here.</text>
+  <text x="34" y="172" font-size="11.5" fill="#333c46">Nothing runs until you send it</text>
+  <text x="34" y="190" font-size="11.5" fill="#333c46">to the console.</text>
+  <rect x="34" y="204" width="150" height="22" rx="3" fill="#eef2f6" stroke="#ccd4dc"/>
+  <text x="43" y="219" font-size="11" font-family="Consolas, monospace" fill="#2c5f8a">Ctrl / Cmd + Enter</text>
+
+  <!-- Environment: top right -->
+  <rect x="416" y="56" width="382" height="200" rx="5" fill="#ffffff" stroke="#b6bcc4"/>
+  <path d="M416 61 a5 5 0 0 1 5 -5 h372 a5 5 0 0 1 5 5 v22 h-382 z" fill="#f4f6f8"/>
+  <line x1="416" y1="83" x2="798" y2="83" stroke="#dfe3e8"/>
+  <text x="428" y="76" font-size="11" fill="#2c5f8a" font-weight="600">Environment</text>
+  <text x="516" y="76" font-size="11" fill="#8b949e">History</text>
+  <text x="568" y="76" font-size="11" fill="#8b949e">Connections</text>
+  <text x="650" y="76" font-size="11" fill="#8b949e">Tutorial</text>
+  <text x="428" y="108" font-size="13.5" font-weight="600" fill="#2c5f8a">3. Environment</text>
+  <text x="428" y="128" font-size="11.5" fill="#4c5560">top right</text>
+  <text x="428" y="154" font-size="11.5" fill="#333c46">The objects currently in memory.</text>
+  <text x="428" y="172" font-size="11.5" fill="#333c46">Check here that an import worked.</text>
+  <rect x="428" y="188" width="200" height="46" rx="3" fill="#fafbfc" stroke="#e2e6ea"/>
+  <text x="438" y="204" font-size="11" font-family="Consolas, monospace" fill="#4c5560">x</text>
+  <text x="516" y="204" font-size="11" font-family="Consolas, monospace" fill="#4c5560">5</text>
+  <text x="438" y="222" font-size="11" font-family="Consolas, monospace" fill="#4c5560">swiss</text>
+  <text x="516" y="222" font-size="11" font-family="Consolas, monospace" fill="#4c5560">47 obs.</text>
+
+  <!-- Console: bottom left -->
+  <rect x="22" y="268" width="382" height="222" rx="5" fill="#ffffff" stroke="#b6bcc4"/>
+  <path d="M22 273 a5 5 0 0 1 5 -5 h372 a5 5 0 0 1 5 5 v22 h-382 z" fill="#f4f6f8"/>
+  <line x1="22" y1="295" x2="404" y2="295" stroke="#dfe3e8"/>
+  <text x="34" y="288" font-size="11" fill="#2c5f8a" font-weight="600">Console</text>
+  <text x="100" y="288" font-size="11" fill="#8b949e">Terminal</text>
+  <text x="164" y="288" font-size="11" fill="#8b949e">Background Jobs</text>
+  <text x="34" y="320" font-size="13.5" font-weight="600" fill="#2c5f8a">2. Console</text>
+  <text x="34" y="340" font-size="11.5" fill="#4c5560">bottom left</text>
+  <text x="34" y="366" font-size="11.5" fill="#333c46">Where code runs and output</text>
+  <text x="34" y="384" font-size="11.5" fill="#333c46">appears. Good for quick checks.</text>
+  <rect x="34" y="400" width="356" height="70" rx="3" fill="#fafbfc" stroke="#e2e6ea"/>
+  <text x="44" y="420" font-size="11.5" font-family="Consolas, monospace" fill="#2c5f8a">&gt; print("Hello world")</text>
+  <text x="44" y="440" font-size="11.5" font-family="Consolas, monospace" fill="#333c46">[1] "Hello world"</text>
+  <text x="44" y="460" font-size="11.5" font-family="Consolas, monospace" fill="#2c5f8a">&gt;</text>
+
+  <!-- Files/Plots/Packages/Help: bottom right -->
+  <rect x="416" y="268" width="382" height="222" rx="5" fill="#ffffff" stroke="#b6bcc4"/>
+  <path d="M416 273 a5 5 0 0 1 5 -5 h372 a5 5 0 0 1 5 5 v22 h-382 z" fill="#f4f6f8"/>
+  <line x1="416" y1="295" x2="798" y2="295" stroke="#dfe3e8"/>
+  <text x="428" y="288" font-size="11" fill="#2c5f8a" font-weight="600">Files</text>
+  <text x="466" y="288" font-size="11" fill="#8b949e">Plots</text>
+  <text x="508" y="288" font-size="11" fill="#8b949e">Packages</text>
+  <text x="573" y="288" font-size="11" fill="#8b949e">Help</text>
+  <text x="613" y="288" font-size="11" fill="#8b949e">Viewer</text>
+  <text x="428" y="320" font-size="13.5" font-weight="600" fill="#2c5f8a">4. Files, Plots, Packages, Help</text>
+  <text x="428" y="340" font-size="11.5" fill="#4c5560">bottom right</text>
+  <text x="428" y="366" font-size="11.5" fill="#333c46">File browser, your figures, the</text>
+  <text x="428" y="384" font-size="11.5" fill="#333c46">package manager, documentation.</text>
+  <rect x="428" y="400" width="200" height="22" rx="3" fill="#eef2f6" stroke="#ccd4dc"/>
+  <text x="437" y="415" font-size="11" font-family="Consolas, monospace" fill="#2c5f8a">?lm</text>
+  <text x="470" y="415" font-size="11" fill="#4c5560">opens the help page</text>
+  <text x="428" y="446" font-size="11.5" fill="#333c46">A tick in Packages means the</text>
+  <text x="428" y="464" font-size="11.5" fill="#333c46">package is loaded right now.</text>
+
+</svg>
