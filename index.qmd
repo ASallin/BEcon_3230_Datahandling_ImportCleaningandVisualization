@@ -9,7 +9,7 @@ title: "Data Handling: Import, Cleaning and Visualisation"
 **Teaching assistants:** Ana Armendariz Pacheco, Andrea Burro
 :::
 
-![](img/data_science_pipeline.png){.banner fig-alt="The data science pipeline: import, tidy, transform, visualise, model and communicate data."}
+<!-- ![](img/data_science_pipeline.png){.banner fig-alt="The data science pipeline: import, tidy, transform, visualise, model and communicate data."} -->
 
 ## Objectives
 
@@ -22,7 +22,7 @@ By the end of the course, you will be able to...
 - **Communicate insights effectively.** You will gain experience in presenting results clearly and persuasively.
 :::
 
-## Schedule
+## Schedule and Materials
 
 | Date | Unit | Course Materials | Exercises |
 |------|------|--------|-----------|
@@ -35,16 +35,7 @@ By the end of the course, you will be able to...
 
 The slides are Quarto [reveal.js](https://quarto.org/docs/presentations/revealjs/) presentations. They open in your normal browser, no software to install.
 
-**Getting around a deck**
-
-| Key | Does |
-|-----|------|
-| <kbd>←</kbd> <kbd>→</kbd> | previous / next slide |
-| <kbd>O</kbd> or <kbd>Esc</kbd> | overview of all slides |
-| <kbd>F</kbd> | full screen |
-| <kbd>S</kbd> | speaker notes |
-| <kbd>E</kbd> | read the deck as one scrolling page |
-| <kbd>?</kbd> | list of all shortcuts |
+**Getting around a deck:** <kbd>←</kbd><kbd>→</kbd> previous/next &nbsp;·&nbsp; <kbd>O</kbd>/<kbd>Esc</kbd> overview &nbsp;·&nbsp; <kbd>F</kbd> full screen &nbsp;·&nbsp; <kbd>S</kbd> speaker notes &nbsp;·&nbsp; <kbd>E</kbd> scroll view &nbsp;·&nbsp; <kbd>?</kbd> all shortcuts
 
 **Making a PDF**
 

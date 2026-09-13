@@ -3,6 +3,9 @@
 
 Lecture and exercise materials for the SEPS-HSG (University of St. Gallen) course *Data Handling: Import, Cleaning and Visualisation* (BA, Major in Economics).
 
+**Course website:** https://aureliensallin.ch/BEcon_3230_Datahandling_ImportCleaningandVisualization/
+(schedule, objectives, and how to use the slides — built from [`index.qmd`](index.qmd), published with `quarto publish gh-pages`)
+
 ## Repository structure
 
 ### `materialsLecture/`
@@ -13,8 +16,7 @@ Lecture and exercise materials for the SEPS-HSG (University of St. Gallen) cours
  - `homework/`: take-home exercises and tutorials tied to specific lectures
  - `lecture_summaries/`: older-format (R Markdown) lecture recap notes
  - `scripts/`: plain R scripts used live during lectures
- - `app_firstlecture/`: the Shiny survey app used on day one
- - `guest_lecture_andrew_li/`: materials from the guest lecture
+ - `app_firstlecture/`: the day-one class-survey Shiny apps (form + live dashboard) and the flexdashboard that visualises the results; see [`app_firstlecture/new_app/README.md`](materialsLecture/app_firstlecture/new_app/README.md) for setup
 
 ### `materialsExercises/`
 

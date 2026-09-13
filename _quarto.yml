@@ -29,7 +29,7 @@ website:
     left:
       - text: "Objectives"
         href: "index.html#objectives"
-      - text: "Schedule"
+      - text: "Schedule and Materials"
         href: "index.html#schedule"
       - text: "Using the slides"
         href: "index.html#using-the-slides"

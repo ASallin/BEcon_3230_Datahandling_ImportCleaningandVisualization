@@ -341,8 +341,8 @@ cat("success!")
 
 |                      |                             |                             |
 |----------------------|-----------------------------|-----------------------------|
-| <img src="../../img/fede.jpg" height="250"/> | <img src="../../img/andreaburro.jpg" height="250"/>  | <img src="../../img/aureliensallin.jpg" height="250"/> |
-| Federica Mascolo     | Andrea Burro                 | Aurélien Sallin |
+| <img src="../../img/anapacheco.jpg" height="250"/> | <img src="../../img/andreaburro.jpg" height="250"/>  | <img src="../../img/aureliensallin.jpg" height="250"/> |
+| Ana Armendariz Pacheco     | Andrea Burro                 | Aurélien Sallin |
 
 </div>
 <style>
@@ -432,6 +432,11 @@ cat("success!")
     - Q&A, support
     - time for more coding!
 
+
+## Lecture style
+
+- I believe in **active participation** and **hands-on learning**.
+- I
 
 
 # The road ahead
@@ -545,9 +550,8 @@ tab |>
 
 The examination consists of three parts:
 
-- [Group written project]{.green-bold}, 35% of final grade.
-- [Short examination on the group project]{.green-bold}, 15% of final grade.
-- [Central written examination]{.green-bold}, 50% of final grade.
+- [Group written project]{.green-bold}, 50% of final grade.
+- [Decentral written examination]{.green-bold}, 50% of final grade.
 
 
 ## Exam information: group project
@@ -557,52 +561,30 @@ The examination consists of three parts:
 
 #### Project timeline
 
-- **October 16**: Release of Part 1 of the project (in lecture) and group formation.
-
-- **November 6, 23:59**: Intermediate submission (not graded).
-
-- **November 7**: Release of model solution for Part 1 and release of Part 2 of the project.
-
-- **December 11, 10:00**: Final submission (graded).
-
-The entire project will be evaluated after the final submission.
-
-
-
-## Exam information: short examination
-
-#### Goal
-Beyond the critical use of LLMs, students must demonstrate their own grasp of the material and ensure fair collaboration in group work, avoiding free-riding.
-
-<br>
-
-#### Important information
-- Date: **December 11th at the beginning of the lecture**.
-- Written examination: *digital, BYOD!*.
-- Duration: 20mn
-- This short exam consists of 2–3 questions about the homework project.
+- **October 22**: Release of the project. Deadline for group formation (5 students per group). Groups must be registered on Canvas.
+- **November 12**: Q&A session for the project.
+- **December 16, 23:59**: Final submission.
 
 
 
 ## Central written examination
 
 #### Goal
-Demonstrate your understanding of the concepts and practical applications covered in the course.
+Demonstrate your understanding of the concepts and practical applications covered in the course. Beyond the critical use of LLMs, students must demonstrate their own grasp of the group project and ensure fair collaboration in group work, avoiding free-riding.
+
 
 #### Important information
-- Central, written examination: *digital, BYOD!*.
+- **December 17th, 2026**: Decentral written examination (**digital, BYOD**).
 - Multiple choice questions.
 - Duration: 60mn.
 
 #### What to expect
 - We will release samples of multiple choice questions in the lecture and via Quizzes on Canvas/Studynet (exact same format and style of exam questions).
+- Essay questions on the group project.
 
 
+## A note on AI and the learning process
 
-## Exam for exchange students
-- Exchange students who need to take the exam before the central exam block:
-    - Date, time place: **18.12.2025, 16:15-18:00, room tbd**.
-    - Questions: *andrea.burro@unisg.ch*
 
 
 
@@ -808,11 +790,6 @@ You don't see the point of learning to code functions and loops since AI can do 
 <br><br>
 
 ::: {style="text-align: center; font-size: 1.4em;"}
-[← Back to the course page](https://aureliensallin.ch/BEcon_3230_Datahandling_ImportCleaningandVisualization/)
+[:point_left: Back to the course page](https://aureliensallin.ch/BEcon_3230_Datahandling_ImportCleaningandVisualization/)
 :::
 
-<br>
-
-::: {style="text-align: center;"}
-All slides, exercises and materials live there.
-:::

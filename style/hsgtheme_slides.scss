@@ -118,6 +118,17 @@ code {
     font-weight: 600 !important;
 }
 
+// h5 (#####) marks a key statement, usually followed immediately by a
+// bullet list. The default heading margin (--r-heading-margin, 32px both
+// sides) puts as much space after the title as before it, so it reads as
+// disconnected from its own content. Widen the gap above (separation from
+// the preceding block) and tighten the gap below (it belongs with what
+// follows).
+.reveal h5 {
+    margin-top: 50px !important;
+    margin-bottom: 10px !important;
+}
+
 
 // Define inverse slides like in Xaringan
 .inverse {
