@@ -15,8 +15,8 @@ format:
     self-contained: true
     slide-number: c
     theme: ../../style/hsgtheme_slides.scss
-    # shown at the bottom of every slide, and in scroll view
-    footer: "[← Course page](https://aureliensallin.ch/BEcon_3230_Datahandling_ImportCleaningandVisualization/)"
+# small "Course page" link on the title slide (see style/title-slide.html)
+course-url: "https://aureliensallin.ch/BEcon_3230_Datahandling_ImportCleaningandVisualization/"
 highlight-style: dracula
 cache: false
 echo: false
@@ -246,7 +246,7 @@ include_graphics("../../img/jel_genai1.png")
 :::
 
 ::: {.column width="50%"}
-```{r genai2, echo=FALSE, out.width = "100%", fig.align='center',  purl=FALSE}
+```{r genai2, echo=FALSE, out.width = "90%", fig.align='center',  purl=FALSE}
 include_graphics("../../img/jel_genai2.png")
 ```
 :::
@@ -293,12 +293,12 @@ Between 2014 and 2021, data scientists saw unprecedented career and salary growt
 [**Or so it seems...**]{.accent-bold}
 
 
-## Still learning programming in 2026: why?
+## Why are we still learning programming in 2026?
 
-- AI has made **learning to code more enjoyable**: flatter learning curve for beginners -> higher returns on effort investment at the beginning -> not stuck -> fun!
-- **AI ≠ mastery**. Everyone can code with AI. \ But: A data scientist is someone who has developed skills, flair for data, creativity, and solid fundamentals. This has become the talent employers seek after.
-- develop a **mindset for data analysis and problem solving**: solution-oriented and pragmatism, communication and story-telling, algorithmic thinking, debugging and patience with mistakes, attention to detail, etc.
-- learn the language you need to **prompt LLMs efficiently**.
+- Have more fun: AI has made **learning to code more enjoyable**: flatter learning curve for beginners -> higher returns on effort investment at the beginning -> not stuck
+- Develop mastery. Everyone can code with AI. But: A data scientist is someone who has developed skills, flair for data, creativity, and solid fundamentals.
+- Learn a **mindset for data analysis and problem solving**: solution-oriented and pragmatism, communication and story-telling, algorithmic thinking, debugging and patience with mistakes, attention to detail, etc.
+- Speak the language you need to **prompt LLMs efficiently**.
 
 
 ## Learning programming in the age of vibe coding
@@ -339,11 +339,11 @@ Vibe coding generally implies **delegating a substantial part of the implementat
 
 
 
-## Your commitment to the course
+## Your commitment to the course <br>&nbsp;
 
 - Prepare with reading, visit the lecture, recap key concepts in lecture notes (self-study)
 - Work on exercises, come to exercise session, tackle the tricky exercises together!
-- Code, code, and code. repeat...
+- Code, code, and code. Repeat...
 - 🤖 Use AI as a learning companion and sparring partner, not as a crutch 🩼! (more on that later)
 
 ```{r}
@@ -388,19 +388,23 @@ cat("success!")
 
 ## Your instructor - Aurélien Sallin
 
-##### Short CV
-- 2022-today: Expert in Health Care Research and Member of Management,  SWICA Health Organization, Winterthur
+##### Experience
+
+::: {style="font-size: 0.9em;"}
+- 2022-today: Senior Health Economist,  SWICA Healthcare Organization
 - 2022-today: Lecturer, HSG
 - 2017-2022: Research Associate, Swiss Institute for Empirical Economic Research (SEW-HSG)
+:::
 
 ##### Education
 
+::: {style="font-size: 0.9em;"}
 - 2018-2022: PhD Economic and Finance, HSG (Lund and Federal Reserve)
 - 2018: MA in Philosophy, Fribourg
 - 2017: MA in Economics, Fribourg
+:::
 
 
-##### Others
 <img src="../../img/gsp.png" height="70"/> &nbsp;&nbsp;
 <img src="../../img/biking.jpg" height="70"/> &nbsp;&nbsp;
 <img src="../../img/Logo_GLP.png" height="70"/> &nbsp;&nbsp;
@@ -417,7 +421,7 @@ cat("success!")
  - Use (Causal) Machine Learning to evaluate the effect of health policies on doctors' prescription behaviors
  - Develop financing models for mandatory health care in Switzerland
 
-<br>
+<div style="height: 10px;"></div>
 
 ##### Other Research
 
@@ -436,33 +440,26 @@ cat("success!")
   - Background/Concepts
   - Illustration of concepts
   - Illustration of 'hands-on' approaches
-  - We will alternate between front-of-class teaching and coding tasks. When coding, code along or just watch.
-  - As interactive as possible, with questions encouraged.
+  - We will alternate between front-of-class teaching and coding tasks. When coding, code along or just watch 🥸
+  - Interactive, questions encouraged.
 
 
 ## Course concept: exercises
 
-### In-class exercise sessions (bi-weekly evening sessions)
+#### Exercise sessions (bi-weekly evening sessions)
 
-  - Some conceptual questions
-  - Hands-on exercises/tutorials in R
-  - Recap of concepts
-  - Q&A, support
   - Discussion of exercises and additional input with Ana and Andrea
-  - *First Exercises (set up R/RStudio) is available on Canvas today*
+  - Recap of concepts; Hands-on exercises/tutorials in R; Q&A, support
 
+\
+
+##### Important information:  We will conduct only one exercise session in plenary.
+  - Part 1: 17/09/2026, 01/10/2026, 15/10/2026, 4:15pm-6:00pm, with **Ana**, **room 01-011**
+  - Part 2: 12/11/2026, 26/11/2026, 10/12/2026, 4:15pm-6:00pm, with **Andrea**, **room 01-011**
 
 # The road ahead
 
 ## {class="inverse" background-image="../../img/roadahead2.jpg" background-size="100%" background-repeat="cover"}
-
-## One special lecture
-
-<br>
-
-#### **22.10.2026**: APIs
-
-- Minna Heim, Ex-BEcon in St. Gallen, Data Science at ETH Zurich
 
 
 
@@ -492,7 +489,7 @@ sched <- read_xlsx("../../schedule2026.xlsx") |>
         Date = ifelse(is.na(Date), "", as.character(Date))
      )
 
-tab <- sched[c(1:6, 8:10), c(1, 5, 6)] |>
+tab <- sched[c(1:6, 8:9), c(1, 5, 6)] |>
     dplyr::select(everything())
 
 colnames(tab) <- c("Date", "Topic", "Lecturer")
@@ -503,7 +500,7 @@ tab |>
     column_spec(1, width = "200px") |>
     column_spec(2, width = "800px") |>
     column_spec(3, width = "300px") |>
-    row_spec(c(1, 3, 4, 6, 7, 9), bold = T, color = "green") |>
+    row_spec(c(1, 3, 4, 6, 7), bold = T, color = "green") |>
     row_spec(
       c(2, 3, 5, 7, 8), # larger vertical space
       extra_css = "border-bottom: 20px solid white;"
@@ -512,6 +509,28 @@ tab |>
 ```
 
 :::
+
+## Part I: Data (Science) fundamentals
+
+<br>
+
+```{r, echo=FALSE}
+tab <- sched[10, c(1, 5, 6)] |>
+    dplyr::select(everything())
+
+colnames(tab) <- c("Date", "Topic", "Lecturer")
+
+tab |>
+    kable(format = "html") |>
+    kable_styling(full_width = T) |>
+    column_spec(1, width = "200px") |>
+    column_spec(2, width = "800px") |>
+    column_spec(3, width = "300px") |>
+    row_spec(c(1), bold = T, color = "green") |>
+    row_spec(c(1), extra_css = "border-bottom: 25px solid white;")
+```
+
+**Special lecture** with **Minna Heim**, BEcon HSG, MA in Data Science at ETH Zurich
 
 
 
@@ -560,7 +579,7 @@ tab |>
 
 ## Exam information
 
-The examination consists of three parts:
+The examination consists of two parts:
 
 - [Group written project]{.green-bold}, 50% of final grade.
 - [Decentral written examination]{.green-bold}, 50% of final grade.
@@ -579,17 +598,21 @@ Use real-world data in a project to practice and reinforce the concepts covered 
 
 
 
-## Central written examination
+## Written examination
 
 #### Goals
 Demonstrate your understanding of the concepts and practical applications covered in the course and in the group project beyond the use of LLMs.
 
 
 #### Important information
+
 - **December 17th, 2026**: Decentral written examination (**digital, BYOD**).
 - Multiple choice questions (Multiple Choice; True False; Only one Correct) on the course content and on the group project.
 - Essay questions on the group project.
 - Duration: 60mn.
+
+
+## Written examination
 
 #### What to expect
 - We will release samples of multiple choice questions in the lecture and via Quizzes on Canvas(exact same format and style of exam questions).
@@ -606,30 +629,55 @@ Demonstrate your understanding of the concepts and practical applications covere
 - Slides are made available in `html` format (Quarto slides). You can easily convert them to PDF. Instructions are provided in the course materials and Canvas.
 
 
+## New evidence on AI and learning
 
+
+:::: {.columns}
+
+::: {.column width="50%"}
+```{r ai1, echo=FALSE, out.width = "50%", fig.align='center',  purl=FALSE}
+include_graphics("../../img/stromberg_ai1.png")
+```
+:::
+
+::: {.column width="50%"}
+```{r ai2, echo=FALSE, out.width = "50%", fig.align='center',  purl=FALSE}
+include_graphics("../../img/stromberg_ai2.png")
+```
+:::
+
+::::
+
+"Does AI stop children from learning?" Stromberg et al. (2026): From Homework Illusion to Exam Penalty
 
 
 ## Why R?
 
-
 ##### *The* data language
 
+::: {style="font-size: 0.85em;"}
 - Widely used in Data Science jobs.
 - Originally designed as a tool for statistical analysis.
 - Particularly useful to program with data.
+:::
 
 
 ##### High-level language
 
+::: {style="font-size: 0.85em;"}
 - Relatively easy to learn.
 - A lot of free tutorials and support online.
+:::
 
 
 ##### Free, open-source, large community
 
+::: {style="font-size: 0.85em;"}
 - Used in various fields.
 - Thousands of 'R-packages' covering diverse aspects of data analysis.
 - Learn from open sources.
+:::
+
 
 ::: {.notes}
 **Short history**
@@ -646,18 +694,25 @@ Demonstrate your understanding of the concepts and practical applications covere
 - Graphics: ggplot2 is still the reference for publication-quality plots.
 - Reproducibility: code, results and text in one document (Quarto), so a report or paper can be re-run from the raw data.
 - Free: no licence, unlike Stata or MATLAB. You keep using it after you leave HSG.
-- R vs Python: not a war. Python is stronger for general programming and machine learning, R for statistics and data analysis. The concepts in this course transfer, and many teams use both.
+- R vs Python: not a war. Python is stronger for general programming and machine learning, R for statistics and data analysis.
 - Honest caveats: R has quirks (several ways to do the same thing), and it can be slow or memory-hungry on very large data unless you use the right tools (`data.table`, `arrow`, `duckdb`).
 :::
+
+## R!
+```{r echo=FALSE, fig.align='center', out.width="30%"}
+
+include_graphics("../../img/meme_r.jpg")
+
+```
 
 
 ## R
 
-```{r echo=FALSE, fig.align='center', out.width="30%"}
-
+```{r echo=FALSE, out.width = "40%", fig.align='center', purl=FALSE}
 include_graphics("../../img/R_logo.svg.png")
-
 ```
+
+
 Install R from [here](https://stat.ethz.ch/CRAN/)!
 
 
@@ -669,14 +724,6 @@ include_graphics("../../img/rstudio.png")
 
 ```
 Install RStudio from [here](https://www.rstudio.com/products/rstudio/download/#download)!
-
-
-## R!
-```{r echo=FALSE, fig.align='center', out.width="30%"}
-
-include_graphics("../../img/meme_r.jpg")
-
-```
 
 
 
@@ -817,6 +864,6 @@ You don't see the point of learning to code functions and loops since AI can do 
 
 <br><br>
 
-::: {style="text-align: center; font-size: 1.4em;"}
-[👈](https://aureliensallin.ch/BEcon_3230_Datahandling_ImportCleaningandVisualization/)
+::: {style="text-align: center; font-size: 0.7em;"}
+[👈 Back to the Course page](https://aureliensallin.ch/BEcon_3230_Datahandling_ImportCleaningandVisualization/)
 :::

@@ -26,7 +26,7 @@ By the end of the course, you will be able to...
 
 | Date | Unit | Course Materials | Exercises |
 |------|------|--------|-----------|
-| 17.09.2026 | Introduction: Big Data / Data Science, course overview | [soon]{.soon} | [Handout](materialsExercises/01_tools_functions/exercises/01_tools_programming_handout.html)<br>[Slides](materialsExercises/01_tools_functions/exercises/01_tools_programming_slides.html) |
+| 17.09.2026 | Introduction: Big Data / Data Science, course overview | [Slides](materialsLecture/slides/html/01_introduction.html) | [Handout](materialsExercises/01_tools_functions/exercises/01_tools_programming_handout.html)<br>[Slides](materialsExercises/01_tools_functions/exercises/01_tools_programming_slides.html) |
 
 : {tbl-colwidths="[12,52,18,18]"}
 

@@ -35,7 +35,7 @@ runtime: shiny
 .tile-num { font-size: 2.6rem; font-weight: 700; line-height: 1; color: #111; }
 .tile-txt { margin-top: .4rem; font-size: 1.05rem; }
 .tile-sub { margin-top: .2rem; color: #666; font-size: .9rem; }
-.story    { font-size: 1rem; line-height: 1.45; }
+.story    { font-size: 1.4rem; line-height: 1.45; }
 
 /* global refresh footer (see refresh_footer.html) */
 #dash-footer {
@@ -369,10 +369,6 @@ Column {data-width=260}
 
 ### R and Data Science Fundamentals
 
-<p style="margin:.2rem 0 .6rem">
-<img src="https://www.r-project.org/logo/Rlogo.svg" alt="R" style="height:52px">
-</p>
-
 ```{r}
 renderUI({
   d <- survey()
@@ -397,7 +393,7 @@ Predicted grades {data-icon="fa-line-chart"}
 Column {data-width=370}
 ---------------------------------------------------------------------
 
-### My hypothesis {data-height=210}
+### My hypothesis {data-height=280}
 
 <div class="story">
 

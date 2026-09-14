@@ -65,4 +65,38 @@
     <span>$date$</span>
   </p>
   $endif$
+
+  <!-- Course page link: only for decks that set `course-url:` in their YAML.
+       Shown in the footer line, bottom right, just left of the slide number,
+       and only while the title slide is on screen. The script moves it out of
+       the scaled slide into .reveal, the layer the slide number lives in, so
+       both line up at any window size. (Quarto's per-slide footer is not used:
+       it only updates on slide change, so it never shows on the first slide.) -->
+  $if(course-url)$
+  <div id="course-page-link"
+       style="display: none; position: absolute; right: 44px; bottom: 14px; z-index: 31;
+              padding: 5px; font-size: 12px; line-height: 1;">
+    <a href="$course-url$" style="color:#6b7280;">← Course page</a>
+  </div>
+  <script>
+  (function () {
+    function setup() {
+      var link = document.getElementById("course-page-link");
+      var reveal = document.querySelector(".reveal");
+      if (!link || !reveal || /print-pdf/.test(window.location.search)) return;
+      reveal.appendChild(link);
+      function update() {
+        var slide = Reveal.getCurrentSlide();
+        link.style.display = slide && slide.classList.contains("quarto-title-block") ? "block" : "none";
+      }
+      Reveal.on("slidechanged", update);
+      update();
+    }
+    window.addEventListener("load", function () {
+      if (!window.Reveal) return;
+      if (Reveal.isReady()) setup(); else Reveal.on("ready", setup);
+    });
+  })();
+  </script>
+  $endif$
 </section>

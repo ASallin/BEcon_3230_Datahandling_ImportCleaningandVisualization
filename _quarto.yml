@@ -18,6 +18,7 @@ project:
   render:
     - index.qmd
   resources:
+    - materialsLecture/slides/html/01_introduction.html
     - materialsExercises/01_tools_functions/exercises/01_tools_programming_handout.html
     - materialsExercises/01_tools_functions/exercises/01_tools_programming_slides.html
 
