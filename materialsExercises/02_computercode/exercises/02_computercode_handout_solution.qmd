@@ -1,15 +1,26 @@
 ---
 title: 'Data Handling: Import, Cleaning and Visualisation'
-subtitle: 'Example Solution for Exercise/Workshop 2: Computer Code and Data Storage'
-author: "Aurélien Sallin (lecturer) and Federica Mascolo (class tutor)"
+subtitle: 'Solutions to Exercise/Workshop 2: Functions, iterations and data structures'
+author:
+  - "Dr. Aurélien Sallin (Lecturer)"
+  - "Ana Armendariz (Tutor)"
+date: "2026-10-01"
+date-format: "D MMMM YYYY"
 format:
   html:
-    theme: ../../../style/hsgtheme.scss
+    theme: ../../../style/hsgtheme_exercises.scss
     embed-resources: true
     self-contained: true
     self-contained-math: true
+    toc: true
+    toc-depth: 2
+  pdf:
+    toc: true
+    toc-depth: 2
+    geometry: margin=2.2cm
+    fontsize: 10pt
+    code-overflow: wrap
 highlight-style: dracula
-bibliography: ../../../references/datahandling.bib
 ---
 
 ```{r}
@@ -17,579 +28,402 @@ bibliography: ../../../references/datahandling.bib
 #| include: false
 options(width = 100)
 library(knitr)
-library(bookdown)
-
-# pakcages: tidyverse, (tibble), purr, data.table
-
-#install.packages("data.table")
+# packages used in the solutions: purrr, tibble, dplyr, data.table
 ```
 
-# Exercise solutions
+# Exercise 1: write a sum function
 
-## Exercise A: Write a Sum Function
+1. A function that adds up the elements of a vector with a `for` loop:
 
-In the lecture on Programming with Data, we have discussed the most basic programming concepts in R. Among other things, you have learned how we can use for-loops to sum up numbers stored in a numeric vector.
-
-1. Use the code example in the respective lecture notes and the following empty function construct to implement a function that takes a numeric vector as input and returns the sum of the vector's elements.
-
-```{r eval=TRUE, purl=FALSE}
-
-my_sum <- function(x){
-
-  # Initialize the total - we start at 0
-  total <- 0
-
-  for (num in x){
-      total <- total + num
-    }
-
+```{r}
+my_sum <- function(x) {
+  total <- 0            # start at zero
+  for (num in x) {      # visit every element of x
+    total <- total + num
+  }
   return(total)
 }
-
 ```
 
-2. Define the vector `numbers = c(1, 2, 3)`. Then, compare your function `my_sum()` with the `sum()` function (the pre-implemented sum function in R) when using `numbers` as the input argument: Do you get the same output for `my_sum(numbers)` and `sum(numbers)`?
-
-
-*We get the same result in both cases - our function seems to be working:*
+2. Both give the same result, so the function works:
 
 ```{r}
-
-numbers = c(1,2,3)
-
+numbers <- c(1, 2, 3)
 my_sum(numbers)
-
-
 sum(numbers)
-
 ```
-## Exercise B: Robustness and Warnings
 
-1. Once you have implemented and successfully tested `my_sum()`, call your function with the following vector as input. What happens?
+# Exercise 2: robustness and warnings
 
-```{r}
+1. R stops with an error and computes nothing:
+
+```{r error=TRUE}
 numbers2 <- c("1", "2", "3")
-```
-
-*In this case We get an error, R will not compute the sum and complains about a non-numeric argument:* `Error in total + num : non-numeric argument to binary operator'
-
-```{r, eval=FALSE}
 my_sum(numbers2)
 ```
 
+2. `numbers2` does not contain numbers but text (a *character* vector). The quotation marks
+   make the difference. You cannot add text with `+`.
 
-2. Why do we get an error? Investigate by comparing the vector `numbers` from Exercise A with the new vector `numbers2`. Hint: the functions `str()` and `class()` might help you.
-
-
-*We can see that the numbers2 vector we provided does not contain numeric values but strings, i.e. a series of characters:*
 ```{r}
-# Investigate the structures
-str(numbers)  # a diagnostic function
+str(numbers)
 str(numbers2)
-
-# Check the classes
-class_numbers <- class(numbers)
-class_numbers2 <- class(numbers2)
-
-print(paste("Class of 'numbers':", class_numbers))
-print(paste("Class of 'numbers2':", class_numbers2))
+class(numbers)
+class(numbers2)
 ```
 
+3. An `if` statement checks the input before the loop runs. `is.numeric()` is `TRUE` for
+   numeric and for integer vectors, so it is more flexible than `class(x) == "numeric"`.
 
-3. Extend your `my_sum()` function with a control statement that checks whether the input is of the right class for the function to work (Hint: `class(x)!="numeric"`). The goal is to make the function more robust to wrong input. That is, if the input is wrong, issue a warning but don't break down with an error. Use the following code for the warning message:
+   If the input is wrong, the function returns `NA`, a missing value. It must not return `0`:
+   `0` looks like a valid sum, and whoever uses the result later would never notice that
+   something went wrong.
 
-```{r eval=FALSE, purl=FALSE}
-warning("Wrong input! This function only accepts numeric or integer values!")
-```
-
-
-*We can fix our code by adding an if-statement to make sure we get a warning in case the input is not numeric. The `is.numeric()` command will return `TRUE` if x is numeric (and also if x is an integer, hence it is more flexible than requiring `class == "numeric"` for example)*
 ```{r}
-my_sum <- function(x){
-  total <- 0
-
-  # Check for the right input class
-  if (is.numeric(x)) {
-    for (num in x){
-      total <- total + num
-    }
-  } else {
-    warning("Wrong input! This function only accepts numeric or integer values!")
-    total <- NA_real_ # if no sum can be computed, we return a missing value
-  }
-
-  return(total)
-}
-
-# Alternative
 my_sum <- function(x) {
   if (!is.numeric(x)) {
     warning("Wrong input! This function only accepts numeric or integer values!")
-  } else {
-    return(sum(x))
+    return(NA)
   }
-}
-```
-
-
-*Note that we would not want to use our own function to sum stuff up, because on top of not being able to address missing entries (easy to fix, see first exercise), it is a lot slower:*
-
-```{r}
-# Creating vector with 100 million random (normally distributed) numbers
-big_vector = rnorm(100000000)
-# Time the built-in sum function
-time_builtin_sum <- system.time({
-  sum(big_vector)
-})[3]  # Extracting the elapsed time
-
-# Time the custom my_sum function
-time_my_sum <- system.time({
-  my_sum(big_vector)
-})[3]  # Extracting the elapsed time
-
-# Print the results
-print(paste("Execution time of built-in sum:", time_builtin_sum, "seconds"))
-print(paste("Execution time of custom my_sum:", time_my_sum, "seconds"))
-
-```
-
-4. Test your enhanced sum function with the two input vectors `numbers` and `numbers2`.
-
-*We can see that we get a warning now when running the function on the second vector. Importantly, the function also returns a missing value for the sum, such that we are aware that no valid result is available. Specifically, the function should not return the value of 0 we initially set for the `total` in the function above, because that may cause a lot of issues if interpreted as a proper result.*
-```{r}
-my_sum(numbers)
-my_sum(numbers2)
-
-```
-
-## Exercise C: use the sum function and lapply/loop/map on a list of vectors
-
-1. **`lapply()`**: Part of base R's "apply" family of functions, which are used for functional programming.
-2. **`for` loops**: A more traditional, imperative style of programming where you explicitly loop over elements.
-3. **`purrr::map()`**: A function from the `purrr` package that provides a more modern and consistent interface for functional programming in R, part of the tidyverse collection of packages.
-
-```{r}
-
-my_sum <- function(x){
-
-  # Initialize the total - we start at 0
   total <- 0
-
-  for (num in x){
+  for (num in x) {
     total <- total + num
   }
-
   return(total)
 }
+```
 
+4. The numeric vector works as before. The character vector now gives a warning and `NA`
+   instead of an error:
+
+```{r warning=TRUE}
+my_sum(numbers)
+my_sum(numbers2)
+```
+
+In practice you would not use your own function to add up numbers. `sum()` handles missing
+values (see `?sum`) and is much faster, because it is written in C rather than as an R loop:
+
+```{r}
+big_vector <- rnorm(1e7)                  # ten million random numbers
+system.time(sum(big_vector))["elapsed"]
+system.time(my_sum(big_vector))["elapsed"]
+```
+
+# Exercise 3: apply the function to a list
+
+1. Double square brackets return the element itself, here a numeric vector:
+
+```{r}
 list_of_numbers <- list(
   c(1, 2, 3),
   c(4, 5, 6),
   c(7, 8, 9, 10)
 )
-
-# try to access the first element of the list: numeric vector
 list_of_numbers[[1]]
-
 ```
 
+2. With a loop you create the container first and fill one slot per iteration. `seq_along()`
+   gives the positions 1, 2, 3.
 
 ```{r}
-# lapply
-sums_lapply <- lapply(list_of_numbers, my_sum)
-print(sums_lapply)
-
-# loop
-# Initialize an empty list
-
-# alternatives
-sums_loop <- vector("list", length(list_of_numbers))
-sums_loop <- rep(list(NULL), length(list_of_numbers))
-
-
-
 sums_loop <- list()
-
-for (i in 1:length(list_of_numbers)) {
+for (i in seq_along(list_of_numbers)) {
   sums_loop[[i]] <- my_sum(list_of_numbers[[i]])
 }
+sums_loop
+```
 
+3. `lapply()` does the same in one line: apply the function to every element, return a list.
 
-print(sums_loop)
+```{r}
+sums_lapply <- lapply(list_of_numbers, my_sum)
+sums_lapply
+```
 
-# map:
-# The map function transforms the input by applying a function to each element
-# of a list or atomic vector and returning an object of the same length as the input.
+4. `map()` from `purrr` works like `lapply()`:
 
+```{r}
 library(purrr)
 sums_map <- map(list_of_numbers, my_sum)
-print(sums_map)
-
+sums_map
 ```
 
-  - lapply() takes a list (or vector) and applies a function to each element, returning a list.You can use it when you want to apply a function to each element of a list and get a list back. Is more concise and faster than loops.
+5. When to use which:
 
-  - for loops explicitly iterate over each element of a list or vector, applying a function or operation. You can use it when you want to have more control of the operations. The logic is the same in other programming languages.
-
-  - `map()` is part of the `purrr` package (part of the tidyverse), which provides a consistent set of functions. It applies a function to each element of a list and returns a list. Variants like `map_dbl()`, `map_int()`, etc., return vectors of specific types. You can use it if you are working with tidyverse or you want to return specific types.
-
-## Exercise D: Data structures
-
-#### Vectors, Factors, and Lists
-
-1. **Create a vector** `student_ages` containing the ages of 5 students: `18, 21, 20, 22, 19`.
-    - print its length and type using length() and typeof() functions
-
+   - A `for` loop makes every step explicit. Use it when the iterations depend on each other
+     (as in Exercise 4) or when you want full control. The logic is the same in every
+     programming language.
+   - `lapply()` is base R, shorter and less error-prone than a loop when the same function is
+     applied independently to every element. It always returns a list.
+   - `map()` is the tidyverse version of `lapply()`. Its variants `map_dbl()`, `map_int()`,
+     `map_chr()` return a vector of the given type instead of a list, which is often what you
+     want:
 
 ```{r}
-   # Create the vector
-   student_ages <- c(18, 21, 20, 22, 19)
-
-   # Print the length and type
-   length(student_ages)  # Output: 5
-   typeof(student_ages)  # Output: "double" - numbers in the vector are stored as double-precision floating-point numbers.
-
-   # as before you can also use:
-   class(student_ages)
-   str(student_ages)
-
+map_dbl(list_of_numbers, my_sum)
 ```
 
+# Exercise 4: slow and fast sloths
 
-2. **Create a factor** `student_grades` representing the grades of the same 5 students: "A", "B", "A", "C", "B".
-    - print the factor levels, why do you use factors?
-
+1. and 2. Every year each population doubles (one offspring per sloth) and then loses its share
+   of deaths. The loop runs as long as the slow sloths are at least as numerous as the fast
+   ones. `year` counts which year we are at the beginning of, as in the table in the handout.
 
 ```{r}
+slow_sloths <- 1000
+fast_sloths <- 1
+slow_death_rate <- 0.40
+fast_death_rate <- 0.30
+year <- 1
 
-   # Create the factor
-   student_grades <- factor(c("A", "B", "A", "C", "B"))
+while (slow_sloths >= fast_sloths) {
+  slow_sloths <- slow_sloths * 2 * (1 - slow_death_rate)
+  fast_sloths <- fast_sloths * 2 * (1 - fast_death_rate)
+  year <- year + 1
+}
 
-   # Print the factor levels
-   levels(student_grades)  # Output: "A" "B" "C"
-
+cat("The fast sloths outnumber the slow sloths in year", year, "\n")
+cat("Slow sloths:", round(slow_sloths), " Fast sloths:", round(fast_sloths), "\n")
 ```
 
-Factors are useful here because grades are categorical data with a limited number of levels. Since factors store categorical data as integers, they are more memory-efficient than storing the same data as character strings. tatistical functions in R, such as lm() or glm(), automatically treat factors differently than numeric or character variables. Factors allow for easy inclusion of categorical variables in regression models, treating them as discrete groups.
+   The populations grow by a factor of 1.2 (slow) and 1.4 (fast) per year, so we look for the
+   smallest $n$ with $1.4^n > 1000 \cdot 1.2^n$. That is $n = 45$ years of growth, and at the
+   beginning of year 46 the fast sloths are ahead for the first time.
 
-When to use vectors: When your data does not have a fixed set of categories. When you need flexibility in adding, changing, or manipulating values frequently.
+3. A `for` loop needs to know the number of iterations in advance. Here we do not know how many
+   years it takes; we only know the condition under which we stop. That is what `while` is for.
+   Note that a `while` loop runs forever if its condition never becomes `FALSE`. Here we are
+   safe because the fast sloths grow faster every year.
 
+# Exercise 5: data structures
 
-3. **Create a list** `student_info` that combines `student_ages`, `student_grades`, and another vector `student_names`.
-    - access individual elements using both numeric and named indexing.
+## Vectors, factors and lists
 
+1. Numbers are stored as *double* (double-precision floating point) by default, even if they
+   look like integers.
 
 ```{r}
-
-   # Create the vector of student names
-   student_names <- c("Aurelien", "Federica", "Andrea", "Bob", "Eva")
-
-   # Create the list
-   student_info <- list(names = student_names, ages = student_ages, grades = student_grades)
-
-   # Access elements in the list
-   student_info$names
-   student_info[[1]]
-
-
+student_ages <- c(18, 21, 20, 22, 19)
+length(student_ages)
+typeof(student_ages)
 ```
 
-4. What is the difference between a vector and a factor? Why do you use a list instead of a vector when dealing with different types of data?
-
-   - **Difference between vector and factor**: A vector is a basic data structure for storing homogeneous data types (e.g., numbers, characters), whereas a factor is specifically designed for categorical data.
-   - **Why use a list instead of a vector?**: A list can store elements of different types (e.g., vectors, factors), making it more flexible than a vector.
-
-#### Matrices and Arrays
-
-1. **Create a matrix** `scores_matrix` representing the scores of 3 students in 3 subjects.
-    - give row and column names using rownames() and colnames().
-    - print the matrix and the score of a student that you prefer.
-
+2. A factor stores categorical data. Internally the values are integers with a label attached,
+   the *levels*:
 
 ```{r}
-   # Create the matrix
-   scores_matrix <- matrix(c(75, 82, 78, 88, 90, 92, 60, 65, 70), nrow = 3, byrow = TRUE)
-
-   # Set row and column names
-   rownames(scores_matrix) <- c("Student 1", "Student 2", "Student 3")
-   colnames(scores_matrix) <- c("Math", "English", "Science")
-
-   # Print the matrix
-   print(scores_matrix)
-
-   # Access the score of Student 2 in Science
-   scores_matrix["Student 2", "Science"]
-
-
+student_grades <- factor(c("A", "B", "A", "C", "B"))
+student_grades
+levels(student_grades)
 ```
 
-2. **Create an array** `student_array` to store the same data as in `scores_matrix` but for two semesters.
-    - this 3-dimensional array, access "Student 3" scores in the first subject listed across both semesters.
+   Use a factor when a variable takes a fixed set of categories. R then knows that "A", "B"
+   and "C" are groups: `table()` and `summary()` count them, plots use them as groups, and
+   regression functions such as `lm()` turn them into dummy variables automatically. Text
+   would just be five strings.
+
+3. A list can hold elements of different types and lengths. Elements are accessed by position
+   with `[[ ]]` or by name with `$`:
 
 ```{r}
-   # Create the array
-   student_array <- array(c(
-     75, 82, 78, 88, 90, 92, 60, 65, 70,  # Semester 1
-     80, 84, 82, 91, 94, 93, 63, 68, 72   # Semester 2
-   ), dim = c(3, 3, 2),
-   dimnames = list(
-     c("Student 1", "Student 2", "Student 3"),
-     c("Math", "English", "Science"),
-     c("Semester 1", "Semester 2")
-   ))
+student_names <- c("Anna", "Luca", "Sara", "Jonas", "Eva")
 
-   # Access "Student 3's" scores in "Math" across both semesters
-   student_array["Student 3", "Math", "Semester 1"]
+student_info <- list(names = student_names,
+                     ages = student_ages,
+                     grades = student_grades)
 
+student_info[[1]]
+student_info$names
+student_info$grades
 ```
 
-3. What are the differences between a matrix and an array? When would you use an array instead of a matrix?
-    - A matrix is a 2-dimensional structure, while an array can have more than two dimensions.
-    - Use an array when you need to store multi-dimensional data.
-
-#### Data Frames, tibble and data.table
-
-1. **Create a data frame** `students_df` combining all the data for 5 students: student_names, student_ages, student_grades, and another vector attendance containing their class attendance (in percentage): 85, 92, 78, 88, 90.
-   - access the columns of attendance.
-   - access the data for student 3.
+4. A vector holds values of one type (all numbers, or all text). A factor is a vector for
+   categorical data with a fixed set of levels. A list is needed when the elements are of
+   different types: a vector would coerce everything to the most general type, here text.
 
 ```{r}
-   # Create a data frame
-   students_df <- data.frame(
-     names = student_names,
-     ages = student_ages,
-     grades = student_grades,
-     attendance = c(85, 92, 78, 88, 90)
-   )
-
-   # Access a specific column (attendance, student_names...)
-   students_df$names
-
-   # Access the data for "Andrea"
-   students_df[students_df$names == "Andrea", "grades"]
-
-
+c(student_names, student_ages)   # the ages have become text
 ```
 
-**Difference between a list and a data frame**: A list in R is a more general and flexible data structure than a data frame. A list is a one-dimensional collection of objects, and each object can be of any type and length. A data frame is a table-like structure in R, where each column represents a variable, and each row represents an observation (or case). Data frames are one of the most commonly used data structures in R for handling tabular data.
+## Matrices and arrays
 
-2. Why is a data frame more suitable for this kind of structured data than a matrix?
-   -  Data frames are more suitable for structured data because they can contain heterogeneous data types and offer           better data manipulation functions.
-
-3. Convert the existing students_df data frame into a tibble using the as_tibble() function.
-   - name the tibble students_tibble and print the data frame and the tibble.
+1. A matrix is a two-dimensional table of values of one type. Rows and columns can be named
+   and used for indexing:
 
 ```{r}
-# Load the necessary package
+scores_matrix <- matrix(c(75, 82, 78,
+                          88, 90, 92,
+                          60, 65, 70), nrow = 3, byrow = TRUE)
+rownames(scores_matrix) <- c("Student 1", "Student 2", "Student 3")
+colnames(scores_matrix) <- c("Math", "English", "Science")
+
+scores_matrix
+scores_matrix["Student 2", "Science"]
+```
+
+2. An array adds a third dimension. Leaving an index empty selects everything along that
+   dimension:
+
+```{r}
+student_array <- array(
+  c(75, 82, 78, 88, 90, 92, 60, 65, 70,    # semester 1
+    80, 84, 82, 91, 94, 93, 63, 68, 72),   # semester 2
+  dim = c(3, 3, 2),
+  dimnames = list(c("Student 1", "Student 2", "Student 3"),
+                  c("Math", "English", "Science"),
+                  c("Semester 1", "Semester 2"))
+)
+
+student_array["Student 3", "Math", ]
+```
+
+   Note that `array()` fills column by column, not row by row: the first three values are
+   the Math column of semester 1.
+
+3. A matrix has exactly two dimensions; an array can have any number. Use an array when the
+   data has more than two dimensions, for example students by subjects by semesters, or
+   pixels by rows by colour channels in an image. A matrix is a special case of an array.
+
+## Data frames and tibbles
+
+1. A data frame is a table in which each column is a vector and different columns can have
+   different types. Columns are accessed with `$`, rows with `[row, ]`:
+
+```{r}
+students_df <- data.frame(
+  names = student_names,
+  ages = student_ages,
+  grades = student_grades,
+  attendance = c(85, 92, 78, 88, 90)
+)
+
+students_df$attendance
+students_df[3, ]
+```
+
+2. A matrix holds one type only: names and numbers together would all become text. A data
+   frame keeps every column in its own type, which is what a data set needs.
+
+   A data frame is in fact a list of vectors of equal length, one per column. A list is more
+   general: its elements can be anything and have any length, but you lose the table structure
+   (rows as observations, columns as variables).
+
+```{r}
+str(students_df)
+```
+
+3. A tibble is the tidyverse version of a data frame. It prints more compactly, shows the
+   column types, never converts text to factors on its own, and warns when you access a column
+   that does not exist:
+
+```{r warning=TRUE}
 library(tibble)
-
-?tibble
-
-# Convert to tibble
 students_tibble <- as_tibble(students_df)
 
-# Print the tibble and data frame to observe differences
-print(students_df)       # Standard data frame print
-print(students_tibble)   # More concise print for tibbles (not visible here because we have only 3 obs)
+students_df
+students_tibble
 
-# Access a non-existent column in data frame and tibble
-students_df$nonexistent  # Output: NULL
-students_tibble$nonexistent  # Output: NULL with a warning
-
+students_df$nonexistent
+students_tibble$nonexistent
 ```
 
-Tibbles provide a more readable print format and do not change types or convert strings to factors by default (you can for sure address this). Trying to access a non-existent column in a tibble gives a clear warning, unlike in data frames.
+# Additional exercises for training
 
-4. Create a data.table named students_dt from students_df using the as.data.table() function from the data.table package.
-   - convert students_df to a data.table
-   - select a column (ages), filter rows (grades equal to "A")
+## Exercise 6: standard deviation
 
-```{r}
-# Load the necessary package
-library(data.table)
-
-# Convert to data.table
-students_dt <- as.data.table(students_df)
-
-# Selecting a column
-print(students_dt[, ages])  # Output: Vector of ages
-
-# Filtering rows where grades are "A"
-print(students_dt[grades == "A"]) # Output: Rows with grade "A"
-
-
-# Adding a new column with the average attendance
-students_dt[, average_attendance := mean(attendance)]  # modifies the data table in place, meaning the operation does not create a copy of the dataset
-print(students_dt)
-```
-
-data.table has a more concise syntax for data manipulation tasks, such as filtering and adding new columns, and it is significantly faster, especially with large datasets
-
-
-## Additional Exercises for training
-
-5. Use the output from the previous exercise. Compare the syntax of common data manipulation tasks (e.g., filtering, grouping, summarizing) between data.frame, tibble, and data.table.
-   - Filter students with attendance greater than 85
-   - Calculate mean age of students who passed
-
-```{r}
-library(dplyr)
-# Filter students with attendance greater than 85
-
-# Using data.frame
-df_filtered <- students_df[students_df$attendance > 85, ]
-# with subset
-df_filtered <- subset(students_df, attendance > 85)
-
-
-# Using tibble
-tb_filtered <- students_tibble %>% filter(attendance > 85)
-
-# Using data.table
-dt_filtered <- students_dt[attendance > 85]
-# as tidy verse
-dt_filtered <- students_dt %>%
-  .[attendance > 85]
-
-
-# Calculate mean age of students who passed
-# Using data.frame
-mean(students_df$ages[students_df$grades > "C"])
-
-# Using tibble
-students_tibble %>% filter(grades > "C") %>% summarise(mean_age = mean(ages))
-
-# Using data.table
-students_dt[grades > "C", mean(ages)]
-
-# Add a new column 'grade_numeric'
-# Using data.frame
-students_df$grade_numeric <- as.numeric(
-  factor(students_df$grades, levels = c("A", "B", "C"), labels = c(4, 3, 2)))
-
-# Using tibble
-students_tibble <- students_tibble %>% mutate(
-  grade_numeric = as.numeric(factor(grades, levels = c("A", "B", "C"), labels = c(4, 3, 2))))
-
-# Using data.table
-students_dt[, grade_numeric := as.numeric(
-  factor(grades, levels = c("A", "B", "C"), labels = c(4, 3, 2)))]
-
-```
-
-
-## Exercise E: Standard Deviation Function
-
-1. During the lecture on Programming with Data we have step-by-step implemented our own R function to compute the mean. Now implement an R function called `my_sd` that computes the standard deviation, defined as: $SD = \sqrt{\frac{1}{N-1} \sum_{i=1}^N (x_i - \overline{x})^2}$. Hint: revisit the math operators section in the notes on the first exercise session.
+1. `x - mean_x` subtracts the mean from every element at once, `^2` squares every element,
+   `sum()` adds them up. No loop needed.
 
 ```{r}
 my_sd <- function(x) {
   n <- length(x)
-
-  # First, check if n is greater than 1
-  if(n <= 1) {
-    warning("At least two numbers are required to compute standard deviation.")
-    return(NA) # NA is returned if computation is not possible
+  if (n <= 1) {
+    warning("At least two values are needed to compute a standard deviation.")
+    return(NA)
   }
-
   mean_x <- mean(x)
-  sum_squared_diff <- sum((x - mean_x)^2)
-  sd <- sqrt(sum_squared_diff / (n - 1))
-
-  return(sd)
+  sqrt(sum((x - mean_x)^2) / (n - 1))
 }
-
 ```
 
-
-2. Test your implementation by comparing its output with the already implemented `sd()` function.
+2. Compare with `sd()` on a random vector. `set.seed()` makes the random numbers
+   reproducible.
 
 ```{r}
-# Create a test vector
-set.seed(2023) # setting seed to reproduce the same results (note that results may still
-               # vary across different devices and R-versions)
-test_vector <- rnorm(10000)  # a random vector of 10000 numbers with mean zero and sd of 1
+set.seed(2026)
+test_vector <- rnorm(10000)   # 10 000 draws from a normal distribution with mean 0 and sd 1
 
-# Compare the outputs of the custom function and the built-in function
-custom_sd <- my_sd(test_vector)
-builtin_sd <- sd(test_vector)
-
-print(paste("Custom standard deviation:", custom_sd))
-print(paste("Built-in standard deviation:", builtin_sd))
-
+my_sd(test_vector)
+sd(test_vector)
 ```
 
+## Exercise 7: standard error
 
-
-## Exercise F: Standard Error Function
-
-Building on the function written in Exercise D, implement a function to compute (the estimate of) the sample mean standard error as defined here: $\text{SE}_{\bar{x}} = \frac{SD}{\sqrt{n}}$. Hint: the idea is to use your own implementation (in Exercise D) to compute $SD$ as a first step of your standard error function.
-
-Exercises D and E should illustrate how you can approach more complex problems by breaking them up in smaller problems and addressing each of these step-by-step. That is, when looking at the problem of computing $\text{SE}_{\bar{x}} = \frac{SD}{\sqrt{n}}$, you see that computing $SD$ is a part of the overall problem, which can be addressed separately.
-
+The new function calls `my_sd()`; the input check is already done there.
 
 ```{r}
 my_se <- function(x) {
-  # Call the previously defined my_sd function to compute the standard deviation
-  sd <- my_sd(x)
-
-  n <- length(x)
-  if(n <= 1) {
-    warning("At least two numbers are required to compute standard error.")
-    return(NA) # NA is returned if computation is not possible
-  }
-
-  se <- sd / sqrt(n)
-  return(se)
+  my_sd(x) / sqrt(length(x))
 }
 
-
-# Test the function (base R has not built in function for this - we will test the
-# final output below)
-test_se <- my_se(test_vector)
-print(paste("Standard error computed by my function:", test_se))
-
+my_se(test_vector)
 ```
 
-
-
-## Exercise G: T-test
-
-Implement a function for the one-sample [t-test](https://en.wikipedia.org/wiki/Student%27s_t-test):
-$t = \frac{\bar{x} - \mu_0}{SE}$.
+## Exercise 8: t-test
 
 ```{r}
 my_t_test <- function(x, mu_0) {
-  # Calculate the sample mean
-  sample_mean <- mean(x)
-
-  # Compute standard error using the function from Exercise E
-  se <- my_se(x)
-
-  n <- length(x)
-  if(n <= 1) {
-    warning("At least two numbers are required to compute the t-statistic.")
-    return(NA) # NA is returned if computation is not possible
-  }
-
-  # Calculate the t-statistic
-  t_statistic <- (sample_mean - mu_0) / se
-
-  return(t_statistic)
+  (mean(x) - mu_0) / my_se(x)
 }
 
-# Testing against R
-
-# Test the function with a sample vector and a test mean (mu_0)
-mu_0_test <- 0  # This is the hypothesized mean (and the true mean of our data)
-
-# Because our hypothesized value is correct, we should not reject, i.e.
-# get a low t-statistic, well below the 5% significance threshold of +-1.96
-t_test_result <- my_t_test(test_vector, mu_0_test)
-print(paste("T-test result:", t_test_result))
-
-# Now, use the built-in t-test function for comparison
-builtin_t_test_result <- t.test(test_vector, mu = mu_0_test)$statistic
-
-print(paste("Built-in T-test result:", builtin_t_test_result))
+my_t_test(test_vector, mu_0 = 0)
+t.test(test_vector, mu = 0)$statistic
 ```
+
+The true mean of `test_vector` is 0, so the hypothesised value is correct and the t-statistic
+is small, well inside $\pm 1.96$.
+
+## Exercise 9: data frames, tibbles and data.tables
+
+1. A data.table is a third variant of the data frame, made for speed on large data. Inside the
+   square brackets, the first argument filters rows and the second selects or computes
+   columns:
+
+```{r}
+library(data.table)
+students_dt <- as.data.table(students_df)
+
+students_dt[, ages]
+students_dt[grades == "A"]
+```
+
+2. The same three tasks in the three dialects:
+
+```{r message=FALSE}
+library(dplyr)
+
+# keep the students with attendance above 85
+students_df[students_df$attendance > 85, ]
+students_tibble %>% filter(attendance > 85)
+students_dt[attendance > 85]
+
+# mean age of the students with grade A or B
+mean(students_df$ages[students_df$grades %in% c("A", "B")])
+students_tibble %>% filter(grades %in% c("A", "B")) %>% summarise(mean_age = mean(ages))
+students_dt[grades %in% c("A", "B"), mean(ages)]
+
+# add a column grade_numeric: A = 4, B = 3, C = 2
+points <- c(A = 4, B = 3, C = 2)
+
+students_df$grade_numeric <- points[as.character(students_df$grades)]
+students_tibble <- students_tibble %>% mutate(grade_numeric = points[as.character(grades)])
+students_dt[, grade_numeric := points[as.character(grades)]]
+
+students_dt
+```
+
+Base R uses square brackets and `$`. `dplyr` chains verbs (`filter()`, `summarise()`,
+`mutate()`) with the pipe and reads like a sentence. `data.table` packs everything into
+`[rows, columns]` and modifies in place with `:=`, which avoids copying large data. We use
+`dplyr` in this course.

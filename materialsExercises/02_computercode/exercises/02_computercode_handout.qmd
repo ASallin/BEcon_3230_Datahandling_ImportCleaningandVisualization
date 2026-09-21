@@ -1,15 +1,26 @@
 ---
 title: 'Data Handling: Import, Cleaning and Visualisation'
-subtitle: 'Exercise/Workshop 2: Function, iterations, a data structures'
-author: "Aurélien Sallin (lecturer) and Federica Mascolo (class tutor)"
+subtitle: 'Exercise/Workshop 2: Functions, iterations and data structures'
+author:
+  - "Dr. Aurélien Sallin (Lecturer)"
+  - "Ana Armendariz (Tutor)"
+date: "2026-10-01"
+date-format: "D MMMM YYYY"
 format:
   html:
-    theme: ../../../style/hsgtheme.scss
+    theme: ../../../style/hsgtheme_exercises.scss
     embed-resources: true
     self-contained: true
     self-contained-math: true
+    toc: true
+    toc-depth: 2
+  pdf:
+    toc: true
+    toc-depth: 2
+    geometry: margin=2.2cm
+    fontsize: 10pt
+    code-overflow: wrap
 highlight-style: dracula
-bibliography: ../../../references/datahandling.bib
 ---
 
 ```{r}
@@ -19,49 +30,75 @@ options(width = 100)
 library(knitr)
 ```
 
-# Exercises
+**All course material:**
+<https://github.com/ASallin/BEcon_3230_Datahandling_ImportCleaningandVisualization>
 
-## Exercise A: Write a Sum Function
+# Before we start
 
-In the lecture on Programming with Data, we have discussed the most basic programming concepts in R. Among other things, you have learned how we can use for-loops to sum up numbers stored in a numeric vector.
+Write your code in an R script saved in `2026_Data_Handling/exercises/code`, for example
+`exercise_02.R`. Start from the code shown in the lecture slides whenever you can. Type the
+code rather than copying it, and read every error message. If something does not work, raise
+your hand.
 
-1. Use the code example in the respective lecture notes and the following empty function construct to implement a function that takes a numeric vector as input and returns the sum of the vector's elements.
+| Exercise | What we do |
+|------|------------------------------------------------|
+| 1 | Write a sum function |
+| 2 | Make the function robust |
+| 3 | Apply the function to a list: `lapply()`, loop, `map()` |
+| 4 | Slow and fast sloths: a `while` loop |
+| 5 | Data structures: vectors, factors, lists, matrices, arrays, data frames |
+| Training | Standard deviation, standard error, t-test, comparing data frames, tibbles and data.tables |
+
+# Exercise 1: write a sum function
+
+In the lecture you saw the `for` loop: `for (i in 1:n) { ... }` repeats the body once for
+every value of `i`.
+
+1. Use a `for` loop and the empty function below to write a function that takes a numeric
+   vector as input and returns the sum of its elements. Start with a total of zero and add
+   one element per iteration.
 
 ```{r eval=FALSE, purl=FALSE}
-my_sum <- function(x){
+my_sum <- function(x) {
 
-     }
+}
 ```
 
-2. Define the vector `numbers = c(1, 2, 3)`. Then, compare your function `my_sum()` with the `sum()` function (the pre-implemented sum function in R) when using `numbers` as the input argument: Do you get the same output for `my_sum(numbers)` and `sum(numbers)`?
+2. Define the vector `numbers <- c(1, 2, 3)`. Compare your function with R's built-in `sum()`:
+   do `my_sum(numbers)` and `sum(numbers)` give the same result?
 
-## Exercise B: Robustness and Warnings
+# Exercise 2: robustness and warnings
 
-1. Once you have implemented and successfully tested `my_sum()`, call your function with the following vector as input. What happens?
+1. Call your function with the following vector as input. What happens?
 
-```{r}
+```{r eval=FALSE, purl=FALSE}
 numbers2 <- c("1", "2", "3")
 ```
 
-2. Why do we get an error? Investigate by comparing the vector `numbers` from Exercise A with the new vector `numbers2`. Hint: the functions `str()` and `class()` might help you.
+2. Why do you get an error? Compare `numbers` from Exercise 1 with `numbers2`. The functions
+   `str()` and `class()` help.
 
-3. Extend your `my_sum()` function with a control statement that checks whether the input is of the right class for the function to work (Hint: `class(x)!="numeric"`). The goal is to make the function more robust to wrong input. That is, if the input is wrong, issue a warning but don't break down with an error. Use the following code for the warning message:
+3. Extend `my_sum()` with a control statement that checks whether the input is numeric
+   (hint: `is.numeric(x)`). If the input is wrong, the function should issue a warning instead
+   of stopping with an error. Use this message:
 
 ```{r eval=FALSE, purl=FALSE}
 warning("Wrong input! This function only accepts numeric or integer values!")
 ```
 
-4. Test your enhanced sum function with the two input vectors `numbers` and `numbers2`.
+   What should the function return in that case? Think about why returning `0` would be a bad
+   idea.
 
+4. Test the improved function with `numbers` and `numbers2`.
 
-## Exercise C: use the sum function and lapply/loop/map on a list of vectors
-In this exercise, you will learn how to apply a custom function to multiple elements in a list using different methods.
+# Exercise 3: apply the function to a list
 
-1. use the my_sum() function created earlier
+You can apply a function to every element of a list in several ways. Here you do the same task
+three times, with a loop, with `lapply()` and with `map()`.
 
-2. create a list of numeric vectors
-```{r eval=FALSE}
-# Create a list of vectors
+1. Create a list of numeric vectors:
+
+```{r eval=FALSE, purl=FALSE}
 list_of_numbers <- list(
   c(1, 2, 3),
   c(4, 5, 6),
@@ -69,69 +106,130 @@ list_of_numbers <- list(
 )
 ```
 
-3. Use the lapply() function to apply my_sum() to each vector in the list_of_numbers list. Assign the result to a new variable called sums_lapply. Print the result.
+   Access the first element of the list with `list_of_numbers[[1]]`. Note the double square
+   brackets.
 
-4. Use a for loop to achieve the same result as in Step 3. Initialize an empty vector called sums_loop and then iterate over each vector in list_of_numbers, storing the sums in sums_loop. Print the result.
+2. Use a `for` loop to apply `my_sum()` to each vector. Create an empty list `sums_loop`
+   first, then fill it inside the loop. Print the result.
 
-5. Use purrr::map() to Apply my_sum() to Each Vector
-Use the map() function from the purrr package to apply my_sum() to each vector in list_of_numbers. Assign the result to a variable called sums_map. Make sure to load the purrr package before using map(). Print the result.
+3. Do the same with `lapply()`. Store the result in `sums_lapply` and print it.
 
-## Exercise D: Data stuctures
+4. Do the same with `map()` from the `purrr` package. Load the package first. Store the result
+   in `sums_map` and print it.
 
-### Vectors, factors and lists
-1. Create a vector student_age containing the ages of 5 students.
-   -  print its length and type using length() and typeof() functions
+5. All three give the same result. When would you use which?
 
-2. Create a factor student_grades representing the grades of the same 5 students: "A", "B", "A", "C", "B".
-   - print the factor levels, why do you use factors?
+# Exercise 4: slow and fast sloths
 
-3. Create a list student_info that combines student_ages, student_grades, and another vector student_names containing the names of the students.
-   - access individual elements using both numeric and named indexing.
+Loops can simulate a process over time. Write a program that calculates the populations of two
+kinds of sloths.
 
-4. What is the difference between a vector and a factor? Why do you use a list instead of a vector when dealing with different types of data?
+At the beginning of year 1 there are **1000 slow sloths** and **1 fast sloth**. The fast sloth
+is a new mutation that can use roller blades, which helps it escape from predators. Each year,
+every sloth has one offspring. There are no further mutations: slow sloths beget slow sloths and
+fast sloths beget fast sloths. Each year, 40% of all slow sloths die, but only 30% of the fast
+sloths.
 
-### Matrices and arrays
-1. Create a matrix scores_matrix representing the scores of 3 students in 3 subjects
-   - give row and column names using rownames() and colnames().
-   - print the matrix and the score of a student that you prefer.
+So at the beginning of year 1 there are 1000 slow sloths. Another 1000 are born. Then 40% of
+these 2000 die, which leaves 1200 at the beginning of year 2. In the same year we start with
+1 fast sloth, 1 more is born, and 30% of these 2 die, which leaves 1.4.
 
-2. Create an array student_array to store the same data as in scores_matrix, but this time, add scores from another semester. Use the same students and subjects but with different scores.
-   - this 3-dimensional array, access "Student 3" scores in the first subject listed across both semesters.
+| Beginning of year | Slow sloths | Fast sloths |
+|---|---|---|
+| 1 | 1000 | 1 |
+| 2 | 1200 | 1.4 |
+| 3 | 1440 | 1.96 |
 
-3. What are the differences between a matrix and an array? When would you use an array instead of a matrix?
+1. Write a `while` loop that updates both populations year by year for as long as the slow
+   sloths are at least as numerous as the fast ones. Keep a counter for the year.
 
-### Data Frames, tibble and data.table
+2. **In which year do the fast sloths outnumber the slow sloths for the first time?** Print the
+   answer with `cat()`.
 
-1. Create a data frame students_df combining all the data for 5 students: student_names, student_ages, student_grades, and another vector attendance containing their class attendance (in percentage): 85, 92, 78, 88, 90.
-   - access the columns of attendance.
-   - access the data for student 3.
+3. Why is a `while` loop the right tool here, and not a `for` loop?
 
-2. Why is a data frame more suitable for this kind of structured data than a matrix?
+# Exercise 5: data structures
 
-3. Convert the existing students_df data frame into a tibble using the as_tibble() function.
-   - name the tibble students_tibble and print the data frame and the tibble.
+## Vectors, factors and lists
 
+1. Create a vector `student_ages` with the ages of 5 students: 18, 21, 20, 22, 19. Print its
+   length and its type with `length()` and `typeof()`.
 
-# Additional Exercises for Training
-5. Use the output from the previous exercise. Compare the syntax of common data manipulation tasks (e.g., filtering, grouping, summarizing) between data.frame, tibble, and data.table.
-   - Filter students with attendance greater than 85
-   - Calculate mean age of students who passed
+2. Create a factor `student_grades` with the grades of the same 5 students: "A", "B", "A",
+   "C", "B". Print its levels. Why would you store grades as a factor rather than as text?
 
+3. Create a vector `student_names` with 5 names. Then create a list `student_info` that
+   combines `student_names`, `student_ages` and `student_grades`. Access its elements by
+   position (`[[1]]`) and by name (`$names`).
 
-## Exercise E: Standard Deviation Function
+4. What is the difference between a vector and a factor? Why do you use a list, and not a
+   vector, to store data of different types together?
 
-1. During the lecture on Programming with Data we have step-by-step implemented our own R function to compute the mean. Now implement an R function called `my_sd` that computes the standard deviation, defined as: $SD = \sqrt{\frac{1}{N-1} \sum_{i=1}^N (x_i - \overline{x})^2}$. Hint: revisit the math operators section in the notes on the first exercise session.
+## Matrices and arrays
 
-2. Test your implementation by comparing its output with the already implemented `sd()` function.
+1. Create a matrix `scores_matrix` with the scores of 3 students in 3 subjects. Give it row
+   and column names with `rownames()` and `colnames()`. Print the matrix and the score of one
+   student in one subject.
 
+2. Create a 3-dimensional array `student_array` with the same students and subjects, but for
+   two semesters with different scores. Access the scores of "Student 3" in the first subject
+   across both semesters.
 
-## Exercise F: Standard Error Function
+3. What is the difference between a matrix and an array? When would you use an array?
 
-Building on the function written in Exercise D, implement a function to compute (the estimate of) the sample mean standard error as defined here: $\text{SE}_{\bar{x}} = \frac{SD}{\sqrt{n}}$. Hint: the idea is to use your own implementation (in Exercise D) to compute $SD$ as a first step of your standard error function.
+## Data frames and tibbles
 
-Exercises D and E should illustrate how you can approach more complex problems by breaking them up in smaller problems and addressing each of these step-by-step. That is, when looking at the problem of computing $\text{SE}_{\bar{x}} = \frac{SD}{\sqrt{n}}$, you see that computing $SD$ is a part of the overall problem, which can be addressed separately.
+1. Create a data frame `students_df` that combines `student_names`, `student_ages`,
+   `student_grades` and a new vector `attendance` with the class attendance in percent:
+   85, 92, 78, 88, 90. Access the `attendance` column, then the row of the third student.
 
-## Exercise G: T-test
+2. Why is a data frame better suited to this kind of data than a matrix? And what is the
+   difference between a data frame and a list?
 
-Implement a function for the one-sample [t-test](https://en.wikipedia.org/wiki/Student%27s_t-test):
-$t = \frac{\bar{x} - \mu_0}{SE}$.
+3. Convert `students_df` to a tibble with `as_tibble()` from the `tibble` package. Call it
+   `students_tibble`. Print both and compare the output.
+
+# Additional exercises for training
+
+These go beyond what we cover in the session. They are good practice for the exam.
+
+## Exercise 6: standard deviation
+
+1. In the lecture you implemented a function that computes the mean. Now write a function
+   `my_sd()` that computes the standard deviation,
+
+   $$SD = \sqrt{\frac{1}{N-1} \sum_{i=1}^N (x_i - \overline{x})^2}.$$
+
+   Most R operators work element by element on a whole vector, so you do not need a loop.
+
+2. Test it against R's `sd()`.
+
+## Exercise 7: standard error
+
+Using `my_sd()`, write a function `my_se()` that computes the standard error of the sample mean,
+
+$$\text{SE}_{\bar{x}} = \frac{SD}{\sqrt{n}}.$$
+
+Exercises 6 and 7 show how to approach a bigger problem by breaking it into smaller ones:
+computing $SD$ is one part of computing $\text{SE}_{\bar{x}}$, and you solved it separately.
+
+## Exercise 8: t-test
+
+Using `my_se()`, write a function `my_t_test(x, mu_0)` for the one-sample
+[t-test](https://en.wikipedia.org/wiki/Student%27s_t-test),
+
+$$t = \frac{\bar{x} - \mu_0}{SE_{\bar{x}}}.$$
+
+Compare its output with `t.test(x, mu = mu_0)$statistic`.
+
+## Exercise 9: data frames, tibbles and data.tables
+
+1. Convert `students_df` to a data.table with `as.data.table()` from the `data.table` package.
+   Call it `students_dt`. Select the column `ages`, then filter the rows where the grade is "A".
+
+2. Do the following tasks three times, once with the data frame, once with the tibble (using
+   `dplyr`) and once with the data.table, and compare the syntax:
+
+   - keep the students with attendance above 85
+   - compute the mean age of the students with grade "A" or "B"
+   - add a column `grade_numeric` with 4 for "A", 3 for "B" and 2 for "C"
