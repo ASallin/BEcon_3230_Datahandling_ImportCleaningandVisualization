@@ -619,16 +619,6 @@ Demonstrate your understanding of the concepts and practical applications covere
 - We will release a mock exam during the break.
 
 
-
-# The tools
-
-## Core course resources
-
-- All the necessary information and resources are available on Canvas.
-- This year, all course materials (slides, code, data) are pushed on the following page: [https://aureliensallin.ch/BEcon_3230_Datahandling_ImportCleaningandVisualization/](https://aureliensallin.ch/BEcon_3230_Datahandling_ImportCleaningandVisualization/)
-- Slides are made available in `html` format (Quarto slides). You can easily convert them to PDF. Instructions are provided in the course materials and Canvas.
-
-
 ## New evidence on AI and learning
 
 
@@ -649,6 +639,18 @@ include_graphics("../../img/stromberg_ai2.png")
 ::::
 
 "Does AI stop children from learning?" Stromberg et al. (2026): From Homework Illusion to Exam Penalty
+
+
+
+
+# The tools
+
+## Core course resources
+
+- All the necessary information and resources are available on Canvas.
+- This year, all course materials (slides, code, data) are pushed on the following page: [https://aureliensallin.ch/BEcon_3230_Datahandling_ImportCleaningandVisualization/](https://aureliensallin.ch/BEcon_3230_Datahandling_ImportCleaningandVisualization/)
+- Slides are made available in `html` format (Quarto slides). You can easily convert them to PDF. Instructions are provided in the course materials and Canvas.
+
 
 
 ## Why R?

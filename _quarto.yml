@@ -21,6 +21,8 @@ project:
     - materialsLecture/slides/html/01_introduction.html
     - materialsExercises/01_tools_functions/exercises/01_tools_programming_handout.html
     - materialsExercises/01_tools_functions/exercises/01_tools_programming_slides.html
+    - materialsLecture/slides/html/02_programming.html
+    - materialsLecture/scripts/Lecture2_Script.R
 
 website:
   title: "Data Handling 2026"

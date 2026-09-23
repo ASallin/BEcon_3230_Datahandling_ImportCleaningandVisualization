@@ -29,9 +29,8 @@ library(knitr)
 library(purrr)
 ```
 
-## {class="inverse"}
 
-Recap
+# Recap
 
 ##
 
@@ -40,9 +39,17 @@ include_graphics("../../img/data_science_pipeline.png")
 ```
 
 
-##
+## Dashboard
 
-**At the end of the course, you will be able to...**
+```{r , echo=FALSE, out.width = "95%", fig.align='center', purl=FALSE}
+include_graphics("../../img/dashboard2026.png")
+```
+
+[Link to the dashboard](https://datahandling.shinyapps.io/survey_dashboard/#section-predicted-grades)
+
+
+
+## At the end of the course, you will be able to...
 
 - [**Use essential tools for working with data**]{.green-bold} <br> We will work with the programming language R, but the concepts apply to any programming language.
 - [**Manage a data project from start to finish**]{.green-bold} <br> You will practice collecting, cleaning, and analyzing data to carry out a complete project in Economics (research, consulting, ...).
@@ -50,93 +57,69 @@ include_graphics("../../img/data_science_pipeline.png")
 - [**Communicate insights effectively**]{.green-bold} <br> You will gain experience in presenting results clearly and persuasively.
 
 
+## R!
+```{r echo=FALSE, fig.align='center', out.width="30%"}
 
-<!-- --- -->
-<!-- class: right, bottom -->
-<!-- background-image: url("https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Apprenticeship.jpg/1280px-Apprenticeship.jpg") -->
-<!-- background-size: cover -->
+include_graphics("../../img/meme_r.jpg")
 
-
-## When you think of data science, you think of...
-
-```{r , echo=FALSE, out.width = "85%", fig.align='center', purl=FALSE}
-include_graphics("../../img/thoughts_datascience.png")
 ```
 
 
 
-## {class="inverse"}
+## Last week's exercise
 
-Course organization
+#### Now you should have:
 
+- R and RStudio installed and running
+- A [2026_Data_Handling]{.path} project, with [course]{.path} and [exercises]{.path} inside
+- An understanding of the R environment, console, and script editor
 
-## Replacement session
+#### Now you should know:
 
-📅 To compensate for the session we missed on September 19th, please note the following changes to the schedule:
-
-  - Thursday, October 9th, 10:15–12:00: Lecture
-  - Thursday, October 9th, 16:15–18:00: Lecture (instead of exercises)
-  - **Friday, October 10th, 16:15–18:00, Room 01-011**: Exercise Session 2 with Federica
-
-
-## Examination for HSG students in exchange
-
-For HSG-students currently abroad on an exchange semester (not exchange students at HSG):
-
-  - Decentral exams as announced on the fact sheet are mandatory.
-  - I am allowed to offer an alternative examination as a sign of **goodwill** and **fairness** (**exception**!).
-
-#### Oral exam as alternative
-Exchange students will have the possibility to take an **oral exam** during the central examination period.
-Students in exchange must email me before **October 10th, 2025** to register.
-
-
-#### Summary of the examination process for exchange students:
-
-  - Central examination (50%): as planned, with all course participants.
-  - Group project (35%): completed remotely with your group.
-  - Decentral exam (15%): oral examination during the central examination period.
+- `<-`
+- `?`
+- Shortcut to run a line of code?
 
 
 
+
+# Course organization
 
 ## Group formation for the group project
 
-❌  **Option 1: Random group formation**
+##### Many of you asked about the group formation process.
 
-  - Students will be randomly assigned to groups of five.
+- Groups will be formed after the deregistration period, when we know the final class size (09.10.2026).
+- Deadline for group formation: **16.10.2026**.
 
+#### Important (will be reminded later):
 
-🟢 **Option 2: Students create their own groups **
-
-  - Groups with fewer than five students will be completed by the instructors.
-  - Students who do not join a group will be randomly assigned.
-
-<br>
-
-#### Important for both options:
-  - Depending on class size, some groups may have fewer or more than five members.
-  - Groups are **compulsory** for the group project submission.
-  - Once created, groups remain **fixed** for the entire project. No reshuffling is allowed.
+- Depending on class size, some groups may have fewer or more than five members.
+- Groups are **compulsory** for the group project submission.
+- Once created, groups remain **fixed** for the entire project. No reshuffling is allowed.
 
 
+## Intermediate submission
 
-## Now, the vote:
-
-```{r , echo=FALSE, out.width = "85%", fig.align='center', purl=FALSE}
-include_graphics("../../img/squidgamevoting.png")
-```
-
-
+- An intermediate submission is planned for **05.11.2026**.
+- We will explain the intermediate submission in detail later
+- It will be short and will not be graded
+- It is meant to help you stay on track with your project
 
 
-## {class="inverse"}
+## Recap dates group project
 
-Today
+- **16.10.2026**: Deadline for group formation
+- **22.10.2026**: Publication of group project
+- **05.11.2026**: Intermediate submission
+- **12.11.2026**: Q&A session for the group project
+- **16.12.2026**: Final submission of the group project
 
-## Basic Programming Concepts in R
 
-**Goals: **
+
+# Today
+
+## Goals:
 
 - Understand the basic programming concepts in R
 - Write simple R scripts using loops, functions, and conditionals
@@ -145,53 +128,50 @@ Today
 
 ## The R environment
 
-A collection of objects. These may be variables, arrays of numbers, character strings, functions, or more general structures built from such components.
+- A collection of objects.
+- These may be variables, arrays of numbers, character strings, functions, or more general structures built from such components.
 
 
 ## Values and Variables
 
-Assign values to objects using `<-`.
+- Assign values to objects using `<-`.
+- Important functions: `class()`, `objects()`, `rm()`
+
+
+
+## Every object has a type
+
+- The type is what an object is made of. The four that are used the most are: **logical, integer, double, character**.
+- `typeof()` tells you which one.
 
 
 ## Vectors
 
-R has two types of vectors:
+#### R has two types of vectors:
 
-  - **atomic vectors**: homogeneous collections of the same type ⚛️
-    - Atomic Vectors are the most fundamental data structures in R
-
-  - **lists**: heterogeneous collections of any type of R object, even other lists
+- **atomic vectors**⚛️: homogeneous collections of the same type. <br>->**Most fundamental data structures in R**
+- **lists**: heterogeneous collections of any type of R object, even other lists
 
 
 ## Vectors
 
-```{r, echo = F, fig.cap = "Source: https://r4ds.had.co.nz/vectors.html",  out.width = "70%"}
+```{r, echo = F, fig.cap = "Source: [R4DS](https://r4ds.had.co.nz/vectors.html)",  out.width = "70%"}
 include_graphics("../../img/data-structures-overview.png")
 ```
-
-
-## Vectors
 
 The four types of atomic vectors that are used the most are: **logical, integer, double, character**.
 
 ## Vectors
 
 ```{r echo=FALSE, fig.align='center', out.width="10%"}
-include_graphics("../../img/numvec.png")
-```
-
-
-## Vectors
-
-```{r echo=FALSE, fig.align='center', out.width="10%"}
-include_graphics("../../img/charvec.svg")
+include_graphics("../../img/vectors.png")
 ```
 
 
 ## Matrices
 
 ```{r echo=FALSE, fig.align='center', out.width="40%"}
-include_graphics("../../img/matrix.png")
+include_graphics("../../img/exc_matrix.png")
 ```
 
 
@@ -286,7 +266,6 @@ dim(cbind(c(1,2,3), c(4,5,6), c(7,8,9)))
 
 
 
-
 # Operators
 
 ## Most Operators are vectorized in R
@@ -349,7 +328,7 @@ sum_result -2
 
 ## Comparison operators
 
-Table: Comparison operators in R (Source: Shawn Santo)
+Table: Comparison operators in R
 
 | Operator | Comparison               | Vectorized?    |
 |----------|--------------------------|----------------|
@@ -361,21 +340,25 @@ Table: Comparison operators in R (Source: Shawn Santo)
 | `x == y` | equal to                 | Yes            |
 | `x %in% y` | contains               | Yes (over `x`) |
 
+<div class="footnote-pin">Table adapted from Shawn Santo</div>
+
 
 
 ## Logical/Booleans operators
 
-Table: Logical operators in R (Source: Shawn Santo)
+Table: Logical operators in R
 
 | Operator   | Operation      | Vectorized? |
 |------------|----------------|-------------|
 | `x | y`    | or             | Yes         |
 | `x & y`    | and            | Yes         |
 | `!x`       | not            | Yes         |
-| `x || y`   | or*             | No          |
-| `x && y`   | and*            | No          |
 | `xor(x, y)`| exclusive or `(x | y) & !(x & y)`   | Yes         |
 
+<div class="footnote-pin">Table adapted from Shawn Santo</div>
+
+<!--| `x || y`   | or*             | No          |
+| `x && y`   | and*            | No          |-->
 
 
 ## Logical operators
@@ -424,13 +407,6 @@ The colon operator `:` generates regular sequences. It is equivalent to `seq(fro
 
 ## for-loop
 
-```{r echo=FALSE, fig.align='center', out.width="35%"}
-include_graphics("../../img/forloop_black.png")
-```
-
-
-## for-loop
-
 ```{r eval=FALSE}
 # number of iterations
 n <- 100
@@ -444,11 +420,16 @@ for (i in 1:n) {
 
 ```
 
+## for-loop
 
-## while-loop
+```{r echo=FALSE, fig.align='center', out.width="35%"}
+include_graphics("../../img/exc_forloop.png")
+```
 
-```{r while, echo= FALSE, fig.align="center", out.width="50%"}
-include_graphics("../../img/while_loop_black_own.png")
+## for-loop
+
+```{r echo=FALSE, fig.align='center', out.width="35%"}
+include_graphics("../../img/exc_forloop_2.png")
 ```
 
 
@@ -466,13 +447,20 @@ while (x == 1) {
 
 ```
 
+## while-loop
 
-## repeat-loop
-
-```{r repeat, echo= FALSE, fig.align="center", out.width="50%"}
-include_graphics("../../img/r-repeat-loop.jpg")
+```{r while, echo= FALSE, fig.align="center", out.width="50%"}
+include_graphics("../../img/exc_whileloop.png")
 ```
 
+## while-loop be like
+
+```{r meme-while, echo= FALSE, fig.align="center", out.width="50%"}
+include_graphics("../../img/meme_whileloop.jpg")
+```
+
+
+<!--
 ## repeat-loop
 ```{r eval = FALSE}
 # Initiate variable
@@ -490,9 +478,16 @@ repeat {
 }
 ```
 
+## repeat-loop
+
+```{r repeat, echo= FALSE, fig.align="center", out.width="50%"}
+include_graphics("../../img/r-repeat-loop.jpg")
+```
+
+-->
+
 
 # Logical and control statements
-
 
 ## Control statements
 ```{r}
@@ -627,7 +622,7 @@ powerFunction(c(2,4,3), 3)
 ```
 
 
-# Step-up your game: Functionals
+# Functionals
 
 ## Functionals
 
@@ -659,6 +654,15 @@ lapply(1:3, triple)
 
 # Apply the function to a vector. map_dbl Returns a vector
 map_dbl(1:3, triple)
+```
+
+
+##  In this simple example, the best is vectorization
+
+\
+
+```{r eval=TRUE, purl=FALSE}
+triple(1:4)
 ```
 
 
@@ -726,7 +730,7 @@ apply(mymatrix, MARGIN = 1, sum)
 | Standard base R | `apply` family: standard R. `map` family: `purrr` package|
 
 
-# Tutorials
+# Tutorials (self-study)
 
 ## Tutorial 1: A Function to Compute the Mean
 
