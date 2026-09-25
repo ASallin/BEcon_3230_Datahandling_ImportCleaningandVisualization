@@ -87,7 +87,7 @@ include_graphics("../../img/meme_r.jpg")
 
 ## Group formation for the group project
 
-##### Many of you asked about the group formation process.
+#### Many of you asked about the group formation process
 
 - Groups will be formed after the deregistration period, when we know the final class size (09.10.2026).
 - Deadline for group formation: **16.10.2026**.
