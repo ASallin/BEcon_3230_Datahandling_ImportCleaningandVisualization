@@ -31,7 +31,65 @@ library(knitr)
 # packages used in the solutions: purrr, tibble, dplyr, data.table
 ```
 
-# Exercise 1: write a sum function
+# Exercise 1: warm-up on vectors
+
+1. `L` after a number forces it to be stored as an integer instead of a double:
+
+```{r}
+my_vector <- c(1L, 2L, 3L, 4L, 5L)
+my_vector
+```
+
+2. There is no function to add a single value to an existing vector. Instead, you build a new vector that combines the old one with the new value, using `c()` again. `c()` combines its arguments into a new vector:
+
+```{r}
+my_vector <- c(my_vector, 9L)
+my_vector
+```
+
+3. `length()` counts the elements:
+
+```{r}
+length(my_vector)
+```
+
+4. Square brackets index by position:
+
+```{r}
+my_vector[3]
+```
+
+5. `%in%` checks membership, one value at a time:
+
+```{r}
+9 %in% my_vector
+10 %in% my_vector
+```
+
+# Exercise 2: warm-up on for-loops
+
+1. Loop over the vector and print each element:
+
+```{r}
+colors <- c("red", "green", "blue")
+
+for (color in colors) {
+  print(color)
+}
+```
+
+2. Compare each element to your favorite color inside the loop:
+
+```{r}
+# Choose your favorite color:
+favorite_color <- "green"
+
+for (color in colors) {
+  print(color == favorite_color)
+}
+```
+
+# Exercise 3: write a sum function
 
 1. A function that adds up the elements of a vector with a `for` loop:
 
@@ -53,7 +111,7 @@ my_sum(numbers)
 sum(numbers)
 ```
 
-# Exercise 2: robustness and warnings
+# Exercise 4: robustness and warnings
 
 1. R stops with an error and computes nothing:
 
@@ -110,61 +168,67 @@ system.time(sum(big_vector))["elapsed"]
 system.time(my_sum(big_vector))["elapsed"]
 ```
 
-# Exercise 3: apply the function to a list
+# Exercise 5: apply the function to a matrix
 
-1. Double square brackets return the element itself, here a numeric vector:
+1. A comma with a column index selects that column:
 
 ```{r}
-list_of_numbers <- list(
-  c(1, 2, 3),
-  c(4, 5, 6),
-  c(7, 8, 9, 10)
-)
-list_of_numbers[[1]]
+number_matrix <- matrix(1:9, nrow = 3)
+number_matrix[, 1]
 ```
 
-2. With a loop you create the container first and fill one slot per iteration. `seq_along()`
-   gives the positions 1, 2, 3.
+2. With a loop you create the container first and fill one slot per iteration.
 
 ```{r}
-sums_loop <- list()
-for (i in seq_along(list_of_numbers)) {
-  sums_loop[[i]] <- my_sum(list_of_numbers[[i]])
+sums_loop <- c()
+for (i in 1:ncol(number_matrix)) {
+  sums_loop[i] <- my_sum(number_matrix[, i])
 }
 sums_loop
 ```
 
-3. `lapply()` does the same in one line: apply the function to every element, return a list.
+3. `apply()` does the same in one line: `MARGIN = 2` applies the function over columns.
 
 ```{r}
-sums_lapply <- lapply(list_of_numbers, my_sum)
-sums_lapply
+sums_apply <- apply(number_matrix, MARGIN = 2, my_sum)
+sums_apply
 ```
 
-4. `map()` from `purrr` works like `lapply()`:
+4. `map_dbl()` from `purrr` iterates over the column indices and returns a numeric vector:
 
 ```{r}
 library(purrr)
-sums_map <- map(list_of_numbers, my_sum)
+sums_map <- map_dbl(1:ncol(number_matrix), function(i) my_sum(number_matrix[, i]))
 sums_map
 ```
 
 5. When to use which:
 
    - A `for` loop makes every step explicit. Use it when the iterations depend on each other
-     (as in Exercise 4) or when you want full control. The logic is the same in every
+     (as in Exercise 6) or when you want full control. The logic is the same in every
      programming language.
-   - `lapply()` is base R, shorter and less error-prone than a loop when the same function is
-     applied independently to every element. It always returns a list.
-   - `map()` is the tidyverse version of `lapply()`. Its variants `map_dbl()`, `map_int()`,
-     `map_chr()` return a vector of the given type instead of a list, which is often what you
-     want:
+   - `apply()` is base R, shorter and less error-prone than a loop when the same function is
+     applied independently to every row or column of a matrix.
+   - `map_dbl()` is the tidyverse equivalent. Its variants `map_int()`, `map_chr()`, `map()`
+     return other types (an integer vector, a character vector, or a list) depending on what
+     the function returns.
+
+6. `?map` shows that `map()` "always returns a list", while `map_dbl()` (like the other typed
+   variants) checks that every result is a single double and simplifies the output to an atomic
+   vector. `map()` is the general version: it works even if the function returns something more
+   complex than a single number (a vector, a data frame, ...), for which no atomic vector could
+   hold the results. The typed variants exist so you get a vector back when you know the output
+   is homogeneous, without an extra `unlist()` step.
 
 ```{r}
-map_dbl(list_of_numbers, my_sum)
+sums_map2 <- map(1:ncol(number_matrix), function(i) my_sum(number_matrix[, i]))
+sums_map2
 ```
 
-# Exercise 4: slow and fast sloths
+   `sums_map2` is a list of three single-element vectors, printed one element per line with
+   `[[1]]`, `[[2]]`, `[[3]]`, instead of the plain numeric vector `sums_map` from point 4.
+
+# Exercise 6: slow and fast sloths
 
 1. and 2. Every year each population doubles (one offspring per sloth) and then loses its share
    of deaths. The loop runs as long as the slow sloths are at least as numerous as the fast
@@ -196,7 +260,14 @@ cat("Slow sloths:", round(slow_sloths), " Fast sloths:", round(fast_sloths), "\n
    Note that a `while` loop runs forever if its condition never becomes `FALSE`. Here we are
    safe because the fast sloths grow faster every year.
 
-# Exercise 5: data structures
+# Exercise 7: data structures
+
+::: {.callout-note}
+This exercise also covers material from Lecture 4 (factors, lists, arrays, data frames and
+tibbles). Because exercise sessions are biweekly while lectures are weekly, this session falls
+between Lecture 3 and Lecture 4, so we work through Lecture 4 material before it is taught in
+class.
+:::
 
 ## Vectors, factors and lists
 
@@ -330,7 +401,7 @@ students_tibble$nonexistent
 
 # Additional exercises for training
 
-## Exercise 6: standard deviation
+## Exercise 8: standard deviation
 
 1. `x - mean_x` subtracts the mean from every element at once, `^2` squares every element,
    `sum()` adds them up. No loop needed.
@@ -358,7 +429,7 @@ my_sd(test_vector)
 sd(test_vector)
 ```
 
-## Exercise 7: standard error
+## Exercise 9: standard error
 
 The new function calls `my_sd()`; the input check is already done there.
 
@@ -370,7 +441,7 @@ my_se <- function(x) {
 my_se(test_vector)
 ```
 
-## Exercise 8: t-test
+## Exercise 10: t-test
 
 ```{r}
 my_t_test <- function(x, mu_0) {
@@ -384,7 +455,7 @@ t.test(test_vector, mu = 0)$statistic
 The true mean of `test_vector` is 0, so the hypothesised value is correct and the t-statistic
 is small, well inside $\pm 1.96$.
 
-## Exercise 9: data frames, tibbles and data.tables
+## Exercise 11: data frames, tibbles and data.tables
 
 1. A data.table is a third variant of the data frame, made for speed on large data. Inside the
    square brackets, the first argument filters rows and the second selects or computes

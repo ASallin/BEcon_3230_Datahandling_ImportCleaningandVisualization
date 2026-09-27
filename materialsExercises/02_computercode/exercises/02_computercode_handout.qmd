@@ -42,17 +42,46 @@ your hand.
 
 | Exercise | What we do |
 |------|------------------------------------------------|
-| 1 | Write a sum function |
-| 2 | Make the function robust |
-| 3 | Apply the function to a list: `lapply()`, loop, `map()` |
-| 4 | Slow and fast sloths: a `while` loop |
-| 5 | Data structures: vectors, factors, lists, matrices, arrays, data frames |
+| 1 | Warm-up: vectors |
+| 2 | Warm-up: `for` loops |
+| 3 | Write a sum function |
+| 4 | Make the function robust |
+| 5 | Apply the function to a matrix: `apply()`, loop, `map()` |
+| 6 | Slow and fast sloths: a `while` loop |
+| 7 | Data structures: vectors, factors, lists, matrices, arrays, data frames |
 | Training | Standard deviation, standard error, t-test, comparing data frames, tibbles and data.tables |
 
-# Exercise 1: write a sum function
+# Exercise 1: warm-up on vectors
 
-In the lecture you saw the `for` loop: `for (i in 1:n) { ... }` repeats the body once for
-every value of `i`.
+In the lecture we saw that atomic vectors are the most basic data structure in R, and that most operators are vectorized.
+
+1. Create an **integer vector** `my_vector` with the values 1, 2, 3, 4, 5.
+
+2. Add a last element, `9L`, to `my_vector`.
+
+```{r eval=FALSE, purl=FALSE}
+my_vector <- c(my_vector, 9L)
+```
+
+3. How many elements does `my_vector` have now?
+
+4. Extract the third element of `my_vector`.
+
+5. Check whether `9` is an element of `my_vector`. Then check whether `10` is.
+
+# Exercise 2: warm-up on for-loops
+
+In the lecture you saw the `for` loop: `for (i in 1:n) { ... }` repeats the body once for every value of `i`.
+
+1. Given a vector of color names, `colors <- c("red", "green", "blue")`, write a `for` loop that prints each color name on a new line.
+
+```{r eval=FALSE, purl=FALSE}
+colors <- c("red", "green", "blue")
+```
+
+2. Using the same vector, write a `for` loop that checks, for each color, whether it matches your favorite color. Store your favorite color in a variable first. The loop should print `TRUE` if the color matches, and `FALSE` otherwise.
+
+# Exercise 3: write a sum function
 
 1. Use a `for` loop and the empty function below to write a function that takes a numeric
    vector as input and returns the sum of its elements. Start with a total of zero and add
@@ -67,7 +96,7 @@ my_sum <- function(x) {
 2. Define the vector `numbers <- c(1, 2, 3)`. Compare your function with R's built-in `sum()`:
    do `my_sum(numbers)` and `sum(numbers)` give the same result?
 
-# Exercise 2: robustness and warnings
+# Exercise 4: robustness and warnings
 
 1. Call your function with the following vector as input. What happens?
 
@@ -75,7 +104,7 @@ my_sum <- function(x) {
 numbers2 <- c("1", "2", "3")
 ```
 
-2. Why do you get an error? Compare `numbers` from Exercise 1 with `numbers2`. The functions
+2. Why do you get an error? Compare `numbers` from Exercise 3 with `numbers2`. The functions
    `str()` and `class()` help.
 
 3. Extend `my_sum()` with a control statement that checks whether the input is numeric
@@ -91,35 +120,35 @@ warning("Wrong input! This function only accepts numeric or integer values!")
 
 4. Test the improved function with `numbers` and `numbers2`.
 
-# Exercise 3: apply the function to a list
+# Exercise 5: apply the function to a matrix
 
-You can apply a function to every element of a list in several ways. Here you do the same task
-three times, with a loop, with `lapply()` and with `map()`.
+You can apply a function to every column of a matrix in several ways. Here you do the same task
+three times, with a loop, with `apply()` and with `map()`.
 
-1. Create a list of numeric vectors:
+1. Create a matrix of numbers:
 
 ```{r eval=FALSE, purl=FALSE}
-list_of_numbers <- list(
-  c(1, 2, 3),
-  c(4, 5, 6),
-  c(7, 8, 9, 10)
-)
+number_matrix <- matrix(1:9, nrow = 3)
 ```
 
-   Access the first element of the list with `list_of_numbers[[1]]`. Note the double square
-   brackets.
+   Access the first column with `number_matrix[, 1]`.
 
-2. Use a `for` loop to apply `my_sum()` to each vector. Create an empty list `sums_loop`
+2. Use a `for` loop to apply `my_sum()` to each column. Create an empty vector `sums_loop`
    first, then fill it inside the loop. Print the result.
 
-3. Do the same with `lapply()`. Store the result in `sums_lapply` and print it.
+3. Do the same with `apply()` (hint: `MARGIN = 2` applies a function over columns, as you saw
+   in the lecture). Store the result in `sums_apply` and print it.
 
-4. Do the same with `map()` from the `purrr` package. Load the package first. Store the result
-   in `sums_map` and print it.
+4. Do the same with `map_dbl()` from the `purrr` package: apply `my_sum()` to every column
+   index of the matrix. Load the package first. Store the result in `sums_map` and print it.
 
 5. All three give the same result. When would you use which?
 
-# Exercise 4: slow and fast sloths
+6. **(Self-study)** `map_dbl()` is one member of the `map()` family. Redo point 4, but with
+   `map()` instead of `map_dbl()`, and store the result in `sums_map2`. What changes compared
+   to `sums_map`? Why? Use `?map` (or `help(map)`) to find out.
+
+# Exercise 6: slow and fast sloths
 
 Loops can simulate a process over time. Write a program that calculates the populations of two
 kinds of sloths.
@@ -148,7 +177,15 @@ these 2000 die, which leaves 1200 at the beginning of year 2. In the same year w
 
 3. Why is a `while` loop the right tool here, and not a `for` loop?
 
-# Exercise 5: data structures
+# Exercise 7: data structures
+
+::: {.callout-note}
+This exercise also covers material from Lecture 4 (factors, lists, arrays, data frames and
+tibbles). Because exercise sessions are biweekly while lectures are weekly, this session falls
+between Lecture 3 and Lecture 4, so we work through Lecture 4 material before it is taught in
+class. Use this exercise as a first hands-on introduction, and revisit it after Lecture 4 if
+anything is still unclear.
+:::
 
 ## Vectors, factors and lists
 
@@ -193,7 +230,7 @@ these 2000 die, which leaves 1200 at the beginning of year 2. In the same year w
 
 These go beyond what we cover in the session. They are good practice for the exam.
 
-## Exercise 6: standard deviation
+## Exercise 8: standard deviation
 
 1. In the lecture you implemented a function that computes the mean. Now write a function
    `my_sd()` that computes the standard deviation,
@@ -204,16 +241,16 @@ These go beyond what we cover in the session. They are good practice for the exa
 
 2. Test it against R's `sd()`.
 
-## Exercise 7: standard error
+## Exercise 9: standard error
 
 Using `my_sd()`, write a function `my_se()` that computes the standard error of the sample mean,
 
 $$\text{SE}_{\bar{x}} = \frac{SD}{\sqrt{n}}.$$
 
-Exercises 6 and 7 show how to approach a bigger problem by breaking it into smaller ones:
+Exercises 8 and 9 show how to approach a bigger problem by breaking it into smaller ones:
 computing $SD$ is one part of computing $\text{SE}_{\bar{x}}$, and you solved it separately.
 
-## Exercise 8: t-test
+## Exercise 10: t-test
 
 Using `my_se()`, write a function `my_t_test(x, mu_0)` for the one-sample
 [t-test](https://en.wikipedia.org/wiki/Student%27s_t-test),
@@ -222,7 +259,7 @@ $$t = \frac{\bar{x} - \mu_0}{SE_{\bar{x}}}.$$
 
 Compare its output with `t.test(x, mu = mu_0)$statistic`.
 
-## Exercise 9: data frames, tibbles and data.tables
+## Exercise 11: data frames, tibbles and data.tables
 
 1. Convert `students_df` to a data.table with `as.data.table()` from the `data.table` package.
    Call it `students_dt`. Select the column `ages`, then filter the rows where the grade is "A".
