@@ -34,24 +34,7 @@ library(purrr)
 
 Welcome back!
 
-
-## {class="inverse"}
-
-
-<center>
-
-🐢😴 1️⃣ … 🔟 🚀🏃
-**How was the pace last time?**
-<br>
-<span style="font-size:60%;">Any comments on what felt too fast or too slow?</span>
-
-</center>
-
-
-
-## {class="inverse"}
-
-Recap
+# Recap
 
 ## Goals of last course and exercise session
 
@@ -71,7 +54,7 @@ include_graphics("../../img/data-structures-overview.png")
  - Atomic Vectors
  - Operators
  - Matrices
- - Loops
+ - Loops (`for` and `while`)
  - Logical statements
  - Control statements
  - Functions
@@ -89,51 +72,8 @@ include_graphics("../../img/fastsloth.png")
 ```
 
 
-## {class="inverse"}
 
-Information
-
-
-## Examination
-
-##### Examination for *HSG students in exchange*
-
-For HSG-students currently abroad on an exchange semester (not exchange students at HSG):
-
-  - Central examination (50%): as planned, with all course participants.
-  - Group project (35%): completed remotely with your group.
-  - Decentral exam (15%): oral examination during the central examination period.
-
-<br>
-
-##### Examination for *exchange students at the HSG*
-
-  - Decentral examination (50%): December 18th.
-  - Group project (35%): completed remotely with your group.
-  - Decentral exam (15%): December 11th.
-
-
-
-## Group size for the project
-
-<br>
-<br>
-<br>
-<center>
-<br>
-
-### 5*
-
-<br>
-</center>
-
-
-<div class="footnote-pin">*No exceptions apply</div>
-
-
-## {class="inverse"}
-
-Warm-up
+# Warm-up
 
 
 ## Warm-up
@@ -147,8 +87,28 @@ Warm-up
 
 ## Warm-up
 
+#### What is `total_sum`?
+```{r, echo=TRUE, eval = FALSE}
+numbers <- 1:4
+total_sum <- 0
+n <- length(numbers)
+
+# start loop
+for (i in 1:n) {
+    if (i %% 2 == 0) {
+        total_sum <- total_sum + numbers[i]
+    } else {
+        total_sum <- total_sum + 2 * numbers[i]
+    }
+}
+```
+
+
+
+## Warm-up
+
 #### Consider the following vector. Which answers are true?
-```{r warmup1, echo=TRUE, eval = FALSE}
+```{r warmup2, echo=TRUE, eval = FALSE}
 some_numbers <- c(30, 50, 60)
 ```
 
@@ -158,7 +118,7 @@ some_numbers <- c(30, 50, 60)
 
 1. `sum(some_numbers[c(2,3)]) == 80`
 2. `some_numbers[some_numbers %in% c(30)] == 30`
-3. `some_numbers * 5 ` will do `30*5 + 50*5 + 60*5`
+3. `some_numbers * 5 ` will compute `30*5 + 50*5 + 60*5`
 
 
 ## Warm-up
@@ -168,7 +128,7 @@ some_numbers <- c(30, 50, 60)
 ::: {.column width="50%"}
 #### We create the following matrix
 
-```{r warmup2a, echo=TRUE, eval = TRUE}
+```{r warmup3a, echo=TRUE, eval = TRUE}
 mymatrix <- matrix(c(1,2,3,11,12,13,1,10),
                    nrow = 2,
                    ncol = 4,
@@ -286,27 +246,6 @@ m <- while(i < (ncol(mymatrix) + 1)){
 ::::
 
 
-## Warm-up
-
-What is `total_sum`?
-
-```{r warmup3, echo=TRUE, eval = FALSE}
-numbers <- 1:4
-total_sum <- 0
-n <- length(numbers)
-
-# start loop
-for (i in 1:n) {
-
-  if(i %% 2 == 0){
-     total_sum <- total_sum + numbers[i]
-  } else {
-    total_sum <- total_sum + 2*numbers[i]
-  }
-
-}
-```
-
 
 ## Don't forget...
 ```{r rmeme, echo=FALSE, out.width = "40%", fig.align='center', purl=FALSE}
@@ -314,9 +253,7 @@ include_graphics("../../img/Rmeme.jpg")
 ```
 
 
-## {class="inverse"}
-
-Data Processing
+# Data Processing
 
 ## Goals for today
 
@@ -324,6 +261,7 @@ Data Processing
   2. Learn what **binary** and **hexadecimal** systems are
   3. See why **encoding** is crucial for any data project
   4. Realize that both code and data are just **text** at their core
+  5. Know the basic components of a **computing environment** (self-study)
 
 
 
@@ -332,6 +270,8 @@ Data Processing
 ```{r newabacus, echo=FALSE, out.width = "80%", fig.align='center', purl=FALSE}
 include_graphics("../../img/new_abacus.jpg")
 ```
+
+
 
 ##
 
