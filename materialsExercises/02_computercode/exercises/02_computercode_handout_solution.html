@@ -3253,8 +3253,7 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul class="collapse">
-  <li><a href="#before-we-start" id="toc-before-we-start" class="nav-link active" data-scroll-target="#before-we-start">Before we start</a></li>
-  <li><a href="#exercise-1-warm-up-on-vectors" id="toc-exercise-1-warm-up-on-vectors" class="nav-link" data-scroll-target="#exercise-1-warm-up-on-vectors">Exercise 1: warm-up on vectors</a></li>
+  <li><a href="#exercise-1-warm-up-on-vectors" id="toc-exercise-1-warm-up-on-vectors" class="nav-link active" data-scroll-target="#exercise-1-warm-up-on-vectors">Exercise 1: warm-up on vectors</a></li>
   <li><a href="#exercise-2-warm-up-on-for-loops" id="toc-exercise-2-warm-up-on-for-loops" class="nav-link" data-scroll-target="#exercise-2-warm-up-on-for-loops">Exercise 2: warm-up on for-loops</a></li>
   <li><a href="#exercise-3-write-a-sum-function" id="toc-exercise-3-write-a-sum-function" class="nav-link" data-scroll-target="#exercise-3-write-a-sum-function">Exercise 3: write a sum function</a></li>
   <li><a href="#exercise-4-robustness-and-warnings" id="toc-exercise-4-robustness-and-warnings" class="nav-link" data-scroll-target="#exercise-4-robustness-and-warnings">Exercise 4: robustness and warnings</a></li>
@@ -3274,14 +3273,14 @@ window.Quarto = {
   <li><a href="#exercise-11-data-frames-tibbles-and-data.tables" id="toc-exercise-11-data-frames-tibbles-and-data.tables" class="nav-link" data-scroll-target="#exercise-11-data-frames-tibbles-and-data.tables">Exercise 11: data frames, tibbles and data.tables</a></li>
   </ul></li>
   </ul>
-<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="02_computercode_handout.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="02_computercode_handout_solution.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
 </div>
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
 <h1 class="title">Data Handling: Import, Cleaning and Visualisation</h1>
-<p class="subtitle lead">Exercise/Workshop 2: Functions, iterations and data structures</p>
+<p class="subtitle lead">Solutions to Exercise/Workshop 2: Functions, iterations and data structures</p>
 </div>
 
 
@@ -3311,173 +3310,309 @@ window.Quarto = {
 </header>
 
 
-<p><strong>All course material:</strong> <a href="https://github.com/ASallin/BEcon_3230_Datahandling_ImportCleaningandVisualization" class="uri">https://github.com/ASallin/BEcon_3230_Datahandling_ImportCleaningandVisualization</a></p>
-<section id="before-we-start" class="level1">
-<h1>Before we start</h1>
-<p>Write your code in an R script saved in <code>2026_Data_Handling/exercises/code</code>, for example <code>exercise_02.R</code>. Start from the code shown in the lecture slides whenever you can. Type the code rather than copying it, and read every error message. If something does not work, raise your hand.</p>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 11%">
-<col style="width: 88%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Exercise</th>
-<th>What we do</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>1</td>
-<td>Warm-up: vectors</td>
-</tr>
-<tr class="even">
-<td>2</td>
-<td>Warm-up: <code>for</code> loops</td>
-</tr>
-<tr class="odd">
-<td>3</td>
-<td>Write a sum function</td>
-</tr>
-<tr class="even">
-<td>4</td>
-<td>Make the function robust</td>
-</tr>
-<tr class="odd">
-<td>5</td>
-<td>Apply the function to a matrix: <code>apply()</code>, loop, <code>map()</code></td>
-</tr>
-<tr class="even">
-<td>6</td>
-<td>Slow and fast sloths: a <code>while</code> loop</td>
-</tr>
-<tr class="odd">
-<td>7</td>
-<td>Data structures: vectors, factors, lists, matrices, arrays, data frames</td>
-</tr>
-<tr class="even">
-<td>Training</td>
-<td>Standard deviation, standard error, t-test, comparing data frames, tibbles and data.tables</td>
-</tr>
-</tbody>
-</table>
-</section>
 <section id="exercise-1-warm-up-on-vectors" class="level1">
 <h1>Exercise 1: warm-up on vectors</h1>
-<p>In the lecture we saw that atomic vectors are the most basic data structure in R, and that most operators are vectorized.</p>
 <ol type="1">
-<li><p>Create an <strong>integer vector</strong> <code>my_vector</code> with the values 1, 2, 3, 4, 5.</p></li>
-<li><p>Add a last element, <code>9L</code>, to <code>my_vector</code>.</p></li>
+<li><code>L</code> after a number forces it to be stored as an integer instead of a double:</li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>my_vector <span class="ot">&lt;-</span> <span class="fu">c</span>(my_vector, <span class="dv">9</span>L)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>my_vector <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>L, <span class="dv">2</span>L, <span class="dv">3</span>L, <span class="dv">4</span>L, <span class="dv">5</span>L)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>my_vector</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1 2 3 4 5</code></pre>
+</div>
+</div>
+<ol start="2" type="1">
+<li>There is no function to add a single value to an existing vector. Instead, you build a new vector that combines the old one with the new value, using <code>c()</code> again. <code>c()</code> combines its arguments into a new vector:</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>my_vector <span class="ot">&lt;-</span> <span class="fu">c</span>(my_vector, <span class="dv">9</span>L)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>my_vector</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1 2 3 4 5 9</code></pre>
+</div>
 </div>
 <ol start="3" type="1">
-<li><p>How many elements does <code>my_vector</code> have now?</p></li>
-<li><p>Extract the third element of <code>my_vector</code>.</p></li>
-<li><p>Check whether <code>9</code> is an element of <code>my_vector</code>. Then check whether <code>10</code> is.</p></li>
+<li><code>length()</code> counts the elements:</li>
 </ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(my_vector)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 6</code></pre>
+</div>
+</div>
+<ol start="4" type="1">
+<li>Square brackets index by position:</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>my_vector[<span class="dv">3</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 3</code></pre>
+</div>
+</div>
+<ol start="5" type="1">
+<li><code>%in%</code> checks membership, one value at a time:</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="dv">9</span> <span class="sc">%in%</span> my_vector</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="dv">10</span> <span class="sc">%in%</span> my_vector</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] FALSE</code></pre>
+</div>
+</div>
 </section>
 <section id="exercise-2-warm-up-on-for-loops" class="level1">
 <h1>Exercise 2: warm-up on for-loops</h1>
-<p>In the lecture you saw the <code>for</code> loop: <code>for (i in 1:n) { ... }</code> repeats the body once for every value of <code>i</code>.</p>
 <ol type="1">
-<li>Given a vector of color names, <code>colors &lt;- c(&quot;red&quot;, &quot;green&quot;, &quot;blue&quot;)</code>, write a <code>for</code> loop that prints each color name on a new line.</li>
+<li>Loop over the vector and print each element:</li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>colors <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;red&quot;</span>, <span class="st">&quot;green&quot;</span>, <span class="st">&quot;blue&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>colors <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;red&quot;</span>, <span class="st">&quot;green&quot;</span>, <span class="st">&quot;blue&quot;</span>)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (color <span class="cf">in</span> colors) {</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(color)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] &quot;red&quot;
+[1] &quot;green&quot;
+[1] &quot;blue&quot;</code></pre>
+</div>
 </div>
 <ol start="2" type="1">
-<li>Using the same vector, write a <code>for</code> loop that checks, for each color, whether it matches your favorite color. Store your favorite color in a variable first. The loop should print <code>TRUE</code> if the color matches, and <code>FALSE</code> otherwise.</li>
+<li>Compare each element to your favorite color inside the loop:</li>
 </ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Choose your favorite color:</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>favorite_color <span class="ot">&lt;-</span> <span class="st">&quot;green&quot;</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (color <span class="cf">in</span> colors) {</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(color <span class="sc">==</span> favorite_color)</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] FALSE
+[1] TRUE
+[1] FALSE</code></pre>
+</div>
+</div>
 </section>
 <section id="exercise-3-write-a-sum-function" class="level1">
 <h1>Exercise 3: write a sum function</h1>
 <ol type="1">
-<li>Use a <code>for</code> loop and the empty function below to write a function that takes a numeric vector as input and returns the sum of its elements. Start with a total of zero and add one element per iteration.</li>
+<li>A function that adds up the elements of a vector with a <code>for</code> loop:</li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>my_sum <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>my_sum <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  total <span class="ot">&lt;-</span> <span class="dv">0</span>            <span class="co"># start at zero</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (num <span class="cf">in</span> x) {      <span class="co"># visit every element of x</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    total <span class="ot">&lt;-</span> total <span class="sc">+</span> num</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(total)</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ol start="2" type="1">
-<li>Define the vector <code>numbers &lt;- c(1, 2, 3)</code>. Compare your function with R’s built-in <code>sum()</code>: do <code>my_sum(numbers)</code> and <code>sum(numbers)</code> give the same result?</li>
+<li>Both give the same result, so the function works:</li>
 </ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>numbers <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">my_sum</span>(numbers)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 6</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(numbers)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 6</code></pre>
+</div>
+</div>
 </section>
 <section id="exercise-4-robustness-and-warnings" class="level1">
 <h1>Exercise 4: robustness and warnings</h1>
 <ol type="1">
-<li>Call your function with the following vector as input. What happens?</li>
+<li>R stops with an error and computes nothing:</li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>numbers2 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;1&quot;</span>, <span class="st">&quot;2&quot;</span>, <span class="st">&quot;3&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>numbers2 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;1&quot;</span>, <span class="st">&quot;2&quot;</span>, <span class="st">&quot;3&quot;</span>)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">my_sum</span>(numbers2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-error">
+<pre><code>Error in `total + num`:
+! non-numeric argument to binary operator</code></pre>
+</div>
 </div>
 <ol start="2" type="1">
-<li><p>Why do you get an error? Compare <code>numbers</code> from Exercise 3 with <code>numbers2</code>. The functions <code>str()</code> and <code>class()</code> help.</p></li>
-<li><p>Extend <code>my_sum()</code> with a control statement that checks whether the input is numeric (hint: <code>is.numeric(x)</code>). If the input is wrong, the function should issue a warning instead of stopping with an error. Use this message:</p></li>
+<li><code>numbers2</code> does not contain numbers but text (a <em>character</em> vector). The quotation marks make the difference. You cannot add text with <code>+</code>.</li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">warning</span>(<span class="st">&quot;Wrong input! This function only accepts numeric or integer values!&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(numbers)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> num [1:3] 1 2 3</code></pre>
 </div>
-<p>What should the function return in that case? Think about why returning <code>0</code> would be a bad idea.</p>
-<ol start="4" type="1">
-<li>Test the improved function with <code>numbers</code> and <code>numbers2</code>.</li>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(numbers2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> chr [1:3] &quot;1&quot; &quot;2&quot; &quot;3&quot;</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(numbers)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] &quot;numeric&quot;</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(numbers2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] &quot;character&quot;</code></pre>
+</div>
+</div>
+<ol start="3" type="1">
+<li><p>An <code>if</code> statement checks the input before the loop runs. <code>is.numeric()</code> is <code>TRUE</code> for numeric and for integer vectors, so it is more flexible than <code>class(x) == &quot;numeric&quot;</code>.</p>
+<p>If the input is wrong, the function returns <code>NA</code>, a missing value. It must not return <code>0</code>: <code>0</code> looks like a valid sum, and whoever uses the result later would never notice that something went wrong.</p></li>
 </ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>my_sum <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.numeric</span>(x)) {</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">warning</span>(<span class="st">&quot;Wrong input! This function only accepts numeric or integer values!&quot;</span>)</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="cn">NA</span>)</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>  total <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (num <span class="cf">in</span> x) {</span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>    total <span class="ot">&lt;-</span> total <span class="sc">+</span> num</span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(total)</span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol start="4" type="1">
+<li>The numeric vector works as before. The character vector now gives a warning and <code>NA</code> instead of an error:</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">my_sum</span>(numbers)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 6</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">my_sum</span>(numbers2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in my_sum(numbers2): Wrong input! This function only accepts numeric or integer values!</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] NA</code></pre>
+</div>
+</div>
+<p>In practice you would not use your own function to add up numbers. <code>sum()</code> handles missing values (see <code>?sum</code>) and is much faster, because it is written in C rather than as an R loop:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>big_vector <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="fl">1e7</span>)                  <span class="co"># ten million random numbers</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(<span class="fu">sum</span>(big_vector))[<span class="st">&quot;elapsed&quot;</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>elapsed 
+      0 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(<span class="fu">my_sum</span>(big_vector))[<span class="st">&quot;elapsed&quot;</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>elapsed 
+   0.11 </code></pre>
+</div>
+</div>
 </section>
 <section id="exercise-5-apply-the-function-to-a-matrix" class="level1">
 <h1>Exercise 5: apply the function to a matrix</h1>
-<p>You can apply a function to every column of a matrix in several ways. Here you do the same task three times, with a loop, with <code>apply()</code> and with <code>map()</code>.</p>
 <ol type="1">
-<li>Create a matrix of numbers:</li>
+<li>A comma with a column index selects that column:</li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>number_matrix <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>, <span class="at">nrow =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>number_matrix <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>, <span class="at">nrow =</span> <span class="dv">3</span>)</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>number_matrix[, <span class="dv">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1 2 3</code></pre>
 </div>
-<p>Access the first column with <code>number_matrix[, 1]</code>.</p>
+</div>
 <ol start="2" type="1">
-<li><p>Use a <code>for</code> loop to apply <code>my_sum()</code> to each column. Create an empty vector <code>sums_loop</code> first, then fill it inside the loop. Print the result.</p></li>
-<li><p>Do the same with <code>apply()</code> (hint: <code>MARGIN = 2</code> applies a function over columns, as you saw in the lecture). Store the result in <code>sums_apply</code> and print it.</p></li>
-<li><p>Do the same with <code>map_dbl()</code> from the <code>purrr</code> package: apply <code>my_sum()</code> to every column index of the matrix. Load the package first. Store the result in <code>sums_map</code> and print it.</p></li>
-<li><p>All three give the same result. When would you use which?</p></li>
-<li><p><strong>(Self-study)</strong> <code>map_dbl()</code> is one member of the <code>map()</code> family. Redo point 4, but with <code>map()</code> instead of <code>map_dbl()</code>, and store the result in <code>sums_map2</code>. What changes compared to <code>sums_map</code>? Why? Use <code>?map</code> (or <code>help(map)</code>) to find out.</p></li>
+<li>With a loop you create the container first and fill one slot per iteration.</li>
 </ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>sums_loop <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(number_matrix)) {</span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>  sums_loop[i] <span class="ot">&lt;-</span> <span class="fu">my_sum</span>(number_matrix[, i])</span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>sums_loop</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]  6 15 24</code></pre>
+</div>
+</div>
+<ol start="3" type="1">
+<li><code>apply()</code> does the same in one line: <code>MARGIN = 2</code> applies the function over columns.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>sums_apply <span class="ot">&lt;-</span> <span class="fu">apply</span>(number_matrix, <span class="at">MARGIN =</span> <span class="dv">2</span>, my_sum)</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>sums_apply</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]  6 15 24</code></pre>
+</div>
+</div>
+<ol start="4" type="1">
+<li><code>map_dbl()</code> from <code>purrr</code> iterates over the column indices and returns a numeric vector:</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(purrr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package &#39;purrr&#39; was built under R version 4.5.3</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>sums_map <span class="ot">&lt;-</span> <span class="fu">map_dbl</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(number_matrix), <span class="cf">function</span>(i) <span class="fu">my_sum</span>(number_matrix[, i]))</span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>sums_map</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]  6 15 24</code></pre>
+</div>
+</div>
+<ol start="5" type="1">
+<li><p>When to use which:</p>
+<ul>
+<li>A <code>for</code> loop makes every step explicit. Use it when the iterations depend on each other (as in Exercise 6) or when you want full control. The logic is the same in every programming language.</li>
+<li><code>apply()</code> is base R, shorter and less error-prone than a loop when the same function is applied independently to every row or column of a matrix.</li>
+<li><code>map_dbl()</code> is the tidyverse equivalent. Its variants <code>map_int()</code>, <code>map_chr()</code>, <code>map()</code> return other types (an integer vector, a character vector, or a list) depending on what the function returns.</li>
+</ul></li>
+<li><p><code>?map</code> shows that <code>map()</code> “always returns a list”, while <code>map_dbl()</code> (like the other typed variants) checks that every result is a single double and simplifies the output to an atomic vector. <code>map()</code> is the general version: it works even if the function returns something more complex than a single number (a vector, a data frame, …), for which no atomic vector could hold the results. The typed variants exist so you get a vector back when you know the output is homogeneous, without an extra <code>unlist()</code> step.</p></li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>sums_map2 <span class="ot">&lt;-</span> <span class="fu">map</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(number_matrix), <span class="cf">function</span>(i) <span class="fu">my_sum</span>(number_matrix[, i]))</span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>sums_map2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[[1]]
+[1] 6
+
+[[2]]
+[1] 15
+
+[[3]]
+[1] 24</code></pre>
+</div>
+</div>
+<p><code>sums_map2</code> is a list of three single-element vectors, printed one element per line with <code>[[1]]</code>, <code>[[2]]</code>, <code>[[3]]</code>, instead of the plain numeric vector <code>sums_map</code> from point 4.</p>
 </section>
 <section id="exercise-6-slow-and-fast-sloths" class="level1">
 <h1>Exercise 6: slow and fast sloths</h1>
-<p>Loops can simulate a process over time. Write a program that calculates the populations of two kinds of sloths.</p>
-<p>At the beginning of year 1 there are <strong>1000 slow sloths</strong> and <strong>1 fast sloth</strong>. The fast sloth is a new mutation that can use roller blades, which helps it escape from predators. Each year, every sloth has one offspring. There are no further mutations: slow sloths beget slow sloths and fast sloths beget fast sloths. Each year, 40% of all slow sloths die, but only 30% of the fast sloths.</p>
-<p>So at the beginning of year 1 there are 1000 slow sloths. Another 1000 are born. Then 40% of these 2000 die, which leaves 1200 at the beginning of year 2. In the same year we start with 1 fast sloth, 1 more is born, and 30% of these 2 die, which leaves 1.4.</p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Beginning of year</th>
-<th>Slow sloths</th>
-<th>Fast sloths</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>1</td>
-<td>1000</td>
-<td>1</td>
-</tr>
-<tr class="even">
-<td>2</td>
-<td>1200</td>
-<td>1.4</td>
-</tr>
-<tr class="odd">
-<td>3</td>
-<td>1440</td>
-<td>1.96</td>
-</tr>
-</tbody>
-</table>
 <ol type="1">
-<li><p>Write a <code>while</code> loop that updates both populations year by year for as long as the slow sloths are at least as numerous as the fast ones. Keep a counter for the year.</p></li>
-<li><p><strong>In which year do the fast sloths outnumber the slow sloths for the first time?</strong> Print the answer with <code>cat()</code>.</p></li>
-<li><p>Why is a <code>while</code> loop the right tool here, and not a <code>for</code> loop?</p></li>
+<li>and 2. Every year each population doubles (one offspring per sloth) and then loses its share of deaths. The loop runs as long as the slow sloths are at least as numerous as the fast ones. <code>year</code> counts which year we are at the beginning of, as in the table in the handout.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>slow_sloths <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>fast_sloths <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>slow_death_rate <span class="ot">&lt;-</span> <span class="fl">0.40</span></span>
+<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a>fast_death_rate <span class="ot">&lt;-</span> <span class="fl">0.30</span></span>
+<span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a>year <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb54-6"><a href="#cb54-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-7"><a href="#cb54-7" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> (slow_sloths <span class="sc">&gt;=</span> fast_sloths) {</span>
+<span id="cb54-8"><a href="#cb54-8" aria-hidden="true" tabindex="-1"></a>  slow_sloths <span class="ot">&lt;-</span> slow_sloths <span class="sc">*</span> <span class="dv">2</span> <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> slow_death_rate)</span>
+<span id="cb54-9"><a href="#cb54-9" aria-hidden="true" tabindex="-1"></a>  fast_sloths <span class="ot">&lt;-</span> fast_sloths <span class="sc">*</span> <span class="dv">2</span> <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> fast_death_rate)</span>
+<span id="cb54-10"><a href="#cb54-10" aria-hidden="true" tabindex="-1"></a>  year <span class="ot">&lt;-</span> year <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb54-11"><a href="#cb54-11" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb54-12"><a href="#cb54-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-13"><a href="#cb54-13" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;The fast sloths outnumber the slow sloths in year&quot;</span>, year, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>The fast sloths outnumber the slow sloths in year 46 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Slow sloths:&quot;</span>, <span class="fu">round</span>(slow_sloths), <span class="st">&quot; Fast sloths:&quot;</span>, <span class="fu">round</span>(fast_sloths), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Slow sloths: 3657262  Fast sloths: 3764971 </code></pre>
+</div>
+</div>
+<p>The populations grow by a factor of 1.2 (slow) and 1.4 (fast) per year, so we look for the smallest <span class="math inline">\(n\)</span> with <span class="math inline">\(1.4^n &gt; 1000 \cdot 1.2^n\)</span>. That is <span class="math inline">\(n = 45\)</span> years of growth, and at the beginning of year 46 the fast sloths are ahead for the first time.</p>
+<ol start="3" type="1">
+<li>A <code>for</code> loop needs to know the number of iterations in advance. Here we do not know how many years it takes; we only know the condition under which we stop. That is what <code>while</code> is for. Note that a <code>while</code> loop runs forever if its condition never becomes <code>FALSE</code>. Here we are safe because the fast sloths grow faster every year.</li>
 </ol>
 </section>
 <section id="exercise-7-data-structures" class="level1">
@@ -3492,70 +3627,373 @@ Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>This exercise also covers material from Lecture 4 (factors, lists, arrays, data frames and tibbles). Because exercise sessions are biweekly while lectures are weekly, this session falls between Lecture 3 and Lecture 4, so we work through Lecture 4 material before it is taught in class. Use this exercise as a first hands-on introduction, and revisit it after Lecture 4 if anything is still unclear.</p>
+<p>This exercise also covers material from Lecture 4 (factors, lists, arrays, data frames and tibbles). Because exercise sessions are biweekly while lectures are weekly, this session falls between Lecture 3 and Lecture 4, so we work through Lecture 4 material before it is taught in class.</p>
 </div>
 </div>
 <section id="vectors-factors-and-lists" class="level2">
 <h2 class="anchored" data-anchor-id="vectors-factors-and-lists">Vectors, factors and lists</h2>
 <ol type="1">
-<li><p>Create a vector <code>student_ages</code> with the ages of 5 students: 18, 21, 20, 22, 19. Print its length and its type with <code>length()</code> and <code>typeof()</code>.</p></li>
-<li><p>Create a factor <code>student_grades</code> with the grades of the same 5 students: “A”, “B”, “A”, “C”, “B”. Print its levels. Why would you store grades as a factor rather than as text?</p></li>
-<li><p>Create a vector <code>student_names</code> with 5 names. Then create a list <code>student_info</code> that combines <code>student_names</code>, <code>student_ages</code> and <code>student_grades</code>. Access its elements by position (<code>[[1]]</code>) and by name (<code>$names</code>).</p></li>
-<li><p>What is the difference between a vector and a factor? Why do you use a list, and not a vector, to store data of different types together?</p></li>
+<li>Numbers are stored as <em>double</em> (double-precision floating point) by default, even if they look like integers.</li>
 </ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>student_ages <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">18</span>, <span class="dv">21</span>, <span class="dv">20</span>, <span class="dv">22</span>, <span class="dv">19</span>)</span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(student_ages)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 5</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(student_ages)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] &quot;double&quot;</code></pre>
+</div>
+</div>
+<ol start="2" type="1">
+<li>A factor stores categorical data. Internally the values are integers with a label attached, the <em>levels</em>:</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>student_grades <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;A&quot;</span>, <span class="st">&quot;C&quot;</span>, <span class="st">&quot;B&quot;</span>))</span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>student_grades</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] A B A C B
+Levels: A B C</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(student_grades)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] &quot;A&quot; &quot;B&quot; &quot;C&quot;</code></pre>
+</div>
+</div>
+<p>Use a factor when a variable takes a fixed set of categories. R then knows that “A”, “B” and “C” are groups: <code>table()</code> and <code>summary()</code> count them, plots use them as groups, and regression functions such as <code>lm()</code> turn them into dummy variables automatically. Text would just be five strings.</p>
+<ol start="3" type="1">
+<li>A list can hold elements of different types and lengths. Elements are accessed by position with <code>[[ ]]</code> or by name with <code>$</code>:</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>student_names <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Anna&quot;</span>, <span class="st">&quot;Luca&quot;</span>, <span class="st">&quot;Sara&quot;</span>, <span class="st">&quot;Jonas&quot;</span>, <span class="st">&quot;Eva&quot;</span>)</span>
+<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a>student_info <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">names =</span> student_names,</span>
+<span id="cb66-4"><a href="#cb66-4" aria-hidden="true" tabindex="-1"></a>                     <span class="at">ages =</span> student_ages,</span>
+<span id="cb66-5"><a href="#cb66-5" aria-hidden="true" tabindex="-1"></a>                     <span class="at">grades =</span> student_grades)</span>
+<span id="cb66-6"><a href="#cb66-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb66-7"><a href="#cb66-7" aria-hidden="true" tabindex="-1"></a>student_info[[<span class="dv">1</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] &quot;Anna&quot;  &quot;Luca&quot;  &quot;Sara&quot;  &quot;Jonas&quot; &quot;Eva&quot;  </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a>student_info<span class="sc">$</span>names</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] &quot;Anna&quot;  &quot;Luca&quot;  &quot;Sara&quot;  &quot;Jonas&quot; &quot;Eva&quot;  </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a>student_info<span class="sc">$</span>grades</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] A B A C B
+Levels: A B C</code></pre>
+</div>
+</div>
+<ol start="4" type="1">
+<li>A vector holds values of one type (all numbers, or all text). A factor is a vector for categorical data with a fixed set of levels. A list is needed when the elements are of different types: a vector would coerce everything to the most general type, here text.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(student_names, student_ages)   <span class="co"># the ages have become text</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] &quot;Anna&quot;  &quot;Luca&quot;  &quot;Sara&quot;  &quot;Jonas&quot; &quot;Eva&quot;   &quot;18&quot;    &quot;21&quot;    &quot;20&quot;    &quot;22&quot;    &quot;19&quot;   </code></pre>
+</div>
+</div>
 </section>
 <section id="matrices-and-arrays" class="level2">
 <h2 class="anchored" data-anchor-id="matrices-and-arrays">Matrices and arrays</h2>
 <ol type="1">
-<li><p>Create a matrix <code>scores_matrix</code> with the scores of 3 students in 3 subjects. Give it row and column names with <code>rownames()</code> and <code>colnames()</code>. Print the matrix and the score of one student in one subject.</p></li>
-<li><p>Create a 3-dimensional array <code>student_array</code> with the same students and subjects, but for two semesters with different scores. Access the scores of “Student 3” in the first subject across both semesters.</p></li>
-<li><p>What is the difference between a matrix and an array? When would you use an array?</p></li>
+<li>A matrix is a two-dimensional table of values of one type. Rows and columns can be named and used for indexing:</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a>scores_matrix <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">75</span>, <span class="dv">82</span>, <span class="dv">78</span>,</span>
+<span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a>                          <span class="dv">88</span>, <span class="dv">90</span>, <span class="dv">92</span>,</span>
+<span id="cb74-3"><a href="#cb74-3" aria-hidden="true" tabindex="-1"></a>                          <span class="dv">60</span>, <span class="dv">65</span>, <span class="dv">70</span>), <span class="at">nrow =</span> <span class="dv">3</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb74-4"><a href="#cb74-4" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(scores_matrix) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Student 1&quot;</span>, <span class="st">&quot;Student 2&quot;</span>, <span class="st">&quot;Student 3&quot;</span>)</span>
+<span id="cb74-5"><a href="#cb74-5" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(scores_matrix) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Math&quot;</span>, <span class="st">&quot;English&quot;</span>, <span class="st">&quot;Science&quot;</span>)</span>
+<span id="cb74-6"><a href="#cb74-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb74-7"><a href="#cb74-7" aria-hidden="true" tabindex="-1"></a>scores_matrix</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>          Math English Science
+Student 1   75      82      78
+Student 2   88      90      92
+Student 3   60      65      70</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a>scores_matrix[<span class="st">&quot;Student 2&quot;</span>, <span class="st">&quot;Science&quot;</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 92</code></pre>
+</div>
+</div>
+<ol start="2" type="1">
+<li>An array adds a third dimension. Leaving an index empty selects everything along that dimension:</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb78"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a>student_array <span class="ot">&lt;-</span> <span class="fu">array</span>(</span>
+<span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="dv">75</span>, <span class="dv">82</span>, <span class="dv">78</span>, <span class="dv">88</span>, <span class="dv">90</span>, <span class="dv">92</span>, <span class="dv">60</span>, <span class="dv">65</span>, <span class="dv">70</span>,    <span class="co"># semester 1</span></span>
+<span id="cb78-3"><a href="#cb78-3" aria-hidden="true" tabindex="-1"></a>    <span class="dv">80</span>, <span class="dv">84</span>, <span class="dv">82</span>, <span class="dv">91</span>, <span class="dv">94</span>, <span class="dv">93</span>, <span class="dv">63</span>, <span class="dv">68</span>, <span class="dv">72</span>),   <span class="co"># semester 2</span></span>
+<span id="cb78-4"><a href="#cb78-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">dim =</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">2</span>),</span>
+<span id="cb78-5"><a href="#cb78-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">dimnames =</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="st">&quot;Student 1&quot;</span>, <span class="st">&quot;Student 2&quot;</span>, <span class="st">&quot;Student 3&quot;</span>),</span>
+<span id="cb78-6"><a href="#cb78-6" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">c</span>(<span class="st">&quot;Math&quot;</span>, <span class="st">&quot;English&quot;</span>, <span class="st">&quot;Science&quot;</span>),</span>
+<span id="cb78-7"><a href="#cb78-7" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">c</span>(<span class="st">&quot;Semester 1&quot;</span>, <span class="st">&quot;Semester 2&quot;</span>))</span>
+<span id="cb78-8"><a href="#cb78-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb78-9"><a href="#cb78-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb78-10"><a href="#cb78-10" aria-hidden="true" tabindex="-1"></a>student_array[<span class="st">&quot;Student 3&quot;</span>, <span class="st">&quot;Math&quot;</span>, ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Semester 1 Semester 2 
+        78         82 </code></pre>
+</div>
+</div>
+<p>Note that <code>array()</code> fills column by column, not row by row: the first three values are the Math column of semester 1.</p>
+<ol start="3" type="1">
+<li>A matrix has exactly two dimensions; an array can have any number. Use an array when the data has more than two dimensions, for example students by subjects by semesters, or pixels by rows by colour channels in an image. A matrix is a special case of an array.</li>
 </ol>
 </section>
 <section id="data-frames-and-tibbles" class="level2">
 <h2 class="anchored" data-anchor-id="data-frames-and-tibbles">Data frames and tibbles</h2>
 <ol type="1">
-<li><p>Create a data frame <code>students_df</code> that combines <code>student_names</code>, <code>student_ages</code>, <code>student_grades</code> and a new vector <code>attendance</code> with the class attendance in percent: 85, 92, 78, 88, 90. Access the <code>attendance</code> column, then the row of the third student.</p></li>
-<li><p>Why is a data frame better suited to this kind of data than a matrix? And what is the difference between a data frame and a list?</p></li>
-<li><p>Convert <code>students_df</code> to a tibble with <code>as_tibble()</code> from the <code>tibble</code> package. Call it <code>students_tibble</code>. Print both and compare the output.</p></li>
+<li>A data frame is a table in which each column is a vector and different columns can have different types. Columns are accessed with <code>$</code>, rows with <code>[row, ]</code>:</li>
 </ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb80"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a>students_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb80-2"><a href="#cb80-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">names =</span> student_names,</span>
+<span id="cb80-3"><a href="#cb80-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">ages =</span> student_ages,</span>
+<span id="cb80-4"><a href="#cb80-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">grades =</span> student_grades,</span>
+<span id="cb80-5"><a href="#cb80-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">attendance =</span> <span class="fu">c</span>(<span class="dv">85</span>, <span class="dv">92</span>, <span class="dv">78</span>, <span class="dv">88</span>, <span class="dv">90</span>)</span>
+<span id="cb80-6"><a href="#cb80-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb80-7"><a href="#cb80-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-8"><a href="#cb80-8" aria-hidden="true" tabindex="-1"></a>students_df<span class="sc">$</span>attendance</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 85 92 78 88 90</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb82"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a>students_df[<span class="dv">3</span>, ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  names ages grades attendance
+3  Sara   20      A         78</code></pre>
+</div>
+</div>
+<ol start="2" type="1">
+<li><p>A matrix holds one type only: names and numbers together would all become text. A data frame keeps every column in its own type, which is what a data set needs.</p>
+<p>A data frame is in fact a list of vectors of equal length, one per column. A list is more general: its elements can be anything and have any length, but you lose the table structure (rows as observations, columns as variables).</p></li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb84"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(students_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>&#39;data.frame&#39;:   5 obs. of  4 variables:
+ $ names     : chr  &quot;Anna&quot; &quot;Luca&quot; &quot;Sara&quot; &quot;Jonas&quot; ...
+ $ ages      : num  18 21 20 22 19
+ $ grades    : Factor w/ 3 levels &quot;A&quot;,&quot;B&quot;,&quot;C&quot;: 1 2 1 3 2
+ $ attendance: num  85 92 78 88 90</code></pre>
+</div>
+</div>
+<ol start="3" type="1">
+<li>A tibble is the tidyverse version of a data frame. It prints more compactly, shows the column types, never converts text to factors on its own, and warns when you access a column that does not exist:</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb86"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tibble)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package &#39;tibble&#39; was built under R version 4.5.3</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb88"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a>students_tibble <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(students_df)</span>
+<span id="cb88-2"><a href="#cb88-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb88-3"><a href="#cb88-3" aria-hidden="true" tabindex="-1"></a>students_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  names ages grades attendance
+1  Anna   18      A         85
+2  Luca   21      B         92
+3  Sara   20      A         78
+4 Jonas   22      C         88
+5   Eva   19      B         90</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb90"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a>students_tibble</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 4
+  names  ages grades attendance
+  &lt;chr&gt; &lt;dbl&gt; &lt;fct&gt;       &lt;dbl&gt;
+1 Anna     18 A              85
+2 Luca     21 B              92
+3 Sara     20 A              78
+4 Jonas    22 C              88
+5 Eva      19 B              90</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb92"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a>students_df<span class="sc">$</span>nonexistent</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>NULL</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb94"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb94-1"><a href="#cb94-1" aria-hidden="true" tabindex="-1"></a>students_tibble<span class="sc">$</span>nonexistent</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Unknown or uninitialised column: `nonexistent`.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>NULL</code></pre>
+</div>
+</div>
 </section>
 </section>
 <section id="additional-exercises-for-training" class="level1">
 <h1>Additional exercises for training</h1>
-<p>These go beyond what we cover in the session. They are good practice for the exam.</p>
 <section id="exercise-8-standard-deviation" class="level2">
 <h2 class="anchored" data-anchor-id="exercise-8-standard-deviation">Exercise 8: standard deviation</h2>
 <ol type="1">
-<li><p>In the lecture you implemented a function that computes the mean. Now write a function <code>my_sd()</code> that computes the standard deviation,</p>
-<p><span class="math display">\[SD = \sqrt{\frac{1}{N-1} \sum_{i=1}^N (x_i - \overline{x})^2}.\]</span></p>
-<p>Most R operators work element by element on a whole vector, so you do not need a loop.</p></li>
-<li><p>Test it against R’s <code>sd()</code>.</p></li>
+<li><code>x - mean_x</code> subtracts the mean from every element at once, <code>^2</code> squares every element, <code>sum()</code> adds them up. No loop needed.</li>
 </ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb97"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb97-1"><a href="#cb97-1" aria-hidden="true" tabindex="-1"></a>my_sd <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb97-2"><a href="#cb97-2" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">&lt;-</span> <span class="fu">length</span>(x)</span>
+<span id="cb97-3"><a href="#cb97-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (n <span class="sc">&lt;=</span> <span class="dv">1</span>) {</span>
+<span id="cb97-4"><a href="#cb97-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">warning</span>(<span class="st">&quot;At least two values are needed to compute a standard deviation.&quot;</span>)</span>
+<span id="cb97-5"><a href="#cb97-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="cn">NA</span>)</span>
+<span id="cb97-6"><a href="#cb97-6" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb97-7"><a href="#cb97-7" aria-hidden="true" tabindex="-1"></a>  mean_x <span class="ot">&lt;-</span> <span class="fu">mean</span>(x)</span>
+<span id="cb97-8"><a href="#cb97-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sqrt</span>(<span class="fu">sum</span>((x <span class="sc">-</span> mean_x)<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span> (n <span class="sc">-</span> <span class="dv">1</span>))</span>
+<span id="cb97-9"><a href="#cb97-9" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol start="2" type="1">
+<li>Compare with <code>sd()</code> on a random vector. <code>set.seed()</code> makes the random numbers reproducible.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb98"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb98-1"><a href="#cb98-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2026</span>)</span>
+<span id="cb98-2"><a href="#cb98-2" aria-hidden="true" tabindex="-1"></a>test_vector <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">10000</span>)   <span class="co"># 10 000 draws from a normal distribution with mean 0 and sd 1</span></span>
+<span id="cb98-3"><a href="#cb98-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb98-4"><a href="#cb98-4" aria-hidden="true" tabindex="-1"></a><span class="fu">my_sd</span>(test_vector)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.001459</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb100"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb100-1"><a href="#cb100-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(test_vector)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.001459</code></pre>
+</div>
+</div>
 </section>
 <section id="exercise-9-standard-error" class="level2">
 <h2 class="anchored" data-anchor-id="exercise-9-standard-error">Exercise 9: standard error</h2>
-<p>Using <code>my_sd()</code>, write a function <code>my_se()</code> that computes the standard error of the sample mean,</p>
-<p><span class="math display">\[\text{SE}_{\bar{x}} = \frac{SD}{\sqrt{n}}.\]</span></p>
-<p>Exercises 8 and 9 show how to approach a bigger problem by breaking it into smaller ones: computing <span class="math inline">\(SD\)</span> is one part of computing <span class="math inline">\(\text{SE}_{\bar{x}}\)</span>, and you solved it separately.</p>
+<p>The new function calls <code>my_sd()</code>; the input check is already done there.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb102"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb102-1"><a href="#cb102-1" aria-hidden="true" tabindex="-1"></a>my_se <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb102-2"><a href="#cb102-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">my_sd</span>(x) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fu">length</span>(x))</span>
+<span id="cb102-3"><a href="#cb102-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb102-4"><a href="#cb102-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-5"><a href="#cb102-5" aria-hidden="true" tabindex="-1"></a><span class="fu">my_se</span>(test_vector)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.01001459</code></pre>
+</div>
+</div>
 </section>
 <section id="exercise-10-t-test" class="level2">
 <h2 class="anchored" data-anchor-id="exercise-10-t-test">Exercise 10: t-test</h2>
-<p>Using <code>my_se()</code>, write a function <code>my_t_test(x, mu_0)</code> for the one-sample <a href="https://en.wikipedia.org/wiki/Student%27s_t-test">t-test</a>,</p>
-<p><span class="math display">\[t = \frac{\bar{x} - \mu_0}{SE_{\bar{x}}}.\]</span></p>
-<p>Compare its output with <code>t.test(x, mu = mu_0)$statistic</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb104"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb104-1"><a href="#cb104-1" aria-hidden="true" tabindex="-1"></a>my_t_test <span class="ot">&lt;-</span> <span class="cf">function</span>(x, mu_0) {</span>
+<span id="cb104-2"><a href="#cb104-2" aria-hidden="true" tabindex="-1"></a>  (<span class="fu">mean</span>(x) <span class="sc">-</span> mu_0) <span class="sc">/</span> <span class="fu">my_se</span>(x)</span>
+<span id="cb104-3"><a href="#cb104-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb104-4"><a href="#cb104-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb104-5"><a href="#cb104-5" aria-hidden="true" tabindex="-1"></a><span class="fu">my_t_test</span>(test_vector, <span class="at">mu_0 =</span> <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.366914</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb106"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb106-1"><a href="#cb106-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(test_vector, <span class="at">mu =</span> <span class="dv">0</span>)<span class="sc">$</span>statistic</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       t 
+0.366914 </code></pre>
+</div>
+</div>
+<p>The true mean of <code>test_vector</code> is 0, so the hypothesised value is correct and the t-statistic is small, well inside <span class="math inline">\(\pm 1.96\)</span>.</p>
 </section>
 <section id="exercise-11-data-frames-tibbles-and-data.tables" class="level2">
 <h2 class="anchored" data-anchor-id="exercise-11-data-frames-tibbles-and-data.tables">Exercise 11: data frames, tibbles and data.tables</h2>
 <ol type="1">
-<li><p>Convert <code>students_df</code> to a data.table with <code>as.data.table()</code> from the <code>data.table</code> package. Call it <code>students_dt</code>. Select the column <code>ages</code>, then filter the rows where the grade is “A”.</p></li>
-<li><p>Do the following tasks three times, once with the data frame, once with the tibble (using <code>dplyr</code>) and once with the data.table, and compare the syntax:</p>
-<ul>
-<li>keep the students with attendance above 85</li>
-<li>compute the mean age of the students with grade “A” or “B”</li>
-<li>add a column <code>grade_numeric</code> with 4 for “A”, 3 for “B” and 2 for “C”</li>
-</ul></li>
+<li>A data.table is a third variant of the data frame, made for speed on large data. Inside the square brackets, the first argument filters rows and the second selects or computes columns:</li>
 </ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb108"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb108-1"><a href="#cb108-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(data.table)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package &#39;data.table&#39; was built under R version 4.5.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: &#39;data.table&#39;</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from &#39;package:purrr&#39;:
+
+    transpose</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb112"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb112-1"><a href="#cb112-1" aria-hidden="true" tabindex="-1"></a>students_dt <span class="ot">&lt;-</span> <span class="fu">as.data.table</span>(students_df)</span>
+<span id="cb112-2"><a href="#cb112-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb112-3"><a href="#cb112-3" aria-hidden="true" tabindex="-1"></a>students_dt[, ages]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 18 21 20 22 19</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb114"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb114-1"><a href="#cb114-1" aria-hidden="true" tabindex="-1"></a>students_dt[grades <span class="sc">==</span> <span class="st">&quot;A&quot;</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    names  ages grades attendance
+   &lt;char&gt; &lt;num&gt; &lt;fctr&gt;      &lt;num&gt;
+1:   Anna    18      A         85
+2:   Sara    20      A         78</code></pre>
+</div>
+</div>
+<ol start="2" type="1">
+<li>The same three tasks in the three dialects:</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb116"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb116-1"><a href="#cb116-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package &#39;dplyr&#39; was built under R version 4.5.3</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb118"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb118-1"><a href="#cb118-1" aria-hidden="true" tabindex="-1"></a><span class="co"># keep the students with attendance above 85</span></span>
+<span id="cb118-2"><a href="#cb118-2" aria-hidden="true" tabindex="-1"></a>students_df[students_df<span class="sc">$</span>attendance <span class="sc">&gt;</span> <span class="dv">85</span>, ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  names ages grades attendance
+2  Luca   21      B         92
+4 Jonas   22      C         88
+5   Eva   19      B         90</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb120"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb120-1"><a href="#cb120-1" aria-hidden="true" tabindex="-1"></a>students_tibble <span class="sc">%&gt;%</span> <span class="fu">filter</span>(attendance <span class="sc">&gt;</span> <span class="dv">85</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 4
+  names  ages grades attendance
+  &lt;chr&gt; &lt;dbl&gt; &lt;fct&gt;       &lt;dbl&gt;
+1 Luca     21 B              92
+2 Jonas    22 C              88
+3 Eva      19 B              90</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb122"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb122-1"><a href="#cb122-1" aria-hidden="true" tabindex="-1"></a>students_dt[attendance <span class="sc">&gt;</span> <span class="dv">85</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    names  ages grades attendance
+   &lt;char&gt; &lt;num&gt; &lt;fctr&gt;      &lt;num&gt;
+1:   Luca    21      B         92
+2:  Jonas    22      C         88
+3:    Eva    19      B         90</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb124"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb124-1"><a href="#cb124-1" aria-hidden="true" tabindex="-1"></a><span class="co"># mean age of the students with grade A or B</span></span>
+<span id="cb124-2"><a href="#cb124-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(students_df<span class="sc">$</span>ages[students_df<span class="sc">$</span>grades <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>)])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 19.5</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb126"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb126-1"><a href="#cb126-1" aria-hidden="true" tabindex="-1"></a>students_tibble <span class="sc">%&gt;%</span> <span class="fu">filter</span>(grades <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>)) <span class="sc">%&gt;%</span> <span class="fu">summarise</span>(<span class="at">mean_age =</span> <span class="fu">mean</span>(ages))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 1
+  mean_age
+     &lt;dbl&gt;
+1     19.5</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb128"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb128-1"><a href="#cb128-1" aria-hidden="true" tabindex="-1"></a>students_dt[grades <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>), <span class="fu">mean</span>(ages)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 19.5</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb130"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb130-1"><a href="#cb130-1" aria-hidden="true" tabindex="-1"></a><span class="co"># add a column grade_numeric: A = 4, B = 3, C = 2</span></span>
+<span id="cb130-2"><a href="#cb130-2" aria-hidden="true" tabindex="-1"></a>points <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">A =</span> <span class="dv">4</span>, <span class="at">B =</span> <span class="dv">3</span>, <span class="at">C =</span> <span class="dv">2</span>)</span>
+<span id="cb130-3"><a href="#cb130-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb130-4"><a href="#cb130-4" aria-hidden="true" tabindex="-1"></a>students_df<span class="sc">$</span>grade_numeric <span class="ot">&lt;-</span> points[<span class="fu">as.character</span>(students_df<span class="sc">$</span>grades)]</span>
+<span id="cb130-5"><a href="#cb130-5" aria-hidden="true" tabindex="-1"></a>students_tibble <span class="ot">&lt;-</span> students_tibble <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">grade_numeric =</span> points[<span class="fu">as.character</span>(grades)])</span>
+<span id="cb130-6"><a href="#cb130-6" aria-hidden="true" tabindex="-1"></a>students_dt[, grade_numeric <span class="sc">:</span><span class="er">=</span> points[<span class="fu">as.character</span>(grades)]]</span>
+<span id="cb130-7"><a href="#cb130-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb130-8"><a href="#cb130-8" aria-hidden="true" tabindex="-1"></a>students_dt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    names  ages grades attendance grade_numeric
+   &lt;char&gt; &lt;num&gt; &lt;fctr&gt;      &lt;num&gt;         &lt;num&gt;
+1:   Anna    18      A         85             4
+2:   Luca    21      B         92             3
+3:   Sara    20      A         78             4
+4:  Jonas    22      C         88             2
+5:    Eva    19      B         90             3</code></pre>
+</div>
+</div>
+<p>Base R uses square brackets and <code>$</code>. <code>dplyr</code> chains verbs (<code>filter()</code>, <code>summarise()</code>, <code>mutate()</code>) with the pipe and reads like a sentence. <code>data.table</code> packs everything into <code>[rows, columns]</code> and modifies in place with <code>:=</code>, which avoids copying large data. We use <code>dplyr</code> in this course.</p>
 </section>
 </section>
 
