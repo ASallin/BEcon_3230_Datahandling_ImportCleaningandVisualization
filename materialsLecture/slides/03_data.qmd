@@ -1015,8 +1015,8 @@ Two core themes of this course:
 
 ## Unstructured data in text files
 
-- Store ["Hello World"]{.green-bold} in `adamsmith.txt`.
-  - Allocation of a block of computer memory containing "Hello World!".
+- Store a famous quote from "An Inquiry into the Nature and Causes of the Wealth of Nations (Book V, Chapter 1, Part II)" in `adamsmith.txt`.
+  - Allocation of a block of computer memory containing this quote.
   - Simply a sequence of `0`s and `1`s...
   - `.txt` indicates to the operating system which program to use when opening this file.
 
@@ -1108,6 +1108,11 @@ xxd  ../../data/adamsmith.txt
 - `W` is code 87, in hex: `...`
 
 
+##
+
+```{r adam, echo=FALSE, out.width = "80%", fig.align='center'}
+include_graphics("../../img/adamsmithsunglasses.webp")
+```
 
 ## Encoding issues
 
@@ -1136,6 +1141,8 @@ cat ../../data/hastamanana.txt; echo
 ```
 
 
+## Encoding issues
+
 #### Inspect the encoding
 
 ```{bash, eval = FALSE, echo = TRUE}
@@ -1149,6 +1156,7 @@ file -b ../../data/hastamanana.txt
 `f1` is the problematic byte. [It corresponds to the "ñ" in ISO-8859.](https://cs.stanford.edu/people/miles/iso8859.html) and is the code `U+00F1` in unicode (Latin-1 supplement). In UTF-8, f1 is not a valid character by itself, [as UTF-8 expects two bytes (c3 b1)](https://www.utf8-chartable.de/).
 
 
+## Encoding issues
 
 #### Read the file again, this time with the correct encoding
 
