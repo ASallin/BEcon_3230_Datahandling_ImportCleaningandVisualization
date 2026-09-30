@@ -2,7 +2,7 @@
 title: 'Data Handling: Import, Cleaning and Visualisation'
 author: "Dr. Aurélien Sallin"
 subtitle: "Lecture 3: A Brief Introduction to Data and Data Processing"
-date: "2025-10-01"
+date: "2026-10-01"
 echo: false
 code-line-numbers: false
 format:
@@ -29,10 +29,6 @@ library(purrr)
 # knitr::opts_chunk$set(class.source = "chunkstyle")
 ```
 
-
-## {class="inverse"}
-
-Welcome back!
 
 # Recap
 
@@ -64,8 +60,8 @@ include_graphics("../../img/data-structures-overview.png")
 ## Three tutorials
 
  - Compute the mean with your own function      [-> no solution posted]{.green-bold}
- - Evolution in action: fast and slow sloths    [-> solution in the first exercise session and on Canvas]{.green-bold}
- - Append and lists                             [-> solution in the second exercise session and on Canvas]{.green-bold}
+ - Evolution in action: fast and slow sloths    [-> solution in the second exercise session]{.green-bold}
+ - Append and lists                             [-> solution in the second exercise session]{.green-bold}
 
 ```{r scratch, echo=FALSE, out.width = "35%", fig.align='center', purl=FALSE}
 include_graphics("../../img/fastsloth.png")
@@ -261,7 +257,7 @@ include_graphics("../../img/Rmeme.jpg")
   2. Learn what **binary** and **hexadecimal** systems are
   3. See why **encoding** is crucial for any data project
   4. Realize that both code and data are just **text** at their core
-  5. Know the basic components of a **computing environment** (self-study)
+  5. Know the basic components of a **computing environment** (self-study 🔎)
 
 
 
@@ -412,9 +408,13 @@ Number  | 128 | 64 | 32 | 16 | 8  | 4  | 2  |  1
   4. Repeat until the quotient is 0.
   5. The binary number is the sequence of remainders read from bottom to top.
 
-<br>
+
+
+## The binary counting frame 🔎
 
 #### 🧠 Challenge: use a `while` loop, the operators `%%` and `%/%` to implement this algorithm in R.
+
+\
 
 ```{r, echo=TRUE}
 #| code-fold: true
@@ -430,7 +430,7 @@ decimal_to_binary_integers <- function(decimal) {
     bin <- c(q, bin)
   }
 
-  bin <- paste0(bin, collapse = "")
+  bin <- paste0(bin, collapse = "") # "cosmetic step" to return the binary as a string
   return(bin)
 }
 ```
@@ -525,8 +525,9 @@ print(equal)
 
 The binary number is the sequence of remainders read from bottom to top.
 
+## The binary counting frame 🔎
 
-#### Challenge: use a `while` loop, the operators `%%` and `%/%` to implement this algorithm in R.
+#### 🧠 Challenge: use a `while` loop, the operators `%%` and `%/%` to implement this algorithm in R.
 
 ```{r, echo=TRUE}
 #| code-fold: true
@@ -558,9 +559,9 @@ decimal_to_binary_fractional(1/3, max_digits = 20)
 
 
 
-## Floating point numbers
+## The binary counting frame 🔎
 
-All in all, we can combine both functions to create a converter function `decimal_to_binary`.
+🧠 All in all, we can combine both functions to create a converter function `decimal_to_binary`.
 
 
 ```{r, echo=TRUE}
@@ -626,18 +627,80 @@ decimal_to_binary(1/2, max_digits = 20)
 
 
 
-
 ## Floating point numbers
 
-❓ How does the "computer" handle the distinction between the part of a number before and after the decimal point?
+#### ❓ How does the computer handle the part of a number before and after the point? How does it know how many bits to store for a number?
 
-- IEEE Standard for Floating-Point Arithmetic (IEEE 754)
+
+::: {style="font-size: 0.8em;"}
+- IEEE Standard for Floating-Point Arithmetic (IEEE 754): scientific notation in base 2, e.g. $139 = 1.0001011 \times 2^7$
 - [Not exam relevant]{.green-bold}. See [this page](https://mathcenter.oxford.emory.edu/site/cs170/ieee754/) for a step-by-step explanation.
+- R uses double precision: 64 bits = 1 sign + 11 exponent + 52 mantissa bits.
+:::
 
 ```{r IEEE, echo=FALSE, out.width = "30%", fig.align='center', purl=FALSE}
 # include_graphics("https://media.geeksforgeeks.org/wp-content/uploads/Single-Precision-IEEE-754-Floating-Point-Standard.jpg")
 include_graphics("../../img/IEEE754.jpg")
 ```
+
+
+<!--
+SPEAKER NOTES: how many bits does R store?
+
+| R type                          | Example            | Bits per value | What you get                                   |
+|---------------------------------|--------------------|----------------|------------------------------------------------|
+| double (default for numbers)    | 0.1, 139, 3.5      | 64             | about 15-17 significant decimal digits         |
+| integer                         | 139L               | 32             | whole numbers from -2,147,483,647 to 2,147,483,647 |
+| logical                         | TRUE               | 32             | same storage as an integer                     |
+
+The 64 bits of a double (IEEE 754):
+  - 1 bit for the sign (+/-)
+  - 11 bits for the exponent (where the binary point sits)
+  - 52 bits for the digits + 1 implicit leading 1 = 53 significant bits
+
+53 bits vs. 16 digits: both are right, different bases.
+  - 53 binary digits are stored
+  - one decimal digit needs log2(10) = 3.32 bits, so 53 * log10(2) = 15.95, i.e. about 16 decimal digits
+  - same idea as 139 = 10001011: 3 decimal digits vs. 8 binary digits
+  - print(0.1, digits = 17) gives 0.10000000000000001
+
+Why the approximation of 0.1 is "forced":
+  - with n bits after the binary point, only multiples of 1/2^n can be written
+  - the computer takes the nearest one; the approximation is not a choice
+  - every 1/2^n ends in 5 (0.5, 0.25, 0.125, 0.0625, ...), so every finite binary
+    fraction ends in 5 in decimal. A decimal that does not end in 5 cannot be stored exactly.
+  - sprintf("%.55f", 0.1) gives 0.1000000000000000055511151231257827021181583404541015625
+  - 0.4 in binary = 0.0110 0110 0110 ... (repeats forever; multiply by 2, take the integer part)
+
+IEEE 754 step by step: value = (-1)^sign * 1.mantissa * 2^(stored exponent - offset)
+  - the "2" is the base (like 10 in 1.39 * 10^2); it is never stored
+  - offset (bias): 127 in single precision (8-bit exponent), 1023 in double precision (11-bit exponent)
+  - the leading "1." is never stored (implicit bit)
+
+Example 1: 139
+  1. binary: 139 = 10001011
+  2. move the point after the first 1: 1.0001011 * 2^7 (moved 7 places)
+  3. sign = 0 (positive)
+  4. exponent: single 7 + 127 = 134 = 10000110 | double 7 + 1023 = 1030 = 10000000110
+     (careful: 134 is the stored exponent, 139 is the number; similar values by coincidence)
+  5. mantissa = digits after the point: 0001011, padded with zeros (23 or 52 bits)
+  single: 0 10000110 00010110000000000000000
+  -> exact, no rounding (finite binary expansion)
+
+Example 2: 0.4
+  1. binary: 0.4 = 0.0110 0110 0110 ...
+     0.4*2 = 0.8 -> 0 | 0.8*2 = 1.6 -> 1 | 0.6*2 = 1.2 -> 1 | 0.2*2 = 0.4 -> 0 | back to 0.4, repeats
+  2. move the point after the first 1: 1.1001 1001 1001 ... * 2^-2 (moved 2 places right; check: 1.6 / 4 = 0.4)
+  3. sign = 0 (positive)
+  4. exponent: single -2 + 127 = 125 = 01111101 | double -2 + 1023 = 1021 = 01111111101
+     (the offset is why a negative exponent needs no sign bit)
+  5. mantissa = 1001 1001 1001 ... cut after 23 (single) or 52 (double) bits and ROUNDED
+     single: 1001 1001 1001 1001 1001 100 | next bits 1100... -> round up -> ...1101
+     double: 1001 repeated 13 times | next bits 1001... -> round up -> last block 1010
+  single: 0 01111101 10011001100110011001101
+  -> rounded up, so the stored value is slightly too big:
+     sprintf("%.20f", 0.4) gives 0.40000000000000002220
+-->
 
 
 
@@ -785,9 +848,8 @@ lapply(c(1, 2, 12, 48, 255, 256), decimal_to_hexa_integers)
 
 
 
-## {class="inverse"}
 
-Character Encoding
+# Character Encoding
 
 
 ## Computers and text
@@ -834,6 +896,73 @@ Binary  | Hexadecimal | Decimal | Character
 0110 0010 | 62  |  98 | `b`
 
 
+##
+
+```{r ascii table, echo=FALSE, out.width = "100%", fig.align='center', fig.cap='[ASCII table, Wikimedia Commons](https://commons.wikimedia.org/wiki/File:ASCII-Table-wide.svg)'}
+include_graphics("../../img/ASCII-Table-wide.svg")
+```
+
+<!--
+Summary from Aurélien's notes
+
+1. ASCII (1963): 7 bits, 128 characters
+- ASCII uses 7 bits, so it has 2⁷ = 128 characters (codes 0–127)
+- was designed in the US in the 1960s
+- computers used 8-bit bytes, that left 128 unused codes (128–255).
+
+2. Code pages (1980s): everyone fills codes 128–255 differently
+- Each manufacturer and country used the free upper half for its own characters: IBM DOS (CP437, with box-drawing symbols), Mac Roman, Greek, Cyrillic, …
+- The problem: the same byte means different characters depending on the code page. Byte E9 could be é, Θ or щ. A file doesn't record which code page it uses.
+
+3. ISO 8859-1 "Latin-1" (1987) and Windows-1252
+- Latin-1 standardised the upper half for Western European languages: é = E9, ü = FC, ñ = F1.
+- Windows-1252 is Microsoft's version. It's almost identical, but it also uses the range 128–159 (control codes in Latin-1) for useful characters: € (80), curly quotes “ ” (93/94), – and — dashes, ™, Œ.
+- In practice many files labelled "Latin-1" are really 1252. Browsers treat the two as the same thing.
+The limits: one byte gives at most 256 characters. You can't mix French and Greek in one file, and Chinese or Japanese needed completely separate multi-byte systems.
+
+4. Unicode (1991): one number for every character
+Unicode is a list that gives every character in the world one number, called a code point:
+
+Character	Code point
+é	U+00E9
+€	U+20AC
+😀	U+1F600
+
+- Today it covers over 150,000 characters. Unicode says which number a character has.
+- It does not say how that number is stored as bytes. That's the job of an encoding: UTF-8, UTF-16 or UTF-32.
+
+5. UTF-8 (1992): the encoding that won
+
+- Variable length: 1 to 4 bytes per character.
+- Its key advantage: every ASCII character is still exactly one identical byte. Any ASCII file is automatically valid UTF-8.
+- Used by about 98% of websites today, and the default in R, Python, Git, JSON, …
+- The same characters in every encoding
+
+Character	ASCII	  Latin-1	Windows-1252	UTF-8
+e	        65 (hex)65	    65	          65
+é	        —	      E9	    E9	          C3 A9
+€	        —	      —	      80	          E2 82 AC
+😀	      —	      —	      —	            F0 9F 98 80
+
+https://naveenr.net/unicode-character-set-and-utf-8-utf-16-utf-32-encoding/
+
+
+e in utf-8
+
+- e (no accent) is 1 byte = 8 bits, identical to ASCII. This is hex = 65, 101 in decimal, 01100101
+- in utf8, the first bit of each byte is a MARKER, and the remaining bits carry the unicode number
+
+Byte starts with	Meaning
+0…	              a 1-byte ASCII character
+110…	            first byte of a 2-byte character
+1110…	            first byte of a 3-byte character (e.g. €)
+11110…	          first byte of a 4-byte character (e.g. 😀)
+10…	continuation byte
+
+é has unicode 233, E9. This means U+00E9. In binary: 1110 1001.
+- it is then "packed" into the utf-8 structure for 2 bytes: 110xxxxx 10xxxxxx -> 110 000 11 10101001, which is c3 a9
+- the utf-32 structure follows the same logic
+-->
 
 ## Character encodings: why should we care?
 
@@ -846,11 +975,8 @@ Binary  | Hexadecimal | Decimal | Character
  - At the lowest level, this means understanding/handling encodings.
 
 
-## {class="inverse"}
 
-Computer Code and Text-Files
-
-
+# Computer Code and Text-Files
 
 ## Putting the pieces together...
 
@@ -868,7 +994,7 @@ Two core themes of this course:
   1. How can **data** be **stored** digitally and be **read** by/imported to a computer?
   2. How can we give instructions to a computer by writing **computer code**?
 
-In both of these domains we mainly work with one simple type of document: [**text files**]{.green-bold}.
+#### In both of these domains we mainly work with one simple type of document: [**text files**]{.green-bold}.
 
 
 
@@ -889,7 +1015,7 @@ In both of these domains we mainly work with one simple type of document: [**tex
 
 ## Unstructured data in text files
 
-- Store ["Hello World"]{.green-bold} in `helloworld.txt`.
+- Store ["Hello World"]{.green-bold} in `adamsmith.txt`.
   - Allocation of a block of computer memory containing "Hello World!".
   - Simply a sequence of `0`s and `1`s...
   - `.txt` indicates to the operating system which program to use when opening this file.
@@ -903,11 +1029,11 @@ In both of these domains we mainly work with one simple type of document: [**tex
 Interpreting `0`s and `1`s as text... using `bash` (scripting language to interact with the operating system):
 
 ```{bash, eval=FALSE, echo = TRUE}
-cat helloworld.txt; echo
+cat adamsmith.txt; echo
 ```
 
 ```{bash, echo=FALSE}
-cat ../../data/helloworld.txt; echo
+cat ../../data/adamsmith.txt; echo
 ```
 
 
@@ -917,22 +1043,38 @@ cat ../../data/helloworld.txt; echo
 Directly looking at the `0`s and `1`s...
 
 ```{bash, eval = FALSE, echo = TRUE}
-xxd -b helloworld.txt
+xxd -b adamsmith.txt
 ```
 
 ```{bash, echo = FALSE, eval = FALSE}
-xxd -b ../../data/helloworld.txt
+xxd -b ../../data/adamsmith.txt
 ```
 
 ```{}
-00000000: 01001000 01100101 01101100 01101100 01101111 00100000  Hello
-00000006: 01010111 01101111 01110010 01101100 01100100 00100001  World!
+00000000: 00100010 01010111 01101000 01100101 01110010 01100101  "Where
+00000006: 01110110 01100101 01110010 00100000 01110100 01101000  ver th
+0000000c: 01100101 01110010 01100101 00100000 01101001 01110011  ere is
+00000012: 00100000 01100111 01110010 01100101 01100001 01110100   great
+00000018: 00100000 01110000 01110010 01101111 01110000 01100101   prope
+0000001e: 01110010 01110100 01111001 00101100 00100000 01110100  rty, t
+00000024: 01101000 01100101 01110010 01100101 00100000 01101001  here i
+0000002a: 01110011 00100000 01100111 01110010 01100101 01100001  s grea
+00000030: 01110100 00100000 01101001 01101110 01100101 01110001  t ineq
+00000036: 01110101 01100001 01101100 01101001 01110100 01111001  uality
+0000003c: 00101110 00100000 01000110 01101111 01110010 00100000  . For
+...
 ```
 
+- `W` is code 87, in binary: `01010111`
+
+```{r}
+rawToChar(as.raw(87))   # "W"
+utf8ToInt("W")          # 87
+```
 
 ```{r, eval=FALSE, echo = FALSE}
 # Inspecting a text file as binary in R
-file_content <- readBin("../../data/helloworld.txt",
+file_content <- readBin("../../data/adamsmith.txt",
                         what = "raw",
                         n = 12)
 
@@ -948,16 +1090,23 @@ Similarly we can display the content in hexadecimal values:
 
 
 ```{bash, eval = FALSE, echo = TRUE}
-xxd  data/helloworld.txt
+xxd  data/adamsmith.txt
 ```
 
 ```{bash, echo = FALSE, eval = FALSE}
-xxd  ../../data/helloworld.txt
+xxd  ../../data/adamsmith.txt
 ```
 
 ```{}
-00000000: 4865 6c6c 6f20 576f 726c 6421            Hello World!
+00000000: 2257 6865 7265 7665 7220 7468 6572 6520  "Wherever there
+00000010: 6973 2067 7265 6174 2070 726f 7065 7274  is great propert
+00000020: 792c 2074 6865 7265 2069 7320 6772 6561  y, there is grea
+00000030: 7420 696e 6571 7561 6c69 7479 2e20 466f  t inequality. Fo
+...
 ```
+
+- `W` is code 87, in hex: `...`
+
 
 
 ## Encoding issues
@@ -1092,9 +1241,7 @@ Install Sublime text from [here](https://www.sublimetext.com/)!
 
 
 
-## {class="inverse"}
-
-Data Processing Basics
+# Data Processing Basics
 
 
 ## Components of a standard computing environment
@@ -1118,9 +1265,7 @@ include_graphics("../../img/cpu_blackbox.png")
 </center>
 
 
-## {class="inverse"}
-
-Q&A
+# Q&A
 
 
 

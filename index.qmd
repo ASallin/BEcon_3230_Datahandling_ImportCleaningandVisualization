@@ -26,10 +26,11 @@ By the end of the course, you will be able to...
 
 | Date | Unit | Course Materials | Exercises |
 |------|------|--------|-----------|
-| 17.09.2026 | Introduction: Big Data / Data Science, course overview | [Slides](materialsLecture/slides/html/01_introduction.html) | [Handout](materialsExercises/01_tools_functions/exercises/01_tools_programming_handout.html)<br>[Slides](materialsExercises/01_tools_functions/exercises/01_tools_programming_slides.html) |
-| 24.09.2026 | Programming with R | [Slides](materialsLecture/slides/html/02_programming.html)<br>[R script](materialsLecture/scripts/Lecture2_Script.R) |  |
+| 17.09.2026 | Introduction: Big Data / Data Science, course overview | []{.bi .bi-easel}[Slides](materialsLecture/slides/html/01_introduction.html) | []{.bi .bi-file-earmark-text}[Handout](materialsExercises/01_tools_functions/exercises/01_tools_programming_handout.html)<br>[]{.bi .bi-easel}[Slides](materialsExercises/01_tools_functions/exercises/01_tools_programming_slides.html) |
+| 24.09.2026 | Programming with R | []{.bi .bi-easel}[Slides](materialsLecture/slides/html/02_programming.html)<br>[]{.bi .bi-file-earmark-code}[R script](materialsLecture/scripts/Lecture2_Script.R) |  |
+| 01.10.2026 | A Brief Introduction to Data and Data Processing | []{.bi .bi-easel}[Slides](materialsLecture/slides/html/03_data.html)<br>[]{.bi .bi-file-earmark-text}[Handout: Data Processing Basics](materialsLecture/handouts/Lecture3_BasicsDataProcessing.html)<br>[]{.bi .bi-file-earmark-code}[R script](materialsLecture/scripts/Lecture3_Script.R)<br>[[]{.bi .bi-filetype-txt}Data: [adamsmith](data/adamsmith.txt) · [hastamanana](data/hastamanana.txt)]{.files} | []{.bi .bi-file-earmark-text}[Handout](materialsExercises/02_computercode/exercises/02_computercode_handout.html)<br>[]{.bi .bi-check2-square}[Solution](materialsExercises/02_computercode/exercises/02_computercode_handout_solution.html) |
 
-: {tbl-colwidths="[12,52,18,18]"}
+: {tbl-colwidths="[12,34,32,22]"}
 
 ::: {#using-the-slides .callout-note collapse="true" appearance="simple"}
 ## ⌨️ How to use the slides — shortcuts &amp; making a PDF

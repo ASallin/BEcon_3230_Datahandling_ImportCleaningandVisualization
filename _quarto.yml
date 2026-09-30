@@ -23,6 +23,13 @@ project:
     - materialsExercises/01_tools_functions/exercises/01_tools_programming_slides.html
     - materialsLecture/slides/html/02_programming.html
     - materialsLecture/scripts/Lecture2_Script.R
+    - materialsExercises/02_computercode/exercises/02_computercode_handout.html
+    - materialsExercises/02_computercode/exercises/02_computercode_handout_solution.html
+    - materialsLecture/slides/html/03_data.html
+    - materialsLecture/handouts/Lecture3_BasicsDataProcessing.html
+    - materialsLecture/scripts/Lecture3_Script.R
+    - data/adamsmith.txt
+    - data/hastamanana.txt
 
 website:
   title: "Data Handling 2026"

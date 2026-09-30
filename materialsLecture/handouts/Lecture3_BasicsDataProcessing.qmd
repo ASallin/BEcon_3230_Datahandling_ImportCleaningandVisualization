@@ -31,7 +31,7 @@ library(purrr)
 
 After lecture 3, we already have a much better understanding of what the `0`s and `1`s stand for, how they might enter the computer, where they might be stored on the computer, and where we might see the output of processing data on a computer.
 
-This section briefly summarizes the key components of processing data with a computer, following closely Ulrich Matter's book. The chapter draws on @murrell_2009 (chapter 9, pages 199-204). 
+This section briefly summarizes the key components of processing data with a computer, following closely Ulrich Matter's book. The chapter draws on @murrell_2009 (chapter 9, pages 199-204).
 
 
 
@@ -59,7 +59,7 @@ include_graphics("../../img/cpu.jpg")
 
 The CPU is the heart of the computer. It is the part of the machine that carries out the instructions of your program.
 
-R runs on one CPU core by default, meaning that only one sequence of operations is executed at a time. Modern CPUs, however, have multiple cores, which allows several tasks to be processed in **parallel**. With the right R packages, such as `parallel`, `future`, or `data.table`, you can take advantage of multiple cores to speed up heavy computations like simulations, bootstrapping, or large data manipulations. 
+R runs on one CPU core by default, meaning that only one sequence of operations is executed at a time. Modern CPUs, however, have multiple cores, which allows several tasks to be processed in **parallel**. With the right R packages, such as `parallel`, `future`, or `data.table`, you can take advantage of multiple cores to speed up heavy computations like simulations, bootstrapping, or large data manipulations.
 
 **Vectorized operations:** R is designed to work efficiently with vectors, that is, with many values at once. Instead of processing one number after another, R can often apply the same operation to an entire vector in a single step (SIMD: Single Instruction, Multiple Data). This allows the CPU to work more efficiently and is one reason why vectorized R code is usually much faster than using explicit loops.
 
@@ -77,7 +77,7 @@ for (i in 1:length(scores)) {
 
 new_scores
 
-# In vectorized operations, R tells the CPU to apply the same instruction to many 
+# In vectorized operations, R tells the CPU to apply the same instruction to many
 # values at once, instead of handling them one by one.
 ```
 
@@ -97,15 +97,15 @@ new_scores
 include_graphics("../../img/harddrive.jpg")
 ```
 
-This is where the data (and operating system, software, etc.) is stored in the long run. When you boot your computer, the core programs needed to run the computer are loaded from the hard drive into RAM. When you *import* a dataset into R/RStudio, the data is read from a (text-)file stored on the hard drive into RAM. 
+This is where the data (and operating system, software, etc.) is stored in the long run. When you boot your computer, the core programs needed to run the computer are loaded from the hard drive into RAM. When you *import* a dataset into R/RStudio, the data is read from a (text-)file stored on the hard drive into RAM.
 
 Simple example of difference between RAM and hard drive: When you open a new R-Script (or Word-file, etc.), type something in it, this means you write something to an object located somewhere in RAM. If you close the application without saving the file, it will be lost. Once you "save" the script/document, it will be written to the hard drive.
 
 <br>
 
-**Units of information/data storage:** the question of how to store digital data on computers also raises the question of storage capacity. The smallest unit of information in computing (stored as a `0` or a `1`) is a *bit* (from *bi*nary dig*it*; abbrev. 'b'). A *byte* is 8 bits (1 byte = 8 bits; abbrev. 'B'). For example: to store the decimal number `139`, which corresponds to the binary number `10001011`, we require a capacity of 8 bits or one [*byte*]{style="color:#02934a;"}. 
+**Units of information/data storage:** the question of how to store digital data on computers also raises the question of storage capacity. The smallest unit of information in computing (stored as a `0` or a `1`) is a *bit* (from *bi*nary dig*it*; abbrev. 'b'). A *byte* is 8 bits (1 byte = 8 bits; abbrev. 'B'). For example: to store the decimal number `139`, which corresponds to the binary number `10001011`, we require a capacity of 8 bits or one [*byte*]{style="color:#02934a;"}.
 
-Historically, one byte encoded a single character of text (ASCII). 4 bytes (32 bits) are called a [*word*]{style="color:#02934a;"}. 
+Historically, one byte encoded a single character of text (ASCII). 4 bytes (32 bits) are called a [*word*]{style="color:#02934a;"}.
 
 ```{r bitbyteword, echo=FALSE, out.width = "80%", fig.align='center',  purl=FALSE}
 include_graphics("../../img/bitbyte.jpg")
@@ -125,13 +125,13 @@ Bigger units for storage capacity usually build on bytes:
 
 1 ZB = 1000000000000000000000 bytes = 1 billion terabytes = 1 trillion gigabytes.
 
-You might wonder why we are using an approximation here. The concepts of kilobytes, megabytes, gigabytes, ..., are related to the concepts of kibibytes, mebibytes, gibibytes, ... (based on powers of 2 instead of powers of 10). 
+You might wonder why we are using an approximation here. The concepts of kilobytes, megabytes, gigabytes, ..., are related to the concepts of kibibytes, mebibytes, gibibytes, ... (based on powers of 2 instead of powers of 10).
 
  - 1 kibibyte (KiB) = $2^{10}$ = 1'024 bytes
  - 1 mebibyte (MiB) = $2^{20}$ = 1'048'576 bytes
  - 1 gibibyte (GiB) = $2^{30}$ = 1'073'741'824 bytes
 
-In practice, the two concepts are often used interchangeably in informal language, but they are distinct standards. The confusion between the two concepts is a common source of misunderstanding. For example, a computer described to have 512-megabyte of RAM has 512 MiB, which is $512 * 2^{20}$ bytes, and not $512 * 10^6$ bytes of RAM. For more information, see the [Wikipedia page on Binary Prefixes](https://en.wikipedia.org/wiki/Binary_prefix). 
+In practice, the two concepts are often used interchangeably in informal language, but they are distinct standards. The confusion between the two concepts is a common source of misunderstanding. For example, a computer described to have 512-megabyte of RAM has 512 MiB, which is $512 * 2^{20}$ bytes, and not $512 * 10^6$ bytes of RAM. For more information, see the [Wikipedia page on Binary Prefixes](https://en.wikipedia.org/wiki/Binary_prefix).
 
 <br>
 
@@ -149,7 +149,7 @@ Most standard data analysis techniques assume that the entire dataset, and often
 
 <br>
 
-**Example of RAM limitation:** To illustrate the importance of RAM, consider the following example: in `R`, we try to create a matrix with $10^5 \times 10^5$ elements: 
+**Example of RAM limitation:** To illustrate the importance of RAM, consider the following example: in `R`, we try to create a matrix with $10^5 \times 10^5$ elements:
 
 ```{r, error=TRUE, echo=TRUE}
 # This will almost certainly fail on a typical laptop

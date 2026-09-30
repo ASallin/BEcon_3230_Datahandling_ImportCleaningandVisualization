@@ -138,6 +138,19 @@ tbody td:first-child {
   font-variant-numeric: tabular-nums;
 }
 
+// small file-type icons in front of material links (Bootstrap Icons)
+tbody td .bi {
+  font-size: .8em;
+  color: $muted;
+  margin-right: .35em;
+}
+
+// data files that go with a unit: one small line, e.g. "adamsmith · hastamanana"
+.files {
+  font-size: .8rem;
+  color: $muted;
+}
+
 // placeholder for material that is not published yet
 .soon {
   color: $muted;
