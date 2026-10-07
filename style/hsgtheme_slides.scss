@@ -55,7 +55,7 @@ $presentation-h1-font-size: 2.5em;
 $presentation-h2-font-size: 1.35em;
 $presentation-h3-font-size: 1.2em;
 $presentation-h4-font-size: 1em;
-$presentation-h5-font-size: 0.85em;
+$presentation-h5-font-size: 1em;
 
 // code
 $code-font: 'Courier New', monospace !default;
@@ -128,6 +128,13 @@ code {
 .reveal h5 {
     margin-top: 50px !important;
     margin-bottom: 10px !important;
+}
+
+// reveal.js only sizes h1-h4 from the $presentation-hX-font-size variables;
+// h5 would otherwise fall back to the browser default (~0.83em), i.e.
+// smaller than the bullets. Key statements (#####) match body text size.
+.reveal h5 {
+    font-size: 1em !important;
 }
 
 

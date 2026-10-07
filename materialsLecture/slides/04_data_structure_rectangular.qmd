@@ -23,15 +23,14 @@ cache: false
 ```{r set-options, echo=FALSE, cache=FALSE, warning=FALSE}
 options(width = 100)
 library(knitr)
+library(tidyverse)
 knitr::opts_chunk$set(class.source = "chunkstyle")
 ```
 
 
 
 
-## {class="inverse"}
-
-Recap
+# Recap
 
 ## Goals of last lecture
 
@@ -39,45 +38,68 @@ Recap
   2. Learn what **binary** and **hexadecimal** systems are
   3. See why **encoding** is crucial for any data project
   4. Realize that both code and data are just **text** at their core
-  5. Execute your first website scraper in R.
+  5. Know the basic components of a **computing environment** (self-study 🔎)
 
+```{r  echo=FALSE, eval=FALSE}
+x <- "Hasta Mañana Aurélien!"
 
-## The binary system
+charToRaw(x)
+#>  [1] 48 61 73 74 61 20 4d 61 c3 b1 61 6e 61 20 41 75 72 c3 a9 6c 69 65 6e 21
 
-Microprocessors can only represent two signs (states):
+x # read as UTF-8
+iconv(x, from = "UTF-8", to = "ASCII", sub = "byte")
+# [1] "Hasta Ma<c3><b1>ana Aur<c3><a9>lien!"
 
- - 'Off' = `0`
- - 'On' = `1`
+iconv(x, from = "windows-1252", to = "UTF-8")
+#C3 B1 (ñ)	C3 → Ã, B1 → ±	Ã±
+#C3 A9 (é)	C3 → Ã, A9 → ©	Ã©
 
-```{r onoff, echo=FALSE, out.width = "10%", fig.align='center', purl=FALSE}
-include_graphics("../../img/on_off.png")
+# Bytes in Windows-1252 (22 instead of 24)
+iconv(x, from = "UTF-8", to = "windows-1252", toRaw = TRUE)[[1]]
+#>  [1] 48 61 73 74 61 20 4d 61 f1 61 6e 61 20 41 75 72 e9 6c 69 65 6e 21
+
+# Count characters vs bytes
+nchar(x) # 22
+nchar(x, type = "bytes") # 24
+
+# Back from hex to text
+rawToChar(as.raw(c(0x57))) # "W"
+
+# Simulate the error: read UTF-8 bytes with the wrong table
+iconv(x, from = "windows-1252", to = "UTF-8")
+#> "Hasta MaÃ±ana AurÃ©lien!"
 ```
 
 
-## The binary and the hexadecimal counting frames
+## From binary to `.txt`
 
+:::: {.columns style="display: flex; align-items: center;"}
+
+::: {.column width="70%" style="text-align: center;"}
+![](../../img/l3_summary.png){width="120%"}
+:::
+
+::: {.column .fragment width="30%" style="font-size: 0.75em;"}
 #### Binary:
 
-- Only two signs: `0`, `1`.
-- Base 2.
+- Base 2. Only two signs: `0`, `1`.
 - Columns: $2^0=1$, $2^1=2$, $2^2=4$, and so forth.
+- Floating point numbers
 
-<br>
 
 #### Hexadecimal:
 
   - 16 symbols
   - Base 16.
   - `0`-`9` (used like in the decimal system) and `A`-`F` (for the numbers 10 to 15).
+:::
+
+::::
 
 
+## Character encodings
 
-
-## Computers and text
-How can a computer understand text if it only understands `0`s and `1`s?
-
-- *Standards* define how `0`s and `1`s correspond to specific letters/characters of different human languages.
-- These standards are usually called *character encodings*.
+- *Standards* define how `0`s and `1`s correspond to specific characters of different human languages.
 - Coded character sets that map unique numbers (in the end in binary coded values) to each character in the set.
 - For example, ASCII (American Standard Code for Information Interchange) or *utf-8*.
 
@@ -87,13 +109,45 @@ include_graphics("../../img/ascii.gif")
 
 
 
+## Character encodings
+
+```{r echo=FALSE, out.width = "80%", fig.align='center', purl=FALSE}
+include_graphics("../../img/encodings.png")
+```
+
+  - **Recognize an encoding issue when it occurs!**
+  - Problem occurs right at the beginning of the *data pipeline*!
+
+<!--
+NOTES: same bytes, three readings
+
+| Bytes | UTF-8 | ASCII                           | Windows-1252                  |
+|-------|-------|---------------------------------|-------------------------------|
+| C3 B1 | ñ     | not defined, shown as <c3><b1>  | Ã± (C3 = Ã, B1 = ±)           |
+| C3 A9 | é     | not defined, shown as <c3><a9>  | Ã© (C3 = Ã, A9 = ©)           |
+
+ASCII: these bytes have no meaning. ASCII only goes up to 7F (127); C3, B1, A9 are above.
+  R cannot decode them and prints the raw bytes in angle brackets: <c3><b1>, <c3><a9>.
+
+Windows-1252: every byte from 80 to FF is a character, so each byte is decoded on its own
+  (one character per byte). That is why one wrong letter becomes two (Ã±, Ã©).
+
+Full phrase:
+  UTF-8         Hasta Mañana Aurélien!
+  ASCII         Hasta Ma<c3><b1>ana Aur<c3><a9>lien!
+  Windows-1252  Hasta MaÃ±ana AurÃ©lien!
+
+-->
+
+
+
 ## Components of a standard computing environment
 
 ```{r components, echo=FALSE, out.width = "80%", fig.align='center', purl=FALSE}
 include_graphics("../../img/script-hardware.jpg")
 ```
 
-[Reading: please read the document "Data Processing Basics" published on Canvas (in materials/handout). This is exam relevant!]{.green-bold}
+Reading: please read the document "Data Processing Basics". This is exam relevant! 🔎
 
 
 
@@ -145,9 +199,7 @@ include_graphics("../../img/economist_example.png")
 
 
 
-## {class="inverse"}
-
-Warm-up
+# Warm-up
 
 ## Warm-up 1&2
 
@@ -208,90 +260,131 @@ What is `muLtip(5,20)`?
 
 
 
-## Warm-up 4
+## Warm-up 4: question from lecture 3
+
+#### Advantages (when working with binary numbers)
+
+1. Shorter than raw binary representation
+2. Much easier to translate back and forth between binary and hexadecimal than binary and decimal.
+
+&nbsp;
+
+<center>
+*WHY?*
+
+😆
+</center>
+
+
+## Warm-up 4: Why?
+
+##### One hex digit = exactly 4 bits, because $2^4 = 16$
 
 Translating between binary and hexadecimal is straightforward: each hexadecimal digit maps directly to a group of **4 binary digits**
 
-  | Hexadecimal | Binary
-------|-----|----|
-  |    0	| 0000
-  |    1	| 0001
-  |    2	| 0010
-  |    3	| 0011
-  |    4	| 0100
-  |    5	| 0101
-  |    ...|
-  |   D	  | 1101
-  |   E	  | 1110
-  |   F	  | 1111
+| Decimal | Binary | Hex |
+|--------:|:------:|:---:|
+| 0  | 0000 | 0 |
+| 1  | 0001 | 1 |
+| …  | …    | … |
+| 9  | 1001 | 9 |
+| 10 | 1010 | A |
+| …  | …    | … |
+| 15 | 1111 | F |
+
+#### Example: the letter W
+
+`0101 0111` → `5` `7` → `0x57`, just regroup
+
+
+# Course organization
+
+## Group formation for the group project
+
+#### Timeline:
+
+- **09.10.2026**: group formation opens on **Canvas**
+- **16.10.2026**: deadline for group formation
+
+#### Important:
+
+- Groups of 5️⃣ students, compulsory for the group project.
+- No group (or an incomplete group) by 16.10? We will assign you to one.
+
+##### Once formed, groups stay fixed for the whole project.
 
 
 
 
-## {class="inverse"}
+# Today
 
-Today
+## Our story today: from text to data
 
-## Goals of today's lecture: from text to data
+:::: {.columns style="display: flex; align-items: flex-start;"}
 
-#### Our story:
-  - Computers store data as bits (Bits → Bytes → Encoded Text)
-  - Text encodes meaning
-  - Files encode structure (→ Structured Files (CSV))
-  - R parses structure into memory. (→ R Parsing → R Data Structures)
-
-#### Goals:
-
-  - Understand how we **import** and structure data from text files
-  - Learn **data structures** in R
-  - Understand **rectangular data formats**
-
-
-
-
-## {class="inverse"}
-
-From text to data structure
-
-
-## Structured Data Formats
-
-  - Now that we understand how text and encodings work, we can see how text can represent structured data.
-  - We are used to not thinking about the formats of our data... and let the computer choose what to do with data when we click on a file.
-
-<br>
-
-##### [All data are text files]{.green-bold}, but with standardized structure.
-
-  - **Special characters** define the structure.
-  - More complex **syntax**, more complex structures can be represented...
-
-
-## Data in Economics
-
-#### Data take different structures depending on their purpose.
-
-<br>
-
-:::: {.columns}
-::: {.column width="50%"}
-```{r, echo=FALSE, out.width = "100%"}
-include_graphics("../../img/rectangulardata.webp")
+::: {.column .fragment width="85%" style="font-size: 0.75em;"}
+```{r , echo=FALSE, out.width = "100%"}
+include_graphics("../../img/l4_story.png")
 ```
 :::
 
-::: {.column width="50%"}
-```{r, echo=FALSE, out.width = "80%"}
-include_graphics("../../img/nonrectangulardata.webp")
-```
+::: {.column .fragment width="15%" style="font-size: 0.75em; align-self: center;"}
+  - Text encodes meaning
+  - Files encode structure (→ Structured Files (CSV))
+  - R parses structure into memory. (→ R Parsing → R Data Structures)
 :::
 
 ::::
 
 
 
-<div class="footnote-pin">*Credits for pictures: [Jasmin Ludolf](https://jasminludolf.medium.com/two-categories-of-structured-data-rectangular-and-non-rectangular-05b6148544dc)</div>
+## Goals for today
 
+  - Understand how we **import** and structure data from text files
+  - Learn **data structures** in R
+  - Understand and manipulate **rectangular data formats**
+
+
+
+
+# From text to data structure
+
+## Structured Data Formats
+
+We are used to not thinking about the formats of our data... and let the computer choose what to do with data when we click on a file.
+
+<br>
+
+##### [All data are text files]{.green-bold}, but with standardized structure.
+
+  - Text represents structured data
+  - **Special characters** define the structure.
+  - More complex **syntax**, more complex structures can be represented...
+
+
+## Data take different structures depending on their purpose
+
+:::: {.columns}
+::: {.column width="45%"}
+```{r, echo=FALSE, out.width = "100%"}
+include_graphics("../../img/rectangulardata.png")
+```
+:::
+
+::: {.column width="55%"}
+```{r, echo=FALSE, out.width = "100%"}
+include_graphics("../../img/nonrectangulardata.png")
+```
+:::
+
+::::
+
+<!--
+Nested / hierarchical	records contain lists or sub-records	JSON, XML	API responses (World Bank, SNB, Twitter/X)
+Varying length	each record has a different number of entries	JSON, lists	a firm with 1 or 30 subsidiaries; survey questions with multiple answers
+Network / graph	the information is in the connections	edge lists, graph formats	trade flows between countries, board interlocks, co-authorship
+Unstructured	no predefined fields at all	text, HTML, images, audio	central bank speeches, news, earnings calls, satellite images
+-->
 
 
 ## Rectangular data
@@ -305,10 +398,10 @@ include_graphics("../../img/nonrectangulardata.webp")
 
 - **Rectangular data** refers to a data structure where information is organized into **rows and columns**.
   - CSV (typical for rectangular/table-like data) and variants of CSV (tab-delimited, fix length etc.)
-  - Excel spreadsheets (`.xls`)
-  - Formats specific to statistical software (SPSS: `.sav`, STATA: `.dat`, etc.)
+  - Excel spreadsheets (`.xlsx`)
+  - Formats specific to statistical software (SPSS: `.sav`, STATA: `.dta`, etc.)
   - Built-in R datasets
-  - Binary formats
+  - ...
 
 
 ## Non-rectangular data
@@ -316,6 +409,7 @@ include_graphics("../../img/nonrectangulardata.webp")
 - **Hierarchical data** (xml, html, json, etc.)
   - XML and JSON (useful for complex/high-dimensional data sets)
   - HTML (a markup language to define the structure and layout of webpages)
+- **Network data**
 - Unstructured **text** data
 - **Internet-of-Things** data
 - **Images/Pictures** data
@@ -329,8 +423,8 @@ include_graphics("../../img/nonrectangulardata.webp")
 
 Example: `ch_gdp.csv`.
 
-```{}
-year,gdp_chfb
+```{.txt }
+year,gdp_chf
 1980,184
 1985,244
 1990,331
@@ -362,39 +456,94 @@ year,gdp_chfb
 
 ## Using a simple parser algorithm
 
-  - [Parser]{.green-bold}: sequence of instructions/rules of how to distinguish columns and rows when all that a computer can do is sequentially read one character after the other.
-  - Possible if we can agree on certain [**standards**]{.green-bold} of how data structured as a table/matrix is stored in a text file.
+##### A **parser** is a sequence of rules of how to distinguish columns and rows when all that a computer can do is sequentially read one character after the other.
+
+- Possible if we can agree on certain **standards/convention** of how data structured as a table/matrix is stored in a text file. []{style="display: block; height: 0.85em;"}
 
 
+##### The CSV standard ('Comma-Separated Values', `.csv`)
 
-## Using a simple parser algorithm
-
-#### In this case: 'Comma-Separated Values' (`.csv`)
-
-  - Commas separate values
-  - Other delimiters (`;`, tabs, etc.) possible
+  - Commas separate values (other delimiters  like `;`, tabs, etc. possible)
   - New lines separate rows/observations
-
-Instructions of how to read a `.csv`-file: **CSV parser**.
 
 
 
 ## Using a simple CSV parser
 
-Takes a text file with CSV standard structure as input and builds a data structure in the form of a table (represented in RAM).
 
 #### Look for...
 
   - Commas delimit values/fields in a row
-  - The end of a line indicates the end of a row
+  - Line breaks indicate the end of a row
 
-```{}
-00000000: efbb bf79 6561 722c 6764 705f 6368 6662  ...year,gdp_chfb
-00000010: 0d31 3938 302c 3138 340d 3139 3835 2c32  .1980,184.1985,2
-00000020: 3434 0d31 3939 302c 3333 310d 3139 3935  44.1990,331.1995
-00000030: 2c33 3734 0d32 3030 302c 3432 320d 3230  ,374.2000,422.20
-00000040: 3035 2c34 3634                           05,464
+  []{style="display: block; height: 0.85em;"}
+
+:::: {.columns}
+::: {.column width="35%"}
+
+```{.txt }
+year,gdp_chf
+1980,184
+1985,244
+1990,331
+1995,374
+2000,422
+2005,464
 ```
+:::
+::: {.column width="65%"}
+
+```{.txt}
+ef bb bf 79 65 61 72 2c 67 64 70 5f 63 68 66 0a
+31 39 38 30 2c 31 38 34 0a
+31 39 38 35 2c 32 34 34 0a
+31 39 39 30 2c 33 33 31 0a
+31 39 39 35 2c 33 37 34 0a
+32 30 30 30 2c 34 32 32 0a
+32 30 30 35 2c 34 36 34
+```
+:::
+::::
+
+<!--
+```{}
+00000000: efbb bf79 6561 722c 6764 705f 6368 660a  ...year,gdp_chf.
+00000010: 3139 3830 2c31 3834 0a31 3938 352c 3234  1980,184.1985,24
+00000020: 340a 3139 3930 2c33 3331 0a31 3939 352c  4.1990,331.1995,
+00000030: 3337 340a 3230 3030 2c34 3232 0a32 3030  374.2000,422.200
+00000040: 352c 3436 34                             5,464
+```
+-->
+
+
+```{r eval = FALSE}
+readBin("data/ch_gdp.csv", "raw", n = 100)
+```
+
+<!--
+NOTES: how to read the hex dump of ch_gdp.csv
+
+Left column (00000000:, 00000010:, ...) = offset: position of the row's first byte,
+  counted in HEX from 0. 00000010 = byte 16, 00000020 = byte 32. 16 bytes per row.
+
+ef bb bf = BOM (byte order mark): invisible signature "this file is UTF-8".
+  Invented for UTF-16 (byte order); UTF-8 does not need it, but Excel "CSV UTF-8" writes it.
+
+2c = comma (column separator)
+
+0a = line feed (LF, \n), end of row. Line endings depend on the program that SAVED the file:
+  LF    0a     Mac, Linux, R, most modern tools
+  CRLF  0d 0a  Windows programs (Notepad, Excel on Windows)
+  CR    0d     classic Mac OS (before 2001); the original ch_gdp.csv had this (converted to LF, Oct 2026)
+  read_csv() accepts all three.
+  -> issue in git: .gitattributes (data/*.csv -text) stops Git from turning 0a into 0d 0a on Windows.
+
+Right column = bytes shown as text; every non-printable byte is shown as "."
+  "..."       = ef bb bf (the BOM)
+  "chf.1980"  = chf + 0a (line break) + 1980
+
+-->
+
 
 
 
@@ -413,117 +562,71 @@ Takes a text file with CSV standard structure as input and builds a data structu
 
 
 
-## {class="inverse"}
+# Importing Rectangular Data from Text-Files
 
-Importing Rectangular Data from Text-Files
+<!-- ===== NEW PROPOSAL (4 slides, stock_prices.csv). Old slides follow below, unchanged. ===== -->
 
+## From text to table
 
+:::: {.columns}
 
-## Comma Separated Values (CSV)
+::: {.column width="45%"}
+#### The file `stock_prices.csv`
 
-Consider the `swiss`-dataset stored in a CSV:
+(not real market data 💸)
 
 ```{}
-"District","Fertility","Agriculture","Examination","Education","Catholic","Infant.Mortality"
-"Courtelary",80.2,17,15,12,9.96,22.2
+date,time,ticker,company,close_chf,volume,dividend_paid
+2026-10-01,17:30,NESN,Nestlé,78.42,4210350,FALSE
+2026-10-01,17:30,UBSG,UBS,27.15,9876012,FALSE
+2026-10-01,17:30,NOVN,Novartis,96.80,3120457,TRUE
+2026-10-02,17:30,NESN,Nestlé,78.90,3988120,FALSE
+2026-10-02,17:30,UBSG,UBS,27.40,10233990,FALSE
+2026-10-02,17:30,NOVN,Novartis,95.95,2874001,FALSE
 ```
+:::
 
-<br>
+::: {.column .fragment width="55%"}
+#### After being parsed in `R`
 
-<center>
-#### What do we need to read this format properly?
-</center>
-
-
-
-## Parsing CSVs in R
-
-- `read.csv()` (basic R distribution)
-- Returns a `data.frame`
-
-```{r, eval=TRUE, echo=FALSE, purl=FALSE}
-swiss_imported <- read.csv("../../data/swiss.csv")
-```
-
-
-```{r, eval=FALSE, purl=FALSE}
-swiss_imported <- read.csv("data/swiss.csv")
-```
-
-
-## Parsing CSVs in R
-
-- Alternative 1: `read_csv()` (`readr`/`tidyr`-package)
-  - Returns a `tibble`.
-- Alternative 2: The `data.table`-package and the `fread()` function (handling large datasets).
-
-
-```{r, eval=TRUE, echo=FALSE, message=FALSE, warning=FALSE, purl=FALSE}
+```{r, eval=FALSE, echo=TRUE}
 library(readr)
-swiss_imported <- read_csv("../../data/swiss.csv")
+stocks <- read_csv("data/stock_prices.csv")
+stocks
 ```
 
-
-```{r, eval=FALSE, purl=FALSE}
-swiss_imported <- read_csv("data/swiss.csv")
+```{r, echo=FALSE, message=FALSE, purl=FALSE}
+library(readr)
+stocks <- read_csv("../../data/stock_prices.csv")
+stocks
 ```
+:::
+
+::::
 
 
-## Import and parsing with `readr`
+## Parsing CSVs in R with `readr`
 
-- Why `readr`?
-  - Functions for all common rectangular data formats.
-  - Consistent syntax.
+:::: {.columns}
+
+::: {.column width="80%"}
+Use `read_csv()` from the `readr` package instead of `read.csv()` from the basic R distribution
+
+  - `readr` offers functions for all common rectangular data formats (`read_tsv()` for tab-separated, `read_fwf()` for fixed-width, etc.)
   - More robust and faster than similar functions in basic R.
+  - The result is a `data frame` (or `tibble`)
+:::
 
+::: {.column width="20%"}
+![](../../img/readr.png){width="100%"}
+:::
 
-## Basic usage of `readr` functions
+::::
 
-Parse the first lines of the swiss dataset directly like this...
-
-```{r, echo = TRUE}
-library(readr)
-
-read_csv('"District","Fertility","Agriculture","Examination","Education","Catholic","Infant.Mortality"
-"Courtelary",80.2,17,15,12,9.96,22.2')
-
-```
-
-or read the entire `swiss` dataset by pointing to the file
-
-```{r, eval=FALSE, echo = TRUE}
-swiss <- read_csv("data/swiss.csv")
-```
-
-
-```{r, echo=FALSE, purl=FALSE}
-swiss <- read_csv("../../data/swiss.csv")
-```
-
-
-## Basic usage of `readr` functions
-
-In either case, the result is a `data frame` (or `tibble`):
-```{r}
-swiss
-```
-
-
-## Basic usage of `readr` functions
-
-- Other `readr` functions have practically the same syntax and behavior.
-- `read_tsv()` (tab-separated)
-- `read_fwf()` (fixed-width)
-- ...
-
-
-
-
-
-
-## {class="inverse"}
-
-Data structures and data types in R
+::: {.Example .absolute bottom=20 style="font-size: 0.8em;"}
+- For very large files, the `data.table`-package and the `fread()` is much faster and guesses the delimiter itself.
+- `readr` documentation and cheatsheet: [readr.tidyverse.org](https://readr.tidyverse.org/)
+:::
 
 
 ## Parsing CSVs
@@ -531,7 +634,7 @@ Data structures and data types in R
 Recognizing columns and rows is one thing...
 
 ```{r}
-swiss
+stocks
 ```
 
 <br>
@@ -541,30 +644,24 @@ swiss
 </center>
 
 
-## Data types in R: Concept refresher
+## What else did `read_csv()` recognise?
 
-- Recall the introduction to data types and atomic vectors in Lecture 2 ⚛️
-- `R` represents data in RAM as **vectors**, which have a
-  - Type: `character`, `numeric`, etc.
-  - Structure: `data.frame`/`tibble`, etc.
-- Parsers in `read_csv()` guess the data types.
+##### The parser guesses the data type of each column from its content.
 
+```{r, echo=TRUE, message=FALSE}
+library(dplyr)
+glimpse(stocks)
+```
 
-## Parsing CSV-columns
-
-- `"12:00"`: type `character`?
 
 
 ## Parsing CSV-columns
 
-  - `"12:00"`: type `character`?
-  - What about `c("12:00", "midnight", "noon")`?
-
-## Parsing CSV-columns
-
+::: {.incremental}
   - `"12:00"`: type `character`?
   - What about `c("12:00", "midnight", "noon")`?
   - And now `c("12:00", "14:30", "20:01")`?
+:::
 
 
 ## Parsing CSV-columns
@@ -612,58 +709,43 @@ Check this page from ["Data cleaning for data scientists"](https://bookdown.org/
 
 
 
-## {class="inverse"}
 
-R data structures in depth
+# R data structures in depth
 
+## What is the representation of the structure once the data is parsed?
 
+Once parsed, the data lives in RAM as R objects. The **atomic vectors** ⚛️ are the building blocks (see lecture 2).
 
-## Structures to work with...
+:::: {.columns}
 
-#### We now know how data enters R. Let’s look at how R stores it internally.
+::: {.column width="55%"}
+#### 1. Data types (what is stored)
 
-- Data structures for storage on hard drive (e.g., csv).
-- Representation of data in RAM (e.g. as an R-object)
-  - What is the representation of the 'structure' once the data is parsed (read into RAM)?
+| Type | Also called |
+|------|-------------|
+| `integer`   |  |
+| `double`    | numeric, floating point |
+| `character` | string, text |
+| `logical`   | boolean |
+:::
 
+::: {.column .fragment width="45%"}
 
-## Structures to work with...
+#### 2. Data structures in RAM
 
-In the second lecture, we looked at **atomic** vectors as the basic building blocks in `R`.
+  - **Vectors**
+  - **Arrays/Matrices**
+  - **Lists**
+  - **Data frames**
+:::
 
-
-## Structures to work with (in R)
-
-In the second lecture, we looked at **atomic** vectors as the basic building blocks in `R`.
-
-We distinguish two basic characteristics:
-
-  1. Data types:
-      - **integers**;
-      - **real numbers** ('numeric values', 'doubles', floating point numbers);
-      - **characters** ('string', 'character values');
-      - **booleans**
-
-
-
-## Structures to work with (in R)
-
-We distinguish two basic characteristics:
-
-  1. Data types.
-  2. Basic data structures in RAM:
-      - **Vectors**
-      - **Arrays/Matrices**
-      - **Lists**
-      - **Data frames** (very `R`-specific)
+::::
 
 
 ## Structures to work with in R
 
-  - A data structure in R is a way of **organizing data in memory**.
-  - It defines how elements are grouped, stored, and accessed.
-  - R has a few core structures, each designed for a different kind of organization.
-
+  - A data structure in R is a way of **organizing data in memory**: it defines how elements are grouped, stored, and accessed.
+  - R has a few core structures:
 
 | Structure          | Key idea                            | Type     | Dim. |
 |--------------------|-------------------------------------|----------|------|
@@ -671,146 +753,157 @@ We distinguish two basic characteristics:
 | Matrix             | 2D rectangular collection           | Homog.   | 2D   |
 | Array              | Generalization of a matrix          | Homog.   | nD   |
 | List               | Elements can differ in type/size    | Heterog. | Flex |
-| Data frame/Tibble  | Equal-length column vectors (table) | Heterog. | 2D   |
+| Data frame/Tibble  | List of equal-length vectors        | Heterog. | 2D   |
 
 
 
+## Describe data through type and class
 
-## Describe data
+The type and the class of an object can be used to describe an object.
 
-The `type` and the `class` of an object can be used to describe an object.
+  - `typeof()`: **how the object is stored in memory** (`double`, `character`, `list`, ...)
+  - `class()`: **how R treats the object**
 
-  - `type`: technical and low-level description of the actual storage mode or physical representation of an object.
-    - It tells **how the object is stored in memory**.
-  <br>
+```{r, echo=TRUE, collapse=TRUE}
+typeof(c(1, 2, 3))
+class(c(1, 2, 3))
 
-  - `class`: attribute about the nature of an `R` object.
-    - It tells you **how to treat the object in a broad sense**.
-
-
-
-## Data types: numeric and integers
-
-R interprets these bytes of data as type `double` ('numeric') or type `integer`:
-
-```{r, echo = TRUE}
-a <- 1.5
-b <- 3
-c <- 3L
-
-# Use math operators
-a + b
+typeof(data.frame(x = 1:3)) # "list"
+class(data.frame(x = 1:3))  # "data.frame"
 ```
 
 
-## Data types: numeric and integers
 
-```{r, echo = TRUE}
+
+## Data types: a recap
+
+:::: {.columns}
+
+::: {.column width="50%"}
+#### `double`
+```{r, echo=TRUE, collapse=TRUE}
 a <- 1.5
 typeof(a); class(a)
-
-c <- 3L
-typeof(c); class(c)
 ```
 
+#### `character`
+```{r, echo=TRUE, collapse=TRUE, error=TRUE}
+c <- "3"
+a + c
+```
+:::
 
-
-
-## Data types: character
-
-```{r, echo = TRUE}
-a <- "1.5"
-b <- "3"
+::: {.column width="50%"}
+#### `integer`
+```{r, echo=TRUE, collapse=TRUE}
+b <- 3L
+typeof(b); class(b)
 ```
 
-<br>
-
-```{r, echo = TRUE}
-typeof(a)
-class(a)
+#### `logical`
+```{r, echo=TRUE, collapse=TRUE}
+d <- TRUE
+typeof(d); class(d)
 ```
+:::
 
-<br>
+::::
 
-Now the same line of code as above will result in an error:
-
-```{r, error=TRUE, echo = TRUE}
-a + b
-```
-
-
-
-## Data types: special values
-
-  - `NA`: "Not available", i.e. missing value for any type
-  - `NaN`: "Not a number": special case of NA for numeric
-  - `Inf`: specific to numeric
-  - `NULL`: absence of value
+::: aside
+**Special values**: `NA` missing value (any type); `NaN` "not a number" (numeric); `Inf` infinity (numeric); `NULL` absence of an object.
+:::
 
 
 
-## Data structures: vectors
+## Vectors are collections of value of same type
 
-- Collections of value of same type
 
-```{r, echo = TRUE}
+:::: {.columns}
+
+::: {.column width="50%"}
+```{r, echo = TRUE, collapse=TRUE}
 persons <- c("Andy", "Brian", "Andy")
 persons
 ```
+:::
 
-```{r, echo = TRUE}
+::: {.column width="50%"}
+```{r, echo = TRUE, collapse=TRUE}
 ages <- c(24, 50, 30)
 ages
 ```
+:::
+::::
 
 
-
-## Data structures: vectors
-
-What happens when you create a vector out of `persons` and `ages`?
+#### What happens when you create a vector out of `persons` and `ages`?
 ```{r, eval = FALSE, echo = TRUE}
 c(persons, ages)
 ```
-<br>
 
-**"Coercion"**: Process of converting an object from one data type to another.
+::: {.fragment}
+💥
 
-- *Implicit*: happens automatically when combining objects of different types R will implicitly coerce to the most flexible type.
-- *Explicit*: use specific functions to manually convert data types `as.numeric()`, `as.character()`, `as.logical()`, etc.
+```{r, eval = TRUE, echo = FALSE}
+c(persons, ages)
+```
+:::
+
+
+## Coercion
+
+##### Process of converting an object from one data type to another.
+
+- **Implicit**: happens automatically when combining objects of different types R will implicitly coerce to the most flexible type.
+  -  e.g. `c(TRUE, 2L, 3.5, "a")` becomes all `character`[]{style="display: block; height: 0.7em;"}
+- **Explicit**: use specific functions to manually convert data types `as.numeric()`, `as.character()`, `as.logical()`, etc.
+
+
+> Coercion hierarchy: \ Types from least to most flexible are: `logical` → `integer` → `double` → `character`.
+
+
+## More on coercion 🔎
+
+Why is it that `TRUE + TRUE` is `2`?
+
+```{r, echo = TRUE, collapse=TRUE}
+TRUE + TRUE
+typeof(TRUE + TRUE)
+```
+
+When you use **operators**, R will also apply the coercion rule to unify the types of all elements involved in the operation.
+
+:::: {.columns}
+::: {.column width="50%"}
+
+#### Useful for mundane operations 🐈
+```{r, echo = TRUE, collapse=TRUE}
+has_a_cat <- c(TRUE, FALSE, FALSE, FALSE)
+
+sum(has_a_cat)
+```
+:::
+
+::: {.column width="50%"}
+
+#### ...or for more serious ones...
+```{r, echo = TRUE, collapse=TRUE}
+income <- seq(40000, 80000, by = 1000)
+
+mean(income > 50000)
+```
+:::
+::::
 
 ::: aside
-Coercion hierarchy: Types from least to most flexible are: logical <- integer <- double <- character.
+Check the chapter on coercion in [R Programming: Zero to Pro](https://r02pro.github.io/) by Yang Feng for more examples.
 :::
-<!--   - *Implicit Coercion*: happens automatically when combining objects of different types without explicitly requesting a conversion.  -->
-<!--   - *Explicit Coercion*: use specific functions to manually convert one type of data into another. -->
-
-
-<!-- ## Implicit coercion -->
-
-<!-- R will implicitly coerce to the most flexible type. -->
-
-<!-- ```{r, echo = TRUE} -->
-<!-- mixed2 <- c(TRUE, 2, 3) -->
-<!-- mixed2 -->
-<!-- ``` -->
-
-
-<!-- ## Explicit coercion -->
-
-<!-- Use functions like `as.numeric()`, `as.character()`, `as.logical()`, to convert data types. -->
-
-<!-- ```{r, echo = TRUE} -->
-<!-- as.numeric(c("1.2", "3.4", "5.6")) -->
-<!-- as.numeric(c("1.2", "a", "5.6")) -->
-<!-- as.integer(c(1.2, 2.9, 3.7)) -->
-<!-- ``` -->
-
 
 
 ## Data structures: matrices
 
-  - Matrices are two-dimensional collections of values of the same type
-  - Like vectors, they are homogeneous
+  - Matrices are **two-dimensional** collections of values of the same type
+  - Like vectors, they are **homogeneous**
   - They are vectors that have a dimension attribute `dim`
 
 ```{r matrix, echo=FALSE, out.width = "30%", fig.align='center', purl=FALSE}
@@ -818,9 +911,24 @@ include_graphics("../../img/matrix.png")
 ```
 
 
+## Data structures: matrices/arrays
+
+Example:
+
+```{r, echo = TRUE}
+my_matrix <- matrix(
+  c(1,2,3,4,5,6),
+  nrow = 3,
+  byrow = FALSE
+)
+my_matrix
+dim(my_matrix)
+```
+
+
 ## Data structures: arrays
 
-Arrays are higher-dimensional collections of values of the same type
+Arrays are **higher-dimensional** collections of values of the same type
 
 ```{r array, echo=FALSE, out.width = "40%", fig.align='center', purl=FALSE}
 include_graphics("../../img/array.jpg")
@@ -832,17 +940,32 @@ include_graphics("../../img/array.jpg")
 Example:
 
 ```{r, echo = TRUE}
-my_matrix <- matrix(c(1,2,3,4,5,6), nrow = 3)
-my_matrix
-```
-
-
-## Data structures: matrices/arrays
-
-```{r, echo = TRUE}
-my_array <- array(c(1,2,3,4,5,6,7,8), dim = c(2,3,4))
+my_array <- array(1:12, dim = c(2, 3, 2))
 my_array
 ```
+
+<!--
+NOTES: when do we use arrays?
+Arrays = regular grid of numbers in 3+ dimensions, all of the same type.
+Rare in everyday data work (data frames cover most needs).
+
+  - Images: height x width x colour (RGB), e.g. a photo is a 1080 x 1920 x 3 array
+  - AI / deep learning: batch x height x width x channels ("tensors" in torch/keras are arrays)
+  - Simulations: parameter x replication x statistic (Monte Carlo in econometrics)
+  - Bayesian estimation: iterations x chains x parameters (posterior draws from Stan, as.array())
+  - Climate / satellite data: latitude x longitude x time (rasters, netCDF; night lights as GDP proxy)
+  - Input-output tables over time: sector x sector x year
+
+Why not a data frame?
+  - fast maths across a whole dimension, e.g. apply(x, c(1, 2), mean) = average over time per location
+  - fixed structure: every cell exists, one type
+  - for analysis/plotting, usually convert to a long data frame: as.data.frame.table()
+
+array() always fills column-first (first index fastest), no byrow option.
+Careful: array(c(1,...,8), dim = c(2,3,4)) has 24 cells for 8 values, so R silently recycles.
+Better: array(1:12, dim = c(2, 3, 2)).
+
+-->
 
 
 ## Data frames, tibbles, and data tables
@@ -883,6 +1006,13 @@ Example:
 ```{r, echo = TRUE}
 my_list <- list(my_array, my_matrix, df)
 my_list
+```
+
+
+## Data structures: lists
+
+```{r, echo=FALSE, out.width = "40%", fig.align='center',  purl=FALSE}
+include_graphics("../../img/meme_list.png")
 ```
 
 
@@ -948,6 +1078,69 @@ levels(gender)
 ```
 
 
+## Dates 🔎
+
+:::: {.columns}
+
+::: {.column width="50%"}
+📆 Dates are "disguised" doubles... that counts the number of days since 01.01.1970
+
+```{r, echo=TRUE, collapse=TRUE}
+d <- as.Date(c("2026-10-01", "1936-10-08"))
+typeof(d)
+class(d)
+as.numeric(d)
+```
+:::
+
+::: {.column .fragment width="50%"}
+You can compute with them:
+
+```{r, echo=TRUE, collapse=TRUE}
+d[2] - d[1]
+d + 7
+```
+
+And indicate which format you are using:
+
+```{r, echo=TRUE, collapse=TRUE}
+as.Date("01.10.2026", format = "%d.%m.%Y")
+```
+:::
+
+::::
+
+
+## Dates and times 🔎
+
+:::: {.columns}
+
+::: {.column width="50%"}
+⏲️ A date-time is a "disguised" double too: seconds since 1970-01-01, plus a time zone.
+
+```{r, echo=TRUE, collapse=TRUE}
+x <- as.POSIXct("2026-10-01 17:30",
+                tz = "Europe/Zurich")
+typeof(x)
+class(x)
+as.numeric(x)
+```
+:::
+
+::: {.column .fragment width="50%"}
+For any date-time format, I recommend `lubridate`!
+
+```{r, echo=TRUE, collapse=TRUE, message=FALSE}
+library(lubridate)
+dmy_hm("01.10.2026 17:30", tz = "Europe/Zurich")
+```
+:::
+
+::::
+
+> **Note:** Always set the time zone (`tz`). Without it, R uses your computer's time zone, and the same file can give different times on different laptops.
+
+
 ## Different data types in one figure
 
 ```{r summary, echo=FALSE, out.width = "40%", fig.align='center', purl=FALSE, fig.cap = "Source: http://venus.ifca.unican.es/Rintro/dataStruct.html"}
@@ -956,21 +1149,14 @@ include_graphics("../../img/data_structure_r.png")
 
 
 
-## {class="inverse"}
-
-Manipulating rectangular data in R
-
-
+# Manipulating rectangular data in R
 
 ## Loading built-in datasets
 
-Re-load the `swiss` dataset, or load the built-in dataset.
-
-In order to load built-in datasets, simply use the `data()`-function.
+Load the built-in `swiss` dataset using the `data()`-function.
 
 ```{r, eval=TRUE, echo = TRUE}
 data(swiss)
-swiss <- read_csv("../../data/swiss.csv")
 ```
 
 ::: aside
@@ -1025,7 +1211,7 @@ swiss[swiss$Fertility > 40,]  # Based on condition ("filter")
 ```
 
 
-# Other Common Rectangular Formats
+# Other Common Rectangular Formats 🔎
 
 ## Spreadsheets/Excel
 
@@ -1091,12 +1277,9 @@ include_graphics("../../img/openxlsx.png")
 
 ## Data from other data analysis software
 
-- STATA, SPSS, etc.
-- Additional packages needed:
-    - `foreign`
-    - `haven`
+#### STATA, SPSS, etc.
 
-    <br>
+- Additional packages needed: `foreign`, `haven`, etc.
 
 - Parsers (functions) for many foreign formats.
     - For example, `read_spss()` for SPSS' `.sav`-format.
@@ -1125,11 +1308,7 @@ swiss_imported <- read_spss("data/swiss.sav")
 
 
 
-
-
-## {class="inverse"}
-
-Exercise
+# Exercise 🔎
 
 
 ## Exercise
@@ -1139,9 +1318,7 @@ Exercise
 
 
 
-## {class="inverse"}
-
-Appendix: a side note on data frames and tibbles
+# Appendix: a side note on data frames and tibbles
 
 
 ## Rectangular data in R and tidyverse
@@ -1154,7 +1331,7 @@ Appendix: a side note on data frames and tibbles
 
 Similar!
 
-- Tibbles are used in the tidyverse and ggplot2 packages.
+- Tibbles are used in the `tidyverse` and `ggplot2` packages.
 - Same information as a data frame.
 - Small differences in the manipulation and representation of data.
 - See [**Tibble vs. DataFrame**](https://jtr13.github.io/cc21fall1/tibble-vs.-dataframe.html#tibble-vs.-dataframe") for more details.

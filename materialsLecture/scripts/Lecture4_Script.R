@@ -13,10 +13,12 @@ library(readr)
 
 # Read in csv -------------------------------------------------------------
 
-read_csv('"District","Fertility","Agriculture","Examination","Education","Catholic","Infant.Mortality"
-"Courtelary",80.2,17,15,12,9.96,22.2')
+stocks <- read_csv("data/stock_prices.csv")
+stocks
 
-swiss_imported <- read.csv("C:/Users/aurel/Downloads/swiss.csv")
+# glimpse() (from dplyr) gives a quick overview of a data frame, turned sideways
+library(dplyr)
+glimpse(stocks)
 
 read_csv('A,B
          12:00, 12:00
@@ -40,34 +42,6 @@ guess_parser("1'300'000", locale = locale(grouping_mark = "'"))
 
 # Data structures ---------------------------------------------------------
 
-a <- 1.5
-b <- 3
-c <- 3L
-
-# Use math operators
-a + b
-
-# Call typeof and class
-a <- 1.5
-typeof(a); class(a)
-
-c <- 3L
-typeof(c); class(c)
-
-
-
-## Data types: character
-
-a <- "1.5"
-b <- "3"
-
-  
-typeof(a)
-class(a)
-
-a + b
-
-
 ## Data types: special values
 NA
 NaN
@@ -85,32 +59,39 @@ is.character(persons)
 ages <- c(24, 50, 30)
 ages
 
+# Vector concatenation (into strings)
+paste(persons[1], "+", persons[3])
+paste(persons[1], "+", persons[3] , sep = "")
+paste0(persons[1], "+", persons[3] , sep = "")
 
-paste(persons[1], "+", persons[3])    
-paste(persons[1], "+", persons[3] , sep = "")  
-paste0(persons[1], "+", persons[3] , sep = "") 
 
+# Coercion ---------------------------------
 
-#### What happens when you create a vector out of `persons` and `ages`?
+# What happens when you create a vector out of `persons` and `ages`?
 c(persons, ages)
 
+# Another example
 mixed2 <- c(TRUE, 2, 3)
 mixed2
 
+# Explicit coercion
 x <- c(FALSE, FALSE, TRUE)
 as.numeric(x)
-
-
-#### Explicit coercion
 
 as.numeric(c("1.2", "3.4", "5.6"))
 as.numeric(c("1.2", "a", "5.6"))
 as.integer(c(1.2, 2.9, 3.7))
 
-  
 
-## Data structures: matrices
-mymatrix <- matrix(1:10, nrow = 3)
+# Data structures: matrices ---------------------------------
+
+my_matrix <- matrix(
+  c(1, 2, 3, 4, 5, 6),
+  nrow = 3,
+  byrow = FALSE
+)
+my_matrix
+dim(my_matrix)
 
 mycoercedmatrix <- cbind(
   persons, ages
@@ -120,25 +101,23 @@ rownames(mycoercedmatrix) <- c("a", "b", "c")
 attributes(mycoercedmatrix)
 
 
-
-## Arrays  
-
-my_array <- array(c(1:4), dim = c(2,3,4))
-my_array2 <- array(c(1:6), dim = c(2,3,4))
-
+# Data structures: Arrays ---------------------------------
+my_array <- array(1:12, dim = c(2, 3, 2))
+my_array
 dim(my_array)
 
-my_array + my_array2
+my_array1 <- array(c(1:4), dim = c(2,3,4))
+my_array2 <- array(c(1:6), dim = c(2,3,4))
+
+
+my_array1 + my_array2
 
 
 
-## Data frames, tibbles, and data tables
+# Data structures: Data frames, tibbles, and data tables ---------------------------------
 
-df <- data.frame(
-  person = persons, 
-  age = ages, 
-  gender = c(1, 1, 0),
-  stringsAsFactors = FALSE)
+df <- data.frame(person = persons, age = ages, gender = c(0, 1, 1))
+df
 
 names(df)
 colnames(df)
@@ -148,30 +127,40 @@ df
 df$gender
 
 
-## Data structures: lists
 
-my_list <- list(my_array, 
-                matriX = matrix(c(1,2,3,4,5,6), nrow = 3), 
+# Data structures: lists ---------------------------------
+
+my_list <- list(my_array,
+                my_matrix,
                 df
 )
 length(my_list)
 names(my_list)
+
+# Indexing a list can be done with double [[]]
 my_list[[1]]
-my_list$matriX
+my_list[[1]][[4]]
+
+# If the elements have names, $ can access the element
+my_list <- list(my_array, "matrix" = my_matrix, df)
+my_list$matrix
 
 
-## Data attributes
+
+# Data attributes ---------------------------------
 
 x <- c(a=1, b=2, c=3)
 names(x)
 
 m <- matrix(1:6, nrow=2)
 dim(m)
+
+#  dimnames stores the names of the rows, columns (and further dimensions) of a matrix or array.
 dimnames(m) <- list(c("row1", "row2"), c("col1", "col2", "col3"))
 m
 
 
-## Factors
+# Factors ---------------------------------
 
 gender <- factor(c("Male", "Male", "Female"))
 gender
@@ -199,7 +188,7 @@ sort(y1)
 
 
 
-## Manipulating rectangular data in R
+# Manipulating rectangular data in R ---------------------------------
 
 library(datasets)
 data(swiss)
@@ -217,16 +206,17 @@ head(swiss, n = 5)
 #### Select columns
 swiss$Fertility # use the $-operator
 
-swiss[, 1] # use brackets [] and the column number/index 
+swiss[, 1] # use brackets [] and the column number/index
 
 swiss[, "Fertility"] # use the name of the column
 
 swiss[, c("Fertility", "Agriculture")] # use the name of the column
 
-  
+
 #### Select rows
 swiss[1,]  # First row
 
 swiss[swiss$Fertility > 40,]  # Based on condition ("filter")
 
 
+## End

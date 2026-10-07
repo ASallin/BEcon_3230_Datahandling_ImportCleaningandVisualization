@@ -1,0 +1,4 @@
+# Keep data files byte-for-byte as committed: no line-ending conversion.
+# The slides show hex dumps of these files, so the exact bytes matter.
+data/*.csv -text
+data/*.txt -text

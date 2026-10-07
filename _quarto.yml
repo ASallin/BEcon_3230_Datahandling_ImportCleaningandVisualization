@@ -30,6 +30,12 @@ project:
     - materialsLecture/scripts/Lecture3_Script.R
     - data/adamsmith.txt
     - data/hastamanana.txt
+    - materialsLecture/slides/html/04_data_structure_rectangular.html
+    - materialsLecture/scripts/Lecture4_Script.R
+    - data/stock_prices.csv
+    - data/ch_gdp.csv
+    - materialsLecture/homework/Lecture4_ReadingFinancialData.html
+    - data/financial_data.txt
 
 website:
   title: "Data Handling 2026"

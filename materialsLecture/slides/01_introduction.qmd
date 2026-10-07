@@ -592,7 +592,8 @@ Use real-world data in a project to practice and reinforce the concepts covered 
 
 #### Project timeline
 
-- **October 22**: Release of the project. Deadline for group formation (5 students per group). Groups must be registered on Canvas.
+- **October 16**: Deadline for group formation (5 students per group). Groups must be registered on Canvas.
+- **October 22**: Release of the project.
 - **November 12**: Q&A session for the project.
 - **December 16, 23:59**: Final submission.
 

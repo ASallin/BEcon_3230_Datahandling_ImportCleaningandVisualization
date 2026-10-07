@@ -22,6 +22,9 @@ highlight-style: dracula
 #| include: false
 options(width = 100)
 knitr::opts_chunk$set(results = "hold")
+# run all chunks from the project root, so that "data/financial_data.txt" works
+# (same path as in a student's RStudio project with a data/ folder)
+knitr::opts_knit$set(root.dir = "../..")
 library(knitr)
 library(purrr)
 ```
@@ -45,9 +48,10 @@ data$Revenue[10] <- "1933\xF6"
 Encoding(data$Revenue) <- "latin1"
 
 # Write data to .txt with ":" as separator
-write.table(data, "financial_data.txt", row.names = FALSE, sep = ":",  fileEncoding = "latin1")
+write.table(data, "data/financial_data.txt", row.names = FALSE, sep = ":",  fileEncoding = "latin1")
 
 ```
+
 
 ## Set up your script
 
@@ -57,8 +61,8 @@ Set up your `R` Script. It is important to structure your script! Tell your futu
 - Recall: programming tasks can often be split into smaller tasks.
 - Use *sections* to implement task-by-task and keep order.
 - Make sure you install all packages you need before calling `library()`.
-- In RStudio: Use `----------` to indicate the beginning of sections. In Windows, this can be called using "CTRL + SHIFT + R".
-  
+- In RStudio: Use `----------` to indicate the beginning of sections. Insert a section with "Ctrl + Shift + R" (Windows) or "Cmd + Shift + R" (Mac).
+
 For instance:
 
 ```{r eval = TRUE, echo = TRUE}
@@ -68,8 +72,8 @@ For instance:
 # Imports data from ...
 # Input: import c to data sources (data comes in ... format)
 # Output: cleaned data as CSV
-# 
-# A. Sallin, St. Gallen, 2024
+#
+# A. Sallin, St. Gallen, 2026
 #######################################################################
 
 # SET UP --------------
@@ -88,43 +92,41 @@ library(stringi)
 
 <br>
 
-```{r meme, echo=FALSE, out.width = "80%", fig.align='center', purl=FALSE}
-include_graphics("../../img/meme_old_code.jpg")
-```
+![](../../img/meme_old_code.jpg){width="60%" fig-align="center"}
 
 
 ## Import data
-Have a look at the file `financial_data.txt` available on Canvas using your favorite text editor. What do you notice? 
+Have a look at the file `financial_data.txt` available on Canvas using your favorite text editor. What do you notice? How many columns and rows do you expect?
 
 ### Solution
-We notice that the data is separated by `:`, which will require either `read_delim()` with the option `delim = ":"` or `read.csv()` with the option `sep = ":"` to be imported correctly. We also see that the data has 5 columns and should have 30 rows.
+The values are not separated by commas but by `:`. The file has 5 columns and should have 30 rows (plus a header line).
 
 
 ## Parse the data
 
-Import the table using the `read.csv()` function in your environment. This is the basic R function. Make sure you have the right path to access the .txt document. What does this parser do? Explore the data.frame. What is its structure? What are its dimensions?
+Now import the file with `read.csv()`, the basic R function, exactly as you would import any CSV file. Make sure you have the right path to access the `.txt` document. Does the result look like the table you saw in the text editor? Explore the data frame: what is its structure, what are its dimensions? How can you tell the parser about the `:`?
 
 ### Solution
 ```{r eval = TRUE, error=TRUE, echo=TRUE}
 # IMPORT RAW DATA FROM CSVs -------------
-financial_data <- read.csv("financial_data.txt")
+financial_data <- read.csv("data/financial_data.txt")
 financial_data
 ```
 
-When importing the file with `read.csv()`, we notice that the output is not correct: R does not understand that the **delimiter** is a ":" and not a comma. For this reason, the file is not correctly read. As said above, we need to specify the character used as delimiter (or value separator)
+When importing the file with `read.csv()`, we notice that the output is not correct: R does not understand that the **delimiter** is a ":" and not a comma. By default, `read.csv()` expects commas, so it reads each line as one single column. We need to tell the parser which character is used as delimiter (or value separator), with `sep = ":"` (or, in `readr`, `read_delim()` with `delim = ":"`).
 
 ```{r eval = TRUE, error=TRUE, echo=TRUE}
-financial_data <- read.csv("financial_data.txt", sep = ":")
+financial_data <- read.csv("data/financial_data.txt", sep = ":")
 ```
 
-When using read.csv(), we notice the following error: *"Error in type.convert.default(data[[i]], as.is = as.is[i], dec = dec,  : invalid multibyte string at '<f6>'"*. After googling this error, we find out that it  means there is an encoding problem in the file. A visual exploration in the text file shows us that the encoding problem is in row 10, col 3.
+Now `read.csv()` stops with the following error: *"Error in type.convert.default(data[[i]], as.is = as.is[i], dec = dec,  : invalid multibyte string at '<f6>'"*. After googling this error, we find out that it means there is an encoding problem in the file. A visual exploration in the text file shows us that the encoding problem is in row 10, col 3.
 
-When using read_delim(), there is no error: even though the encoding problem persists, the function is able to read the data and the special character is displayed as simple text. **This is an advantage of the `tidyverse` functions, which are more robust to encoding issues.**
+With `read_delim()` from `readr`, there is no error: even though the encoding problem persists, the function is able to read the data and the special character is displayed as simple text. **This is an advantage of the `tidyverse` functions, which are more robust to encoding issues.**
 
 ```{r eval = TRUE, error=TRUE, echo=TRUE}
-financial_data <- read_delim("financial_data.txt", delim = ":")
+financial_data <- read_delim("data/financial_data.txt", delim = ":")
 ```
-We have the character `\xF6`. This could be any encoding, and we need to try to guess which encoding it is. In this case, I am guessing the encoding by trying different things. The function `string::stri_enc_detect()`, upon which `guess_encoding()` is built, does not help me much. 
+We have the character `\xF6`. This could be any encoding, and we need to try to guess which encoding it is. In this case, I am guessing the encoding by trying different things. The function `stringi::stri_enc_detect()`, upon which `guess_encoding()` is built, does not help me much.
 
 ```{r warning=FALSE, eval = TRUE, output = FALSE, echo=TRUE}
 stringi::stri_enc_detect("\xF6")
@@ -132,7 +134,7 @@ stringi::stri_enc_detect("\xF6")
 
 It tells me that it has a probability of 0.15 of being utf-8. This is not very helpful.
 
-I did a Google search and realized it is likely to be Latin-1, which is "ISO-8859-1" and  ISO-8859- family.
+I did a Google search and realized it is likely to be Latin-1 ("ISO-8859-1"), part of the ISO-8859 family.
 
 ```{r warning=FALSE, eval = TRUE, output = FALSE, echo=TRUE}
 iconv("\xF6", from = "ISO-8859-1", to = "UTF-8")
@@ -143,13 +145,13 @@ iconv("\xF6", from = "ISO-8859-2", to = "UTF-8")
 I notice that the special character is a ö. Therefore, I can specify Latin-1 in my encoding.
 
 ```{r warning=FALSE, eval = TRUE, output = FALSE, echo=TRUE}
-financial_data <- read.csv("financial_data.txt", 
+financial_data <- read.csv("data/financial_data.txt",
                            sep = ":",
                            fileEncoding = "ISO-8859-1")
 ```
 
 
-Exploring the data with `head()` and `str()`, the data looks now like what I expect... except for the variable "Revenue", which is still a character. I remove the special ö character from the encoding issue and coerce to numeric.
+Exploring the data with `head()` and `str()`, the data now looks like what I expect... except for the variable "Revenue", which is still a character. I remove the special ö character from the encoding issue and coerce to numeric.
 
 ```{r eval = TRUE, echo=TRUE, output = FALSE}
 # Explore
@@ -174,7 +176,7 @@ The data is now ready. We are ready to compute the rest of the exercise.
 <br>
 
 ## Summary statistics of your data
-Compute the summary statistics for each variable using the `summary()` command. What does this command give you? What do you notice? Make the necessary changes.
+Compute the summary statistics for each variable using the `summary()` command. What does this command give you? What do you notice?
 
 ### Solution
 
@@ -182,12 +184,14 @@ Compute the summary statistics for each variable using the `summary()` command. 
 summary(financial_data)
 ```
 
+`Revenue` and `Profit` are numeric, so we get the minimum, mean, quartiles and maximum. `Firm` and `Category` are character variables: `summary()` only reports their length. We will turn `Category` into a factor below.
+
 
 <br>
 
 ## Variable creation
 
-Create a new variable "costs", which is the revenue - profit. [There are many ways to create a variable in a data frame. Here, use the `$` index.]
+Create a new variable `costs`, defined as revenue minus profit. [There are many ways to create a variable in a data frame. Here, use the `$` index.]
 
 
 ### Solution
@@ -209,14 +213,14 @@ We should have the variable `Category` as a factor. We can recode it as a factor
 financial_data$Category <- as.factor(financial_data$Category)
 levels(financial_data$Category)
 ```
-It does not make sense to have the firms as factors, as they are unique identifiers. 
+`Firm` is an identifier (the name of each firm), not a category we want to group or compare by, so we keep it as a character variable.
 
 <br>
 
 ## Nests  👻
-Split your data using the factor variable into three data frames that are contained in a list. Compute the mean profit for each data frame. 
+Split your data using the factor variable into three data frames that are contained in a list. Compute the mean profit for each data frame.
 
-- Hint: use the function `split`. Use the help from R or from your favorite LLM to know more about this function. 
+- Hint: use the function `split`. Use the help from R or from your favorite LLM to know more about this function.
 - Hint: use a `for-loop` over each list element to compute the mean
 
 
@@ -229,7 +233,7 @@ for (i in 1:length(list_financial_data)){
   print(mean(list_financial_data[[i]]$Profit))
 }
 
-# Or, using lapply 
+# Or, using lapply
 lapply(list_financial_data, function(x) mean(x$Profit))
 ```
 
@@ -238,12 +242,14 @@ lapply(list_financial_data, function(x) mean(x$Profit))
 
 ## Functionals - `map`
 
-Do the same as the exercise above using the `map` function. Install the packages `tidyr`, `dplyr`, and `purrr`.
+Do the same as in the exercise above, using the `map()` function from the `purrr` package (install `purrr`, `dplyr` and `tidyr` if needed).
 
 ### Solution
 
+Here we first group the data by `Category` with `nest()`, then apply `map()` to each group.
+
 ```{r message=FALSE, warning=FALSE,  eval = TRUE, echo=TRUE}
-# Or (advanced!) with a nested tibble and map 
+# Or (advanced!) with a nested tibble and map
 library(tidyr)
 library(dplyr)
 library(purrr)
