@@ -1,15 +1,26 @@
 ---
 title: 'Data Handling: Import, Cleaning and Visualisation'
-subtitle: 'Exercise/Workshop 3: Programming with Data/HTML Web Scraping'
-author: "Aurélien Sallin (lecturer) and Federica Mascolo (class tutor)"
+subtitle: 'Exercise/Workshop 3: Data types, text files and data import'
+author:
+  - "Dr. Aurélien Sallin (Lecturer)"
+  - "Ana Armendariz (Tutor)"
+date: "2026-10-15"
+date-format: "D MMMM YYYY"
 format:
   html:
-    theme: ../../../style/hsgtheme.scss
+    theme: ../../../style/hsgtheme_exercises.scss
     embed-resources: true
     self-contained: true
     self-contained-math: true
+    toc: true
+    toc-depth: 2
+  pdf:
+    toc: true
+    toc-depth: 2
+    geometry: margin=2.2cm
+    fontsize: 10pt
+    code-overflow: wrap
 highlight-style: dracula
-bibliography: ../../../references/datahandling.bib
 ---
 
 ```{r}
@@ -17,315 +28,443 @@ bibliography: ../../../references/datahandling.bib
 #| include: false
 options(width = 100)
 library(knitr)
-library(bookdown)
-library(xml2)
+# Run the chunks from the folder that contains data/, so that paths written as
+# "data/..." work both in this repository and in a student's own project folder.
+knitr::opts_knit$set(root.dir = if (dir.exists("data")) "." else "..")
 ```
 
+**All course material:**
+<https://github.com/ASallin/BEcon_3230_Datahandling_ImportCleaningandVisualization>
 
-# Exercises
+# Before we start
 
+Write your code in an R script saved in `2026_Data_Handling/exercises/code`, for example
+`exercise_03.R`. Open your RStudio project first, so that every path starting with `data/`
+works. Type the code rather than copying it, and read every error message. If something does
+not work, raise your hand.
 
-## Exercise A: Downloading and importing data on air quality
+| Exercise | What we do |
+|------|------------------------------------------------|
+| 1 | Types, and how R converts between them |
+| 2 | The structures: vector, matrix, list, data frame |
+| 3 | A text file is just bytes: encoding |
+| 4 | Importing a CSV in two ways |
+| 5 | Column types: what the parser guessed, and how to correct it |
+| 6 | A file that is not comma separated |
+| 7 | Select what you need and write it back to disk |
+| Training | XML, HTML, and scraping a table from a web page |
 
-In the following, we are going to download and import data on air quality in New York.
-
-1. Using a browser of your choice, navigate to this page by the US data.gov data catalog: https://catalog.data.gov/dataset/air-quality.
-
-2. Scroll down to the Section 'Downloads & Resources' and download the data file in .csv format and put it into your `r_course/data` folder.
-
-3. How do you open the data set? Try at least two alternatives. Hint: How did you do it in class?
-
-```{r eval=FALSE}
-df_airquality <-
-
-```
-
-4. Once you have loaded the data into RStudio, you can inspect the first (or last) couple of rows using `head(df_airquality)` (or `tail(df_airquality)`).
-
-5. Create a text file with the amount (in variable `Data.Value`) for fine particulate matter pollution (variable `Name == "Fine Particulate Matter (PM2.5)"`) in the winter of 2008/09 (variable `Time.Period == "Winter 2008-09"`) in lower Manhattan (variable `Geo.Place.Name == "Lower Manhattan"`). Save your text file as "airquality_manhattan.txt" in your `r_course/data` folder. Hint: use the `subset()` command, and note that you can link different subsetting conditions with the `&` operator.
-
-## Exercise B: Read raw text data
-
-This exercise guides you through how we can import raw text data into R. Suppose you are writing your BA Thesis on the topic "The Effect of Climate Change on Consumption Behavior in Switzerland". For your empirical analysis you need, inter alia, standardized data on temperature anomalies in Switzerland (as a proxy for the salience of climate change). You identify NASA's Earth System Data Explorer as a promising data source and aim to download and work with this data in R. The exercise guide's you exemplary though how this can be done.
-
-*Hint*: This exercise is an adapted version of the tutorial in Chapter 1 of Paul Murell's book (see syllabus). Read the chapter for an additional introduction to data stored in text files.
-
-
-
-This exercise guides you through how we can import raw text data into R. Suppose you are writing your BA Thesis on the topic "The Effect of Climate Change on Consumption Behavior in Switzerland". For your empirical analysis you need, inter alia, standardized data on temperature anomalies in Switzerland (as a proxy for the salience of climate change). You identify NASA's Earth System Data Explorer as a promising data source and aim to download and work with this data in R. The exercise guide's you exemplary though how this can be done.
-
-*Hint*: This exercise is an adapted version of the tutorial in Chapter 1 of Paul Murell's book (see syllabus). Read the chapter for an additional introduction to data stored in text files.
-
-
-1. Go to NASA's Earth System Data Explorer: https://mynasadata.larc.nasa.gov/EarthSystemLAS/UI.vm.
-
-2. Click on *Data Set Selection* in the upper left corner and select Atmosphere (in 1. Select a Sphere of the hearth system), select Temperature (in 2.), select Monthly Surface Air Temperature (in 3.) and select the most recent date (in 4.)
-
-3. On the RHS select `Time Plot` and enter coordinates 47.25 N and 9.22 W (St. Gallen) and click `Generate Plot`. The page shows a plot of the monthly surface air temperature anomaly time series.
-
-5. Click on `Generate Data Table` and save is as .csv.
-
-Since we already know how to read a csv, I will use the old data for this application and load them as .txt, You can find the old data on Canvas.
-
-Now we can read the data into R:
-
-```{r eval=FALSE}
-# install the readr package if not yet installed: install.packages("readr")
-library(readr)
-# read the data
-ta <- read_tsv("data/temp_anomaly.txt", skip = 9, col_names = c("month", "temp_anomaly"))
-```
-
-```{r eval=FALSE}
-# inspect the first rows
-head(ta)
-
-```
-
-6. What is the purpose of the `skip` argument and why is it set to `9`?
-7. Why do we use `read_tsv()` in this situation and not `read_csv()`?
-
-## Exercise C: Downloading and importing data on air quality (XML format)
-
-1. I provided you with a data file `Air_Quality.xml` on Canvas. Save it in your `r_course/data` folder.
-
-2. Load the data in .xml format. Hint: The package `xml2` might be of use. You can install new packages as follows: `install.packages("package_name")`.
-
-3. Once you have loaded the .xml file in Part 2, how can you convert it to an R dataframe?
-
-
-
-## Exercise D: Exploring computer code - HTML - let's manipulate the media!
-
-In this exercise, we will explore HTML code, which is the basis of most websites.
-
-1. Open your preferred web browser (e.g. Firefox, Chrome, Edge or Safari) Go to the following website: `https://www.foxnews.com/`.
-
-2. Now let's look at the HTML source code for this website - see [*here*](https://www.indeed.com/career-advice/career-development/how-to-view-html) for information on how to do this in your browser of choice. Try to recognize parts of the code that correspond to elements of the displayed page.
-
-3. Pick a news headline on the site and find it in the source code - on Windows, you can use `CTRL + F` to use the search bar to look for it in the source code by copying the first couple of words from the headline and putting it into the search bar. Note: most browsers also have an 'inspect element' option when you right click on/select the element you want to look at. This can take you directly to the corresponding part of the HTML (or at least to the vicinity, sometimes you also have to try a couple of times to get where you want to be). For more information on how to do this (in Safari, you will need to activate developer mode for example), see the following [*link*](https://blog.hubspot.com/website/how-to-inspect)
-
-For example, I found the following segment in the HTML code relating to an article titled `Republicans sound alarm over CCP-linked businessman's cash offer to Hunter Biden' (no subtle political messaging intended):
-
-```{html}
-
-<!DOCTYPE html>
-<html>
-
-...
-
-  <article class="article story-2">
-      <div class="m">
-          <a href="https://www.foxnews.com/politics/gop-lawmakers-rip-hunter-bidens-cozy-
-relationship-ccp-linked-businessman-damning-evidence" data-omtr-intcmp="fnhpbt3" data-adv=
-  "hp1bt">
-
-            <picture>
-                <source media="(max-width: 767px)" srcset="//a57.foxnews.com/prod-hp.fox
-news.com/images/2023/10/343/193/576c017a6f05588ac891d4aa76dbd0e7.jpg?tl=1&amp;ve=1, //a57.
-foxnews.com/prod-hp.foxnews.com/images/2023/10/686/386/576c017a6f05588ac891d4aa76dbd0e7.
-jpg?tl=1&amp;ve=1 2x">
-                <source media="(min-width: 768px) and (max-width: 1023px)" srcset="//a57
-.foxnews.com/prod-hp.foxnews.com/images/2023/10/335/188/576c017a6f05588ac891d4aa76dbd0e7.
-jpg?tl=1&amp;ve=1, //a57
-.foxnews.com/prod-hp.foxnews.com/images/2023/10/670/376/576c017a6f05588ac891d4aa76dbd0e7.
-jpg?tl=1&amp;ve=1 2x">
-                <source media="(min-width: 1024px) and (max-width: 1279px)" srcset="//a57.
-                foxnews.com/prod-hp.fox
-news.com/images/2023/10/303/170/576c017a6f05588ac891d4aa76dbd0e7.jpg?tl=1&amp;ve=1, //a57
-.foxnews.com/prod-hp.foxnews.com/images/2023/10/606/340/57
-6c017a6f05588ac891d4aa76dbd0e7.jpg?tl=1&amp;ve=1 2x">
-                <source media="(min-width: 1280px) and (max-width: 1439px)" srcset="//a57.
-foxnews.com/prod-hp.foxnews.com/images/2023/10/277/156/576c017a6f05588ac891d4aa76dbd0e7.
-jpg?tl=1&amp;ve=1, //a57.foxnews.com/prod-hp.foxnews.com/images/2023/10/554/312/576c017a6f
-05588ac891d4aa76dbd0e7.jpg?tl=1&amp;ve=1 2x">
-                <source media="(min-width: 1440px)" srcset="//a57.foxnews.com/prod-hp.fox
-news.com/images/2023/10/331/186/576c017a6f05588ac891d4aa76dbd0e7.jpg?tl=1&amp;ve=1, //a57.
-foxnews.com/prod-hp.foxnews.com/images/2023/10/662/372/576c017a6f05588ac891d4aa76dbd0e7.
-jpg?tl=1&amp;ve=1 2x">
-                <img src="//a57.foxnews.com/prod-hp.foxnews.com/images/2023/10/343/193/576
-c017a6f05588ac891d4aa76dbd0e7.jpg?tl=1&amp;ve=1" width="343" height="193" alt="Republicans
-sound alarm over CCP-linked businessman's cash offer to Hunter Biden">
-            </picture>
-            <div class="kicker default"><span class="kicker-text">'IN THEIR POCKET'</span>
-            </div>
-          </a>
-          <span class="pill is-breaking">EXCLUSIVE</span>
-      </div>
-
-      <div class="info ">
-        <header class="info-header">
-          <h3 class="title ">
-            <a href="https://www.foxnews.com/politics/gop-lawmakers-rip-hunter-bidens-cozy
-            -relationship-ccp-linked-businessman-damning-evidence#&amp;_intcmp=fnhpbt3"
-            data-omtr-intcmp="fnhpbt3">Republicans sound alarm over CCP-linked business-
-            man's cash offer to Hunter Biden</a>
-          </h3>
-        </header>
-        <div class="content">
-
-
-
-        </div>
-      </div>
-
-  </article>
-
-...
-
-</html>
-```
-
-
-4. Now it's time for some good old media manipulation. In the HTML-code, replace the chosen news headline with a title of your choice (if you need some inspiration, see [*here*](https://www.theonion.com/)). In most browsers, you can double click the source code to edit it, then confirm your edits by hitting the enter/return key. What can you see? Did the website change?
-
-5. BONUS (not exam relevant): Can you figure out a way to replace the article teaser image as well? Hint: this is easiest if you use online image addresses, e.g. https://static.wikia.nocookie.net/mrbean/images/4/4b/Mr_beans_holiday_ver2.jpg or https://preview.redd.it/bad-luck-brian-meme-hd-upscaled-v0-syiviojoq72a1.jpg?width=1080&crop=smart&auto=webp&s=eace4bc6be838bfe3f30219743d5a5c34c5f4335)
-
-
-## Exercise E: Web Scraping Exercise (advanced): Importing Data from a HTML Table (on a website)
-
-Previously, we discussed the *Hypertext Markup Language (HTML)* as code to define the structure/content of a website and HTML-documents as semi-structured data sources. The following exercise contains the basic steps necessary to import data from an HTML table into R.
-
-The aim of the exercise is to generate a CSV file containing data on ['divided government'](https://en.wikipedia.org/wiki/Divided_government) in US politics. We use the following Wikipedia page as a data source: https://en.wikipedia.org/wiki/Divided_government_in_the_United_States. The page contains a table indicating the president's party, and the majority party in the US House and the US Senate per Congress (2-year periods). The first few rows of the cleaned data are supposed to look like this:
-
-```{r echo=FALSE}
-dgov <- data.table::fread("../data/divided_gov.csv")
-head(dgov)
-```
-
-In a first step, we initiate fix variables for paths and load additional R packages needed to handle data stored in HTML documents. NOTE: the `OUTPUT_PATH` specified here assumed that there is a folder called `data` in the current working directory (get your current working directory by running `getwd()`) - adjust it if you that is not the case or if you want to store the output somewhere else.
+All the files we use are in the course repository. Either run `git pull` in your copy of it
+and take them out of `materialsExercises/03_programming_data/data`, or let R download them
+into your own `data` folder:
 
 ```{r eval=FALSE, purl=FALSE}
-# SETUP ------------------
+repo <- paste0("https://raw.githubusercontent.com/ASallin/",
+               "BEcon_3230_Datahandling_ImportCleaningandVisualization/main/",
+               "materialsExercises/03_programming_data/data/")
 
-# load packages
-library(rvest)
-library(tidyverse)
+files <- c("Air_Quality.csv", "Air_Quality.xml", "temp_anomaly.txt", "hastamanana.txt")
 
-# fix vars
-SOURCE_PATH <- "https://en.wikipedia.org/wiki/Divided_government_in_the_United_States"
-OUTPUT_PATH <- "data/divided_gov.csv"
-
-```
-
-
-```{r echo=FALSE, warning=FALSE, message=FALSE}
-# SETUP ------------------
-
-# load packages
-library(rvest)
-library(tidyverse)
-
-# fix vars
-SOURCE_PATH <- "https://en.wikipedia.org/wiki/Divided_government_in_the_United_States"
-OUTPUT_PATH <- "data/divided_gov.csv"
-
-```
-
-Now we write the part of the script that fetches the data from the Web. This part consists of three steps.
-
-1. Fetch the entire website (HTML document) from Wikipedia with (`read_html()`).
-
-<!-- ```{r} -->
-<!-- # FETCH/FORMAT DATA ------------------- -->
-
-<!-- # fetch from web -->
-<!-- doc <- read_html(SOURCE_PATH) -->
-<!-- tab <- html_table(doc,fill=TRUE)[[2]] -->
-<!-- tab <- tab[-nrow(tab), ] # remove last row (not containing data) -->
-<!-- ``` -->
-
-
-2. Extract the part of the website containing the table with the data we want (hint: use `html_table()` on the HTML document you just fetched, and see if one of the resulting tables in the list generated by this function matches what we are looking for, you also want the option `fill=TRUE` inside that function).
-
-3. Finally, check that the table has been properly parsed (you may want to remove the last line if it contains code junk) and store its content in a data frame called `tab.`
-
-
-4. Clean the data to get a data set more suitable for data analysis. Note that the original table contains information per congress (2-year periods). However, as the sample above shows, we aim for a panel at the year level, i.e. there should be a separate observation for every individual year. The following code iterates through the rows of the data frame and generates for each row per congress several two rows  (one for each year in the congress).^[See `?strsplit`, `?unlist`, and [this introduction to regular expressions](https://www.oreilly.com/content/an-introduction-to-regular-expressions/) for the background of how this is done in the code example here.] Try to understand what each line of the following code does (it should run as is if the data frame `tab` had the right format):
-
-
-```{r, eval = FALSE}
-all_years <- list()
-n <- length(tab$Year)
-length(all_years) <- n
-
-for (i in 1:n){
-
-      row <- tab[i,]
-      y <- row$Year
-
-      begin <- as.numeric(unlist(strsplit(x = y, split = "[\\–\\-]", perl = TRUE))[1])
-      end <- as.numeric(unlist(strsplit(x = y, split =  "[\\–\\-]"))[2])
-
-      tabnew <- data.frame(year=begin:(end-1), president=row$President, senate=row$Senate,
-                           house=row$House)
-
-      all_years[[i]] <- tabnew
+for (f in files) {
+  download.file(paste0(repo, f), destfile = file.path("data", f), mode = "wb")
 }
-
-allyears <- bind_rows(all_years)
 ```
 
+`mode = "wb"` tells R to write the bytes exactly as they arrive, without changing line
+endings.
 
-<!-- ```{r} -->
-<!-- # generate year-level data. frame -->
+# Exercise 1: types, and how R converts between them
 
-<!-- # prepare loop -->
-<!-- all_years <- list() # the container -->
-<!-- n <- length(tab$Year) # number of cases to iterate through -->
-<!-- length(all_years) <- n -->
-<!-- # generate year-level observations. row by row. -->
-<!-- for (i in 1:n){ -->
-<!--       # select row -->
-<!--       row <- tab[i,] -->
-<!--       y <- row$Year -->
-<!--       # -->
-<!--       begin <- as.numeric(unlist(strsplit(x = y, split = "[\\–\\-]", perl = TRUE))[1]) -->
-<!--       end <- as.numeric(unlist(strsplit(x = y, split =  "[\\–\\-]"))[2]) -->
-<!--       tabnew <- data.frame(year=begin:(end-1), president=row$President, senate=row$Senate, house=row$House) -->
-<!--       all_years[[i]] <- tabnew # store in container -->
-<!-- } -->
+In the lecture we saw that every object has a type, and that a vector holds one single type.
+There are four types you will use constantly:
 
-<!-- # stack all rows together -->
-<!-- allyears <- bind_rows(all_years) -->
-<!-- ``` -->
+| Type | What it holds | Example |
+|---|---|---|
+| `logical` | `TRUE` and `FALSE` | `TRUE` |
+| `integer` | whole numbers | `3L` |
+| `double` | numbers with decimals | `3.5` |
+| `character` | text | `"St. Gallen"` |
 
+If you put values of different types into one vector, R converts them all to the most general
+type instead of giving an error. This is **coercion**, and it goes in one direction only:
 
-5. In a last step, inspect the collected data and write it to a CSV file, using the `OUTPUT_PATH` defined at the beginning of this exercise to specify where the file should be stored.
+$$\text{logical} \;\rightarrow\; \text{integer} \;\rightarrow\; \text{double} \;\rightarrow\; \text{character}$$
 
-<!-- ```{r, eval = FALSE} -->
-<!-- # WRITE TO DISK -------------------------------------------------- -->
+One piece of text in a column of numbers is therefore enough to turn the whole column into
+text. Predict the answer before you run each line, then run it and compare.
 
-<!-- # inspect -->
-<!-- head(allyears) -->
+1. What is the type and the class of each of these? `typeof()` tells you how the values are
+   stored, `class()` tells you how R treats the object.
 
-<!-- # note: with head, you may not always get the best impression, and with a small dataframe such as this one, viewing the entire one may be a better option to spot any pot. issues: -->
-<!-- view(allyears) -->
+```{r eval=FALSE, purl=FALSE}
+typeof(TRUE);  class(TRUE)
+typeof(3L);    class(3L)
+typeof(3.5);   class(3.5)
+typeof("a");   class("a")
+typeof(factor("a")); class(factor("a"))
+```
 
-<!-- # remove unwanted Wikipedia footnote references '[a]' etc. -->
-<!-- allyears$senate <- str_remove_all(allyears$senate, "\\[[^\\]]*\\]") -->
-<!-- allyears$house <- str_remove_all(allyears$house, "\\[[^\\]]*\\]") -->
+   Where do `typeof()` and `class()` disagree, and why?
 
-<!-- # write to CSV -->
-<!-- write_csv(allyears, file=OUTPUT_PATH) -->
+2. R turns logical values into numbers whenever it needs them. What do these return?
 
-<!-- ``` -->
+```{r eval=FALSE, purl=FALSE}
+my_vector <- c(1, 0, 3, -1)
+my_vector > 0
+as.numeric(my_vector > 0)
+sum(my_vector > 0)
+mean(my_vector > 0)
+```
 
+   What do `sum()` and `mean()` of a logical vector tell you?
 
-<!-- ```{r, include = FALSE} -->
-<!-- # WRITE TO DISK -------------------------------------------------- -->
+3. Coercion can happen by itself (implicit) or because you asked for it (explicit). What comes
+   out, and what is the warning telling you?
 
-<!-- # inspect -->
-<!-- head(allyears) -->
+```{r eval=FALSE, purl=FALSE}
+c(1, "2", TRUE)
+as.numeric(c("1", "2", "x"))
+```
 
-<!-- # note: with head, you may not always get the best impression, and with a small dataframe such as this one, viewing the entire one may be a better option to spot any pot. issues: -->
-<!-- view(allyears) -->
+4. Someone stored grades as a factor by mistake:
 
-<!-- # remove unwanted Wikipedia footnote references '[a]' etc. -->
-<!-- allyears$senate <- str_remove_all(allyears$senate, "\\[[^\\]]*\\]") -->
-<!-- allyears$house <- str_remove_all(allyears$house, "\\[[^\\]]*\\]") -->
+```{r eval=FALSE, purl=FALSE}
+grades <- factor(c("4.5", "5", "6"))
+as.numeric(grades)
+```
 
-<!-- # write to CSV -->
-<!-- write_csv(allyears, file=paste0( "../", OUTPUT_PATH)) -->
+   The result is not 4.5, 5, 6. What are those numbers, and how do you get the real values
+   back? Hint: look again at question 1.
 
-<!-- ``` -->
+# Exercise 2: the structures
+
+The type says what the single values are. The structure says how they are arranged. All
+structures are built out of vectors:
+
+| Structure | Dimensions | Types it holds | Use it for |
+|-----------|-----------|-------------------|---------------------------|
+| vector | 1 | one | a single variable |
+| factor | 1 | categories, with fixed levels | a categorical variable |
+| matrix | 2 | one | numerical tables, linear algebra |
+| array | 3 or more | one | data with more than two dimensions |
+| list | 1, elements can be anything | several | a collection of unlike objects |
+| data frame | 2 | one per column | a data set |
+| tibble | 2 | one per column | a data frame with nicer behaviour |
+
+1. Create the vector `ages <- c(18, 21, 20, 22, 19)`. Ask R how long it is, what type it is,
+   and what the third element is.
+
+2. Make a matrix out of the numbers 1 to 6 with two rows:
+
+```{r eval=FALSE, purl=FALSE}
+m <- matrix(1:6, nrow = 2)
+m
+dim(m)
+attributes(m)
+```
+
+   In which order did R fill the grid? What does `attributes()` tell you about the relation
+   between a matrix and a vector?
+
+3. A vector cannot mix types, a list can. Run both and compare:
+
+```{r eval=FALSE, purl=FALSE}
+persons <- c("Anna", "Luca", "Sara")
+c(persons, ages)
+
+student_info <- list(names = persons, ages = ages)
+student_info$ages
+```
+
+   What happened to the ages in the first case, and why does the list not have that problem?
+
+4. Build a data frame and look inside it:
+
+```{r eval=FALSE, purl=FALSE}
+students <- data.frame(
+  name = c("Anna", "Luca", "Sara"),
+  age = c(18, 21, 20),
+  passed = c(TRUE, FALSE, TRUE)
+)
+students
+str(students)
+sapply(students, class)
+typeof(students)
+```
+
+   `typeof()` does not say `data.frame`. What does it say, and what does that tell you about
+   what a data frame is?
+
+# Exercise 3: a text file is just bytes
+
+In the lecture on data processing we saw that a text file contains only bytes, and that what
+those bytes mean depends on the encoding you read them with. With the wrong encoding you get
+no error, you get wrong characters. `hastamanana.txt` contains one short line of Spanish.
+
+1. Read it and print it. What do you see where the "ñ" should be?
+
+```{r eval=FALSE, purl=FALSE}
+hasta <- readLines("data/hastamanana.txt")
+hasta
+```
+
+2. Look at the raw bytes. Which one is the problem?
+
+```{r eval=FALSE, purl=FALSE}
+readBin("data/hastamanana.txt", what = "raw", n = 20)
+```
+
+   Compare them with an [ASCII table](https://www.ascii-code.com/). The bytes for `H`, `a`,
+   `s`, `t` are ordinary ASCII. One byte is not.
+
+3. The byte is `f1`. In ISO-8859-1, also called Latin-1, `f1` is "ñ". In UTF-8 the same
+   character needs two bytes, `c3 b1`, so a single `f1` is not valid UTF-8. Read the file
+   again, this time saying which encoding to use:
+
+```{r eval=FALSE, purl=FALSE}
+readLines("data/hastamanana.txt", encoding = "latin1")
+```
+
+4. In one sentence: why is an encoding problem worse than an error message?
+
+# Exercise 4: importing a CSV in two ways
+
+`Air_Quality.csv` contains air-quality measurements for New York City, published by the city's
+Department of Health in the US data.gov catalog:
+<https://catalog.data.gov/dataset/air-quality>. Open that page once to see where the file
+comes from and in which formats it is offered.
+
+1. Import the file twice, once with base R and once with `readr`:
+
+```{r eval=FALSE, purl=FALSE}
+aq_base <- read.csv("data/Air_Quality.csv")
+
+library(readr)
+aq <- read_csv("data/Air_Quality.csv")
+```
+
+2. Inspect what you imported with `head(aq)`, `tail(aq)`, `dim(aq)`, and `glimpse(aq)` from
+   `dplyr`. How many rows and columns are there, and what does one row represent?
+
+3. Compare `names(aq_base)` with `names(aq)`. The file has a column called `Unique ID`, with a
+   space in the name. What did each function do with that name, and what does that mean for
+   the way you refer to the column afterwards?
+
+4. Compare `class(aq_base)` with `class(aq)`. What is the difference between the two objects?
+
+5. `read_csv()` printed a message about column specifications, `read.csv()` printed nothing.
+   Which behaviour do you prefer when you open a file for the first time, and why?
+
+# Exercise 5: column types
+
+`read_csv()` reads the first 1000 rows, guesses a type for every column, and reports what it
+guessed.
+
+1. Print the full specification with `spec(aq)`. Which columns came out as `col_double()` and
+   which as `col_character()`?
+
+2. Look at `Start_Date`. It contains dates such as `06/01/2013`, but it was not read as a
+   date. Why can the parser not recognise it, and what would the file have to look like for
+   `readr` to guess a date by itself?
+
+3. State the type yourself instead of letting R guess:
+
+```{r eval=FALSE, purl=FALSE}
+aq_dates <- read_csv(
+  "data/Air_Quality.csv",
+  col_types = cols(Start_Date = col_date(format = "%m/%d/%Y"))
+)
+```
+
+   Check `class(aq_dates$Start_Date)`, then run `range(aq_dates$Start_Date)`. Which period
+   does the data cover? Run `range()` on the text version too, and explain the difference.
+
+4. Why is it better to fix a type at import than to convert the column afterwards?
+
+# Exercise 6: a file that is not comma separated
+
+`temp_anomaly.txt` contains a monthly series of surface temperature anomalies from NASA's
+GISTEMP analysis, for the coordinates of St. Gallen. Suppose you are writing a thesis on the
+effect of climate change on consumption behaviour in Switzerland, and you need this series as
+a proxy for the salience of climate change.
+
+*This exercise is adapted from the tutorial in Chapter 1 of Paul Murrell's book, see the
+syllabus. Read the chapter for a longer introduction to data stored in text files.*
+
+1. Open the file in a text editor before you do anything in R. The first lines are not data.
+   How many lines of metadata are there, and on which line does the first observation start?
+
+2. Read the file:
+
+```{r eval=FALSE, purl=FALSE}
+ta <- read_tsv("data/temp_anomaly.txt",
+               skip = 9,
+               col_names = c("month", "temp_anomaly"))
+head(ta)
+```
+
+3. What is the purpose of the `skip` argument, and why is it set to 9? And why does
+   `col_names` have to be given here?
+
+4. Why do we use `read_tsv()` and not `read_csv()`? Try it with `read_csv()` and look at the
+   result: how many columns do you get, and what is inside them?
+
+5. How many observations does the series contain, and what is the mean anomaly?
+
+# Exercise 7: select what you need and write it back
+
+1. `Name` contains the name of the indicator that was measured. List the distinct values with
+   `unique(aq$Name)`. How many are there?
+
+2. Keep the rows with the amount of fine particulate matter pollution (variable `Data Value`,
+   where `Name == "Fine Particulate Matter (PM2.5)"`) in the winter of 2008-09
+   (`Time Period == "Winter 2008-09"`) in lower Manhattan
+   (`Geo Place Name == "Lower Manhattan"`). Use `subset()`, and note that you can link several
+   conditions with the `&` operator:
+
+```{r eval=FALSE, purl=FALSE}
+pm <- subset(aq,
+             Name == "Fine Particulate Matter (PM2.5)" &
+             `Time Period` == "Winter 2008-09" &
+             `Geo Place Name` == "Lower Manhattan")
+pm
+```
+
+   Note the backticks around the column names that contain a space. How many rows are left,
+   and what is the measured value?
+
+3. Save your result as `airquality_manhattan.csv` in your `data` folder with `write_csv()`.
+   Then open the file in a text editor and look at what was written.
+
+4. Now keep every measurement of fine particulate matter in Lower Manhattan, for all time
+   periods, and save it the same way. If you read `Start_Date` as a date in Exercise 5, sort
+   the series by date first.
+
+# Additional exercises for training
+
+::: {.callout-note}
+These three exercises use material from Lecture 5, this morning: XML, HTML, and scraping a web
+page. Do them at home. The solutions are published with the rest.
+:::
+
+## Exercise 8: the same data in XML
+
+`Air_Quality.xml` contains exactly the same measurements as the CSV, in XML.
+
+1. Load the file. The package to use here is `xml2`.
+
+```{r eval=FALSE, purl=FALSE}
+library(xml2)
+doc <- read_xml("data/Air_Quality.xml")
+class(doc)
+xml_name(doc)
+```
+
+   What kind of object did you get? Is it a data frame?
+
+2. Every measurement sits in a `row` element inside the root. Collect them and count them:
+
+```{r eval=FALSE, purl=FALSE}
+rows <- xml_find_all(doc, "//row/row")
+length(rows)
+```
+
+   Compare the number with the number of rows in the CSV.
+
+3. Inspect the first measurement: the names of its children, and their contents.
+
+```{r eval=FALSE, purl=FALSE}
+xml_name(xml_children(rows[[1]]))
+xml_text(xml_children(rows[[1]]))
+```
+
+4. Extract one variable for all measurements with an XPath expression, for example every
+   `data_value`. What type is the result, and what do you have to do before you can compute
+   the mean?
+
+5. Compare `start_date` here with `Start_Date` in the CSV, and compare the size of the two
+   files with `file.size()`. What does XML give you that a CSV cannot, and what do you pay for
+   it?
+
+## Exercise 9: exploring HTML in the browser
+
+HTML is the code behind most websites, and it is also the data a scraper reads. Here we look
+at it in the browser before we read it with R.
+
+1. Open a news website that you read, in the browser of your choice.
+
+2. Look at the HTML source code of the page. Depending on the browser this is *View page
+   source*, `Ctrl+U`, or a right-click on an element followed by *Inspect*. Try to recognise
+   the parts of the code that correspond to what you see on the screen.
+
+3. Pick a headline and find it in the source code. `Ctrl+F` searches inside the source. An
+   article usually looks roughly like this: a container, a link, a heading, and an image.
+
+```html
+<article class="story">
+  <a href="https://news.example.com/politics/some-article">
+    <img src="https://img.example.com/photo.jpg" alt="A headline">
+  </a>
+  <h3 class="title">
+    <a href="https://news.example.com/politics/some-article">A headline</a>
+  </h3>
+</article>
+```
+
+4. In the *Inspect* view, replace the headline you picked with a title of your own. In most
+   browsers you double-click the text, type, and press Enter. What happens? Did the website
+   change? Did it change for anybody else?
+
+5. Can you replace the article image as well? This is easiest with the address of an image
+   that is already online, which you paste into the `src` attribute.
+
+6. What does this tell you about the difference between what a website shows and what the data
+   behind it is?
+
+## Exercise 10: scraping a table from a web page
+
+In the lecture we saw that an HTML document is a semi-structured data source. This exercise
+has the basic steps for importing data from an HTML table into R.
+
+The aim is a CSV file with data on
+[divided government](https://en.wikipedia.org/wiki/Divided_government) in US politics, from
+this Wikipedia page:
+<https://en.wikipedia.org/wiki/Divided_government_in_the_United_States>. The page has a table
+with the president's party and the majority party in the House and in the Senate per Congress,
+that is per two-year period. The first rows of the cleaned data should look like this:
+
+```{r echo=FALSE, message=FALSE}
+head(readr::read_csv("data/divided_gov.csv", show_col_types = FALSE), 4)
+```
+
+Start by fixing the paths and loading the packages:
+
+```{r eval=FALSE, purl=FALSE}
+library(rvest)
+library(dplyr)
+library(stringr)
+library(readr)
+
+SOURCE_PATH <- "https://en.wikipedia.org/wiki/Divided_government_in_the_United_States"
+OUTPUT_PATH <- "data/divided_gov.csv"
+```
+
+1. Fetch the whole HTML document from Wikipedia with `read_html()`.
+
+2. Extract the tables with `html_table(fill = TRUE)`. The result is a list, so look at the
+   candidates and find the one with `Year`, `President`, `Senate` and `House`. Store it as
+   `tab`.
+
+3. Check the last row. If it contains a footnote instead of data, remove it.
+
+4. The column `Year` contains ranges such as `1861–1863`, but we want one row per year. Write
+   a loop that turns each range into one row per year. `strsplit()` cuts a string into pieces,
+   `unlist()` flattens the result, and `bind_rows()` stacks the pieces together. See
+   `?strsplit` and
+   [this introduction to regular expressions](https://www.oreilly.com/content/an-introduction-to-regular-expressions/)
+   for the background.
+
+5. Remove Wikipedia's footnote markers, `[a]`, `[b]` and so on, with
+   `str_remove_all(x, "\\[[^\\]]*\\]")`.
+
+6. Inspect the result and write it to a CSV file, using `OUTPUT_PATH`.
