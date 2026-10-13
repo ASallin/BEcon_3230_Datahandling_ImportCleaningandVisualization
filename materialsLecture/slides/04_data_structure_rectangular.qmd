@@ -75,11 +75,11 @@ iconv(x, from = "windows-1252", to = "UTF-8")
 
 :::: {.columns style="display: flex; align-items: center;"}
 
-::: {.column width="70%" style="text-align: center;"}
+::: {.column style="width: 70%; text-align: center;"}
 ![](../../img/l3_summary.png){width="120%"}
 :::
 
-::: {.column .fragment width="30%" style="font-size: 0.75em;"}
+::: {.column .fragment style="width: 30%; font-size: 0.75em;"}
 #### Binary:
 
 - Base 2. Only two signs: `0`, `1`.
@@ -282,6 +282,7 @@ What is `muLtip(5,20)`?
 
 Translating between binary and hexadecimal is straightforward: each hexadecimal digit maps directly to a group of **4 binary digits**
 
+::: {style="font-size: 0.7em;"}
 | Decimal | Binary | Hex |
 |--------:|:------:|:---:|
 | 0  | 0000 | 0 |
@@ -291,6 +292,7 @@ Translating between binary and hexadecimal is straightforward: each hexadecimal 
 | 10 | 1010 | A |
 | …  | …    | … |
 | 15 | 1111 | F |
+:::
 
 #### Example: the letter W
 
@@ -322,13 +324,13 @@ Translating between binary and hexadecimal is straightforward: each hexadecimal 
 
 :::: {.columns style="display: flex; align-items: flex-start;"}
 
-::: {.column .fragment width="85%" style="font-size: 0.75em;"}
+::: {.column .fragment style="width: 85%; font-size: 0.75em;"}
 ```{r , echo=FALSE, out.width = "100%"}
 include_graphics("../../img/l4_story.png")
 ```
 :::
 
-::: {.column .fragment width="15%" style="font-size: 0.75em; align-self: center;"}
+::: {.column .fragment style="width: 15%; font-size: 0.75em; align-self: center;"}
   - Text encodes meaning
   - Files encode structure (→ Structured Files (CSV))
   - R parses structure into memory. (→ R Parsing → R Data Structures)
