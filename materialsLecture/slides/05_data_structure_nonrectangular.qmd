@@ -74,11 +74,11 @@ include_graphics("../../img/nonrectangulardata.png")
 ::::
 
 
-## Using a simple parser algorithm
+## Using a simple parser algorithm {visibility="hidden"}
 
 [Parser]{.green-bold}: sequence of instructions/rules of how to distinguish columns and rows when all that a computer can do is sequentially read one character after the other.
 
-A csv-parser takes a text file with CSV standard structure as input and builds a data structure in the form of a table.
+A [csv-parser]{.green-bold} takes a text file with CSV standard structure as input and builds a data structure in the form of a table.
 
 :::: {.columns}
 ::: {.column width="35%"}
@@ -109,7 +109,7 @@ ef bb bf 79 65 61 72 2c 67 64 70 5f 63 68 66 0a
 
 
 
-## Parsing CSVs in `R` using `read_csv()`
+## Parsing CSVs in `R` using `read_csv()` {visibility="hidden"}
 
 - From the `readr` library, use `read_csv()`, `read_delim()` to parse CSVs
 - To parse, encode, and guess the right type: `guess_parser()`
@@ -129,7 +129,7 @@ include_graphics("../../img/data_structure_r.png")
 ```
 
 
-## Important concepts
+## Important concepts {visibility="hidden"}
 
 #### Implicit coercion
 ```{r, echo = TRUE, collapse=TRUE}
@@ -142,7 +142,7 @@ data.frame("ID" = c(1, 2, 3), "NAME" = c("Frodo", "Gandalf", "Sam"))
 ```
 
 
-## Important concepts
+## Important concepts {visibility="hidden"}
 
 #### Factors are "disguised integers"
 
@@ -159,7 +159,6 @@ sort(middle_earth)
 levels(middle_earth)
 typeof(middle_earth)
 ```
-
 
 
 ## Work with data frames
@@ -254,7 +253,7 @@ as.numeric(my_vector > 0)
 Consider the data frame
 
 ```{r echo = TRUE}
-dataCHframe <- data.frame(
+df <- data.frame(
   "City" = c("St.Gallen", "Lausanne", "Zürich"),
   "PartyLeft" = c(35, 45, 55),
   "PartyRight" = c(40, 35, 30)
@@ -264,24 +263,24 @@ dataCHframe <- data.frame(
 Which of these statements are TRUE?
 
 ::: {style="font-size: 0.8em;"}
-- `dataCHframe$PartyCenter <- c(25, 20, 15)` creates a new variable called "PartyCenter"
-- 🌶️🌶️`dim(dataCHframe[, dataCHframe$PartyLeft > 40])` returns the same as `dim(dataCHframe[, c(2,3)])`
-- `dim(dataCHframe[dataCHframe$PartyLeft > 40 | dataCHframe$PartyLeft < 40, ])` returns `c(3,3)`
-- `dataCHframe` is a data.frame, which is a list consisting of one named character vector and two named numeric vectors.
+- `df$PartyCenter <- c(25, 20, 15)` creates a new variable called "PartyCenter"
+- 🌶️🌶️`dim(df[, df$PartyLeft > 40])` returns the same as `dim(df[, c(2,3)])`
+- `dim(df[df$PartyLeft > 40 | df$PartyLeft < 40, ])` returns `c(3,3)`
+- `df` is a data.frame, which is a list consisting of one named character vector and two named numeric vectors.
 :::
 
 <!-- The second question is about recycling of logical vectors... -->
 <!-- ```{r echo = TRUE} -->
-<!-- dataCHframe <- data.frame( -->
+<!-- df <- data.frame( -->
 <!--   "City" = c("St.Gallen", "Lausanne", "Zürich"), -->
 <!--   "PartyLeft" = c(35, 45, 55), -->
 <!--   "PartyRight" = c(40, 35, 30), -->
 <!--   "PartyCenter" = c(25, 20, 15) -->
 <!-- ) -->
 
-<!-- dim(dataCHframe[, dataCHframe$PartyLeft < 40]) -->
-<!-- dim(dataCHframe[, dataCHframe$PartyLeft == 45, drop = F]) -->
-<!-- dim(dataCHframe[, c(2,3)]) -->
+<!-- dim(df[, df$PartyLeft < 40]) -->
+<!-- dim(df[, df$PartyLeft == 45, drop = F]) -->
+<!-- dim(df[, c(2,3)]) -->
 
 <!-- #If the index vector is shorter than the vector being indexed, the index vector is recycled -->
 <!-- x <- c(5,4,7,8) -->
@@ -292,7 +291,7 @@ Which of these statements are TRUE?
 
 
 
-## Data frames
+## Data frames {visibility="hidden"}
 
 Consider the following code
 
@@ -305,26 +304,9 @@ Are these statements TRUE or FALSE?
 
 - `mean(df$a) == 2.5`
 - `typeof(as.matrix(df)[,1])` is `numeric` (or `double`)
-<!-- - `as_tibble(df)[1:2, 1]` contains the same information as `df[1:2, 1]` (FALSE, because tibbles do not simplify when subsetting. Not exam relevant.) -->
 
 
-<!-- ```{r, echo = TRUE} -->
-<!-- as.matrix(df)[,1] -->
 
-<!-- # Tibbles behave differently because they do not simplify when subsetting. -->
-<!-- tibble::as_tibble(df)[1:2, 1]  -->
-
-<!-- # The output will be a vector, not a data frame. This is because data frames simplify the result by default when you extract a single column. -->
-<!-- df[1:2, 1]  -->
-
-<!-- # If you want a data frame (or tibble) to behave like a tibble and avoid simplification when subsetting, you can use drop = FALSE in base R -->
-<!-- df[1:2, 1, drop = FALSE]  -->
-
-<!-- # If you want to extract a vector from a tibble, you can use double square brackets ([[]]) for extracting a single column: -->
-<!-- tibble::as_tibble(df)[[1]] -->
-<!-- ``` -->
-<!-- The difference in the output between tibble::as_tibble(df)[1:2, 1] and df[1:2, 1] is due to how tibbles and data frames handle subsetting. -->
-<!-- This behavior is called simplifying subsetting, where a data frame automatically simplifies to a vector if only a single column is extracted. This is not the case for tibbles, which always return a tibble when subsetting. -->
 
 
 # Updates
@@ -451,7 +433,32 @@ David  Debbie  Dianne    12  female
 
 # Deciphering XML
 
-## COVID-19 data in XML format
+
+## XML - eXtensible Markup Language
+
+- A markup language and file format for **storing**, **transmitting**, and **reconstructing** data
+- Defines a set of rules for encoding documents in a format that is both **human-readable** and **machine-readable**
+- Appeared in 1998
+
+#### Real life examples:
+
+  - Microsoft Office uses the XML-based file formats, such as `.docx`, `.xlsx`, and `.pptx`.
+  - SWIFT (cross-border payments) uses ISO 20022 XML
+  - Official statistics and Central banks
+  - Store geospatial data in Geographic Information Systems (GIS)
+
+
+<!-- What is XML? Good intro in https://www.sitepoint.com/really-good-introduction-xml/#h-what-is-xml
+The essence of XML is in its name: Extensible Markup Language.
+
+Extensible: XML is extensible. It lets you define your own tags, the order in which they occur, and how they should be processed or displayed. Another way to think about extensibility is to consider that XML allows all of us to extend our notion of what a document is: it can be a file that lives on a file server, or it can be a transient piece of data that flows between two computer systems (as in the case of Web Services).
+
+Markup: The most recognizable feature of XML is its tags, or elements (to be more accurate). In fact, the elements you’ll create in XML will be very similar to the elements you’ve already been creating in your HTML documents. However, XML allows you to define your own set of tags.
+
+Language: XML is a language that’s very similar to HTML. It’s much more flexible than HTML because it allows you to create your own custom tags. However, it’s important to realize that XML is not just a language. XML is a meta-language: a language that allows us to create or define other languages. For example, with XML we can create other languages, such as RSS, MathML (a mathematical markup language), and even tools like XSLT. More on this later.-->
+
+
+## Meteo data in XML format
 
 <center>
 #### What features does the format have? What is its logic/syntax?
@@ -517,9 +524,11 @@ David  Debbie  Dianne    12  female
 </data>
 ```
 
+::: {.content-hidden style="font-size: 0.8em;"}
   - A predefined set of **special characters** (here primarily `<`, `>`, and `/` ) give the data structure.
   - So-called **XML-tags** are used to define variable names and encapsulate data values: `<variablename>value</variablename>`.
   - Tags can be nested, which allows for the definition of hierarchical structures.
+:::
 
 
 ## XML declaration
@@ -576,7 +585,7 @@ XML: official statistics in SDMX format (ECB, BIS, OECD, Eurostat, partly the SN
 
 Tags can be nested, which allows for the definition of hierarchical structures.
 
-Here, the "root-content" is nested between the '`root``'-tags:
+Here, the "root-content" is nested between the "root-tags":
 
 
 ```{xml, echo = TRUE}
@@ -589,9 +598,10 @@ Here, the "root-content" is nested between the '`root``'-tags:
 
 
 
-## XML syntax: Temperature Data example
+## There are two principal ways to link variable names to values in XML
 
-There are two principal ways to link variable names to values.
+Example: Temperature Data.
+
 ```{xml, echo = TRUE}
 <?xml version="1.0" encoding="UTF-8"?>
 <dataset>
@@ -610,10 +620,7 @@ There are two principal ways to link variable names to values.
 ```
 
 
-## XML syntax
-
-There are two principal ways to link variable names to values in XML
-
+## There are two principal ways to link variable names to values in XML
 
 :::: {.columns}
 
@@ -686,19 +693,7 @@ Encapsulate the values within one tag by defining tag-attributes:
 ::::
 
 
-
-
-## XML - eXtensible Markup Language
-
-- Since 1998
-- Real life examples:
-  - Microsoft Office uses the XML-based file formats, such as .docx, .xlsx, and .pptx.
-  - Store application configuration data
-  - Store geospatial data in Geographic Information Systems (GIS)
-  - ...
-
-
-## XML representation of a Word document
+## Example: XML representation of a Word document
 
 ```{xml, echo = TRUE, eval = FALSE}
 #| code-fold: true
@@ -861,20 +856,12 @@ Encapsulate the values within one tag by defining tag-attributes:
 
 
 
-## XML in a nutshell
+## Advantages of XML
 
-<br>
+  - XML files can be easily read and understood without needing special tools.
+  - XML files are **self-descriptive**: tags describe the data they enclose (source, date), and the file can be checked against a schema.
+  - Data is organized in a tree-like structure 🌳, making it easy to represent hierarchies.
 
-  - **Human-readable**: XML files can be easily read and understood without needing special tools.
-  - **Self-descriptive**: XML tags describe the data they enclose.
-  - **Hierarchical structure**: Data is organized in a tree-like structure, making it easy to represent complex relationships.
-
-
-## Advantages of XML over csv
-
- - **More complex (multi-dimensional)** in XML-files than what is possible in CSVs.
- - **Self-explanatory syntax**: machine-readable and human-readable.
- - **Structured**: give both structure and name variables.
 
 
 ## Potential drawback of XML: **inefficient storage**
@@ -968,14 +955,14 @@ xml_doc
 
 #### 🔽 Navigate downwards (find the children or the first child)
 ```{r, echo = TRUE, eval = FALSE}
-xml_children(xml_doc)
-xml_child(xml_children(xml_doc), 1)
+xml_children(xml_doc)        # all children of the root: 3 persons
+xml_child(xml_doc, 1)        # the first child: <person id="1">
 persons <- xml_children(xml_doc)
 ```
 <details> <summary>Show output</summary>
 ```{r, echo = FALSE}
-xml_children(xml_doc)
-xml_child(xml_children(xml_doc), 1)
+xml_children(xml_doc) # all children of the root: 3 persons
+xml_child(xml_doc, 1) # the first child: <person id="1">
 persons <- xml_children(xml_doc)
 ```
 </details>
@@ -991,9 +978,23 @@ xml_siblings(persons[1])
 ```
 </details>
 
-#### 🔼 Navigate upwards: find all the parents (all levels) or the parent (one level)
+
+## Identify the root-node and the children
+
+#### 🔼 Navigate upwards: find all the ancestors (all levels) or the parent (one level)
 ```{r, echo = TRUE, eval= FALSE}
+sales <- xml_children(xml_children(xml_children(xml_doc))) # Returns a flat list of the grandchildren
+sales
+```
+
+<details> <summary>Show output</summary>
+```{r, echo = FALSE}
 sales <- xml_children(xml_children(xml_children(xml_doc)))
+sales
+```
+</details>
+
+```{r, echo = TRUE, eval= FALSE}
 xml_parents(sales)
 xml_parent(sales)
 ```
@@ -1067,12 +1068,44 @@ position
 
 
 
+## Example: ECB Daily Exchange Rate 🔎
+
+- Central banks and statistical agencies (BIS, ECB, Eurostat, IMF, OECD, UN, World Bank) built a shared standard called SDMX for exchanging statistics based on XML
+- Extract daily rates directly from https://www.ecb.europa.eu/stats/eurofxref/
+
+:::: {.columns}
+
+::: {.column width="55%"}
+```{r echo = T}
+library(xml2)
+x <- read_xml("https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml")
+x <- xml_ns_strip(x)
+cubes <- xml_find_all(x, ".//Cube[@currency]")
+df <- data.frame(
+    currency = xml_attr(cubes, "currency"),
+    rate = as.numeric(xml_attr(cubes, "rate"))
+)
+head(df, 5)
+```
+:::
+
+::: {.column width="45%"}
+```{r echo=FALSE, fig.align="center", out.width="90%"}
+include_graphics("../../img/ecb_xml.png")
+```
+:::
+::::
+
+
+
+
 
 # Deciphering JSON
 
 ## JSON = JavaScript Object Notation
 
-- **Text-based format** used for representing structured and based on JavaScript object syntax.
+- Around 2001, web apps needed to send data between a server and a browser. XML was the official answer, but parsing it in the browser was painful.
+- JavaScript already had a compact way to write data: **Text-based format** used for representing structured data.
 - Used for data exchange between a server and a web application
 - Used in most APIs -> see next lecture.
 
@@ -1081,7 +1114,7 @@ position
 
   - Key difference to XML: no tags, but **attribute-value pairs**.
   - JSON is built on two structures:
-    - **Object**: a collection of properties, i.e. key/value pairs `{"key": value}`
+    - **Object**: a set of **named** values, i.e. key/value pairs `{"key": value}`
     - **Array**: an ordered list of values `[1, 2, 3]`
   - A substitute for XML (often encountered in similar usage domains).
 
@@ -1228,7 +1261,7 @@ str(json_doc)
 
 ## JSON in R
 
-The nesting structure is represented as a *nested list*:
+The nesting object structure is represented as a *nested list*:
 
 ```{r, echo = TRUE}
 # navigate the nested lists, extract data
@@ -1237,6 +1270,16 @@ json_doc$address
 
 # extract the gender (type)
 json_doc$gender$type
+```
+
+
+## JSON in R
+
+An array of objects are parsed as data frames:
+
+```{r, echo = TRUE}
+# extract the phone numbers
+json_doc$phoneNumber
 ```
 
 
@@ -1300,150 +1343,257 @@ include_graphics("../../img/1_SwissGDP.png")
 ```
 
 
-## Tutorial (advanced): Importing data from a HTML table
+## Scraping webpages with `rvest`
 
--> Exercise session last week!
+:::: {.columns}
+
+::: {.column width="35%"}
+![](https://rvest.tidyverse.org/logo.png){fig-align="center" width="70%"}
+:::
+
+::: {.column width="65%"}
+#### Same logic as XML: select, then extract
+
+```{r, echo=TRUE, eval=FALSE}
+library(rvest)
+page <- read_html("https://en.wikipedia.org/wiki/Economy_of_Switzerland")
+
+page |> html_elements("h2") |> html_text2()  # text
+page |> html_elements("a") |> html_attr("href")  # attributes
+page |> html_table()  # all tables
+```
+
+:::
+
+::::
+
+::: {.Example .absolute bottom=20 style="font-size: 0.8em;"}
+- [Web scraping 101](https://rvest.tidyverse.org/articles/rvest.html), the official `rvest` vignette
+:::
+
+
+## Tutorial (advanced): Importing data from a HTML table 🔎
+
+-> Exercise session this week!
+
+
+
+
+# Text: data without structure
+
+
+## You scraped a page. Now what?
+
+
+```{r, echo=TRUE, eval=FALSE}
+# parse the webpage
+page <- read_html("https://en.wikipedia.org/wiki/Economy_of_Switzerland")
+
+# select all paragraphs <p> inside the article body (
+paragraphs <- html_elements(page, xpath = "//*[@id='mw-content-text']//p")
+
+# extract the text of each paragraph
+paragraphs <- html_text2(paragraphs)
+
+substr(paragraphs[3], 1, 100)  # first 100 characters of paragraph 3
+```
+
+```{.txt}
+[1] "Switzerland as a federal state was established in 1848. Before that time, the city-cantons of Zürich"
+```
+
+<br>
+
+##### Just words 🤔 this is unstructured data!
+
+
+
+## A very brief intuition about text as data
+
+#### Text must become quantifiable data to be used by computers and models.
+
+- Split into words, drop filler words, count
+
+:::: {.columns}
+
+::: {.column width="55%"}
+```{r, echo=TRUE, eval=FALSE}
+# split into words (cut at anything that is not a letter)
+words <- tolower(unlist(strsplit(paragraphs, "[^[:alpha:]]+")))
+words <- words[nchar(words) > 2]  # drop very short words
+
+# drop filler words ("the", "and", ...)
+stopwords <- tidytext::stop_words$word
+words <- words[!words %in% stopwords]
+
+# count each word and sort
+counts <- as.data.frame(table(words))
+counts <- counts[order(counts$Freq, decreasing = TRUE), ]
+head(counts, 5)
+```
+
+```{}
+        words Freq
+  switzerland   85
+        swiss   60
+      billion   23
+     economic   19
+          gdp   19
+```
+:::
+
+::: {.column .fragment width="45%"}
+  - One **row per word**, one column with the **count**
+  - The text became **rectangular** again
+  - Now you can filter, plot, compare pages...
+
+<br>
+
+:::
+
+::::
+
+
+## The same idea powers LLMs
+
+| Basic Text mining | Large language models |
+|---|---|
+| Split text into **words** | Split text into **sub-words** ("unbeliev" + "able") |
+| Drop stopwords like "the", "not", ... | Keep everything ("not" matters!) |
+| Count words per document | Turn every word into a **vector of numbers** (embedding) |
+| A few Wikipedia paragraphs | A large part of the scraped web |
+
+<br>
+
+
+## To go further
+
+  - Word counts are still used in Economics: the *Economic Policy Uncertainty* index counts newspaper articles with words like "uncertainty", "economy", and "policy".
+  - [Text Mining with R](https://www.tidytextmining.com/), free online book
+
+####  **Self-study slides (exam relevant)** on text analysis with `quanteda` (Course page)
+
+
 
 
 # Q&A
 
+<!--
+# Text as Data and Image Data
 
-<!-- # Text as Data and Image Data -->
+## Text as Data became more common as data source
 
-<!-- ## Text as Data became more common as data source -->
+ - Extract text from historical documents (scan, use OCR)
+ - Use machine learning to label text (too costly to do manually)
+ - Extract sentiment (finance for instance)
 
-<!--  - Extract text from historical documents (scan, use OCR) -->
-<!--  - Use machine learning to label text (too costly to do manually) -->
-<!--  - Extract sentiment (finance for instance) -->
 
+#### Text is unstructured data. Text analysis and feature extraction is the basis for new genAI models!
 
-<!-- #### Text is unstructured data. Text analysis and feature extraction is the basis for new genAI models! -->
 
+## Self-study on text mining
 
-<!-- ## An example of text mining in R -->
+**Read Chapter 6 on text data in [the book by U. Matter](https://umatter.github.io/datahandling/text-data.html)**
 
-<!-- ```{r, echo=FALSE, out.width = "550%", fig.align='center', fig.cap= "Source: https://confessionsofadatascientist.com/text-analysis-with-r-repro-report.html"} -->
-<!-- include_graphics("../../img/textpipeline.jpg") -->
-<!-- ``` -->
+<br>
 
+#### Key concepts:
 
+- **regular expressions**: flexible syntax used to detect and describe patterns in strings
+- **corpus**: a collection of authentic text organized into datasets
+- **documents**
+- **tokens** and **N-grams**
+- **document-term-matrix** (dtm)
 
-<!-- ## Self-study on text mining -->
 
-<!-- **Read Chapter 6 on text data in [the book by U. Matter](https://umatter.github.io/datahandling/text-data.html)** -->
+#### Key libraries:
 
-<!-- <br> -->
+- `quanteda`: see [Quanteda](https://quanteda.io/)
+- `tidytext`: see [Text Mining with R](https://www.tidytextmining.com/)
 
-<!-- #### Key concepts: -->
 
-<!-- - **regular expressions**: flexible syntax used to detect and describe patterns in strings -->
-<!-- - **corpus**: a collection of authentic text organized into datasets -->
-<!-- - **documents** -->
-<!-- - **tokens** and **N-grams** -->
-<!-- - **document-term-matrix** (dtm) -->
 
 
-<!-- #### Key libraries: -->
+# Text as Data and Image Data
 
-<!-- - `quanteda`: see [Quanteda](https://quanteda.io/) -->
-<!-- - `tidytext`: see [Text Mining with R](https://www.tidytextmining.com/) -->
+## Text as Data and Image Data
 
+ - Extract text from historical documents (scan, use OCR)
+ - Use machine learning to label text (too costly to do manually)
+ - Extract information from maps
 
+## Text as Data
 
-<!-- ## Happy break!!! -->
-<!-- ```{r break, echo=FALSE, out.width = "100%", fig.align='center'} -->
-<!-- include_graphics("../../img/midjourney_break.png") -->
-<!-- ``` -->
+Text is unstructured data. Text analysis and feature extraction is the basis for new
+genAI models!
 
+-> check the code example on Canvas.
 
 
-<!-- # Text as Data and Image Data -->
+## Image Data
 
-<!-- ## Text as Data and Image Data -->
+- Check the code example on Canvas.
+- Good example on how arrays are used in `R`.
 
-<!--  - Extract text from historical documents (scan, use OCR) -->
-<!--  - Use machine learning to label text (too costly to do manually) -->
-<!--  - Extract information from maps -->
 
-<!-- ## Text as Data -->
 
-<!-- Text is unstructured data. Text analysis and feature extraction is the basis for new -->
-<!-- genAI models! -->
 
-<!-- -> check the code example on Canvas. -->
 
 
-<!-- ## Image Data -->
 
-<!-- - Check the code example on Canvas. -->
-<!-- - Good example on how arrays are used in `R`. -->
 
+## Handling text data for analysis
 
 
+```{r nlppipeline, echo=FALSE, out.width = "95%", fig.align='center',  purl=FALSE}
+include_graphics("../../img/nlp_pipeline_dark.jpg")
+```
 
+## Data structure: text corpus
 
 
+```{r corpus, echo=FALSE, out.width = "35%", fig.align='center',  purl=FALSE}
+include_graphics("../../img/text_corpus_dark.jpg")
+```
 
 
-<!-- ## Handling text data for analysis -->
+## Working with text data in R: Quanteda
 
 
-<!-- ```{r nlppipeline, echo=FALSE, out.width = "95%", fig.align='center',  purl=FALSE} -->
-<!-- include_graphics("../../img/nlp_pipeline_dark.jpg") -->
-<!-- ``` -->
+```{r packages, echo=FALSE, eval = FALSE}
+# Install/load packages
+pacman::p_load(
+    tidytext,
+    quanteda,
+    readtext,
+    stringr,
+    quanteda.textstats,
+    quanteda.textplots
+)
+```
 
-<!-- ## Data structure: text corpus -->
 
+# Image Data
 
-<!-- ```{r corpus, echo=FALSE, out.width = "35%", fig.align='center',  purl=FALSE} -->
-<!-- include_graphics("../../img/text_corpus_dark.jpg") -->
-<!-- ``` -->
 
+## Basic data structures
 
-<!-- ## Working with text data in R: Quanteda -->
+ - *Raster images*: a matrix of pixels, as well as the color of each pixel.
+ - *Vector-based images*: text files that store the coordinates of points on a surface and how these dots are connected (or not) by lines.
 
+## Raster images
 
-<!-- ```{r packages, echo=FALSE} -->
-<!-- # Install/load packages -->
-<!-- pacman::p_load( -->
-<!--     tidytext, -->
-<!--     quanteda, -->
-<!--     readtext, -->
-<!--     stringr, -->
-<!--     quanteda.textstats, -->
-<!--     quanteda.textplots -->
-<!-- ) -->
-<!-- ``` -->
+```{r rgb, echo=FALSE, out.width = "75%", fig.align='center', purl=FALSE}
+include_graphics("../../img/rgb_structure.jpg")
+```
 
+## Raster and vector images in R
 
-<!-- # Image Data -->
 
+## Use cases in economic research and beyond
 
-<!-- ## Basic data structures -->
+ - Extract text from historical documents (scan, use OCR)
+ - Use machine learning to label text (too costly to do manually)
+ - Extract information from maps
 
-<!--  - *Raster images*: a matrix of pixels, as well as the color of each pixel. -->
-<!--  - *Vector-based images*: text files that store the coordinates of points on a surface and how these dots are connected (or not) by lines. -->
-
-<!-- ## Raster images -->
-
-<!-- ```{r rgb, echo=FALSE, out.width = "75%", fig.align='center', purl=FALSE} -->
-<!-- include_graphics("../../img/rgb_structure.jpg") -->
-<!-- ``` -->
-
-<!-- ## Raster and vector images in R -->
-
-
-<!-- ## Use cases in economic research and beyond -->
-
-<!--  - Extract text from historical documents (scan, use OCR) -->
-<!--  - Use machine learning to label text (too costly to do manually) -->
-<!--  - Extract information from maps -->
-
-
-
-
-
-
-
-
-
+-->

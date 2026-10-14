@@ -1,8 +1,8 @@
 ---
 title: 'Data Handling: Import, Cleaning and Visualisation'
-subtitle: 'Lecture 10a:<br>Text Data: From Raw Text to Tokens and Document-Term Matrices'
+subtitle: 'Lecture 5a:<br>Text Data: From Raw Text to Tokens and Document-Term Matrices'
 author: "Dr. Aurélien Sallin"
-date: "2025-12-11"
+date: "2026-10-15"
 echo: false
 code-line-numbers: false
 format:
@@ -16,7 +16,7 @@ format:
     self-contained: true
     slide-number: c
     theme: ../../style/hsgtheme_slides.scss
-highlight-style: dracula 
+highlight-style: dracula
 cache: false
 execute:
   echo: true
@@ -62,7 +62,7 @@ include_graphics("../../img/nlp_pipeline.jpg")
 
 <!-- The package `quanteda` remains, however, the most complete and go-to package for text analysis in R. It allows R users to perform all the preprocessing steps very easily, and provides all the functions necessary for preprocessing, visualization, and even statistical analyses of the corpus -->
 
-```{r packages, echo=FALSE}
+```{r packages, echo=FALSE, eval = TRUE, include=FALSE}
 pacman::p_load(
     tidytext,
     quanteda,
@@ -93,9 +93,9 @@ include_graphics("../../img/text_corpus.jpg")
 
 ## Parse text data
 
-- Text in a raw form is often found in a `.json` format (after web scraping), in a `.csv` format, or in simple `.txt` files. 
-- The first task is then to import the text data in R and transform it as a corpus. 
-- We will use the `inauguration` corpus from `quanteda`, which is a standard corpus used in introductory text analysis. It contains the inauguration discourses of the five first US presidents. 
+- Text in a raw form is often found in a `.json` format (after web scraping), in a `.csv` format, or in simple `.txt` files.
+- The first task is then to import the text data in R and transform it as a corpus.
+- We will use the `inauguration` corpus from `quanteda`, which is a standard corpus used in introductory text analysis. It contains the inauguration discourses of the five first US presidents.
 - This text data can be loaded from the `readtext` package. The text is contained in a csv file, and is loaded with the `read.csv()` function. The metadata of this corpus is the year of the inauguration and the name of the president taking office.
 
 ```{r inauguration}
@@ -130,7 +130,7 @@ Used to detect patterns in strings, replace parts of text, extract information f
 - The use of the `stringr()` package has made regular expressions easier to deal with.
 
   - `str_count()`
-    
+
 ```{r regex, echo = TRUE}
 # Count occurences of the word "peace"
 str_count(corp, "[Pp]eace")
@@ -147,7 +147,7 @@ Used to detect patterns in strings, replace parts of text, extract information f
 - The use of the `stringr()` package has made regular expressions easier to deal with.
 
   - `str_count()`
-    
+
 ```{r regex2, echo = TRUE}
 # Count occurences of the mention of the first person pronoun "I"
 str_count(corp, "I") # counts the number of "I" occurences. This is not what we want.
@@ -161,7 +161,7 @@ str_extract(corp, "^(\\S+\\s|[[:punct:]]|\\n){5}") # ^serves to anchor at the be
 
 **Tokens**: Building blocks of text analysis, smallest unit of text.
 
-- Raw text is divided into smaller units called tokens. 
+- Raw text is divided into smaller units called tokens.
   - e.g., words: "The cat sat" becomes a vector of three characters ["The", "cat", "sat"]
 
 - The tokenization process converts raw text into numerical representations that the model can process by mapping each token to an integer ID.
@@ -180,7 +180,7 @@ head(toks[[1]], 20)
 
   - Remove punctuation and stopwords.
   - Create N-grams (e.g., "not friendly").
-  
+
 ```{r tokens1}
 # Remove punctuation
 toks <- tokens(corp, remove_punct = TRUE)
@@ -256,7 +256,7 @@ Use DTMs for:
 
 
 
-## Statistics 
+## Statistics
 
 Very basic statistics about documents are the **top features** of each document, the frequency of expressions in the corpus.
 
@@ -269,7 +269,7 @@ topfeatures(dfmat, 10)
 
 ```
 
-## Statistics 
+## Statistics
 
 The frequency of tokens can be represented in a text plot.
 
@@ -282,10 +282,11 @@ quanteda.textplots::textplot_wordcloud(dfmat, max_words = 100)
 
   - **Tokens**: Absolutely crucial for LLMs. They determine how the model interprets text, manage context, and enable learning.
   - **DTMs**: Indirectly useful for preprocessing, exploratory analysis, or hybrid systems but less central to modern LLMs.
-  
+
 DTMs are still used in business cases for description of text input.
 
 
+<!--
 ## Recap
 
 
@@ -295,11 +296,11 @@ The base, raw material, of quantitative text analysis is a **corpus**. A corpus 
 
 - In `quanteda`: A data frame with a character vector for documents and additional metadata columns.
 
-```{r corpus, echo=FALSE, out.width = "35%", fig.align='center',  purl=FALSE}
+```{r corpus-recap, echo=FALSE, out.width = "35%", fig.align='center',  purl=FALSE}
 include_graphics("../../img/text_corpus.jpg")
 ```
 
-```{r inauguration, echo = FALSE}
+```{r inauguration-recap, echo = FALSE}
 # set path to the package folder
 path_data <- system.file("extdata/", package = "readtext")
 
@@ -325,16 +326,16 @@ print(corp)
 
 ## Cleaning/pre-processing: from corpus to tokens
 
-**Tokens**: Building blocks of text analysis, smallest unit of text. 
+**Tokens**: Building blocks of text analysis, smallest unit of text.
 
 - The tokenization process allows to convert raw text into numerical representations by mapping each token to an integer ID.
 
   - e.g., words: "The cat sat" becomes a vector of three characters ["The", "cat", "sat"]
-  
+
 - Remove "noise" such as punctuation and stopwords.
 - Create N-grams (e.g., bigrams like "not friendly").
-  
-```{r tokens1, echo = FALSE}
+
+```{r tokens1-recap, echo = FALSE}
 # Remove punctuation
 toks <- tokens(corp, remove_punct = TRUE)
 
@@ -352,7 +353,7 @@ head(toks[[1]], 20)
   - Contains count frequencies or indicators.
   - Sparse (most entries are zero). The dimensions need to be reduced.
 
-```{r dfm}
+```{r dfm-recap}
 dfmat <- dfm(toks)
 dfmat <- dfm_trim(dfmat, min_termfreq = 2) # remove tokens that appear less than 1 times
 print(dfmat)
@@ -364,7 +365,8 @@ Very basic statistics about documents are the **top features** of each document,
 
 The frequency of tokens can be represented in a text plot.
 
-```{r dfm clean2}
+```{r dfm-clean2-recap}
 library(quanteda.textplots)
 quanteda.textplots::textplot_wordcloud(dfmat, max_words = 100)
 ```
+-->

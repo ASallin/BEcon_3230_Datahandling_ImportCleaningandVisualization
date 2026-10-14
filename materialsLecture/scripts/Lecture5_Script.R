@@ -7,7 +7,7 @@
 ########################################################
 
 # load packages
-library(xml2) # updated and faster than library `XML` 
+library(xml2) # updated and faster than library `XML`
 
 # parse XML, represent XML document as R object
 xml_doc <- read_xml("data/company_dundermifflin.xml")
@@ -15,12 +15,12 @@ xml_doc
 
 
 # Navigate
-xml_children(xml_doc) 
+xml_children(xml_doc)
 xml_children(xml_children(xml_doc) )
 xml_children(xml_children(xml_children(xml_doc) ))
 
 xml_child(xml_children(xml_doc), 1)
-persons <- xml_children(xml_doc) 
+persons <- xml_children(xml_doc)
 
 xml_siblings(persons[1])
 
@@ -38,6 +38,15 @@ xml_text(sales) # extract the data as text
 position <- xml_find_all(xml_doc, xpath = ".//position")
 position
 
+
+# Convert persons to a dataframe: extract each attribute.
+# xml_text extracts the text between the tags
+df_persons <- data.frame(
+  id = xml_attr(persons, "id"),
+  name = xml_text(xml_find_all(persons, "./name")),
+  position = xml_text(xml_find_all(persons, "./position")),
+  branch = xml_attr(xml_find_all(persons, "./location"), "branch")
+)
 
 
 # JSON --------------------------------------------------------------------
@@ -72,6 +81,10 @@ URL <- "https://en.wikipedia.org/wiki/Economy_of_Switzerland"
 
 
 # READ WEBPAGE AS TEXT DOCUMENT -------------------
+
+# Check raw html: add `view-source:` or CTRL+U - CTRL OPTION U
+# view-source:https://en.wikipedia.org/wiki/Economy_of_Switzerland
+
 # (naive approach to import a website into R...)
 swiss_econ <- readLines("https://en.wikipedia.org/wiki/Economy_of_Switzerland")
 head(swiss_econ)
@@ -89,7 +102,7 @@ swiss_econ_parsed
 # find the element containing the table
 tab_node <- html_element(
   swiss_econ_parsed,
-  xpath = "//*[@id='mw-content-text']/div/table[2]"
+  xpath = '//*[@id="mwAao"]'
 )
 
 # print the HTML structure of the table
@@ -110,3 +123,37 @@ tab <- html_table(swiss_econ_parsed)
 tab[[2]]
 tab[[3]]
 
+
+# Get the text
+swiss_econ_parsed |> html_elements("p") |> html_text2()
+
+
+# Get more text ---------------------------------
+
+# parse the webpage
+page <- read_html("https://en.wikipedia.org/wiki/Economy_of_Switzerland")
+
+# select all paragraphs <p> inside the article body (
+paragraphs <- html_elements(page, xpath = "//*[@id='mw-content-text']//p")
+
+# extract the text of each paragraph
+paragraphs <- html_text2(paragraphs)
+
+paragraphs[3]
+
+
+# split into words (cut at anything that is not a letter)
+words <- tolower(unlist(strsplit(paragraphs, "[^[:alpha:]]+")))
+words <- words[nchar(words) > 2]  # drop very short words
+
+# drop filler words ("the", "and", ...)
+stopwords <- tidytext::stop_words$word
+words <- words[!words %in% stopwords]
+
+# count each word and sort
+counts <- as.data.frame(table(words))
+counts <- counts[order(counts$Freq, decreasing = TRUE), ]
+head(counts, 5)
+
+
+# END ---------------------------------
