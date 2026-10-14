@@ -3253,18 +3253,15 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul class="collapse">
-  <li><a href="#exercise-1-types-and-how-r-converts-between-them" id="toc-exercise-1-types-and-how-r-converts-between-them" class="nav-link active" data-scroll-target="#exercise-1-types-and-how-r-converts-between-them">Exercise 1: types, and how R converts between them</a></li>
-  <li><a href="#exercise-2-the-structures" id="toc-exercise-2-the-structures" class="nav-link" data-scroll-target="#exercise-2-the-structures">Exercise 2: the structures</a></li>
-  <li><a href="#exercise-3-a-text-file-is-just-bytes" id="toc-exercise-3-a-text-file-is-just-bytes" class="nav-link" data-scroll-target="#exercise-3-a-text-file-is-just-bytes">Exercise 3: a text file is just bytes</a></li>
-  <li><a href="#exercise-4-importing-a-csv-in-two-ways" id="toc-exercise-4-importing-a-csv-in-two-ways" class="nav-link" data-scroll-target="#exercise-4-importing-a-csv-in-two-ways">Exercise 4: importing a CSV in two ways</a></li>
-  <li><a href="#exercise-5-column-types" id="toc-exercise-5-column-types" class="nav-link" data-scroll-target="#exercise-5-column-types">Exercise 5: column types</a></li>
-  <li><a href="#exercise-6-a-file-that-is-not-comma-separated" id="toc-exercise-6-a-file-that-is-not-comma-separated" class="nav-link" data-scroll-target="#exercise-6-a-file-that-is-not-comma-separated">Exercise 6: a file that is not comma separated</a></li>
-  <li><a href="#exercise-7-select-what-you-need-and-write-it-back" id="toc-exercise-7-select-what-you-need-and-write-it-back" class="nav-link" data-scroll-target="#exercise-7-select-what-you-need-and-write-it-back">Exercise 7: select what you need and write it back</a></li>
+  <li><a href="#exercise-1-importing-a-csv-in-two-ways" id="toc-exercise-1-importing-a-csv-in-two-ways" class="nav-link active" data-scroll-target="#exercise-1-importing-a-csv-in-two-ways">Exercise 1: importing a CSV in two ways</a></li>
+  <li><a href="#exercise-2-column-types" id="toc-exercise-2-column-types" class="nav-link" data-scroll-target="#exercise-2-column-types">Exercise 2: column types</a></li>
+  <li><a href="#exercise-3-select-what-you-need-and-write-it-back" id="toc-exercise-3-select-what-you-need-and-write-it-back" class="nav-link" data-scroll-target="#exercise-3-select-what-you-need-and-write-it-back">Exercise 3: select what you need and write it back</a></li>
+  <li><a href="#exercise-4-the-same-data-in-xml" id="toc-exercise-4-the-same-data-in-xml" class="nav-link" data-scroll-target="#exercise-4-the-same-data-in-xml">Exercise 4: the same data in XML</a></li>
+  <li><a href="#exercise-5-a-file-that-is-not-comma-separated" id="toc-exercise-5-a-file-that-is-not-comma-separated" class="nav-link" data-scroll-target="#exercise-5-a-file-that-is-not-comma-separated">Exercise 5: a file that is not comma separated</a></li>
+  <li><a href="#exercise-6-what-the-browser-shows-and-what-the-server-sent" id="toc-exercise-6-what-the-browser-shows-and-what-the-server-sent" class="nav-link" data-scroll-target="#exercise-6-what-the-browser-shows-and-what-the-server-sent">Exercise 6: what the browser shows and what the server sent</a></li>
   <li><a href="#additional-exercises-for-training" id="toc-additional-exercises-for-training" class="nav-link" data-scroll-target="#additional-exercises-for-training">Additional exercises for training</a>
   <ul class="collapse">
-  <li><a href="#exercise-8-the-same-data-in-xml" id="toc-exercise-8-the-same-data-in-xml" class="nav-link" data-scroll-target="#exercise-8-the-same-data-in-xml">Exercise 8: the same data in XML</a></li>
-  <li><a href="#exercise-9-exploring-html-in-the-browser" id="toc-exercise-9-exploring-html-in-the-browser" class="nav-link" data-scroll-target="#exercise-9-exploring-html-in-the-browser">Exercise 9: exploring HTML in the browser</a></li>
-  <li><a href="#exercise-10-scraping-a-table-from-a-web-page" id="toc-exercise-10-scraping-a-table-from-a-web-page" class="nav-link" data-scroll-target="#exercise-10-scraping-a-table-from-a-web-page">Exercise 10: scraping a table from a web page</a></li>
+  <li><a href="#exercise-7-scraping-a-table-from-a-web-page" id="toc-exercise-7-scraping-a-table-from-a-web-page" class="nav-link" data-scroll-target="#exercise-7-scraping-a-table-from-a-web-page">Exercise 7: scraping a table from a web page</a></li>
   </ul></li>
   </ul>
 <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="03_programming_data_sample_solution.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
@@ -3274,7 +3271,7 @@ window.Quarto = {
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
 <h1 class="title">Data Handling: Import, Cleaning and Visualisation</h1>
-<p class="subtitle lead">Solutions to Exercise/Workshop 3: Data types, text files and data import</p>
+<p class="subtitle lead">Solutions to Exercise/Workshop 3: Importing data from text files, XML and HTML</p>
 </div>
 
 
@@ -3304,280 +3301,32 @@ window.Quarto = {
 </header>
 
 
-<section id="exercise-1-types-and-how-r-converts-between-them" class="level1">
-<h1>Exercise 1: types, and how R converts between them</h1>
+<p>The questions are repeated here in <em>italics</em>, so that this document can be read on its own. The data files are in <code>materialsExercises/03_programming_data/data</code>.</p>
+<section id="exercise-1-importing-a-csv-in-two-ways" class="level1">
+<h1>Exercise 1: importing a CSV in two ways</h1>
 <ol type="1">
-<li>For the first four, <code>typeof()</code> and <code>class()</code> say nearly the same thing:</li>
+<li><p><em>Import the file twice, once with base R and once with <code>readr</code>.</em></p>
+<p>Base R has <code>read.csv()</code>, the <code>readr</code> package has <code>read_csv()</code>:</p></li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="fu">typeof</span>(<span class="cn">TRUE</span>), <span class="fu">class</span>(<span class="cn">TRUE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] &quot;logical&quot; &quot;logical&quot;</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="fu">typeof</span>(<span class="dv">3</span>L), <span class="fu">class</span>(<span class="dv">3</span>L))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] &quot;integer&quot; &quot;integer&quot;</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="fu">typeof</span>(<span class="fl">3.5</span>), <span class="fu">class</span>(<span class="fl">3.5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] &quot;double&quot;  &quot;numeric&quot;</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="fu">typeof</span>(<span class="st">&quot;a&quot;</span>), <span class="fu">class</span>(<span class="st">&quot;a&quot;</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] &quot;character&quot; &quot;character&quot;</code></pre>
-</div>
-</div>
-<p>The only difference is the name: a <code>double</code> has class <code>numeric</code>. The factor is the interesting case:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="fu">typeof</span>(<span class="fu">factor</span>(<span class="st">&quot;a&quot;</span>)), <span class="fu">class</span>(<span class="fu">factor</span>(<span class="st">&quot;a&quot;</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] &quot;integer&quot; &quot;factor&quot; </code></pre>
-</div>
-</div>
-<p>It is stored as an integer and treated as a factor. <code>typeof()</code> looks at the storage, <code>class()</code> at the behaviour. Question 4 is what happens when you forget the difference.</p>
-<ol start="2" type="1">
-<li>A comparison returns logical values, and R turns them into 1 and 0 when it needs numbers:</li>
-</ol>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>my_vector <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">3</span>, <span class="sc">-</span><span class="dv">1</span>)</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>my_vector <span class="sc">&gt;</span> <span class="dv">0</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1]  TRUE FALSE  TRUE FALSE</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as.numeric</span>(my_vector <span class="sc">&gt;</span> <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 1 0 1 0</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(my_vector <span class="sc">&gt;</span> <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 2</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(my_vector <span class="sc">&gt;</span> <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.5</code></pre>
-</div>
-</div>
-<p><code>TRUE</code> becomes 1 and <code>FALSE</code> becomes 0. So on a logical vector <code>sum()</code> counts the <code>TRUE</code> values and <code>mean()</code> gives their share. Two of the four values are positive, which gives 2 and 0.5. <code>sum(x &gt; 5)</code> and <code>mean(x &gt; 5)</code> are the short way to ask how many observations satisfy a condition, and what proportion of them do.</p>
-<ol start="3" type="1">
-<li>Implicit coercion is silent. Explicit coercion warns you when it fails:</li>
-</ol>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="dv">1</span>, <span class="st">&quot;2&quot;</span>, <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] &quot;1&quot;    &quot;2&quot;    &quot;TRUE&quot;</code></pre>
-</div>
-</div>
-<p>Everything became text, because <code>character</code> is the most general type. Note that <code>TRUE</code> became <code>&quot;TRUE&quot;</code>, not <code>&quot;1&quot;</code>.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as.numeric</span>(<span class="fu">c</span>(<span class="st">&quot;1&quot;</span>, <span class="st">&quot;2&quot;</span>, <span class="st">&quot;x&quot;</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: NAs introduced by coercion</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1]  1  2 NA</code></pre>
-</div>
-</div>
-<p>Here you asked for the conversion, so R converts what it can and reports the rest: <code>&quot;x&quot;</code> is not a number, so it becomes <code>NA</code>, with the warning <em>NAs introduced by coercion</em>. The warning is useful, because it tells you a value was lost. The first case gives no warning at all.</p>
-<ol start="4" type="1">
-<li>The factor:</li>
-</ol>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>grades <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="st">&quot;4.5&quot;</span>, <span class="st">&quot;5&quot;</span>, <span class="st">&quot;6&quot;</span>))</span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">as.numeric</span>(grades)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 1 2 3</code></pre>
-</div>
-</div>
-<p>A factor stores integer codes plus a table of levels, not the labels. <code>as.numeric()</code> gives you the codes, here 1, 2, 3, because the levels are sorted. To get the values you have to go through the labels:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(grades)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] &quot;4.5&quot; &quot;5&quot;   &quot;6&quot;  </code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as.numeric</span>(<span class="fu">as.character</span>(grades))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 4.5 5.0 6.0</code></pre>
-</div>
-</div>
-<p>There is no error, only wrong numbers of the right shape. Whenever you convert a factor to a number, check whether you want the code or the label.</p>
-</section>
-<section id="exercise-2-the-structures" class="level1">
-<h1>Exercise 2: the structures</h1>
-<ol type="1">
-<li>A vector knows its length and its type, and square brackets index it by position:</li>
-</ol>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>ages <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">18</span>, <span class="dv">21</span>, <span class="dv">20</span>, <span class="dv">22</span>, <span class="dv">19</span>)</span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(ages)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 5</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(ages)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] &quot;double&quot;</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>ages[<span class="dv">3</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 20</code></pre>
-</div>
-</div>
-<p><code>18</code> is a <code>double</code>, not an integer. For an integer you need <code>18L</code>.</p>
-<ol start="2" type="1">
-<li>R fills the grid column by column:</li>
-</ol>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>, <span class="at">nrow =</span> <span class="dv">2</span>)</span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>m</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>     [,1] [,2] [,3]
-[1,]    1    3    5
-[2,]    2    4    6</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(m)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 2 3</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">attributes</span>(m)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>$dim
-[1] 2 3</code></pre>
-</div>
-</div>
-<p>The first column is 1, 2, the second 3, 4, the third 5, 6. The only thing that makes <code>m</code> a matrix is the attribute <code>dim = c(2, 3)</code>. Underneath it is still the vector <code>1:6</code>:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(m)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 1 2 3 4 5 6</code></pre>
-</div>
-</div>
-<p>A matrix is a vector that knows its shape, which is why it holds one type only.</p>
-<ol start="3" type="1">
-<li>The vector coerces, the list does not:</li>
-</ol>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>persons <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Anna&quot;</span>, <span class="st">&quot;Luca&quot;</span>, <span class="st">&quot;Sara&quot;</span>)</span>
-<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(persons, ages)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] &quot;Anna&quot; &quot;Luca&quot; &quot;Sara&quot; &quot;18&quot;   &quot;21&quot;   &quot;20&quot;   &quot;22&quot;   &quot;19&quot;  </code></pre>
-</div>
-</div>
-<p>The ages became text, <code>&quot;18&quot;</code> and <code>&quot;21&quot;</code>, because a vector holds one type and text is the more general one. <code>mean()</code> would now fail.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>student_info <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">names =</span> persons, <span class="at">ages =</span> ages)</span>
-<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>student_info<span class="sc">$</span>ages</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 18 21 20 22 19</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(student_info)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>List of 2
- $ names: chr [1:3] &quot;Anna&quot; &quot;Luca&quot; &quot;Sara&quot;
- $ ages : num [1:5] 18 21 20 22 19</code></pre>
-</div>
-</div>
-<p>A list keeps every element with its own type and its own length. In exchange, it is not a table.</p>
-<ol start="4" type="1">
-<li>The data frame is the structure you will work with for the rest of the course:</li>
-</ol>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>students <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">name =</span> <span class="fu">c</span>(<span class="st">&quot;Anna&quot;</span>, <span class="st">&quot;Luca&quot;</span>, <span class="st">&quot;Sara&quot;</span>),</span>
-<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">age =</span> <span class="fu">c</span>(<span class="dv">18</span>, <span class="dv">21</span>, <span class="dv">20</span>),</span>
-<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">passed =</span> <span class="fu">c</span>(<span class="cn">TRUE</span>, <span class="cn">FALSE</span>, <span class="cn">TRUE</span>)</span>
-<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a>students</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>  name age passed
-1 Anna  18   TRUE
-2 Luca  21  FALSE
-3 Sara  20   TRUE</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(students)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>&#39;data.frame&#39;:   3 obs. of  3 variables:
- $ name  : chr  &quot;Anna&quot; &quot;Luca&quot; &quot;Sara&quot;
- $ age   : num  18 21 20
- $ passed: logi  TRUE FALSE TRUE</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(students, class)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>       name         age      passed 
-&quot;character&quot;   &quot;numeric&quot;   &quot;logical&quot; </code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(students)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] &quot;list&quot;</code></pre>
-</div>
-</div>
-<p><code>typeof()</code> says <code>list</code>. A data frame is a list whose elements are the columns, with one extra rule: all elements have the same length. That rule is what makes it a table, and it is why each column has its own type while the rows line up across columns. <code>class()</code> says <code>data.frame</code>, which is what gives it the printing, the <code>[row, column]</code> indexing and <code>nrow()</code>.</p>
-</section>
-<section id="exercise-3-a-text-file-is-just-bytes" class="level1">
-<h1>Exercise 3: a text file is just bytes</h1>
-<ol type="1">
-<li>The “ñ” does not survive:</li>
-</ol>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>hasta <span class="ot">&lt;-</span> <span class="fu">readLines</span>(<span class="st">&quot;data/hastamanana.txt&quot;</span>, <span class="at">warn =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>hasta</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] &quot;Hasta Ma\xf1ana!&quot;</code></pre>
-</div>
-</div>
-<p>R prints <code>\xf1</code> because that byte is not a valid character in UTF-8, the encoding it assumed. On some consoles you see <code>Hasta Ma?ana!</code> instead.</p>
-<ol start="2" type="1">
-<li>The bytes:</li>
-</ol>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="fu">readBin</span>(<span class="st">&quot;data/hastamanana.txt&quot;</span>, <span class="at">what =</span> <span class="st">&quot;raw&quot;</span>, <span class="at">n =</span> <span class="dv">20</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code> [1] 48 61 73 74 61 20 4d 61 f1 61 6e 61 21 0a</code></pre>
-</div>
-</div>
-<p><code>48 61 73 74 61</code> is <code>Hasta</code>, <code>20</code> is a space, <code>4d 61</code> is <code>Ma</code>, then <code>f1</code>, then <code>61 6e 61 21</code> for <code>ana!</code>. Every byte except <code>f1</code> is below <code>7f</code>, which is plain ASCII. The last byte, <code>0a</code>, ends the line.</p>
-<ol start="3" type="1">
-<li>With the right encoding the line reads correctly:</li>
-</ol>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="fu">readLines</span>(<span class="st">&quot;data/hastamanana.txt&quot;</span>, <span class="at">encoding =</span> <span class="st">&quot;latin1&quot;</span>, <span class="at">warn =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] &quot;Hasta Mañana!&quot;</code></pre>
-</div>
-</div>
-<p>You can also convert with <code>iconv()</code>, which is what you need when the text is already in R:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="fu">iconv</span>(hasta, <span class="at">from =</span> <span class="st">&quot;ISO-8859-1&quot;</span>, <span class="at">to =</span> <span class="st">&quot;UTF-8&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] &quot;Hasta Mañana!&quot;</code></pre>
-</div>
-</div>
-<p><code>f1</code> is “ñ” in ISO-8859-1. UTF-8 writes the same character as <code>c3 b1</code>, so a UTF-8 reader meeting a single <code>f1</code> has nothing valid to decode.</p>
-<ol start="4" type="1">
-<li>An error stops you and tells you where to look. A wrong encoding gives you a value that looks like data, so the mistake turns up much later, usually in a table with broken names in it.</li>
-</ol>
-</section>
-<section id="exercise-4-importing-a-csv-in-two-ways" class="level1">
-<h1>Exercise 4: importing a CSV in two ways</h1>
-<ol type="1">
-<li>Base R has <code>read.csv()</code>, the <code>readr</code> package has <code>read_csv()</code>:</li>
-</ol>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>aq_base <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/Air_Quality.csv&quot;</span>)</span>
-<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>air_quality_base <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/Air_Quality.csv&quot;</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: package &#39;readr&#39; was built under R version 4.5.3</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a>aq <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;data/Air_Quality.csv&quot;</span>, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>air_quality <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;data/Air_Quality.csv&quot;</span>, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ol start="2" type="1">
-<li>Just over 16,000 rows and 12 columns:</li>
+<li><p><em>Inspect what you imported with <code>head()</code>, <code>tail()</code>, <code>dim()</code>, and <code>glimpse()</code> from <code>dplyr</code>. How many rows and columns are there?</em></p>
+<p>16,122 rows and 12 columns:</p></li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(aq)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(air_quality)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 16122    12</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(aq[, <span class="fu">c</span>(<span class="st">&quot;Name&quot;</span>, <span class="st">&quot;Geo Place Name&quot;</span>, <span class="st">&quot;Time Period&quot;</span>, <span class="st">&quot;Data Value&quot;</span>)])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(air_quality[, <span class="fu">c</span>(<span class="st">&quot;Name&quot;</span>, <span class="st">&quot;Geo Place Name&quot;</span>, <span class="st">&quot;Time Period&quot;</span>, <span class="st">&quot;Data Value&quot;</span>)])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 4
   Name                 `Geo Place Name`                     `Time Period`  `Data Value`
@@ -3591,11 +3340,11 @@ window.Quarto = {
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: package &#39;dplyr&#39; was built under R version 4.5.3</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(aq)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(air_quality)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Rows: 16,122
 Columns: 12
@@ -3613,57 +3362,58 @@ $ `Data Value`     &lt;dbl&gt; 34.64, 33.22, 31.25, 31.15, 5.89, 5.75, 26.27, 33
 $ Message          &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…</code></pre>
 </div>
 </div>
-<p>One row is one measurement: one indicator, in one geographic area, over one time period, with one value. The same pollutant appears in many rows.</p>
+<p>The same indicator appears in many rows, once per area and per time period.</p>
 <ol start="3" type="1">
-<li>The names are not the same:</li>
+<li><em>Compare <code>names(air_quality_base)</code> with <code>names(air_quality)</code>. The file has a column called <code>Unique ID</code>, with a space in the name. What did each function do with that name, and how do you refer to the column afterwards?</em></li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb77"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(aq_base)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(air_quality_base)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] &quot;Unique.ID&quot;      &quot;Indicator.ID&quot;   &quot;Name&quot;           &quot;Measure&quot;        &quot;Measure.Info&quot;  
  [6] &quot;Geo.Type.Name&quot;  &quot;Geo.Join.ID&quot;    &quot;Geo.Place.Name&quot; &quot;Time.Period&quot;    &quot;Start_Date&quot;    
 [11] &quot;Data.Value&quot;     &quot;Message&quot;       </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb79"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(aq)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(air_quality)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] &quot;Unique ID&quot;      &quot;Indicator ID&quot;   &quot;Name&quot;           &quot;Measure&quot;        &quot;Measure Info&quot;  
  [6] &quot;Geo Type Name&quot;  &quot;Geo Join ID&quot;    &quot;Geo Place Name&quot; &quot;Time Period&quot;    &quot;Start_Date&quot;    
 [11] &quot;Data Value&quot;     &quot;Message&quot;       </code></pre>
 </div>
 </div>
-<p><code>read.csv()</code> repairs the names and turns spaces into dots, so <code>Unique ID</code> becomes <code>Unique.ID</code> and you write <code>aq_base$Unique.ID</code>. <code>read_csv()</code> keeps the original names, so a name with a space needs backticks:</p>
+<p><code>read.csv()</code> repairs the names and turns spaces into dots: <code>Unique ID</code> becomes <code>Unique.ID</code>, so you write <code>air_quality_base$Unique.ID</code>. <code>read_csv()</code> keeps the original names, so a name with a space needs backticks:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb81"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(aq<span class="sc">$</span><span class="st">`</span><span class="at">Unique ID</span><span class="st">`</span>, <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(air_quality<span class="sc">$</span><span class="st">`</span><span class="at">Unique ID</span><span class="st">`</span>, <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 216498 216499 219969</code></pre>
 </div>
 </div>
 <p>Neither is wrong, but you need to know which one you are using.</p>
 <ol start="4" type="1">
-<li>The objects differ as well:</li>
+<li><em>Compare <code>class(air_quality_base)</code> with <code>class(air_quality)</code>. What is the difference between the two objects?</em></li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb83"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(aq_base)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(air_quality_base)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] &quot;data.frame&quot;</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb85"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(aq)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(air_quality)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] &quot;spec_tbl_df&quot; &quot;tbl_df&quot;      &quot;tbl&quot;         &quot;data.frame&quot; </code></pre>
 </div>
 </div>
-<p><code>read.csv()</code> returns a <code>data.frame</code>, <code>read_csv()</code> returns a <code>tibble</code>. A tibble prints only the first ten rows and shows the type of every column under its name. It is still a data frame, which you can see from <code>data.frame</code> in its class.</p>
+<p><code>read.csv()</code> returns a <code>data.frame</code>, <code>read_csv()</code> returns a <code>tibble</code>: it prints ten rows instead of all of them and shows the type of every column under its name. A tibble is still a data frame, which you can see from <code>data.frame</code> in its class.</p>
 <ol start="5" type="1">
-<li>For a file you do not know, the message helps: it says how every column was interpreted, so a column of numbers that was read as text shows up immediately instead of three steps later.</li>
+<li><p><em><code>read_csv()</code> printed a message about column specifications, <code>read.csv()</code> printed nothing. Which behaviour do you prefer when you open a file for the first time, and why?</em></p>
+<p>The message, for a file you do not know: a column of numbers that was read as text shows up immediately instead of three steps later.</p></li>
 </ol>
 </section>
-<section id="exercise-5-column-types" class="level1">
-<h1>Exercise 5: column types</h1>
+<section id="exercise-2-column-types" class="level1">
+<h1>Exercise 2: column types</h1>
 <ol type="1">
-<li>The full guess:</li>
+<li><em>Print the full specification with <code>spec(air_quality)</code>. Which columns came out as <code>col_double()</code> and which as <code>col_character()</code>?</em></li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb87"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a><span class="fu">spec</span>(aq)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">spec</span>(air_quality)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>cols(
   `Unique ID` = col_double(),
@@ -3681,120 +3431,60 @@ $ Message          &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N
 )</code></pre>
 </div>
 </div>
-<p>Four columns were guessed as <code>col_double()</code>, the two IDs, the join ID and <code>Data Value</code>, and the rest as <code>col_character()</code>.</p>
+<p>Four columns were guessed as <code>col_double()</code>, the two IDs, the join ID and <code>Data Value</code>. The rest are <code>col_character()</code>.</p>
 <ol start="2" type="1">
-<li><code>Start_Date</code> looks like a date to us but not to the parser:</li>
+<li><em><code>Start_Date</code> contains dates such as <code>06/01/2013</code>, but it was not read as a date. Why can the parser not recognise it, and what would the file have to look like for <code>readr</code> to guess a date by itself?</em></li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb89"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(aq<span class="sc">$</span>Start_Date, <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(air_quality<span class="sc">$</span>Start_Date, <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] &quot;06/01/2013&quot; &quot;06/01/2014&quot; &quot;06/01/2013&quot;</code></pre>
 </div>
 </div>
-<p><code>readr</code> recognises only the ISO format, <code>YYYY-MM-DD</code>. <code>06/01/2013</code> is ambiguous: 1 June 2013 in the American convention, 6 January 2013 in the European one. Instead of guessing, <code>readr</code> leaves it as text. With <code>2013-06-01</code> in the file, the column would have been parsed as a date without help.</p>
+<p><code>readr</code> guesses dates only in the ISO format, <code>YYYY-MM-DD</code>. <code>06/01/2013</code> is ambiguous: 1 June 2013 in the American convention, 6 January 2013 in the European one. Rather than pick one, <code>readr</code> leaves the column as text. With <code>2013-06-01</code> in the file it would have been parsed as a date without help.</p>
 <ol start="3" type="1">
-<li>Stating the format solves it:</li>
+<li><em>State the type yourself with <code>col_types = cols(Start_Date = col_date(format =    &quot;%m/%d/%Y&quot;))</code>. Check the class of the column, then run <code>range()</code> on it. Which period does the data cover? Run <code>range()</code> on the text version too, and explain the difference.</em></li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb91"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb91-1"><a href="#cb91-1" aria-hidden="true" tabindex="-1"></a>aq_dates <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(</span>
-<span id="cb91-2"><a href="#cb91-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;data/Air_Quality.csv&quot;</span>,</span>
-<span id="cb91-3"><a href="#cb91-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">col_types =</span> <span class="fu">cols</span>(<span class="at">Start_Date =</span> <span class="fu">col_date</span>(<span class="at">format =</span> <span class="st">&quot;%m/%d/%Y&quot;</span>))</span>
-<span id="cb91-4"><a href="#cb91-4" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb91-5"><a href="#cb91-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb91-6"><a href="#cb91-6" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(aq_dates<span class="sc">$</span>Start_Date)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>air_quality_dates <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;data/Air_Quality.csv&quot;</span>,</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">col_types =</span> <span class="fu">cols</span>(<span class="at">Start_Date =</span> <span class="fu">col_date</span>(<span class="at">format =</span> <span class="st">&quot;%m/%d/%Y&quot;</span>))</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(air_quality_dates<span class="sc">$</span>Start_Date)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] &quot;Date&quot;</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb93"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb93-1"><a href="#cb93-1" aria-hidden="true" tabindex="-1"></a><span class="fu">range</span>(aq_dates<span class="sc">$</span>Start_Date)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">range</span>(air_quality_dates<span class="sc">$</span>Start_Date)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] &quot;2005-01-01&quot; &quot;2020-06-01&quot;</code></pre>
 </div>
 </div>
-<p>The data runs from January 2005 to June 2020. On the text version the answer is different:</p>
+<p>The data covers January 2005 to June 2020. On the text version the answer is different:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb95"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb95-1"><a href="#cb95-1" aria-hidden="true" tabindex="-1"></a><span class="fu">range</span>(aq<span class="sc">$</span>Start_Date)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">range</span>(air_quality<span class="sc">$</span>Start_Date)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] &quot;01/01/2005&quot; &quot;12/31/2015&quot;</code></pre>
 </div>
 </div>
-<p>That is an alphabetical sort. The smallest string is <code>&quot;01/01/2005&quot;</code> and the largest is <code>&quot;12/31/2015&quot;</code>, which is neither the first nor the last date in the data, because a string starting with <code>12/</code> always sorts after one starting with <code>06/</code>, whatever the year. The answer looks plausible and is wrong.</p>
+<p>Strings are sorted alphabetically, so the smallest is <code>&quot;01/01/2005&quot;</code> and the largest <code>&quot;12/31/2015&quot;</code>: a string starting with <code>12/</code> sorts after one starting with <code>06/</code>, whatever the year follows. Neither value is the first or the last date in the data. The answer looks plausible and is wrong.</p>
 <ol start="4" type="1">
-<li>Every later step inherits the type. A date stored as text cannot be sorted, subtracted or plotted on a time axis, and a number stored as text breaks every calculation. Fixing the type at import also writes down, in the script, what you expect the file to contain. The day the provider changes the format, the import fails instead of producing <code>NA</code>.</li>
+<li><p><em>Why is it better to fix a type at import than to convert the column afterwards?</em></p>
+<p>Every later step inherits the type, and a date stored as text cannot be sorted, subtracted or plotted on a time axis. Stating the type also records, in the script, what you expect the file to contain: the day the provider changes the format, the import fails instead of quietly producing <code>NA</code>.</p></li>
 </ol>
 </section>
-<section id="exercise-6-a-file-that-is-not-comma-separated" class="level1">
-<h1>Exercise 6: a file that is not comma separated</h1>
+<section id="exercise-3-select-what-you-need-and-write-it-back" class="level1">
+<h1>Exercise 3: select what you need and write it back</h1>
 <ol type="1">
-<li><p>The file starts with nine lines of metadata: variable, data set, file name, file path, bad flag, subset, longitude, latitude, and one line repeating the coordinates. The first observation, <code>JAN-1880</code>, is on line 10.</p></li>
-<li><p>Reading it:</p></li>
+<li><p><em><code>Name</code> holds the indicator that was measured. List the distinct values with <code>unique(air_quality$Name)</code>. How many are there?</em></p>
+<p>Nineteen, from ozone to traffic density:</p></li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb97"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb97-1"><a href="#cb97-1" aria-hidden="true" tabindex="-1"></a>ta <span class="ot">&lt;-</span> <span class="fu">read_tsv</span>(<span class="st">&quot;data/temp_anomaly.txt&quot;</span>,</span>
-<span id="cb97-2"><a href="#cb97-2" aria-hidden="true" tabindex="-1"></a>               <span class="at">skip =</span> <span class="dv">9</span>,</span>
-<span id="cb97-3"><a href="#cb97-3" aria-hidden="true" tabindex="-1"></a>               <span class="at">col_names =</span> <span class="fu">c</span>(<span class="st">&quot;month&quot;</span>, <span class="st">&quot;temp_anomaly&quot;</span>),</span>
-<span id="cb97-4"><a href="#cb97-4" aria-hidden="true" tabindex="-1"></a>               <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb97-5"><a href="#cb97-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(ta)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 6 × 2
-  month    temp_anomaly
-  &lt;chr&gt;           &lt;dbl&gt;
-1 JAN-1880         0.33
-2 FEB-1880         0.3 
-3 MAR-1880         0.47
-4 APR-1880         0.15
-5 MAY-1880        -0.36
-6 JUN-1880        -0.43</code></pre>
-</div>
-</div>
-<ol start="3" type="1">
-<li><p><code>skip = 9</code> drops the first nine lines before parsing starts, so the metadata stays out of the table. <code>col_names</code> is needed because the first line after the metadata is already data: there is no header row for <code>readr</code> to take the names from. Without it, <code>JAN-1880</code> and <code>0.33</code> would have become the column names and the series would be one observation short.</p></li>
-<li><p>The separator is a tab, not a comma:</p></li>
-</ol>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb99"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb99-1"><a href="#cb99-1" aria-hidden="true" tabindex="-1"></a>ta_wrong <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;data/temp_anomaly.txt&quot;</span>, <span class="at">skip =</span> <span class="dv">9</span>,</span>
-<span id="cb99-2"><a href="#cb99-2" aria-hidden="true" tabindex="-1"></a>                     <span class="at">col_names =</span> <span class="st">&quot;everything&quot;</span>, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb99-3"><a href="#cb99-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(ta_wrong, <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 3 × 1
-  everything      
-  &lt;chr&gt;           
-1 &quot;JAN-1880\t0.33&quot;
-2 &quot;FEB-1880\t0.3&quot; 
-3 &quot;MAR-1880\t0.47&quot;</code></pre>
-</div>
-</div>
-<p><code>read_csv()</code> finds no comma, so it reads each line as one single field: one column, with the tab character <code>\t</code> still inside the values. Nothing is separated, and the anomaly is text instead of a number. <code>read_tsv()</code> is <code>read_csv()</code> with the tab as delimiter, and <code>read_delim()</code> lets you give any delimiter, which is what the <code>:</code> separated file in the Lecture 4 homework needs.</p>
-<ol start="5" type="1">
-<li>The series and its mean:</li>
-</ol>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb101"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb101-1"><a href="#cb101-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(ta)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 1713</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb103"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb103-1"><a href="#cb103-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(ta<span class="sc">$</span>temp_anomaly)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.09798015</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb105"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb105-1"><a href="#cb105-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(ta<span class="sc">$</span>temp_anomaly)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>    Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
--1.78000 -0.28000  0.07000  0.09798  0.48000  1.79000 </code></pre>
-</div>
-</div>
-<p>1713 monthly observations from January 1880 on, with a mean anomaly of about 0.1 K, a minimum of <span class="math inline">\(-1.78\)</span> and a maximum of <span class="math inline">\(1.79\)</span>. The largest values are the recent ones.</p>
-</section>
-<section id="exercise-7-select-what-you-need-and-write-it-back" class="level1">
-<h1>Exercise 7: select what you need and write it back</h1>
-<ol type="1">
-<li>Nineteen indicators, from ozone to traffic density:</li>
-</ol>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb107"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb107-1"><a href="#cb107-1" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(<span class="fu">unique</span>(aq<span class="sc">$</span>Name))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(<span class="fu">unique</span>(air_quality<span class="sc">$</span>Name))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 19</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb109"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb109-1"><a href="#cb109-1" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(aq<span class="sc">$</span>Name)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(air_quality<span class="sc">$</span>Name)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] &quot;Ozone (O3)&quot;                                                                  
  [2] &quot;Sulfur Dioxide (SO2)&quot;                                                        
@@ -3818,48 +3508,48 @@ $ Message          &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N
 </div>
 </div>
 <ol start="2" type="1">
-<li>Three conditions, with <code>&amp;</code> between each pair:</li>
+<li><em>Keep the rows measuring fine particulate matter in the winter of 2008-09 in Lower Manhattan, with <code>subset()</code> and <code>&amp;</code>. How many rows are left, and what is the measured value?</em></li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb111"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb111-1"><a href="#cb111-1" aria-hidden="true" tabindex="-1"></a>pm <span class="ot">&lt;-</span> <span class="fu">subset</span>(aq,</span>
-<span id="cb111-2"><a href="#cb111-2" aria-hidden="true" tabindex="-1"></a>             Name <span class="sc">==</span> <span class="st">&quot;Fine Particulate Matter (PM2.5)&quot;</span> <span class="sc">&amp;</span></span>
-<span id="cb111-3"><a href="#cb111-3" aria-hidden="true" tabindex="-1"></a>             <span class="st">`</span><span class="at">Time Period</span><span class="st">`</span> <span class="sc">==</span> <span class="st">&quot;Winter 2008-09&quot;</span> <span class="sc">&amp;</span></span>
-<span id="cb111-4"><a href="#cb111-4" aria-hidden="true" tabindex="-1"></a>             <span class="st">`</span><span class="at">Geo Place Name</span><span class="st">`</span> <span class="sc">==</span> <span class="st">&quot;Lower Manhattan&quot;</span>)</span>
-<span id="cb111-5"><a href="#cb111-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb111-6"><a href="#cb111-6" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(pm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>pm25_winter <span class="ot">&lt;-</span> <span class="fu">subset</span>(air_quality,</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>                      Name <span class="sc">==</span> <span class="st">&quot;Fine Particulate Matter (PM2.5)&quot;</span> <span class="sc">&amp;</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>                      <span class="st">`</span><span class="at">Time Period</span><span class="st">`</span> <span class="sc">==</span> <span class="st">&quot;Winter 2008-09&quot;</span> <span class="sc">&amp;</span></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>                      <span class="st">`</span><span class="at">Geo Place Name</span><span class="st">`</span> <span class="sc">==</span> <span class="st">&quot;Lower Manhattan&quot;</span>)</span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(pm25_winter)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1]  1 12</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb113"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb113-1"><a href="#cb113-1" aria-hidden="true" tabindex="-1"></a>pm<span class="sc">$</span><span class="st">`</span><span class="at">Data Value</span><span class="st">`</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>pm25_winter<span class="sc">$</span><span class="st">`</span><span class="at">Data Value</span><span class="st">`</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 15.79</code></pre>
 </div>
 </div>
-<p>One row is left: in winter 2008-09, fine particulate matter in Lower Manhattan was measured at 15.79 mcg/m³. Use <code>&amp;</code> and not <code>&amp;&amp;</code>: <code>&amp;&amp;</code> compares only the first element and returns a single <code>TRUE</code> or <code>FALSE</code>, which keeps either everything or nothing.</p>
+<p>One row: in winter 2008-09, fine particulate matter in Lower Manhattan was measured at 15.79 mcg/m³. Use <code>&amp;</code>, not <code>&amp;&amp;</code>: <code>&amp;&amp;</code> looks only at the first element and returns one <code>TRUE</code> or <code>FALSE</code>, which keeps either everything or nothing.</p>
 <ol start="3" type="1">
-<li>Writing it out:</li>
+<li><em>Save the result as <code>airquality_manhattan.csv</code> with <code>write_csv()</code>, then open the file in a text editor.</em></li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb115"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb115-1"><a href="#cb115-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(pm, <span class="st">&quot;data/airquality_manhattan.csv&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(pm25_winter, <span class="st">&quot;data/airquality_manhattan.csv&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>The file has a header line with the twelve column names and one line of values. <code>write_csv()</code> writes UTF-8 and, unlike <code>write.csv()</code>, adds no column of row numbers. If you want only the number instead of a table, use <code>writeLines(as.character(pm$&quot;Data Value&quot;), &quot;data/airquality_manhattan.txt&quot;)</code>.</p>
+<p>The file holds a header line with the twelve column names and one line of values. <code>write_csv()</code> writes UTF-8 and, unlike <code>write.csv()</code>, adds no column of row numbers. For the number alone, use <code>writeLines(as.character(pm25_winter$&quot;Data Value&quot;), &quot;data/airquality_manhattan.txt&quot;)</code>.</p>
 <ol start="4" type="1">
-<li>Dropping the two conditions on the time period and keeping the place and the indicator gives the whole series for that neighbourhood:</li>
+<li><p><em>Now keep every measurement of fine particulate matter in Lower Manhattan, for all time periods, and save it the same way. If you read <code>Start_Date</code> as a date in Exercise 2, sort the series by date first.</em></p>
+<p>Dropping the condition on the time period leaves the whole series for that neighbourhood:</p></li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb116"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb116-1"><a href="#cb116-1" aria-hidden="true" tabindex="-1"></a>pm_all <span class="ot">&lt;-</span> <span class="fu">subset</span>(aq,</span>
-<span id="cb116-2"><a href="#cb116-2" aria-hidden="true" tabindex="-1"></a>                 Name <span class="sc">==</span> <span class="st">&quot;Fine Particulate Matter (PM2.5)&quot;</span> <span class="sc">&amp;</span></span>
-<span id="cb116-3"><a href="#cb116-3" aria-hidden="true" tabindex="-1"></a>                 <span class="st">`</span><span class="at">Geo Place Name</span><span class="st">`</span> <span class="sc">==</span> <span class="st">&quot;Lower Manhattan&quot;</span>)</span>
-<span id="cb116-4"><a href="#cb116-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb116-5"><a href="#cb116-5" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(pm_all)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>pm25_all <span class="ot">&lt;-</span> <span class="fu">subset</span>(air_quality,</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>                   Name <span class="sc">==</span> <span class="st">&quot;Fine Particulate Matter (PM2.5)&quot;</span> <span class="sc">&amp;</span></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>                   <span class="st">`</span><span class="at">Geo Place Name</span><span class="st">`</span> <span class="sc">==</span> <span class="st">&quot;Lower Manhattan&quot;</span>)</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(pm25_all)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 36 12</code></pre>
 </div>
 </div>
-<p>With the dates read as dates, the series sorts properly:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb118"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb118-1"><a href="#cb118-1" aria-hidden="true" tabindex="-1"></a>pm_sorted <span class="ot">&lt;-</span> pm_all[<span class="fu">order</span>(<span class="fu">as.Date</span>(pm_all<span class="sc">$</span>Start_Date, <span class="at">format =</span> <span class="st">&quot;%m/%d/%Y&quot;</span>)), ]</span>
-<span id="cb118-2"><a href="#cb118-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(pm_sorted[, <span class="fu">c</span>(<span class="st">&quot;Time Period&quot;</span>, <span class="st">&quot;Start_Date&quot;</span>, <span class="st">&quot;Data Value&quot;</span>)], <span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>pm25_sorted <span class="ot">&lt;-</span> pm25_all[<span class="fu">order</span>(<span class="fu">as.Date</span>(pm25_all<span class="sc">$</span>Start_Date, <span class="at">format =</span> <span class="st">&quot;%m/%d/%Y&quot;</span>)), ]</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(pm25_sorted[, <span class="fu">c</span>(<span class="st">&quot;Time Period&quot;</span>, <span class="st">&quot;Start_Date&quot;</span>, <span class="st">&quot;Data Value&quot;</span>)], <span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 4 × 3
   `Time Period`       Start_Date `Data Value`
@@ -3871,55 +3561,55 @@ $ Message          &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb120"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb120-1"><a href="#cb120-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(pm_sorted, <span class="st">&quot;data/airquality_manhattan_all.csv&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(pm25_sorted, <span class="st">&quot;data/airquality_manhattan_all.csv&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>On the text version, sorting puts December before February, for the same reason <code>range()</code> misbehaved in Exercise 5.</p>
+<p>Sorting the text column instead puts December before February, for the same reason <code>range()</code> misbehaved in Exercise 2.</p>
 </section>
-<section id="additional-exercises-for-training" class="level1">
-<h1>Additional exercises for training</h1>
-<section id="exercise-8-the-same-data-in-xml" class="level2">
-<h2 class="anchored" data-anchor-id="exercise-8-the-same-data-in-xml">Exercise 8: the same data in XML</h2>
+<section id="exercise-4-the-same-data-in-xml" class="level1">
+<h1>Exercise 4: the same data in XML</h1>
 <ol type="1">
-<li>What comes back is not a data frame:</li>
+<li><em>Load the file with <code>xml2</code>. What kind of object did you get? Is it a data frame?</em></li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb121"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb121-1"><a href="#cb121-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(xml2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(xml2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: package &#39;xml2&#39; was built under R version 4.5.3</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb123"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb123-1"><a href="#cb123-1" aria-hidden="true" tabindex="-1"></a>doc <span class="ot">&lt;-</span> <span class="fu">read_xml</span>(<span class="st">&quot;data/Air_Quality.xml&quot;</span>)</span>
-<span id="cb123-2"><a href="#cb123-2" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(doc)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>doc <span class="ot">&lt;-</span> <span class="fu">read_xml</span>(<span class="st">&quot;data/Air_Quality.xml&quot;</span>)</span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(doc)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] &quot;xml_document&quot; &quot;xml_node&quot;    </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb125"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb125-1"><a href="#cb125-1" aria-hidden="true" tabindex="-1"></a><span class="fu">xml_name</span>(doc)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">xml_name</span>(doc)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] &quot;row&quot;</code></pre>
 </div>
 </div>
-<p>It is an object that represents the XML tree. It has everything we need, but we cannot use it as a table. The root element is called <code>row</code>.</p>
+<p>Not a data frame: an object representing the XML tree, which holds everything we need but cannot be used as a table. The root element is called <code>row</code>.</p>
 <ol start="2" type="1">
-<li>Each measurement is a <code>row</code> element inside that root, which is why the XPath expression has <code>row</code> twice:</li>
+<li><p><em>Collect the measurements with <code>xml_find_all(doc, &quot;//row/row&quot;)</code> and count them. Compare the number with the number of rows in the CSV.</em></p>
+<p>Each measurement is a <code>row</code> element inside a root that is also called <code>row</code>, which is why the XPath expression has <code>row</code> twice:</p></li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb127"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb127-1"><a href="#cb127-1" aria-hidden="true" tabindex="-1"></a>rows <span class="ot">&lt;-</span> <span class="fu">xml_find_all</span>(doc, <span class="st">&quot;//row/row&quot;</span>)</span>
-<span id="cb127-2"><a href="#cb127-2" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(rows)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>rows <span class="ot">&lt;-</span> <span class="fu">xml_find_all</span>(doc, <span class="st">&quot;//row/row&quot;</span>)</span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(rows)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 16122</code></pre>
 </div>
 </div>
-<p>16,122 measurements, the same number as the CSV has rows. The two files hold the same data in two formats.</p>
+<p>16,122, the same as the CSV. The two files hold the same data in two formats.</p>
 <ol start="3" type="1">
-<li>The children of one measurement are the variables, and their text is the values:</li>
+<li><p><em>Inspect the first measurement: the names of its children, and their contents.</em></p>
+<p>The children are the variables, their text is the values:</p></li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb129"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb129-1"><a href="#cb129-1" aria-hidden="true" tabindex="-1"></a><span class="fu">xml_name</span>(<span class="fu">xml_children</span>(rows[[<span class="dv">1</span>]]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">xml_name</span>(<span class="fu">xml_children</span>(rows[[<span class="dv">1</span>]]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] &quot;unique_id&quot;      &quot;indicator_id&quot;   &quot;name&quot;           &quot;measure&quot;        &quot;measure_info&quot;  
  [6] &quot;geo_type_name&quot;  &quot;geo_join_id&quot;    &quot;geo_place_name&quot; &quot;time_period&quot;    &quot;start_date&quot;    
 [11] &quot;data_value&quot;    </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb131"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb131-1"><a href="#cb131-1" aria-hidden="true" tabindex="-1"></a><span class="fu">xml_text</span>(<span class="fu">xml_children</span>(rows[[<span class="dv">1</span>]]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="fu">xml_text</span>(<span class="fu">xml_children</span>(rows[[<span class="dv">1</span>]]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] &quot;216498&quot;              &quot;386&quot;                 &quot;Ozone (O3)&quot;          &quot;Mean&quot;               
  [5] &quot;ppb&quot;                 &quot;CD&quot;                  &quot;313&quot;                 &quot;Coney Island (CD13)&quot;
@@ -3927,116 +3617,219 @@ $ Message          &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N
 </div>
 </div>
 <ol start="4" type="1">
-<li>One variable for all measurements, with one XPath expression:</li>
+<li><em>Extract one variable for all measurements with an XPath expression, for example every <code>data_value</code>. What type is the result, and what do you have to do before you can compute the mean?</em></li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb133"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb133-1"><a href="#cb133-1" aria-hidden="true" tabindex="-1"></a>data_value <span class="ot">&lt;-</span> <span class="fu">xml_text</span>(<span class="fu">xml_find_all</span>(doc, <span class="st">&quot;//row/row/data_value&quot;</span>))</span>
-<span id="cb133-2"><a href="#cb133-2" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(data_value)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>data_value <span class="ot">&lt;-</span> <span class="fu">xml_text</span>(<span class="fu">xml_find_all</span>(doc, <span class="st">&quot;//row/row/data_value&quot;</span>))</span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(data_value)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 16122</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb135"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb135-1"><a href="#cb135-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data_value, <span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data_value, <span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] &quot;34.64&quot; &quot;33.22&quot; &quot;31.25&quot; &quot;31.15&quot; &quot;5.89&quot; </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb137"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb137-1"><a href="#cb137-1" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(data_value)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(data_value)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] &quot;character&quot;</code></pre>
 </div>
 </div>
-<p>Everything that comes out of an XML document is text, because XML has no column types. So you have to convert before computing, as in Exercise 1:</p>
+<p>Text. XML has no column types, so everything arrives as character and you convert before computing:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb139"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb139-1"><a href="#cb139-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(<span class="fu">as.numeric</span>(data_value))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(<span class="fu">as.numeric</span>(data_value))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 19.12916</code></pre>
 </div>
 </div>
 <ol start="5" type="1">
-<li>The dates and the file sizes:</li>
+<li><em>Compare <code>start_date</code> here with <code>Start_Date</code> in the CSV, and the size of the two files with <code>file.size()</code>. What does XML give you that a CSV cannot, and what do you pay for it?</em></li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb141"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb141-1"><a href="#cb141-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">xml_text</span>(<span class="fu">xml_find_all</span>(doc, <span class="st">&quot;//row/row/start_date&quot;</span>)), <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">xml_text</span>(<span class="fu">xml_find_all</span>(doc, <span class="st">&quot;//row/row/start_date&quot;</span>)), <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] &quot;2013-06-01T00:00:00&quot; &quot;2014-06-01T00:00:00&quot;</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb143"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb143-1"><a href="#cb143-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">file.size</span>(<span class="st">&quot;data/Air_Quality.xml&quot;</span>) <span class="sc">/</span> <span class="dv">1024</span><span class="sc">^</span><span class="dv">2</span>, <span class="dv">1</span>)   <span class="co"># MB</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">file.size</span>(<span class="st">&quot;data/Air_Quality.xml&quot;</span>) <span class="sc">/</span> <span class="dv">1024</span><span class="sc">^</span><span class="dv">2</span>, <span class="dv">1</span>)   <span class="co"># MB</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 8.7</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb145"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb145-1"><a href="#cb145-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">file.size</span>(<span class="st">&quot;data/Air_Quality.csv&quot;</span>) <span class="sc">/</span> <span class="dv">1024</span><span class="sc">^</span><span class="dv">2</span>, <span class="dv">1</span>)   <span class="co"># MB</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">file.size</span>(<span class="st">&quot;data/Air_Quality.csv&quot;</span>) <span class="sc">/</span> <span class="dv">1024</span><span class="sc">^</span><span class="dv">2</span>, <span class="dv">1</span>)   <span class="co"># MB</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1.9</code></pre>
 </div>
 </div>
-<p>In the XML the dates are ISO timestamps, <code>2013-06-01T00:00:00</code>, which <code>readr</code> parses as dates without a format string. The CSV has the ambiguous <code>06/01/2013</code>.</p>
-<p>XML stores structure: elements can be nested, repeated and labelled, every value carries its variable name, and a document can describe its own rules. A CSV can only hold a flat table. You pay for it in size and speed, 8.7 MB against 1.9 MB for the same data, because every value is wrapped in its tags, and you need XPath to get anything out. For a flat table, a CSV is easier.</p>
+<p>The XML carries ISO timestamps, <code>2013-06-01T00:00:00</code>, which <code>readr</code> parses without a format string; the CSV has the ambiguous <code>06/01/2013</code>.</p>
+<p>XML stores structure: elements can be nested, repeated and labelled, every value carries its variable name, and a document can describe its own rules. A CSV holds a flat table and nothing else. You pay in size and speed, 8.7 MB against 1.9 MB for the same data, because every value is wrapped in its tags, and you need XPath to get anything out. For a flat table, the CSV is easier.</p>
 </section>
-<section id="exercise-9-exploring-html-in-the-browser" class="level2">
-<h2 class="anchored" data-anchor-id="exercise-9-exploring-html-in-the-browser">Exercise 9: exploring HTML in the browser</h2>
+<section id="exercise-5-a-file-that-is-not-comma-separated" class="level1">
+<h1>Exercise 5: a file that is not comma separated</h1>
 <ol type="1">
-<li><p>to 3. Every page arrives in your browser as HTML text. In the source you can recognise the structure: <code>&lt;article&gt;</code> for a story, <code>&lt;h3&gt;</code> for its headline, <code>&lt;a href=&quot;...&quot;&gt;</code> for the link, <code>&lt;img src=&quot;...&quot;&gt;</code> for the image, and <code>class</code> attributes that the stylesheet uses to decide how it looks. The headline on the screen is the text between an opening and a closing tag.</p></li>
-<li><p>The page changes immediately, and only on your own screen. The browser keeps a copy of the document in memory, the DOM, and renders that copy. Your edit changes the copy, not the server. Reload the page and the real headline is back. Nobody else saw anything.</p></li>
-<li><p>The image works the same way: paste the address of an image that is online into the <code>src</code> attribute of the <code>&lt;img&gt;</code> tag, and the browser fetches that one instead.</p></li>
-<li><p>What a website shows is a rendering of data that was sent to you as text, and the rendering can be changed at will. Two consequences. The data behind a page is accessible, which is what makes Exercise 10 possible. And a screenshot of a website is not evidence of anything.</p></li>
+<li><em>Open <code>data/temp_anomaly.txt</code> in a text editor, or print its first lines from R. How many lines of metadata are there, and on which line does the first observation start?</em></li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="fu">readLines</span>(<span class="st">&quot;data/temp_anomaly.txt&quot;</span>, <span class="at">n =</span> <span class="dv">12</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] &quot;             VARIABLE : Surface temperature anomaly (K)&quot;     
+ [2] &quot;             DATA SET : GISTEMP Surface Temperature Analysis&quot;
+ [3] &quot;             FILENAME : gistemp1200_GHCNv4_ERSSTv5.nc&quot;       
+ [4] &quot;             FILEPATH : /usr/local/fer_dsets/data/GISTEMP/&quot;  
+ [5] &quot;             BAD FLAG : -1.E+34       &quot;                      
+ [6] &quot;             SUBSET   : 1713 points (TIME)&quot;                  
+ [7] &quot;             LONGITUDE: 9W(-9)&quot;                              
+ [8] &quot;             LATITUDE : 47N&quot;                                 
+ [9] &quot;         \t9W(-9)  &quot;                                         
+[10] &quot;JAN-1880\t0.33&quot;                                              
+[11] &quot;FEB-1880\t0.3&quot;                                               
+[12] &quot;MAR-1880\t0.47&quot;                                              </code></pre>
+</div>
+</div>
+<p>Nine lines of metadata: variable, data set, file name, file path, bad flag, subset, longitude, latitude, and a line repeating the coordinates. The first observation, <code>JAN-1880</code>, is on line 10.</p>
+<p>The <code>\t</code> between the month and the value is the tab character, which is what <code>read_tsv()</code> uses as separator in question 2.</p>
+<ol start="2" type="1">
+<li><em>Read the file with <code>read_tsv()</code>, <code>skip = 9</code> and <code>col_names = c(&quot;month&quot;, &quot;temp_anomaly&quot;)</code>.</em></li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a>anomalies <span class="ot">&lt;-</span> <span class="fu">read_tsv</span>(<span class="st">&quot;data/temp_anomaly.txt&quot;</span>,</span>
+<span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a>                      <span class="at">skip =</span> <span class="dv">9</span>,</span>
+<span id="cb74-3"><a href="#cb74-3" aria-hidden="true" tabindex="-1"></a>                      <span class="at">col_names =</span> <span class="fu">c</span>(<span class="st">&quot;month&quot;</span>, <span class="st">&quot;temp_anomaly&quot;</span>),</span>
+<span id="cb74-4"><a href="#cb74-4" aria-hidden="true" tabindex="-1"></a>                      <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb74-5"><a href="#cb74-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(anomalies)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 2
+  month    temp_anomaly
+  &lt;chr&gt;           &lt;dbl&gt;
+1 JAN-1880         0.33
+2 FEB-1880         0.3 
+3 MAR-1880         0.47
+4 APR-1880         0.15
+5 MAY-1880        -0.36
+6 JUN-1880        -0.43</code></pre>
+</div>
+</div>
+<ol start="3" type="1">
+<li><p><em>What is the purpose of the <code>skip</code> argument, and why is it set to 9? And why does <code>col_names</code> have to be given here?</em></p>
+<p><code>skip = 9</code> drops the metadata before parsing starts, so it stays out of the table. <code>col_names</code> is needed because the first line after the metadata is already an observation: there is no header row to take the names from. Without it, <code>JAN-1880</code> and <code>0.33</code> would have become the column names and the series would be one observation short.</p></li>
+<li><p><em>Why do we use <code>read_tsv()</code> and not <code>read_csv()</code>? Try it with <code>read_csv()</code>: how many columns do you get, and what is inside them?</em></p>
+<p>The separator is a tab, not a comma:</p></li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a>anomalies_wrong <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;data/temp_anomaly.txt&quot;</span>, <span class="at">skip =</span> <span class="dv">9</span>,</span>
+<span id="cb76-2"><a href="#cb76-2" aria-hidden="true" tabindex="-1"></a>                            <span class="at">col_names =</span> <span class="st">&quot;everything&quot;</span>, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb76-3"><a href="#cb76-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(anomalies_wrong, <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 1
+  everything      
+  &lt;chr&gt;           
+1 &quot;JAN-1880\t0.33&quot;
+2 &quot;FEB-1880\t0.3&quot; 
+3 &quot;MAR-1880\t0.47&quot;</code></pre>
+</div>
+</div>
+<p>Finding no comma, <code>read_csv()</code> reads each line as a single field: one column, with the tab character <code>\t</code> still inside the values, and the anomaly as text instead of a number. <code>read_tsv()</code> is <code>read_csv()</code> with the tab as delimiter, and <code>read_delim()</code> takes any delimiter, which is what the <code>:</code> separated file in the Lecture 4 homework needs.</p>
+<ol start="5" type="1">
+<li><em>How many observations does the series contain, and what is the mean anomaly?</em></li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb78"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(anomalies)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1713</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb80"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(anomalies<span class="sc">$</span>temp_anomaly)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.09798015</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb82"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(anomalies<span class="sc">$</span>temp_anomaly)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
+-1.78000 -0.28000  0.07000  0.09798  0.48000  1.79000 </code></pre>
+</div>
+</div>
+<p>1713 monthly observations from January 1880 on, mean anomaly about 0.1 K, minimum <span class="math inline">\(-1.78\)</span>, maximum <span class="math inline">\(1.79\)</span>. The largest values are the recent ones.</p>
+</section>
+<section id="exercise-6-what-the-browser-shows-and-what-the-server-sent" class="level1">
+<h1>Exercise 6: what the browser shows and what the server sent</h1>
+<ol type="1">
+<li><p>and 2. <em>Open the page, inspect the table, and say which tags hold the years and which hold the party names.</em></p>
+<p>The table is a <code>&lt;table class=&quot;wikitable&quot;&gt;</code>, and each Congress is one <code>&lt;tr&gt;</code>. Inside a row, the year and the party names each sit in their own <code>&lt;td&gt;</code>; the first row uses <code>&lt;th&gt;</code> for the column names. That regularity is what <code>html_table()</code> exploits in Exercise 7: rows become rows, cells become columns.</p></li>
+<li><p><em>Replace the <code>&lt;h1&gt;</code> title with one of your own. What happens on the screen?</em></p>
+<p>The title changes immediately. The browser holds a copy of the document in memory, the DOM, and renders that copy; your edit changes the copy.</p></li>
+<li><p><em>Read the same page with R and print its first heading. Does your title appear? Why not?</em></p></li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb84"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rvest)</span>
+<span id="cb84-2"><a href="#cb84-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb84-3"><a href="#cb84-3" aria-hidden="true" tabindex="-1"></a>doc <span class="ot">&lt;-</span> <span class="fu">read_html</span>(<span class="st">&quot;https://en.wikipedia.org/wiki/Divided_government_in_the_United_States&quot;</span>)</span>
+<span id="cb84-4"><a href="#cb84-4" aria-hidden="true" tabindex="-1"></a><span class="fu">html_text</span>(<span class="fu">html_element</span>(doc, <span class="st">&quot;h1&quot;</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<pre><code>[1] &quot;Divided government in the United States&quot;</code></pre>
+<p>The real title comes back, not yours. <code>read_html()</code> asks Wikipedia’s server for the page and parses the HTML the server sends; it never sees your browser. Your edit existed in one tab, on one computer.</p>
+<ol start="5" type="1">
+<li><p><em>Reload the page. Where did your edit go, and who else saw it?</em></p>
+<p>It is gone, and nobody saw it. Reloading throws the edited copy away and renders the document the server sends again.</p></li>
+<li><p><em>What does this tell you about the difference between what a website shows and what the data behind it is?</em></p>
+<p>A website is a rendering of text that a server sent you, and the rendering can be changed at will. Two consequences: the data behind a page is accessible, which is what makes Exercise 7 possible, and a screenshot of a website is not evidence of anything.</p></li>
 </ol>
 </section>
-<section id="exercise-10-scraping-a-table-from-a-web-page" class="level2">
-<h2 class="anchored" data-anchor-id="exercise-10-scraping-a-table-from-a-web-page">Exercise 10: scraping a table from a web page</h2>
+<section id="additional-exercises-for-training" class="level1">
+<h1>Additional exercises for training</h1>
+<section id="exercise-7-scraping-a-table-from-a-web-page" class="level2">
+<h2 class="anchored" data-anchor-id="exercise-7-scraping-a-table-from-a-web-page">Exercise 7: scraping a table from a web page</h2>
+<p><em>Build a CSV file with data on divided government in US politics out of the Wikipedia page on <a href="https://en.wikipedia.org/wiki/Divided_government_in_the_United_States">divided government in the United States</a>: fetch the page with <code>read_html()</code>, pick the table with <code>Year</code>, <code>President</code>, <code>Senate</code> and <code>House</code>, drop the footnote row at the end, turn every range of years into one row per year, remove Wikipedia’s footnote markers, and write the result to <code>data/divided_gov.csv</code>.</em></p>
 <p>The code needs an internet connection, so it is shown here rather than executed.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb147"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb147-1"><a href="#cb147-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rvest)</span>
-<span id="cb147-2"><a href="#cb147-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb147-3"><a href="#cb147-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringr)</span>
-<span id="cb147-4"><a href="#cb147-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
-<span id="cb147-5"><a href="#cb147-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb147-6"><a href="#cb147-6" aria-hidden="true" tabindex="-1"></a>SOURCE_PATH <span class="ot">&lt;-</span> <span class="st">&quot;https://en.wikipedia.org/wiki/Divided_government_in_the_United_States&quot;</span></span>
-<span id="cb147-7"><a href="#cb147-7" aria-hidden="true" tabindex="-1"></a>OUTPUT_PATH <span class="ot">&lt;-</span> <span class="st">&quot;data/divided_gov.csv&quot;</span></span>
-<span id="cb147-8"><a href="#cb147-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb147-9"><a href="#cb147-9" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. fetch the whole HTML document</span></span>
-<span id="cb147-10"><a href="#cb147-10" aria-hidden="true" tabindex="-1"></a>doc <span class="ot">&lt;-</span> <span class="fu">read_html</span>(SOURCE_PATH)</span>
-<span id="cb147-11"><a href="#cb147-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb147-12"><a href="#cb147-12" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. extract the tables and pick the right one</span></span>
-<span id="cb147-13"><a href="#cb147-13" aria-hidden="true" tabindex="-1"></a>tables <span class="ot">&lt;-</span> <span class="fu">html_table</span>(doc, <span class="at">fill =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb147-14"><a href="#cb147-14" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(tables)</span>
-<span id="cb147-15"><a href="#cb147-15" aria-hidden="true" tabindex="-1"></a>tab <span class="ot">&lt;-</span> tables[[<span class="dv">2</span>]]        <span class="co"># the one with Year, President, Senate, House</span></span>
-<span id="cb147-16"><a href="#cb147-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb147-17"><a href="#cb147-17" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. check the last row and drop it if it is a footnote</span></span>
-<span id="cb147-18"><a href="#cb147-18" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(tab, <span class="dv">2</span>)</span>
-<span id="cb147-19"><a href="#cb147-19" aria-hidden="true" tabindex="-1"></a>tab <span class="ot">&lt;-</span> tab[<span class="sc">-</span><span class="fu">nrow</span>(tab), ]</span>
-<span id="cb147-20"><a href="#cb147-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb147-21"><a href="#cb147-21" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. one row per year instead of one row per Congress</span></span>
-<span id="cb147-22"><a href="#cb147-22" aria-hidden="true" tabindex="-1"></a>all_years <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
-<span id="cb147-23"><a href="#cb147-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb147-24"><a href="#cb147-24" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_len</span>(<span class="fu">nrow</span>(tab))) {</span>
-<span id="cb147-25"><a href="#cb147-25" aria-hidden="true" tabindex="-1"></a>  row <span class="ot">&lt;-</span> tab[i, ]</span>
-<span id="cb147-26"><a href="#cb147-26" aria-hidden="true" tabindex="-1"></a>  pieces <span class="ot">&lt;-</span> <span class="fu">unlist</span>(<span class="fu">strsplit</span>(row<span class="sc">$</span>Year, <span class="at">split =</span> <span class="st">&quot;[</span><span class="sc">\\</span><span class="st">–</span><span class="sc">\\</span><span class="st">-]&quot;</span>, <span class="at">perl =</span> <span class="cn">TRUE</span>))</span>
-<span id="cb147-27"><a href="#cb147-27" aria-hidden="true" tabindex="-1"></a>  begin <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(pieces[<span class="dv">1</span>])</span>
-<span id="cb147-28"><a href="#cb147-28" aria-hidden="true" tabindex="-1"></a>  end <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(pieces[<span class="dv">2</span>])</span>
-<span id="cb147-29"><a href="#cb147-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb147-30"><a href="#cb147-30" aria-hidden="true" tabindex="-1"></a>  all_years[[i]] <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">year =</span> begin<span class="sc">:</span>(end <span class="sc">-</span> <span class="dv">1</span>),</span>
-<span id="cb147-31"><a href="#cb147-31" aria-hidden="true" tabindex="-1"></a>                               <span class="at">president =</span> row<span class="sc">$</span>President,</span>
-<span id="cb147-32"><a href="#cb147-32" aria-hidden="true" tabindex="-1"></a>                               <span class="at">senate =</span> row<span class="sc">$</span>Senate,</span>
-<span id="cb147-33"><a href="#cb147-33" aria-hidden="true" tabindex="-1"></a>                               <span class="at">house =</span> row<span class="sc">$</span>House)</span>
-<span id="cb147-34"><a href="#cb147-34" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb147-35"><a href="#cb147-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb147-36"><a href="#cb147-36" aria-hidden="true" tabindex="-1"></a>divided_gov <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(all_years)</span>
-<span id="cb147-37"><a href="#cb147-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb147-38"><a href="#cb147-38" aria-hidden="true" tabindex="-1"></a><span class="co"># 5. remove Wikipedia&#39;s footnote markers</span></span>
-<span id="cb147-39"><a href="#cb147-39" aria-hidden="true" tabindex="-1"></a>divided_gov<span class="sc">$</span>senate <span class="ot">&lt;-</span> <span class="fu">str_remove_all</span>(divided_gov<span class="sc">$</span>senate, <span class="st">&quot;</span><span class="sc">\\</span><span class="st">[[^</span><span class="sc">\\</span><span class="st">]]*</span><span class="sc">\\</span><span class="st">]&quot;</span>)</span>
-<span id="cb147-40"><a href="#cb147-40" aria-hidden="true" tabindex="-1"></a>divided_gov<span class="sc">$</span>house <span class="ot">&lt;-</span> <span class="fu">str_remove_all</span>(divided_gov<span class="sc">$</span>house, <span class="st">&quot;</span><span class="sc">\\</span><span class="st">[[^</span><span class="sc">\\</span><span class="st">]]*</span><span class="sc">\\</span><span class="st">]&quot;</span>)</span>
-<span id="cb147-41"><a href="#cb147-41" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb147-42"><a href="#cb147-42" aria-hidden="true" tabindex="-1"></a><span class="co"># 6. inspect and write to disk</span></span>
-<span id="cb147-43"><a href="#cb147-43" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(divided_gov)</span>
-<span id="cb147-44"><a href="#cb147-44" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(divided_gov, OUTPUT_PATH)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb86"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rvest)</span>
+<span id="cb86-2"><a href="#cb86-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb86-3"><a href="#cb86-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringr)</span>
+<span id="cb86-4"><a href="#cb86-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb86-5"><a href="#cb86-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb86-6"><a href="#cb86-6" aria-hidden="true" tabindex="-1"></a>SOURCE_PATH <span class="ot">&lt;-</span> <span class="st">&quot;https://en.wikipedia.org/wiki/Divided_government_in_the_United_States&quot;</span></span>
+<span id="cb86-7"><a href="#cb86-7" aria-hidden="true" tabindex="-1"></a>OUTPUT_PATH <span class="ot">&lt;-</span> <span class="st">&quot;data/divided_gov.csv&quot;</span></span>
+<span id="cb86-8"><a href="#cb86-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb86-9"><a href="#cb86-9" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. fetch the whole HTML document</span></span>
+<span id="cb86-10"><a href="#cb86-10" aria-hidden="true" tabindex="-1"></a>doc <span class="ot">&lt;-</span> <span class="fu">read_html</span>(SOURCE_PATH)</span>
+<span id="cb86-11"><a href="#cb86-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb86-12"><a href="#cb86-12" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. extract the tables and pick the right one</span></span>
+<span id="cb86-13"><a href="#cb86-13" aria-hidden="true" tabindex="-1"></a>tables <span class="ot">&lt;-</span> <span class="fu">html_table</span>(doc, <span class="at">fill =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb86-14"><a href="#cb86-14" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(tables)</span>
+<span id="cb86-15"><a href="#cb86-15" aria-hidden="true" tabindex="-1"></a>tab <span class="ot">&lt;-</span> tables[[<span class="dv">2</span>]]        <span class="co"># the one with Year, President, Senate, House</span></span>
+<span id="cb86-16"><a href="#cb86-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb86-17"><a href="#cb86-17" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. check the last row and drop it if it is a footnote</span></span>
+<span id="cb86-18"><a href="#cb86-18" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(tab, <span class="dv">2</span>)</span>
+<span id="cb86-19"><a href="#cb86-19" aria-hidden="true" tabindex="-1"></a>tab <span class="ot">&lt;-</span> tab[<span class="sc">-</span><span class="fu">nrow</span>(tab), ]</span>
+<span id="cb86-20"><a href="#cb86-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb86-21"><a href="#cb86-21" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. one row per year instead of one row per Congress</span></span>
+<span id="cb86-22"><a href="#cb86-22" aria-hidden="true" tabindex="-1"></a>all_years <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb86-23"><a href="#cb86-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb86-24"><a href="#cb86-24" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_len</span>(<span class="fu">nrow</span>(tab))) {</span>
+<span id="cb86-25"><a href="#cb86-25" aria-hidden="true" tabindex="-1"></a>  row <span class="ot">&lt;-</span> tab[i, ]</span>
+<span id="cb86-26"><a href="#cb86-26" aria-hidden="true" tabindex="-1"></a>  pieces <span class="ot">&lt;-</span> <span class="fu">unlist</span>(<span class="fu">strsplit</span>(row<span class="sc">$</span>Year, <span class="at">split =</span> <span class="st">&quot;[</span><span class="sc">\\</span><span class="st">–</span><span class="sc">\\</span><span class="st">-]&quot;</span>, <span class="at">perl =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb86-27"><a href="#cb86-27" aria-hidden="true" tabindex="-1"></a>  begin <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(pieces[<span class="dv">1</span>])</span>
+<span id="cb86-28"><a href="#cb86-28" aria-hidden="true" tabindex="-1"></a>  end <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(pieces[<span class="dv">2</span>])</span>
+<span id="cb86-29"><a href="#cb86-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb86-30"><a href="#cb86-30" aria-hidden="true" tabindex="-1"></a>  all_years[[i]] <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">year =</span> begin<span class="sc">:</span>(end <span class="sc">-</span> <span class="dv">1</span>),</span>
+<span id="cb86-31"><a href="#cb86-31" aria-hidden="true" tabindex="-1"></a>                               <span class="at">president =</span> row<span class="sc">$</span>President,</span>
+<span id="cb86-32"><a href="#cb86-32" aria-hidden="true" tabindex="-1"></a>                               <span class="at">senate =</span> row<span class="sc">$</span>Senate,</span>
+<span id="cb86-33"><a href="#cb86-33" aria-hidden="true" tabindex="-1"></a>                               <span class="at">house =</span> row<span class="sc">$</span>House)</span>
+<span id="cb86-34"><a href="#cb86-34" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb86-35"><a href="#cb86-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb86-36"><a href="#cb86-36" aria-hidden="true" tabindex="-1"></a>divided_gov <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(all_years)</span>
+<span id="cb86-37"><a href="#cb86-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb86-38"><a href="#cb86-38" aria-hidden="true" tabindex="-1"></a><span class="co"># 5. remove Wikipedia&#39;s footnote markers</span></span>
+<span id="cb86-39"><a href="#cb86-39" aria-hidden="true" tabindex="-1"></a>divided_gov<span class="sc">$</span>senate <span class="ot">&lt;-</span> <span class="fu">str_remove_all</span>(divided_gov<span class="sc">$</span>senate, <span class="st">&quot;</span><span class="sc">\\</span><span class="st">[[^</span><span class="sc">\\</span><span class="st">]]*</span><span class="sc">\\</span><span class="st">]&quot;</span>)</span>
+<span id="cb86-40"><a href="#cb86-40" aria-hidden="true" tabindex="-1"></a>divided_gov<span class="sc">$</span>house <span class="ot">&lt;-</span> <span class="fu">str_remove_all</span>(divided_gov<span class="sc">$</span>house, <span class="st">&quot;</span><span class="sc">\\</span><span class="st">[[^</span><span class="sc">\\</span><span class="st">]]*</span><span class="sc">\\</span><span class="st">]&quot;</span>)</span>
+<span id="cb86-41"><a href="#cb86-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb86-42"><a href="#cb86-42" aria-hidden="true" tabindex="-1"></a><span class="co"># 6. inspect and write to disk</span></span>
+<span id="cb86-43"><a href="#cb86-43" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(divided_gov)</span>
+<span id="cb86-44"><a href="#cb86-44" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(divided_gov, OUTPUT_PATH)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The result is also in the <code>data</code> folder:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb148"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb148-1"><a href="#cb148-1" aria-hidden="true" tabindex="-1"></a>divided_gov <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">&quot;data/divided_gov.csv&quot;</span>, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb148-2"><a href="#cb148-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(divided_gov)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb87"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a>divided_gov <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">&quot;data/divided_gov.csv&quot;</span>, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb87-2"><a href="#cb87-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(divided_gov)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 164   4</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb150"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb150-1"><a href="#cb150-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(divided_gov, <span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb89"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(divided_gov, <span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 4 × 4
    year president senate house
@@ -4048,9 +3841,9 @@ $ Message          &lt;lgl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N
 </div>
 </div>
 <p>Three remarks on the method.</p>
-<p><code>html_table()</code> returns a list, because a page usually has more than one table, so you have to look at the candidates and choose. <code>fill = TRUE</code> pads rows that have fewer cells than the header, which is common in hand-written Wikipedia tables.</p>
-<p>The split pattern <code>&quot;[\\–\\-]&quot;</code> matches two characters: the ASCII hyphen <code>-</code> and the typographic en dash <code>–</code>. Wikipedia uses both, and a pattern with only the hyphen fails on part of the rows without saying so. It is the same kind of problem as the encoding in Exercise 3.</p>
-<p><code>begin:(end - 1)</code> and not <code>begin:end</code>: a Congress from 1861 to 1863 covers the years 1861 and 1862, and 1863 belongs to the next one. Off-by-one errors are the usual mistake when reshaping periods into years, and the way to catch them is to count a couple of rows by hand.</p>
+<p><code>html_table()</code> returns a list, because a page usually has more than one table, so you have to look at the candidates and choose. <code>fill = TRUE</code> pads rows with fewer cells than the header, which is common in hand-written Wikipedia tables.</p>
+<p>The split pattern <code>&quot;[\\–\\-]&quot;</code> matches two characters, the ASCII hyphen <code>-</code> and the typographic en dash <code>–</code>. Wikipedia uses both, and a pattern with only the hyphen fails on part of the rows without saying so.</p>
+<p><code>begin:(end - 1)</code> and not <code>begin:end</code>: a Congress from 1861 to 1863 covers 1861 and 1862, and 1863 belongs to the next one. Off-by-one errors are the usual mistake when reshaping periods into years, and the way to catch them is to count a couple of rows by hand.</p>
 </section>
 </section>
 

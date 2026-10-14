@@ -1,6 +1,6 @@
 ---
 title: 'Data Handling: Import, Cleaning and Visualisation'
-subtitle: 'Solutions to Exercise/Workshop 3: Data types, text files and data import'
+subtitle: 'Solutions to Exercise/Workshop 3: Importing data from text files, XML and HTML'
 author:
   - "Dr. Aurélien Sallin (Lecturer)"
   - "Ana Armendariz (Tutor)"
@@ -34,409 +34,203 @@ library(knitr)
 knitr::opts_knit$set(root.dir = if (dir.exists("data")) "." else "..")
 ```
 
-# Exercise 1: types, and how R converts between them
+The questions are repeated here in *italics*, so that this document can be read on its own.
+The data files are in `materialsExercises/03_programming_data/data`.
 
-1. For the first four, `typeof()` and `class()` say nearly the same thing:
+# Exercise 1: importing a CSV in two ways
 
-```{r}
-c(typeof(TRUE), class(TRUE))
-c(typeof(3L), class(3L))
-c(typeof(3.5), class(3.5))
-c(typeof("a"), class("a"))
-```
+1. *Import the file twice, once with base R and once with `readr`.*
 
-   The only difference is the name: a `double` has class `numeric`. The factor is the
-   interesting case:
-
-```{r}
-c(typeof(factor("a")), class(factor("a")))
-```
-
-   It is stored as an integer and treated as a factor. `typeof()` looks at the storage,
-   `class()` at the behaviour. Question 4 is what happens when you forget the difference.
-
-2. A comparison returns logical values, and R turns them into 1 and 0 when it needs numbers:
-
-```{r}
-my_vector <- c(1, 0, 3, -1)
-my_vector > 0
-as.numeric(my_vector > 0)
-sum(my_vector > 0)
-mean(my_vector > 0)
-```
-
-   `TRUE` becomes 1 and `FALSE` becomes 0. So on a logical vector `sum()` counts the `TRUE`
-   values and `mean()` gives their share. Two of the four values are positive, which gives 2
-   and 0.5. `sum(x > 5)` and `mean(x > 5)` are the short way to ask how many observations
-   satisfy a condition, and what proportion of them do.
-
-3. Implicit coercion is silent. Explicit coercion warns you when it fails:
-
-```{r}
-c(1, "2", TRUE)
-```
-
-   Everything became text, because `character` is the most general type. Note that `TRUE`
-   became `"TRUE"`, not `"1"`.
-
-```{r warning=TRUE}
-as.numeric(c("1", "2", "x"))
-```
-
-   Here you asked for the conversion, so R converts what it can and reports the rest: `"x"` is
-   not a number, so it becomes `NA`, with the warning *NAs introduced by coercion*. The
-   warning is useful, because it tells you a value was lost. The first case gives no warning at
-   all.
-
-4. The factor:
-
-```{r}
-grades <- factor(c("4.5", "5", "6"))
-as.numeric(grades)
-```
-
-   A factor stores integer codes plus a table of levels, not the labels. `as.numeric()` gives
-   you the codes, here 1, 2, 3, because the levels are sorted. To get the values you have to go
-   through the labels:
-
-```{r}
-levels(grades)
-as.numeric(as.character(grades))
-```
-
-   There is no error, only wrong numbers of the right shape. Whenever you convert a factor to
-   a number, check whether you want the code or the label.
-
-# Exercise 2: the structures
-
-1. A vector knows its length and its type, and square brackets index it by position:
-
-```{r}
-ages <- c(18, 21, 20, 22, 19)
-length(ages)
-typeof(ages)
-ages[3]
-```
-
-   `18` is a `double`, not an integer. For an integer you need `18L`.
-
-2. R fills the grid column by column:
-
-```{r}
-m <- matrix(1:6, nrow = 2)
-m
-dim(m)
-attributes(m)
-```
-
-   The first column is 1, 2, the second 3, 4, the third 5, 6. The only thing that makes `m` a
-   matrix is the attribute `dim = c(2, 3)`. Underneath it is still the vector `1:6`:
-
-```{r}
-c(m)
-```
-
-   A matrix is a vector that knows its shape, which is why it holds one type only.
-
-3. The vector coerces, the list does not:
-
-```{r}
-persons <- c("Anna", "Luca", "Sara")
-c(persons, ages)
-```
-
-   The ages became text, `"18"` and `"21"`, because a vector holds one type and text is the
-   more general one. `mean()` would now fail.
-
-```{r}
-student_info <- list(names = persons, ages = ages)
-student_info$ages
-str(student_info)
-```
-
-   A list keeps every element with its own type and its own length. In exchange, it is not a
-   table.
-
-4. The data frame is the structure you will work with for the rest of the course:
-
-```{r}
-students <- data.frame(
-  name = c("Anna", "Luca", "Sara"),
-  age = c(18, 21, 20),
-  passed = c(TRUE, FALSE, TRUE)
-)
-students
-str(students)
-sapply(students, class)
-typeof(students)
-```
-
-   `typeof()` says `list`. A data frame is a list whose elements are the columns, with one
-   extra rule: all elements have the same length. That rule is what makes it a table, and it is
-   why each column has its own type while the rows line up across columns. `class()` says
-   `data.frame`, which is what gives it the printing, the `[row, column]` indexing and
-   `nrow()`.
-
-# Exercise 3: a text file is just bytes
-
-1. The "ñ" does not survive:
-
-```{r}
-hasta <- readLines("data/hastamanana.txt", warn = FALSE)
-hasta
-```
-
-   R prints `\xf1` because that byte is not a valid character in UTF-8, the encoding it
-   assumed. On some consoles you see `Hasta Ma?ana!` instead.
-
-2. The bytes:
-
-```{r}
-readBin("data/hastamanana.txt", what = "raw", n = 20)
-```
-
-   `48 61 73 74 61` is `Hasta`, `20` is a space, `4d 61` is `Ma`, then `f1`, then
-   `61 6e 61 21` for `ana!`. Every byte except `f1` is below `7f`, which is plain ASCII. The
-   last byte, `0a`, ends the line.
-
-3. With the right encoding the line reads correctly:
-
-```{r}
-readLines("data/hastamanana.txt", encoding = "latin1", warn = FALSE)
-```
-
-   You can also convert with `iconv()`, which is what you need when the text is already in R:
-
-```{r}
-iconv(hasta, from = "ISO-8859-1", to = "UTF-8")
-```
-
-   `f1` is "ñ" in ISO-8859-1. UTF-8 writes the same character as `c3 b1`, so a UTF-8 reader
-   meeting a single `f1` has nothing valid to decode.
-
-4. An error stops you and tells you where to look. A wrong encoding gives you a value that
-   looks like data, so the mistake turns up much later, usually in a table with broken names in
-   it.
-
-# Exercise 4: importing a CSV in two ways
-
-1. Base R has `read.csv()`, the `readr` package has `read_csv()`:
+   Base R has `read.csv()`, the `readr` package has `read_csv()`:
 
 ```{r message=FALSE}
-aq_base <- read.csv("data/Air_Quality.csv")
+air_quality_base <- read.csv("data/Air_Quality.csv")
 
 library(readr)
-aq <- read_csv("data/Air_Quality.csv", show_col_types = FALSE)
+air_quality <- read_csv("data/Air_Quality.csv", show_col_types = FALSE)
 ```
 
-2. Just over 16,000 rows and 12 columns:
+2. *Inspect what you imported with `head()`, `tail()`, `dim()`, and `glimpse()` from `dplyr`.
+   How many rows and columns are there?*
+
+   16,122 rows and 12 columns:
 
 ```{r}
-dim(aq)
-head(aq[, c("Name", "Geo Place Name", "Time Period", "Data Value")])
+dim(air_quality)
+head(air_quality[, c("Name", "Geo Place Name", "Time Period", "Data Value")])
 ```
 
 ```{r message=FALSE}
 library(dplyr)
-glimpse(aq)
+glimpse(air_quality)
 ```
 
-   One row is one measurement: one indicator, in one geographic area, over one time period,
-   with one value. The same pollutant appears in many rows.
+   The same indicator appears in many rows, once per area and per time period.
 
-3. The names are not the same:
+3. *Compare `names(air_quality_base)` with `names(air_quality)`. The file has a column called
+   `Unique ID`, with a space in the name. What did each function do with that name, and how do
+   you refer to the column afterwards?*
 
 ```{r}
-names(aq_base)
-names(aq)
+names(air_quality_base)
+names(air_quality)
 ```
 
-   `read.csv()` repairs the names and turns spaces into dots, so `Unique ID` becomes
-   `Unique.ID` and you write `aq_base$Unique.ID`. `read_csv()` keeps the original names, so a
-   name with a space needs backticks:
+   `read.csv()` repairs the names and turns spaces into dots: `Unique ID` becomes `Unique.ID`,
+   so you write `air_quality_base$Unique.ID`. `read_csv()` keeps the original names, so a name
+   with a space needs backticks:
 
 ```{r}
-head(aq$`Unique ID`, 3)
+head(air_quality$`Unique ID`, 3)
 ```
 
    Neither is wrong, but you need to know which one you are using.
 
-4. The objects differ as well:
+4. *Compare `class(air_quality_base)` with `class(air_quality)`. What is the difference between
+   the two objects?*
 
 ```{r}
-class(aq_base)
-class(aq)
+class(air_quality_base)
+class(air_quality)
 ```
 
-   `read.csv()` returns a `data.frame`, `read_csv()` returns a `tibble`. A tibble prints only
-   the first ten rows and shows the type of every column under its name. It is still a data
-   frame, which you can see from `data.frame` in its class.
+   `read.csv()` returns a `data.frame`, `read_csv()` returns a `tibble`: it prints ten rows
+   instead of all of them and shows the type of every column under its name. A tibble is still
+   a data frame, which you can see from `data.frame` in its class.
 
-5. For a file you do not know, the message helps: it says how every column was interpreted, so
-   a column of numbers that was read as text shows up immediately instead of three steps later.
+5. *`read_csv()` printed a message about column specifications, `read.csv()` printed nothing.
+   Which behaviour do you prefer when you open a file for the first time, and why?*
 
-# Exercise 5: column types
+   The message, for a file you do not know: a column of numbers that was read as text shows up
+   immediately instead of three steps later.
 
-1. The full guess:
+# Exercise 2: column types
+
+1. *Print the full specification with `spec(air_quality)`. Which columns came out as
+   `col_double()` and which as `col_character()`?*
 
 ```{r}
-spec(aq)
+spec(air_quality)
 ```
 
-   Four columns were guessed as `col_double()`, the two IDs, the join ID and `Data Value`, and
-   the rest as `col_character()`.
+   Four columns were guessed as `col_double()`, the two IDs, the join ID and `Data Value`. The
+   rest are `col_character()`.
 
-2. `Start_Date` looks like a date to us but not to the parser:
+2. *`Start_Date` contains dates such as `06/01/2013`, but it was not read as a date. Why can
+   the parser not recognise it, and what would the file have to look like for `readr` to guess
+   a date by itself?*
 
 ```{r}
-head(aq$Start_Date, 3)
+head(air_quality$Start_Date, 3)
 ```
 
-   `readr` recognises only the ISO format, `YYYY-MM-DD`. `06/01/2013` is ambiguous: 1 June
-   2013 in the American convention, 6 January 2013 in the European one. Instead of guessing,
-   `readr` leaves it as text. With `2013-06-01` in the file, the column would have been parsed
-   as a date without help.
+   `readr` guesses dates only in the ISO format, `YYYY-MM-DD`. `06/01/2013` is ambiguous: 1
+   June 2013 in the American convention, 6 January 2013 in the European one. Rather than pick
+   one, `readr` leaves the column as text. With `2013-06-01` in the file it would have been
+   parsed as a date without help.
 
-3. Stating the format solves it:
+3. *State the type yourself with `col_types = cols(Start_Date = col_date(format =
+   "%m/%d/%Y"))`. Check the class of the column, then run `range()` on it. Which period does
+   the data cover? Run `range()` on the text version too, and explain the difference.*
 
 ```{r}
-aq_dates <- read_csv(
+air_quality_dates <- read_csv(
   "data/Air_Quality.csv",
   col_types = cols(Start_Date = col_date(format = "%m/%d/%Y"))
 )
 
-class(aq_dates$Start_Date)
-range(aq_dates$Start_Date)
+class(air_quality_dates$Start_Date)
+range(air_quality_dates$Start_Date)
 ```
 
-   The data runs from January 2005 to June 2020. On the text version the answer is different:
+   The data covers January 2005 to June 2020. On the text version the answer is different:
 
 ```{r}
-range(aq$Start_Date)
+range(air_quality$Start_Date)
 ```
 
-   That is an alphabetical sort. The smallest string is `"01/01/2005"` and the largest is
-   `"12/31/2015"`, which is neither the first nor the last date in the data, because a string
-   starting with `12/` always sorts after one starting with `06/`, whatever the year. The
-   answer looks plausible and is wrong.
+   Strings are sorted alphabetically, so the smallest is `"01/01/2005"` and the largest
+   `"12/31/2015"`: a string starting with `12/` sorts after one starting with `06/`, whatever
+   the year follows. Neither value is the first or the last date in the data. The answer looks
+   plausible and is wrong.
 
-4. Every later step inherits the type. A date stored as text cannot be sorted, subtracted or
-   plotted on a time axis, and a number stored as text breaks every calculation. Fixing the
-   type at import also writes down, in the script, what you expect the file to contain. The
-   day the provider changes the format, the import fails instead of producing `NA`.
+4. *Why is it better to fix a type at import than to convert the column afterwards?*
 
-# Exercise 6: a file that is not comma separated
+   Every later step inherits the type, and a date stored as text cannot be sorted, subtracted
+   or plotted on a time axis. Stating the type also records, in the script, what you expect the
+   file to contain: the day the provider changes the format, the import fails instead of
+   quietly producing `NA`.
 
-1. The file starts with nine lines of metadata: variable, data set, file name, file path, bad
-flag, subset, longitude, latitude, and one line repeating the coordinates. The first
-observation, `JAN-1880`, is on line 10.
+# Exercise 3: select what you need and write it back
 
-2. Reading it:
+1. *`Name` holds the indicator that was measured. List the distinct values with
+   `unique(air_quality$Name)`. How many are there?*
+
+   Nineteen, from ozone to traffic density:
 
 ```{r}
-ta <- read_tsv("data/temp_anomaly.txt",
-               skip = 9,
-               col_names = c("month", "temp_anomaly"),
-               show_col_types = FALSE)
-head(ta)
+length(unique(air_quality$Name))
+unique(air_quality$Name)
 ```
 
-3. `skip = 9` drops the first nine lines before parsing starts, so the metadata stays out of
-   the table. `col_names` is needed because the first line after the metadata is already data:
-   there is no header row for `readr` to take the names from. Without it, `JAN-1880` and `0.33`
-   would have become the column names and the series would be one observation short.
-
-4. The separator is a tab, not a comma:
+2. *Keep the rows measuring fine particulate matter in the winter of 2008-09 in Lower
+   Manhattan, with `subset()` and `&`. How many rows are left, and what is the measured value?*
 
 ```{r}
-ta_wrong <- read_csv("data/temp_anomaly.txt", skip = 9,
-                     col_names = "everything", show_col_types = FALSE)
-head(ta_wrong, 3)
+pm25_winter <- subset(air_quality,
+                      Name == "Fine Particulate Matter (PM2.5)" &
+                      `Time Period` == "Winter 2008-09" &
+                      `Geo Place Name` == "Lower Manhattan")
+
+dim(pm25_winter)
+pm25_winter$`Data Value`
 ```
 
-   `read_csv()` finds no comma, so it reads each line as one single field: one column, with the
-   tab character `\t` still inside the values. Nothing is separated, and the anomaly is text
-   instead of a number. `read_tsv()` is `read_csv()` with the tab as delimiter, and
-   `read_delim()` lets you give any delimiter, which is what the `:` separated file in the
-   Lecture 4 homework needs.
+   One row: in winter 2008-09, fine particulate matter in Lower Manhattan was measured at
+   15.79 mcg/m³. Use `&`, not `&&`: `&&` looks only at the first element and returns one
+   `TRUE` or `FALSE`, which keeps either everything or nothing.
 
-5. The series and its mean:
-
-```{r}
-nrow(ta)
-mean(ta$temp_anomaly)
-summary(ta$temp_anomaly)
-```
-
-   1713 monthly observations from January 1880 on, with a mean anomaly of about 0.1 K, a
-   minimum of $-1.78$ and a maximum of $1.79$. The largest values are the recent ones.
-
-# Exercise 7: select what you need and write it back
-
-1. Nineteen indicators, from ozone to traffic density:
-
-```{r}
-length(unique(aq$Name))
-unique(aq$Name)
-```
-
-2. Three conditions, with `&` between each pair:
-
-```{r}
-pm <- subset(aq,
-             Name == "Fine Particulate Matter (PM2.5)" &
-             `Time Period` == "Winter 2008-09" &
-             `Geo Place Name` == "Lower Manhattan")
-
-dim(pm)
-pm$`Data Value`
-```
-
-   One row is left: in winter 2008-09, fine particulate matter in Lower Manhattan was measured
-   at 15.79 mcg/m³. Use `&` and not `&&`: `&&` compares only the first element and returns a
-   single `TRUE` or `FALSE`, which keeps either everything or nothing.
-
-3. Writing it out:
+3. *Save the result as `airquality_manhattan.csv` with `write_csv()`, then open the file in a
+   text editor.*
 
 ```{r eval=FALSE}
-write_csv(pm, "data/airquality_manhattan.csv")
+write_csv(pm25_winter, "data/airquality_manhattan.csv")
 ```
 
-   The file has a header line with the twelve column names and one line of values. `write_csv()`
-   writes UTF-8 and, unlike `write.csv()`, adds no column of row numbers. If you want only the
-   number instead of a table, use
-   `writeLines(as.character(pm$"Data Value"), "data/airquality_manhattan.txt")`.
+   The file holds a header line with the twelve column names and one line of values.
+   `write_csv()` writes UTF-8 and, unlike `write.csv()`, adds no column of row numbers. For the
+   number alone, use
+   `writeLines(as.character(pm25_winter$"Data Value"), "data/airquality_manhattan.txt")`.
 
-4. Dropping the two conditions on the time period and keeping the place and the indicator
-   gives the whole series for that neighbourhood:
+4. *Now keep every measurement of fine particulate matter in Lower Manhattan, for all time
+   periods, and save it the same way. If you read `Start_Date` as a date in Exercise 2, sort
+   the series by date first.*
+
+   Dropping the condition on the time period leaves the whole series for that neighbourhood:
 
 ```{r}
-pm_all <- subset(aq,
-                 Name == "Fine Particulate Matter (PM2.5)" &
-                 `Geo Place Name` == "Lower Manhattan")
+pm25_all <- subset(air_quality,
+                   Name == "Fine Particulate Matter (PM2.5)" &
+                   `Geo Place Name` == "Lower Manhattan")
 
-dim(pm_all)
+dim(pm25_all)
 ```
 
-   With the dates read as dates, the series sorts properly:
-
 ```{r}
-pm_sorted <- pm_all[order(as.Date(pm_all$Start_Date, format = "%m/%d/%Y")), ]
-head(pm_sorted[, c("Time Period", "Start_Date", "Data Value")], 4)
+pm25_sorted <- pm25_all[order(as.Date(pm25_all$Start_Date, format = "%m/%d/%Y")), ]
+head(pm25_sorted[, c("Time Period", "Start_Date", "Data Value")], 4)
 ```
 
 ```{r eval=FALSE}
-write_csv(pm_sorted, "data/airquality_manhattan_all.csv")
+write_csv(pm25_sorted, "data/airquality_manhattan_all.csv")
 ```
 
-   On the text version, sorting puts December before February, for the same reason `range()`
-   misbehaved in Exercise 5.
+   Sorting the text column instead puts December before February, for the same reason `range()`
+   misbehaved in Exercise 2.
 
-# Additional exercises for training
+# Exercise 4: the same data in XML
 
-## Exercise 8: the same data in XML
-
-1. What comes back is not a data frame:
+1. *Load the file with `xml2`. What kind of object did you get? Is it a data frame?*
 
 ```{r}
 library(xml2)
@@ -445,28 +239,34 @@ class(doc)
 xml_name(doc)
 ```
 
-   It is an object that represents the XML tree. It has everything we need, but we cannot use
-   it as a table. The root element is called `row`.
+   Not a data frame: an object representing the XML tree, which holds everything we need but
+   cannot be used as a table. The root element is called `row`.
 
-2. Each measurement is a `row` element inside that root, which is why the XPath expression has
-   `row` twice:
+2. *Collect the measurements with `xml_find_all(doc, "//row/row")` and count them. Compare the
+   number with the number of rows in the CSV.*
+
+   Each measurement is a `row` element inside a root that is also called `row`, which is why
+   the XPath expression has `row` twice:
 
 ```{r}
 rows <- xml_find_all(doc, "//row/row")
 length(rows)
 ```
 
-   16,122 measurements, the same number as the CSV has rows. The two files hold the same data
-   in two formats.
+   16,122, the same as the CSV. The two files hold the same data in two formats.
 
-3. The children of one measurement are the variables, and their text is the values:
+3. *Inspect the first measurement: the names of its children, and their contents.*
+
+   The children are the variables, their text is the values:
 
 ```{r}
 xml_name(xml_children(rows[[1]]))
 xml_text(xml_children(rows[[1]]))
 ```
 
-4. One variable for all measurements, with one XPath expression:
+4. *Extract one variable for all measurements with an XPath expression, for example every
+   `data_value`. What type is the result, and what do you have to do before you can compute
+   the mean?*
 
 ```{r}
 data_value <- xml_text(xml_find_all(doc, "//row/row/data_value"))
@@ -475,14 +275,15 @@ head(data_value, 5)
 typeof(data_value)
 ```
 
-   Everything that comes out of an XML document is text, because XML has no column types. So
-   you have to convert before computing, as in Exercise 1:
+   Text. XML has no column types, so everything arrives as character and you convert before
+   computing:
 
 ```{r}
 mean(as.numeric(data_value))
 ```
 
-5. The dates and the file sizes:
+5. *Compare `start_date` here with `Start_Date` in the CSV, and the size of the two files with
+   `file.size()`. What does XML give you that a CSV cannot, and what do you pay for it?*
 
 ```{r}
 head(xml_text(xml_find_all(doc, "//row/row/start_date")), 2)
@@ -490,34 +291,129 @@ round(file.size("data/Air_Quality.xml") / 1024^2, 1)   # MB
 round(file.size("data/Air_Quality.csv") / 1024^2, 1)   # MB
 ```
 
-   In the XML the dates are ISO timestamps, `2013-06-01T00:00:00`, which `readr` parses as
-   dates without a format string. The CSV has the ambiguous `06/01/2013`.
+   The XML carries ISO timestamps, `2013-06-01T00:00:00`, which `readr` parses without a format
+   string; the CSV has the ambiguous `06/01/2013`.
 
    XML stores structure: elements can be nested, repeated and labelled, every value carries its
-   variable name, and a document can describe its own rules. A CSV can only hold a flat table.
-   You pay for it in size and speed, 8.7 MB against 1.9 MB for the same data, because every
-   value is wrapped in its tags, and you need XPath to get anything out. For a flat table, a
-   CSV is easier.
+   variable name, and a document can describe its own rules. A CSV holds a flat table and
+   nothing else. You pay in size and speed, 8.7 MB against 1.9 MB for the same data, because
+   every value is wrapped in its tags, and you need XPath to get anything out. For a flat
+   table, the CSV is easier.
 
-## Exercise 9: exploring HTML in the browser
+# Exercise 5: a file that is not comma separated
 
-1. to 3. Every page arrives in your browser as HTML text. In the source you can recognise the
-structure: `<article>` for a story, `<h3>` for its headline, `<a href="...">` for the link,
-`<img src="...">` for the image, and `class` attributes that the stylesheet uses to decide how
-it looks. The headline on the screen is the text between an opening and a closing tag.
+1. *Open `data/temp_anomaly.txt` in a text editor, or print its first lines from R. How many
+   lines of metadata are there, and on which line does the first observation start?*
 
-4. The page changes immediately, and only on your own screen. The browser keeps a copy of the
-document in memory, the DOM, and renders that copy. Your edit changes the copy, not the server.
-Reload the page and the real headline is back. Nobody else saw anything.
+```{r}
+readLines("data/temp_anomaly.txt", n = 12)
+```
 
-5. The image works the same way: paste the address of an image that is online into the `src`
-attribute of the `<img>` tag, and the browser fetches that one instead.
+   Nine lines of metadata: variable, data set, file name, file path, bad flag, subset,
+   longitude, latitude, and a line repeating the coordinates. The first observation,
+   `JAN-1880`, is on line 10.
 
-6. What a website shows is a rendering of data that was sent to you as text, and the rendering
-can be changed at will. Two consequences. The data behind a page is accessible, which is what
-makes Exercise 10 possible. And a screenshot of a website is not evidence of anything.
+   The `\t` between the month and the value is the tab character, which is what `read_tsv()`
+   uses as separator in question 2.
 
-## Exercise 10: scraping a table from a web page
+2. *Read the file with `read_tsv()`, `skip = 9` and `col_names = c("month", "temp_anomaly")`.*
+
+```{r}
+anomalies <- read_tsv("data/temp_anomaly.txt",
+                      skip = 9,
+                      col_names = c("month", "temp_anomaly"),
+                      show_col_types = FALSE)
+head(anomalies)
+```
+
+3. *What is the purpose of the `skip` argument, and why is it set to 9? And why does
+   `col_names` have to be given here?*
+
+   `skip = 9` drops the metadata before parsing starts, so it stays out of the table.
+   `col_names` is needed because the first line after the metadata is already an observation:
+   there is no header row to take the names from. Without it, `JAN-1880` and `0.33` would have
+   become the column names and the series would be one observation short.
+
+4. *Why do we use `read_tsv()` and not `read_csv()`? Try it with `read_csv()`: how many columns
+   do you get, and what is inside them?*
+
+   The separator is a tab, not a comma:
+
+```{r}
+anomalies_wrong <- read_csv("data/temp_anomaly.txt", skip = 9,
+                            col_names = "everything", show_col_types = FALSE)
+head(anomalies_wrong, 3)
+```
+
+   Finding no comma, `read_csv()` reads each line as a single field: one column, with the tab
+   character `\t` still inside the values, and the anomaly as text instead of a number.
+   `read_tsv()` is `read_csv()` with the tab as delimiter, and `read_delim()` takes any
+   delimiter, which is what the `:` separated file in the Lecture 4 homework needs.
+
+5. *How many observations does the series contain, and what is the mean anomaly?*
+
+```{r}
+nrow(anomalies)
+mean(anomalies$temp_anomaly)
+summary(anomalies$temp_anomaly)
+```
+
+   1713 monthly observations from January 1880 on, mean anomaly about 0.1 K, minimum $-1.78$,
+   maximum $1.79$. The largest values are the recent ones.
+
+# Exercise 6: what the browser shows and what the server sent
+
+1. and 2. *Open the page, inspect the table, and say which tags hold the years and which hold
+the party names.*
+
+   The table is a `<table class="wikitable">`, and each Congress is one `<tr>`. Inside a row,
+   the year and the party names each sit in their own `<td>`; the first row uses `<th>` for the
+   column names. That regularity is what `html_table()` exploits in Exercise 7: rows become
+   rows, cells become columns.
+
+3. *Replace the `<h1>` title with one of your own. What happens on the screen?*
+
+   The title changes immediately. The browser holds a copy of the document in memory, the DOM,
+   and renders that copy; your edit changes the copy.
+
+4. *Read the same page with R and print its first heading. Does your title appear? Why not?*
+
+```{r eval=FALSE}
+library(rvest)
+
+doc <- read_html("https://en.wikipedia.org/wiki/Divided_government_in_the_United_States")
+html_text(html_element(doc, "h1"))
+```
+
+```
+[1] "Divided government in the United States"
+```
+
+   The real title comes back, not yours. `read_html()` asks Wikipedia's server for the page and
+   parses the HTML the server sends; it never sees your browser. Your edit existed in one tab,
+   on one computer.
+
+5. *Reload the page. Where did your edit go, and who else saw it?*
+
+   It is gone, and nobody saw it. Reloading throws the edited copy away and renders the
+   document the server sends again.
+
+6. *What does this tell you about the difference between what a website shows and what the data
+behind it is?*
+
+   A website is a rendering of text that a server sent you, and the rendering can be changed at
+   will. Two consequences: the data behind a page is accessible, which is what makes Exercise 7
+   possible, and a screenshot of a website is not evidence of anything.
+
+# Additional exercises for training
+
+## Exercise 7: scraping a table from a web page
+
+*Build a CSV file with data on divided government in US politics out of the Wikipedia page on
+[divided government in the United States](https://en.wikipedia.org/wiki/Divided_government_in_the_United_States):
+fetch the page with `read_html()`, pick the table with `Year`, `President`, `Senate` and
+`House`, drop the footnote row at the end, turn every range of years into one row per year,
+remove Wikipedia's footnote markers, and write the result to `data/divided_gov.csv`.*
 
 The code needs an internet connection, so it is shown here rather than executed.
 
@@ -579,13 +475,13 @@ head(divided_gov, 4)
 Three remarks on the method.
 
 `html_table()` returns a list, because a page usually has more than one table, so you have to
-look at the candidates and choose. `fill = TRUE` pads rows that have fewer cells than the
-header, which is common in hand-written Wikipedia tables.
+look at the candidates and choose. `fill = TRUE` pads rows with fewer cells than the header,
+which is common in hand-written Wikipedia tables.
 
-The split pattern `"[\\–\\-]"` matches two characters: the ASCII hyphen `-` and the
-typographic en dash `–`. Wikipedia uses both, and a pattern with only the hyphen fails on part
-of the rows without saying so. It is the same kind of problem as the encoding in Exercise 3.
+The split pattern `"[\\–\\-]"` matches two characters, the ASCII hyphen `-` and the typographic
+en dash `–`. Wikipedia uses both, and a pattern with only the hyphen fails on part of the rows
+without saying so.
 
-`begin:(end - 1)` and not `begin:end`: a Congress from 1861 to 1863 covers the years 1861 and
-1862, and 1863 belongs to the next one. Off-by-one errors are the usual mistake when reshaping
-periods into years, and the way to catch them is to count a couple of rows by hand.
+`begin:(end - 1)` and not `begin:end`: a Congress from 1861 to 1863 covers 1861 and 1862, and
+1863 belongs to the next one. Off-by-one errors are the usual mistake when reshaping periods
+into years, and the way to catch them is to count a couple of rows by hand.
