@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<company_dundermifflin>
+  <person id="1">
+    <name>Michael Scott</name>
+    <position>Regional Manager</position>
+    <location branch="Scranton"/>
+  </person>
+  <person id="2">
+    <name>Dwight Schrutte</name>
+    <position>Assistant (to the) Regional Manager</position>
+    <location branch="Scranton"/>
+    <orders>
+      <sales>
+        <units>10</units>
+        <product>paper A4</product>
+      </sales>
+    </orders>
+  </person>
+  <person id="3">
+    <name>Jim Halpert</name>
+    <position>Sales Representative</position>
+    <location branch="Scranton"/>
+    <orders>
+      <sales>
+        <units>20</units>
+        <product>paper A4</product>
+      </sales>
+      <sales>
+        <units>5</units>
+        <product>paper A3</product>
+      </sales>
+    </orders>
+  </person>
+</company_dundermifflin>
