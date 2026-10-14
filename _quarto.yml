@@ -41,6 +41,10 @@ project:
     - materialsLecture/scripts/Lecture5_Script.R
     - data/company_dundermifflin.xml
     - data/person.json
+    - materialsExercises/03_programming_data/exercises/03_programming_data_handout.html
+    - materialsExercises/03_programming_data/data/Air_Quality.csv
+    - materialsExercises/03_programming_data/data/Air_Quality.xml
+    - materialsExercises/03_programming_data/data/temp_anomaly.txt
 
 website:
   title: "Data Handling 2026"
