@@ -1,0 +1,146 @@
+id,home_town,literacy,used_r,major,enrolled_dsf,assoc_data,submitted_at,ai_use,predicted_grade
+19,Flawil,6,true,VWL,false,,2026-09-14 15:02:17.951773+00,4,5.5
+23,Salgesch,0,false,VWL,false,Future,2026-09-17 08:16:41.441996+00,7,5
+24,Glarus,0,false,VWL,true,,2026-09-17 08:18:44.312724+00,4,5.5
+25,Geneva,7,true,BLE,true,,2026-09-17 08:18:47.995944+00,7,
+26,Geneva,2,false,VWL,false,Programming,2026-09-17 08:18:49.502223+00,7,5.5
+27,Bratislava,8,true,VWL,false,Analysis,2026-09-17 08:18:53.760475+00,5,5.25
+28,Hamburg,0,false,VWL,false,loads of datapoint,2026-09-17 08:18:56.386896+00,9,5.75
+29,Niederweningen,0,false,VWL,false,Statistic,2026-09-17 08:18:58.34578+00,9,5.25
+30,Oberschan,1,false,VWL,false,,2026-09-17 08:18:58.498187+00,6,6
+31,Winterthur,0,true,VWL,false,coding,2026-09-17 08:18:59.290968+00,8,4.5
+32,Basel,4,true,VWL,false,"Models, structure",2026-09-17 08:19:00.352966+00,10,5.25
+33,Basel,4,true,VWL,false,"Models, structure",2026-09-17 08:19:01.449102+00,10,5.25
+34,Zurich,5,true,VWL,false,data,2026-09-17 08:19:02.522808+00,8,6
+35,Geneva,5,true,VWL,true,Machine learning,2026-09-17 08:19:03.334757+00,5,6
+36,Basel,1,false,VWL,false,,2026-09-17 08:19:03.572219+00,5,
+37,Basel,1,false,VWL,false,,2026-09-17 08:19:04.611035+00,5,
+38,Munich,1,false,BWL,true,Numbers,2026-09-17 08:19:06.781791+00,7,6
+39,Heidelberg,2,false,VWL,true,,2026-09-17 08:19:07.875753+00,9,
+40,Yekatirenburg,1,false,VWL,false,Details,2026-09-17 08:19:08.608063+00,10,5.5
+41,Lausanne,2,false,VWL,false,Information,2026-09-17 08:19:09.21946+00,10,4.25
+42,Bronschhofen,2,false,VWL,false,Programming,2026-09-17 08:19:09.970328+00,6,6
+43,Geneva,3,false,VWL,false,Numbers,2026-09-17 08:19:10.275139+00,3,4.25
+44,Geneva,0,false,VWL,false,Computers,2026-09-17 08:19:12.262008+00,3,5.25
+45,St.Gallen,3,true,VWL,false,Laptop,2026-09-17 08:19:13.337041+00,5,5
+46,Vienna,0,false,VWL,true,Models,2026-09-17 08:19:14.38262+00,7,5.5
+47,Tokyo,2,true,other,false,Data,2026-09-17 08:19:15.182035+00,4,4.5
+48,Zurich,0,false,VWL,false,Difficult,2026-09-17 08:19:15.45356+00,4,5.5
+49,Zurich,0,false,VWL,false,Difficult,2026-09-17 08:19:16.539307+00,4,5.5
+50,Zurich,2,false,VWL,true,Coding,2026-09-17 08:19:17.592472+00,9,5.5
+51,Munich,1,false,VWL,true,,2026-09-17 08:19:18.638424+00,8,
+52,China,0,false,VWL,true,money,2026-09-17 08:19:19.335071+00,9,5.5
+53,Sicily,0,false,VWL,false,Hacking,2026-09-17 08:19:19.343837+00,5,4.5
+54,Munich,1,false,VWL,true,,2026-09-17 08:19:19.721867+00,8,
+55,Geneva,2,false,VWL,false,Database,2026-09-17 08:19:20.433953+00,8,5.5
+56,St.Gallen,1,false,VWL,false,Python,2026-09-17 08:19:20.766651+00,8,5.25
+57,Chapelle,5,true,BWL,false,Analysis,2026-09-17 08:19:22.140001+00,6,5.5
+58,Suhr,0,false,VWL,false,coding,2026-09-17 08:19:23.086075+00,5,5.25
+59,Prague,0,false,VWL,false,correlation,2026-09-17 08:19:23.60388+00,7,5.25
+60,Zurich,1,true,VWL,false,Classification,2026-09-17 08:19:23.828751+00,8,5.25
+61,Frauenfeld,0,false,VWL,true,Important,2026-09-17 08:19:23.885604+00,10,5.25
+62,Munich,0,false,VWL,false,Programming,2026-09-17 08:19:25.098634+00,5,4
+63,Paris,4,true,VWL,false,Code,2026-09-17 08:19:26.838163+00,7,5
+64,Freienwil,3,true,VWL,false,Problem solving,2026-09-17 08:19:28.147972+00,5,5
+65,Potsdam,1,false,VWL,false,Graphs,2026-09-17 08:19:28.459925+00,5,4.25
+66,Singapore,1,true,other,false,analytics,2026-09-17 08:19:28.54519+00,7,4.75
+67,Buxtehude,0,false,VWL,true,Jane Street,2026-09-17 08:19:28.741541+00,10,6
+68,Matzingen,1,false,VWL,false,code,2026-09-17 08:19:29.196097+00,6,5
+69,St. Gallen,1,false,VWL,false,,2026-09-17 08:19:29.515362+00,5,
+70,Singapore,1,true,other,false,analytics,2026-09-17 08:19:29.576927+00,7,4.75
+71,Wil SG,0,false,BIA,false,computers,2026-09-17 08:19:29.963569+00,8,5
+72,Geneva,0,false,VWL,true,Programming,2026-09-17 08:19:30.228599+00,10,4
+73,Basel,1,false,VWL,true,Machine learning,2026-09-17 08:19:30.559734+00,7,5
+74,Basel,1,true,VWL,false,Statistics,2026-09-17 08:19:30.628007+00,6,5.25
+75,Buchs SG,0,false,VWL,false,Quantitative Finance,2026-09-17 08:19:30.994473+00,8,5.25
+76,St.Gallen,5,false,VWL,false,statistics,2026-09-17 08:19:31.261042+00,8,4.5
+77,Basel,1,false,VWL,true,Machine learning,2026-09-17 08:19:31.619021+00,7,5
+78,Geneva,0,false,VWL,true,Programming,2026-09-17 08:19:32.296568+00,10,4
+79,Basel,0,false,VWL,false,Numbers,2026-09-17 08:19:32.690928+00,5,5
+80,Rapperswil,1,true,VWL,true,Table,2026-09-17 08:19:33.073829+00,7,5
+81,Lugano,4,true,VWL,false,Analysis,2026-09-17 08:19:33.729459+00,7,5.5
+82,Geneva,8,false,VWL,false,,2026-09-17 08:19:34.210898+00,8,4.75
+83,new york,1,false,VWL,false,computer,2026-09-17 08:19:34.544488+00,8,6
+84,Zurich,0,false,VWL,false,statistics,2026-09-17 08:19:35.204459+00,9,5.25
+85,Morges,0,false,VWL,false,,2026-09-17 08:19:35.61017+00,3,5.5
+86,Mendrisio,0,false,VWL,false,rocket science,2026-09-17 08:19:35.832545+00,10,3.75
+87,geneva,1,true,VWL,true,complicated,2026-09-17 08:19:36.654792+00,10,5.75
+88,Bern,0,false,VWL,true,"Data Analysis, Python, Excel",2026-09-17 08:19:37.132121+00,6,5.5
+89,Cologne,4,false,BLE,true,graph,2026-09-17 08:19:38.178839+00,10,5.5
+90,locarno,4,true,VWL,false,programming,2026-09-17 08:19:38.665754+00,6,5
+91,zurich,5,true,VWL,false,programming,2026-09-17 08:19:39.235546+00,7,5
+92,Freiburg,0,false,VWL,false,Complicated,2026-09-17 08:19:39.829922+00,4,5
+93,zurich,5,true,VWL,false,programming,2026-09-17 08:19:40.2936+00,7,5
+94,Innsbruck,7,true,VWL,true,Information,2026-09-17 08:19:41.269349+00,8,5.5
+95,Rheineck,0,false,VWL,false,Programming,2026-09-17 08:19:41.344217+00,8,5
+96,Montréal,3,true,VWL,false,Excel,2026-09-17 08:19:41.903945+00,5,4.75
+97,Como,6,true,other,false,Data,2026-09-17 08:19:42.133508+00,5,5.5
+98,Geneva,0,false,VWL,true,Ai,2026-09-17 08:19:42.343836+00,8,5
+99,Abu Dhabi,0,false,VWL,true,Big Data,2026-09-17 08:19:43.892574+00,6,5.5
+100,Where my family and relatives are at,3,true,other,false,Coding,2026-09-17 08:19:44.496416+00,7,4
+101,Bellinzona,1,false,VWL,false,Programming,2026-09-17 08:19:44.945231+00,8,4.5
+102,Switzerland,1,false,VWL,false,Programming,2026-09-17 08:19:45.97949+00,6,4.5
+103,Bern,0,false,VWL,false,Gathering,2026-09-17 08:19:46.532308+00,10,5
+104,Stockholm,1,false,VWL,false,Programming,2026-09-17 08:19:46.734088+00,7,5.25
+105,Bellinzona,1,false,VWL,false,Programming,2026-09-17 08:19:47.040095+00,8,4.5
+106,"Baden, Switzerland",3,false,BWL,false,Palantir,2026-09-17 08:19:47.585865+00,5,6
+107,Aarau,2,true,VWL,false,Statistics,2026-09-17 08:19:48.125654+00,6,5.5
+108,La Chaux-de-Fonds,5,false,VWL,false,Computer,2026-09-17 08:19:48.137891+00,7,
+109,Geneva,2,true,VWL,false,Data,2026-09-17 08:19:49.700103+00,10,5.75
+110,Widnau,0,false,VWL,true,Programming,2026-09-17 08:19:49.844628+00,8,6
+111,Italy,1,false,VWL,false,Coding,2026-09-17 08:19:50.161833+00,5,6
+112,Berlin,5,true,VWL,false,computer,2026-09-17 08:19:50.87506+00,8,5.75
+113,World,6,true,other,false,Data,2026-09-17 08:19:51.205072+00,1,5.75
+114,Mellingen,1,false,VWL,false,,2026-09-17 08:19:52.571241+00,4,5.5
+115,Hamburg,6,false,VWL,false,computing,2026-09-17 08:19:52.726408+00,10,5.75
+116,Bern Switzerland,4,false,VWL,false,Programming,2026-09-17 08:19:52.988213+00,7,5.5
+117,Basel,1,false,VWL,true,,2026-09-17 08:19:53.628731+00,5,5.25
+118,Nyon,2,false,VWL,true,Interesting,2026-09-17 08:19:53.93815+00,7,5.5
+119,Bern Switzerland,4,false,VWL,false,Programming,2026-09-17 08:19:54.03479+00,7,5.5
+120,Stäfa,0,false,VWL,true,,2026-09-17 08:19:54.266169+00,8,4.5
+121,Chardonne,0,false,VWL,false,Difficult,2026-09-17 08:19:54.700241+00,3,4.5
+122,Bern,5,true,VWL,false,Druck,2026-09-17 08:19:56.930201+00,7,5.5
+123,Chur,2,false,VWL,false,analyzing data,2026-09-17 08:19:57.687414+00,6,5.25
+124,Bern,0,false,VWL,false,,2026-09-17 08:19:57.98602+00,9,5
+125,Bern,0,false,VWL,false,,2026-09-17 08:19:59.040299+00,9,5
+126,Geneva,0,true,VWL,false,Computer,2026-09-17 08:20:00.025878+00,6,5
+127,Zurich,0,false,VWL,true,information,2026-09-17 08:20:00.092363+00,2,4.75
+128,Ludwigsburg,1,false,VWL,false,Programming,2026-09-17 08:20:01.085438+00,7,5.5
+129,Tessin,0,false,VWL,false,Computer,2026-09-17 08:20:01.160774+00,10,4
+130,Basel,0,false,VWL,false,Palantir,2026-09-17 08:20:02.414468+00,8,5
+131,Zürich,4,false,VWL,false,,2026-09-17 08:20:03.236573+00,8,4.5
+132,Geneva,3,false,VWL,false,Programming,2026-09-17 08:20:04.273549+00,7,5.25
+133,Geneva,0,false,VWL,false,Football,2026-09-17 08:20:04.681384+00,5,5.5
+134,Flums,6,true,VWL,true,,2026-09-17 08:20:05.335218+00,9,6
+135,Flums,6,true,VWL,true,,2026-09-17 08:20:06.364894+00,9,6
+136,Geneva,3,false,VWL,false,Programming,2026-09-17 08:20:07.403755+00,7,5.25
+137,Zurich,0,false,VWL,false,,2026-09-17 08:20:08.454923+00,8,5
+138,"Giffers, Switzerland",0,false,VWL,false,Coding,2026-09-17 08:20:10.196118+00,2,5.25
+139,Fribourg,2,false,VWL,false,Geek,2026-09-17 08:20:10.562942+00,10,5
+140,Lausanne,5,false,VWL,false,,2026-09-17 08:20:11.650627+00,7,
+141,Ticino,1,false,VWL,false,,2026-09-17 08:20:11.789108+00,9,4.5
+142,Switzerland - Wallis,1,false,BWL,false,Tables,2026-09-17 08:20:12.700302+00,4,5
+143,Zug,3,false,VWL,false,,2026-09-17 08:20:13.581564+00,5,5.25
+144,Schwyz,0,false,VWL,false,Collection of data,2026-09-17 08:20:15.108914+00,8,4.75
+145,Susten,0,false,VWL,false,ai,2026-09-17 08:20:16.265996+00,8,5.5
+146,Bellinzona (TI),2,true,VWL,false,,2026-09-17 08:20:17.127768+00,9,4.5
+147,Frankfurt,1,false,VWL,false,programming,2026-09-17 08:20:18.180606+00,9,5.25
+148,Winterthur,0,false,VWL,false,,2026-09-17 08:20:20.295793+00,8,5.25
+149,Paris,0,true,VWL,false,,2026-09-17 08:20:21.723557+00,7,5
+150,Lausanne,0,false,VWL,false,Coding,2026-09-17 08:20:23.111967+00,7,4.5
+151,Mollis,1,false,VWL,false,R,2026-09-17 08:20:29.806976+00,4,5.5
+152,Saas-Fee,0,false,VWL,true,Programming,2026-09-17 08:20:29.839599+00,10,4.75
+153,Fribourg,5,false,VWL,false,AI,2026-09-17 08:20:33.652797+00,10,5.25
+154,Basel,2,false,VWL,false,Nerdy,2026-09-17 08:20:38.024205+00,6,5.5
+155,Zurich,0,false,VWL,false,,2026-09-17 08:20:45.531377+00,5,4.5
+156,Hamburg,1,false,BWL,false,,2026-09-17 08:20:51.86221+00,8,4.5
+157,Bogota,4,true,VWL,false,LLM,2026-09-17 08:21:04.222863+00,10,5.5
+158,"Redondo beach, california",0,true,BIA,false,Numbers,2026-09-17 08:21:14.980921+00,6,5
+159,Liechtenstein,0,false,VWL,false,Excel,2026-09-17 08:21:37.235735+00,10,5.5
+160,Zurich,0,true,VWL,true,SQL,2026-09-17 08:21:54.782827+00,5,6
+161,St. Gallen,7,true,VWL,true,,2026-09-17 08:26:38.445294+00,6,5.5
+162,St. Gallen,7,true,VWL,true,,2026-09-17 08:26:39.501147+00,6,5.5
+163,-,4,true,BWL,false,Math,2026-09-17 13:59:09.502773+00,8,5.25
+164,Frauenfeld,1,false,VWL,false,,2026-09-20 10:03:34.749571+00,5,5.75
+165,Seewis,3,false,VWL,false,Big data,2026-09-22 17:23:41.659784+00,6,5
+166,Zurich,3,true,VWL,false,,2026-09-24 08:19:08.430409+00,10,5.25

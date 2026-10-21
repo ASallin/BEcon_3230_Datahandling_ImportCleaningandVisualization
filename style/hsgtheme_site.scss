@@ -26,7 +26,7 @@ $table-border-color: $rule !default;
 /*-- scss:rules --*/
 
 body {
-  font-size: 1.02rem;
+  font-size: .9rem;
   line-height: 1.6;
 }
 
@@ -63,19 +63,19 @@ main.content {
 }
 
 h1.title {
-  font-size: 2.1rem;
+  font-size: 1.9rem;
   line-height: 1.25;
   margin-bottom: .25rem;
 }
 
 h2 {
-  font-size: 1.45rem;
+  font-size: 1.3rem;
   margin-top: 2.4rem;
   padding-bottom: .3rem;
   border-bottom: 2px solid $hsg-green;
 }
 
-h3 { font-size: 1.15rem; margin-top: 1.6rem; }
+h3 { font-size: 1.05rem; margin-top: 1.6rem; }
 
 a { text-decoration: none; }
 a:hover { text-decoration: underline; }
@@ -83,7 +83,7 @@ a:hover { text-decoration: underline; }
 // course meta block under the title -------------------------------------
 .course-meta {
   color: $muted;
-  font-size: .95rem;
+  font-size: .95em;
   margin-bottom: 2rem;
   line-height: 1.7;
 }
@@ -96,7 +96,7 @@ a:hover { text-decoration: underline; }
   border-radius: 6px;
   padding: 1rem 1.25rem .7rem;
   margin-top: .8rem;
-  font-size: .9rem;
+  font-size: 1em;
   line-height: 1.55;
   color: $ink;
 }
@@ -112,7 +112,7 @@ a:hover { text-decoration: underline; }
 table {
   width: 100%;
   border-collapse: collapse;
-  font-size: .95rem;
+  font-size: 1em;  // same size as the text above
   margin-top: 1rem;
 }
 thead th {
@@ -131,6 +131,13 @@ tbody td {
 }
 tbody tr:hover { background: #f6fbf8; }
 
+// phones: smaller text so the five columns fit on the screen
+@media (max-width: 640px) {
+  body { font-size: .8rem; }  // everything scales down together
+  thead th { white-space: normal; padding: .4rem .3rem; }
+  tbody td { padding: .4rem .3rem; }
+}
+
 // first column: dates, kept narrow and non-wrapping
 tbody td:first-child {
   white-space: nowrap;
@@ -147,7 +154,7 @@ tbody td .bi {
 
 // data files that go with a unit: one small line, e.g. "adamsmith · hastamanana"
 .files {
-  font-size: .8rem;
+  font-size: .85em;  // relative: always a bit smaller than the table text
   color: $muted;
 }
 
@@ -174,17 +181,17 @@ tbody td .bi {
 .callout.callout-style-simple .callout-title-container {
   font-family: 'Lato', sans-serif;
   font-weight: 700;
-  font-size: .95rem;
+  font-size: 1em;
   color: $muted;
 }
 .callout.callout-style-simple .callout-icon-container { display: none; }
 .callout.callout-style-simple > .callout-body {
-  font-size: .92rem;
+  font-size: .95em;
   color: $ink;
   padding: .3rem 0 .5rem;
 }
 .callout.callout-style-simple .callout-body strong { color: $ink; }
-.callout.callout-style-simple table { font-size: .9rem; }
+.callout.callout-style-simple table { font-size: .95em; }
 
 // small note boxes -------------------------------------------------------
 .note {
@@ -192,7 +199,7 @@ tbody td .bi {
   background: #fdf8f3;
   padding: .8rem 1rem;
   margin: 1.2rem 0;
-  font-size: .95rem;
+  font-size: 1em;
 }
 
 // keyboard keys
