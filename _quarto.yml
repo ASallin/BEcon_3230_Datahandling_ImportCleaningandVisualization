@@ -42,9 +42,11 @@ project:
     - data/company_dundermifflin.xml
     - data/person.json
     - materialsExercises/03_programming_data/exercises/03_programming_data_handout.html
+    - materialsExercises/03_programming_data/exercises/03_programming_data_sample_solution.html
     - materialsExercises/03_programming_data/data/Air_Quality.csv
     - materialsExercises/03_programming_data/data/Air_Quality.xml
     - materialsExercises/03_programming_data/data/temp_anomaly.txt
+    - materialsLecture/slides/html/06_update_exam_groupproject.html
 
 website:
   title: "Data Handling 2026"

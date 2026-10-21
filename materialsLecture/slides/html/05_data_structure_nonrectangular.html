@@ -2173,10 +2173,10 @@ Show output
 <span id="cb51-9"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(df, <span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  currency      rate
-1      USD   1.11950
-2      JPY 177.39000
-3      CZK  24.35700
-4      DKK   7.47540
+1      USD   1.12530
+2      JPY 177.82000
+3      CZK  24.32300
+4      DKK   7.47480
 5      GBP   0.84385</code></pre>
 </div>
 </div>
@@ -2484,12 +2484,10 @@ $postalCode
 </section>
 <section id="a-very-brief-intuition-about-text-as-data" class="slide level2">
 <h2>A very brief intuition about text as data</h2>
-<h4 id="text-must-become-quantifiable-data-to-be-used-by-computers-and-models.">Text must become quantifiable data to be used by computers and models.</h4>
-<ul>
-<li>Split into words, drop filler words, count</li>
-</ul>
+<h4 id="text-must-become-quantifiable-data-to-be-used-by-computers-and-models">Text must become quantifiable data to be used by computers and models:</h4>
+<p><span style="display: block; height: 0.15em;"></span></p>
 <div class="columns">
-<div class="column" style="width:55%;">
+<div class="column" style="width:50%;">
 <div class="cell">
 <div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href aria-hidden="true" tabindex="-1"></a><span class="co"># split into words (cut at anything that is not a letter)</span></span>
 <span id="cb69-2"><a href aria-hidden="true" tabindex="-1"></a>words <span class="ot">&lt;-</span> <span class="fu">tolower</span>(<span class="fu">unlist</span>(<span class="fu">strsplit</span>(paragraphs, <span class="st">&quot;[^[:alpha:]]+&quot;</span>)))</span>
@@ -2510,13 +2508,13 @@ $postalCode
       billion   23
      economic   19
           gdp   19</code></pre>
-</div><div class="column fragment" style="width:45%;">
+</div><div class="column fragment" style="width: 45%; font-size: 0.8em;">
 <ul>
+<li>Split into words, drop filler words (“stopwords”), count</li>
 <li>One <strong>row per word</strong>, one column with the <strong>count</strong></li>
-<li>The text became <strong>rectangular</strong> again</li>
-<li>Now you can filter, plot, compare pages…</li>
+<li>The text becomes <strong>rectangular</strong> again as a frequency table</li>
+<li>Now you can filter, plot, compare pages, …</li>
 </ul>
-<p><br></p>
 </div></div>
 </section>
 <section id="the-same-idea-powers-llms" class="slide level2">
@@ -2552,6 +2550,7 @@ $postalCode
 </tbody>
 </table>
 <p><br></p>
+<h5 id="llms-are-not-part-of-this-course.-but-they-start-from-the-same-steps-you-just-saw-split-text-into-tokens-and-turn-tokens-into-numbers.">LLMs are not part of this course. But they start from the same steps you just saw: split text into tokens, and turn tokens into numbers.</h5>
 </section>
 <section id="to-go-further" class="slide level2">
 <h2>To go further</h2>
@@ -2559,7 +2558,7 @@ $postalCode
 <li>Word counts are still used in Economics: the <em>Economic Policy Uncertainty</em> index counts newspaper articles with words like “uncertainty”, “economy”, and “policy”.</li>
 <li><a href="https://www.tidytextmining.com/">Text Mining with R</a>, free online book</li>
 </ul>
-<h4 id="self-study-slides-exam-relevant-on-text-analysis-with-quanteda-course-page"><strong>Self-study slides (exam relevant)</strong> on text analysis with <code>quanteda</code> (Course page)</h4>
+<h5 id="self-study-slides-exam-relevant-on-text-analysis-with-quanteda-slides-available-on-the-course-page">❗<strong>Self-study slides (exam relevant)</strong> on text analysis with <code>quanteda</code> (slides available on the course page)</h5>
 </section></section>
 <section id="qa" class="title-slide slide level1 center">
 <h1>Q&amp;A</h1>

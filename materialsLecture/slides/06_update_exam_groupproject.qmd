@@ -1,0 +1,98 @@
+---
+title: 'Data Handling: Import, Cleaning and Visualisation'
+author: "Dr. Aurélien Sallin"
+subtitle: 'Lecture 6:<br>Updates on exam and group project'
+date: "2026-10-22"
+echo: false
+code-line-numbers: false
+format:
+  revealjs:
+    template-partials:
+       - ../../style/title-slide.html
+    width: 1280
+    height: 720
+    smaller: true
+    embed-resources: true
+    self-contained: true
+    slide-number: c
+    theme: ../../style/hsgtheme_slides.scss
+highlight-style: dracula
+cache: false
+---
+
+
+
+:::: {.columns style="display: flex; align-items: center;"}
+
+::: {.column style="width: 50%;"}
+
+```{r, echo=FALSE, out.width = "100%", fig.align='center',  purl=FALSE}
+library(knitr)
+include_graphics("../../img/goldin.png")
+```
+
+:::
+
+::: {.column .fragment style="width: 50%; font-size: 3.5em; text-align: center;"}
+
+👩 ↘️↗️ 💼
+
+
+:::
+
+::::
+
+##
+
+```{r, echo=FALSE, out.width = "90%", fig.align='center',  purl=FALSE}
+include_graphics("../../img/flfp.jpg")
+```
+
+
+## The project "Women at work" is online
+
+  - Have fun
+  - First contact with `R`
+  - Use APIs like a pro
+  - Use LLMs to help you solve it
+  - Split tasks within the group
+
+  - Only questions asked on the **forum** in Canvas will be answered
+  - Deadline submission first part: **November 6th, 2026, 23:59**
+
+
+
+## Exam
+
+<br>
+
+  - The *mock exam* is online 💣. The mock exam is longer (90mn) than the final exam this year (60mn)
+  - The exam is similar in spirit and difficulty to the mock exam and to the quizzes.
+  - Questions on the group project will be asked
+  - If you attend the course and do the quizzes regularly, you’ll get familiar with the way I like asking questions...
+  - Goal: you understand the concepts seen in the course and you can read and understand code.
+  - ❗**You are not asked to write code**.
+
+
+
+## What to expect in the exam
+
+#### **True/False questions**, **multiple-choice questions**, and **multiple-correct options**.
+  - Designed to test your understanding of the material.
+  - Exactly same style  and structure as quizzes and mock exam
+  - We do not invent wrong function parameters or misspell function names etc to mislead you!
+
+#### Essay questions
+  - Ask you to explain what you did in the group project and what we covered in the course.
+  - Can be a piece of code to comment on, a question on the data or on the data pipeline, etc.
+
+
+## What to expect in the exam
+
+#### How to work your way efficiently through the exam
+
+  - Work step-by-step through the code example. What happens in each parenthesis, on each line?
+  - From the inner part to the outer part, from top to bottom.
+  - If a code-example question refers to specific functions, you can always assume that the corresponding package is also loaded.
+
+

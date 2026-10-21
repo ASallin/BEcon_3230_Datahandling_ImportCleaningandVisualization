@@ -1410,13 +1410,13 @@ substr(paragraphs[3], 1, 100)  # first 100 characters of paragraph 3
 
 ## A very brief intuition about text as data
 
-#### Text must become quantifiable data to be used by computers and models.
+#### Text must become quantifiable data to be used by computers and models:
 
-- Split into words, drop filler words, count
+[]{style="display: block; height: 0.15em;"}
 
 :::: {.columns}
 
-::: {.column width="55%"}
+::: {.column width="50%"}
 ```{r, echo=TRUE, eval=FALSE}
 # split into words (cut at anything that is not a letter)
 words <- tolower(unlist(strsplit(paragraphs, "[^[:alpha:]]+")))
@@ -1442,12 +1442,12 @@ head(counts, 5)
 ```
 :::
 
-::: {.column .fragment width="45%"}
-  - One **row per word**, one column with the **count**
-  - The text became **rectangular** again
-  - Now you can filter, plot, compare pages...
+::: {.column .fragment style="width: 45%; font-size: 0.8em;"}
 
-<br>
+  - Split into words, drop filler words ("stopwords"), count
+  - One **row per word**, one column with the **count**
+  - The text becomes **rectangular** again as a frequency table
+  - Now you can filter, plot, compare pages, ...
 
 :::
 
@@ -1465,13 +1465,15 @@ head(counts, 5)
 
 <br>
 
+##### LLMs start from the same steps you just saw: split text into tokens, and turn tokens into numbers.
+
 
 ## To go further
 
   - Word counts are still used in Economics: the *Economic Policy Uncertainty* index counts newspaper articles with words like "uncertainty", "economy", and "policy".
   - [Text Mining with R](https://www.tidytextmining.com/), free online book
 
-####  **Self-study slides (exam relevant)** on text analysis with `quanteda` (Course page)
+#####  ❗**Self-study slides (exam relevant)** on text analysis with `quanteda` (slides available on the course page)
 
 
 
