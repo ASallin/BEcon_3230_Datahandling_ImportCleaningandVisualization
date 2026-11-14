@@ -1331,28 +1331,26 @@ swiss_imported <- read_spss("data/swiss.sav")
 
 ## Tibbles are a modern version of data frames
 
-Similar!
+A tibble is a data frame with a few small changes.
 
-- Tibbles are used in the `tidyverse` and `ggplot2` packages.
-- Same information as a data frame.
-- Small differences in the manipulation and representation of data.
-- See [**Tibble vs. DataFrame**](https://jtr13.github.io/cc21fall1/tibble-vs.-dataframe.html#tibble-vs.-dataframe") for more details.
+- You will meet tibbles as soon as you use the `tidyverse`: `read_csv()`, for example, gives you one.
+- A tibble holds the same data as a data frame.
+- The differences are in how it prints and in a few details of how it behaves.
+- See [**Tibble vs. DataFrame**](https://jtr13.github.io/cc21fall1/tibble-vs.-dataframe.html#tibble-vs.-dataframe) for more details.
 
 
-## Tibbles are a modern version of data frames
+## A tibble prints the first 10 rows
 
-```{r, eval=TRUE, message=FALSE, warning=FALSE}
+```{r, eval=TRUE, echo=-1, message=FALSE, warning=FALSE}
 library(tidyverse)
 
 as_tibble(swiss)
 ```
 
 
-## Tibbles are a modern version of data frames
+## A data frame prints every row
 
-```{r, eval=TRUE, message=FALSE, warning=FALSE}
-library(tidyverse)
-
+```{r, eval=TRUE, echo=TRUE, message=FALSE, warning=FALSE}
 as.data.frame(swiss)
 ```
 
@@ -1360,13 +1358,48 @@ as.data.frame(swiss)
 
 ## Tibbles vs data frames
 
-- Unlike data frames, tibbles don’t show the entire dataset when you print it
-- Tibbles cannot access a column when you provide a partial name of the column, but data frames can.
-- When you access only one column of a tibble, it will keep the tibble structure. But when you access one column of a data frame, it will become a vector.
-- When assigning a new column to a tibble, the input will not be recycled, which means you have to provide an input of the same length of the other columns. But a data frame will recycle the input.
-- Tibbles preserve all the variable types, while data frames have the option to convert string into factor. (In older versions of R, data frames will convert string into factor by default)
+- **Printing:** a tibble shows the first 10 rows and the columns that fit on your screen. A data frame prints everything.
+- **Shortened column names:** `swiss$Fert` finds the column `Fertility` in a data frame. A tibble gives a warning and returns `NULL`.
+- **Selecting one column with `[ ]`:** `df[, "x"]` gives a vector for a data frame, but a one-column tibble for a tibble. `df$x` gives a vector for both.
+- **Adding a column:** a data frame and a tibble do not repeat values in the same way (next slide).
 
 ::: aside
 Source: https://jtr13.github.io/cc21fall1/tibble-vs.-dataframe.html
 :::
+
+
+## Tibbles vs data frames: repeating values
+
+If a new column is shorter than the data, R may repeat its values to fill the column (*"recycling"*).
+
+:::: {.columns}
+
+::: {.column width="50%" style="font-size: 70%;"}
+
+#### Data frame {style="margin-top: 0 !important;"}
+
+```{r, eval=TRUE, echo=TRUE, error=TRUE}
+df <- data.frame(id = 1:4)
+df$country <- "CH"
+df$group <- c("a", "b")
+df
+```
+
+:::
+
+::: {.column width="50%" style="font-size: 70%;"}
+
+#### Tibble {style="margin-top: 0 !important;"}
+
+```{r, eval=TRUE, echo=TRUE, error=TRUE}
+tb <- tibble(id = 1:4)
+tb$country <- "CH"
+tb$group <- c("a", "b")
+tb
+```
+
+:::
+::::
+
+#### A tibble only repeats a single value. A data frame also repeats longer inputs if they fit evenly.
 

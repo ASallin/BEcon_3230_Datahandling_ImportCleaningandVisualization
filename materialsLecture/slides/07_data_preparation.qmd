@@ -32,17 +32,13 @@ library(stringr)
 
 # Recap of Part I
 
-## {class="inverse" background-image="../../img/roadahead2.jpg" background-size="100%" background-repeat="cover"}
-
 ## Part I: Data, data processing, data structures
 ```{r pipeline 1, echo=FALSE, fig.align='center', out.width="80%", purl = FALSE}
 include_graphics("../../img/data_science_pipeline.png")
 ```
 
 
-## Part I: Data, data processing, data structures
-
-#### Our story so far:
+## Part I: Our story so far (explained by AI...)
 
   - 🖥️Computers store data as bits (Bits → Bytes → Encoded Text)<br>
   - ✍🏻Text encodes meaning<br>
@@ -52,18 +48,7 @@ include_graphics("../../img/data_science_pipeline.png")
   - 💾R parses structure into memory. (→ R Parsing → R Data Structures)
 
 
-## Part I: Your own Group Project
-
-\
-
-\
-
-<center>
-🎉
-</center>
-
-
-## Part I: Your own Group Project{.nostretch}
+## Your own Group Project{.nostretch}
 
 ![](../../img/lois_chatgpt.jpg){width="40%" fig-align="center"}
 
@@ -77,6 +62,8 @@ include_graphics("../../img/data_science_pipeline.png")
 ::: {.column width="50%"}
 
 #### XML:
+
+::: {style="font-size: 75%;"}
 ```{xml, echo = TRUE}
 <person>
   <firstName>John</firstName>
@@ -98,6 +85,7 @@ include_graphics("../../img/data_science_pipeline.png")
   </phoneNumber>
 </person>
 ```
+:::
 
 ::: {style="font-size: 60%;"}
   - **Tags**: `<element>value</element>` or `<element attribute="value"/>`
@@ -110,6 +98,8 @@ include_graphics("../../img/data_science_pipeline.png")
 ::: {.column width="50%"}
 
 #### JSON:
+
+::: {style="font-size: 75%;"}
 ```{json, echo = TRUE}
 {"firstName": "John",
   "lastName": "Smith",
@@ -132,6 +122,7 @@ include_graphics("../../img/data_science_pipeline.png")
   ]
 }
 ```
+:::
 
 ::: {style="font-size: 60%;"}
   - **Objects**: `{}` for key-value pairs
@@ -142,7 +133,7 @@ include_graphics("../../img/data_science_pipeline.png")
 :::
 ::::
 
-## Working with XML and JSON in R
+## Working with XML and JSON in R {visibility="hidden"}
 
 :::: {.columns}
 
@@ -222,20 +213,17 @@ person_df
 ::::
 
 
-## HTML: Semi-structured Web Data
+## HTML documents/webpages: *semi-structured data*
 
 :::: {.columns}
 
 ::: {.column width="50%"}
 
-#### HTML documents/webpages consist of *'semi-structured data'*:
-
   - A webpage can contain HTML tables (*structured data*)...
   - ...but likely also contains just raw text (*unstructured data*).
 
-#### **Web scraping**
-  - Extract data from HTML using XPath
-  - Example in class: parser for a Wikipedia table (webscraper) with `rvest`
+#### Example in class: Web scraping
+  - Parse a Wikipedia table from HTML using XPath and the R-package `rvest`
 
 :::
 
@@ -267,9 +255,7 @@ person_df
 :::
 ::::
 
-## REST APIs: Programmatic Data Access
-
-#### REST APIs
+## Programmatic Data Access with REST APIs
 
   - **Structured data**: APIs return data in JSON/XML format
   - **HTTP requests**: Use GET, POST, PUT, DELETE methods
@@ -277,22 +263,15 @@ person_df
   - (**Authentication**: Often require API keys or tokens)
   - **Rate limiting**: Restrictions on number of requests per time period
 
-#### **In R**: Use `httr2`, `jsonlite` packages to consume APIs
+##### **In R**: Use `httr2`, `jsonlite` packages to consume APIs
 
-
-## Your group project
-
-Use APIs to retrieve World Bank Data and OECD Data.
 
 
 # Warm-up
-## JSON files: open-ended question
+## JSON files
 
 ::: {style="font-size: 70%;"}
-You import the following json file using fromJSON() and store the file in the object `students` in R, i.e. <br> `students <- fromJSON("students.json")`.
-
-Which statements are TRUE?
-
+You import the following json file using fromJSON() and store the file in the object `students` in R, i.e. <br> `students <- fromJSON("students.json")`. Which statements are TRUE?
 :::
 
 :::: {.columns}
@@ -363,6 +342,7 @@ Which statements are TRUE?
 :::: {.columns}
 
 ::: {.column width="60%"}
+::: {style="font-size: 65%;"}
 ```{xml, echo = TRUE, max.lines = 10}
 <students>
   <student>
@@ -398,6 +378,7 @@ Which statements are TRUE?
 </students>
 ```
 :::
+:::
 
 ::: {.column width="40%"}
 
@@ -415,13 +396,14 @@ Which statements are TRUE?
 ::::
 
 
+<!-- =================================================================================================================== -->
+
 # Part II: Data preparation, analysis, and visualization
 
 ## The dataset is imported, now what?
-
-- In practice: still a long way to go.
-- Parsable, but messy data: inconsistencies, data types, missing observations, wide format.
-
+```{r pipeline, echo=FALSE, fig.align='center', out.width="80%", purl = FALSE}
+include_graphics("../../img/data_science_pipeline.png")
+```
 
 
 ## The dataset is imported, now what?
@@ -431,182 +413,42 @@ Which statements are TRUE?
 
 <br>
 
-- **Goal** of data preparation: dataset is ready for analysis.
+##### **Goal** of data preparation: dataset is ready for analysis.
 
 
 
-## The dataset is imported, now what?
-```{r pipeline, echo=FALSE, fig.align='center', out.width="80%", purl = FALSE}
-include_graphics("../../img/data_science_pipeline.png")
-```
-
-
-
-## Part II: Schedule & Organization
-```{r echo = FALSE, warning=FALSE, message = FALSE}
-library(readxl)
-library(knitr)
-library(magrittr)
-library(kableExtra)
-
-sched <- read_xlsx("../../schedule2025.xlsx", col_types = "text")
-```
-
-```{r echo=FALSE, message=FALSE, warning=FALSE}
-kable(sched[12:15, c(1,5)], format = "markdown")
-```
-
-
-## Part II: Schedule & Organization
-```{r echo = FALSE, warning = FALSE}
-kable(sched[16:nrow(sched), c(1,5)], format = "markdown")
-```
-
-
-## Part II: Schedule & Organization
-
-<div style="margin-top: 2em;"></div>
-
-##### Exam for exchange students 🎁
-
-  - **18.12.2024 at 16:15** in room 09-112 (library building).
-
-<div style="margin-top: 1.5em;"></div>
-
-##### Walk-ins for the digital exam:
-
-  - **Wednesday, 3 December 2025** from 10:30 to 14:00 in Room 23-104 (A 23 Lehr-Pavillon)
-  - **Tuesday, 16 December 2025** from 10:30 to 14:00 in 23-203 (A 23 Lehr-Pavillon)
-
-<div style="margin-top: 1.5em;"></div>
-
-##### Second part of the project: online today.
-
-  - Recommendation: wait for week 9 to start, as we will cover the necessary concepts in class until then.
-
-
-
-
-# The Tidyverse
-
-## Our main tool in part II: the tidyverse
+## Prepared data is ready in structure and content
 
 :::: {.columns}
 
-::: {.column width="60%"}
-"The tidyverse is a collection of open source packages for the R programming language introduced by Hadley Wickham and his team that share an underlying design philosophy, grammar, and data structures" of tidy data." (Wikipedia)
+::: {.column width="50%"}
 
-#### In this course, we will use tidyverse AND base R.
-:::
+#### Structure
 
-::: {.column width="40%"}
-```{r , echo=FALSE, out.width = "55%", fig.align='center',  purl=FALSE}
-include_graphics("../../img/tidyverse.png")
-```
-:::
-::::
+  - tidy format
+  - **reshape** (wide <-> long), **bind**, **join**
 
-## Tidyverse for data handling in R
-
-```{r, echo=FALSE, out.width = "40%", fig.align='center', purl=FALSE, fig.cap = "Source: https://www.storybench.org/wp-content/uploads/2017/05/tidyverse.png"}
-include_graphics("../../img/tidyverse_pipeline.png")
-```
-
-
-
-
-## Rectangular data in R and tidyverse
-
-- data frames: base `R`
-- tibbles: `tidyverse`
-
-
-## A note on tibbles and data frames
-
-#### Tibbles are a modern version of data frames
-
-Similar!
-
-- Tibbles are used in the tidyverse and ggplot2 packages.
-- Same information as a data frame.
-- Small differences in the manipulation and representation of data.
-- See [**Tibble vs. DataFrame**](https://jtr13.github.io/cc21fall1/tibble-vs.-dataframe.html#tibble-vs.-dataframe") for more details.
-
-
-## Tibbles are a modern version of data frames
-
-```{r, eval=TRUE, message=FALSE, warning=FALSE}
-library(tidyverse)
-
-as.data.frame(swiss)
-```
-
-## Tibbles are a modern version of data frames
-
-```{r, eval=TRUE, message=FALSE, warning=FALSE}
-library(tidyverse)
-
-as_tibble(swiss)
-```
-
-
-
-# Data cleaning
-
-##
-
-:::: {.columns}
-
-::: {.column width="60%"}
-
-#### Garbage in, garbage ... ?
-
+#### Content
+  - values are consistent within each variable,<br>variables are of proper data types
+  - [**clean**]{.green}, remove **duplicates**, \ check **plausibility**, take care of **missings**
 
 :::
 
-::: {.column width="40%"}
+::: {.column width="50%"}
 
-```{r garbage, echo=FALSE, out.width = "90%", fig.align='center',  purl=FALSE}
-include_graphics("../../img/dalle_garbageinout.png")
-```
+<br>
 
-
-:::
-::::
-
-
-## Beware of the "Garbage in garbage out" problem
-
-:::: {.columns}
-
-::: {.column width="60%"}
-
-#### Key conditions:
-  1. Data values are consistent/clean within each variable.
-  2. Variables are of proper data types.
-  3. Dataset is in 'tidy' (long) format.
-
-
-:::
-
-::: {.column width="40%"}
-
+::: {style="text-align: center;"}
 ```{r garbage2, echo=FALSE, out.width = "90%", fig.align='center',  purl=FALSE}
-include_graphics("../../img/dalle_garbageinout.png")
+# include_graphics("../../img/dalle_garbageinout.png")
+include_graphics("../../img/GIGO.png")
 ```
+:::
 
 
 :::
 ::::
 
-
-## Data preparation can be understood as consisting of five main actions
-
-- **Tidy** data.
-- **Reshape** datasets from wide to long (and vice versa).
-- **Bind** or stack rows in datasets.
-- **Join** datasets.
-- **Clean** data.
 
 <!-- Tidying Data: This step focuses on structuring data to be analysis-ready, often using principles from tidy data. -->
 <!-- Reshaping: Converting data formats (wide-to-long or long-to-wide) to fit specific analytical needs. -->
@@ -615,9 +457,10 @@ include_graphics("../../img/dalle_garbageinout.png")
 <!-- Data Cleaning: This step usually involves handling missing values, correcting errors, and standardizing formats, ensuring the data is accurate and reliable before moving to other steps. -->
 
 
+
 ## Tidy data: some vocabulary
 
-Following R4DS, a tidy dataset is tidy when...
+#### A tidy dataset is tidy when...
 
   1. Each <span style="color:red">variable</span> is a <span style="color:red">column</span>; each column is a variable.
   2. Each <span style="color:green">observation</span> is a <span style="color:green">row</span>; each row is an observation.
@@ -629,42 +472,74 @@ Following R4DS, a tidy dataset is tidy when...
 <!-- - *Observation*: Contains all values measured on the same unit (e.g., a person). -->
 
 
+::: aside
+"Tidy datasets are all alike, but every messy dataset is messy in its own way." Check Hadley Wickam's [R4DS, "Tidying dataset"](https://r4ds.hadley.nz/data-tidy.html)
+:::
+
 ## Tidy data
 
-```{r tidydata, echo=FALSE, out.width = "90%", fig.align='center', purl=FALSE, fig.cap="Tidy data. Source R4DS."}
+```{r tidydata, echo=FALSE, out.width = "90%", fig.align='center', purl=FALSE}
 include_graphics("../../img/tidy-1.png")
 ```
+
+::: aside
+Source: [R4DS, "Tidying dataset"](https://r4ds.hadley.nz/data-tidy.html)
+:::
+
 
 
 ## Tidy data is not trivial
 
-In Economics, the definition of an *observation* can vary:
+In Economics, the definition of an **observation** can vary:
 
 - Panel data (longitudinal data)
 - Cross-sectional data
 - Time series
 
 
+
 ## Tidy data is not trivial
 
-#### Panel Data (Longitudinal Data):
+::: {style="font-size: 0.925em;"}
+#### Panel Data (Longitudinal Data)
 
-  - Panel data tracks the same units over multiple time periods: we observe each unit repeatedly across time.<br>
+  - Each unit observed repeatedly across multiple time periods.<br>
   - **Observation**: One unit at one specific time point (e.g., Person A in 2020, Person A in 2021).
 
-<div style="margin-top: 1.25em;"></div>
-
-#### Cross-Sectional Data:
+#### Cross-Sectional Data
 
   - "Snapshot" of different units at the same moment.
   - **Observation**: One unit at a single point in time (e.g., Person A, Person B, Person C all measured in 2024).
 
-<div style="margin-top: 1.25em;"></div>
-
-#### Time Series Data:
+#### Time Series Data
 
   - Single unit tracked over time
   - **Observation**: One measurement of the unit at each time period (e.g., Switzerland's GDP in 1990, 1991, 1992...).
+
+:::
+
+
+## Different data structures in Economics
+
+```{r , echo=FALSE, out.width = "70%", fig.align='center'}
+include_graphics("../../img/panel_crosssection_timeseries_v2a.png")
+```
+
+
+
+## Different data structures in Economics
+
+```{r , echo=FALSE, out.width = "70%", fig.align='center'}
+include_graphics("../../img/panel_crosssection_timeseries_v2b.png")
+```
+
+
+
+## Different data structures in Economics
+
+```{r , echo=FALSE, out.width = "70%", fig.align='center'}
+include_graphics("../../img/panel_crosssection_timeseries_v2c.png")
+```
 
 
 ## Three examples of non-tidy data (1)
@@ -778,6 +653,76 @@ tidy_grades <- grades_data %>%
 
 tidy_grades
 ```
+
+
+
+
+# The Tidyverse
+
+## Our main tool in part II: the Tidyverse
+
+:::: {.columns}
+
+::: {.column width="60%"}
+"The tidyverse is a collection of open source packages for the R programming language introduced by Hadley Wickham and his team that share an underlying design philosophy, grammar, and data structures of tidy data." (Wikipedia)
+
+#### In this course, we will use tidyverse AND base R.
+:::
+
+::: {.column width="40%"}
+```{r , echo=FALSE, out.width = "55%", fig.align='center',  purl=FALSE}
+include_graphics("../../img/tidyverse.png")
+```
+:::
+::::
+
+## Tidyverse for data handling in R
+
+```{r, echo=FALSE, out.width = "40%", fig.align='center', purl=FALSE, fig.cap = "Source: https://www.storybench.org/wp-content/uploads/2017/05/tidyverse.png"}
+include_graphics("../../img/tidyverse_pipeline.png")
+```
+
+
+
+## A note: Tibbles are a modern version of data frames
+
+:::: {.columns}
+
+::: {.column width="50%"}
+
+##### Similar!
+
+- Data frames are used everywhere in `R`
+- Tibbles are used in the `tidyverse`
+- Both contain the exact same information.
+- Small differences in the manipulation and representation of data.
+- See [**Tibble vs. DataFrame**](https://jtr13.github.io/cc21fall1/tibble-vs.-dataframe.html#tibble-vs.-dataframe) and **Appendix lecture 4** for more details.
+
+:::
+
+::: {.column width="60%" style="font-size: 60%;"}
+
+::: {style="max-height: 200px; overflow-y: auto;"}
+```{r, eval=TRUE, echo=-1, message=FALSE, warning=FALSE}
+library(tidyverse)
+
+as.data.frame(swiss)
+```
+:::
+
+```{r, eval=TRUE, echo=TRUE, message=FALSE, warning=FALSE}
+as_tibble(swiss)
+```
+
+:::
+::::
+
+
+
+
+
+
+
 
 
 # Reshaping
@@ -902,24 +847,26 @@ include_graphics("../../img/rowbinding_dark.png")
 
 ## Stack/row-bind: implementation in `R`
 
-- Use `rbind()` in base `R`
+#### `rbind()` in base `R`
+
   - Requires that the data frames have the same column names and same column classes.
 
-<br>
+#### `bind_rows()` from `dplyr()`
 
-- Use `bind_rows()` from `dplyr()`
-  - More flexible
-  - Binds data frames with different column names and classes
+  - Flexible: binds data frames with different column names and classes
   - Automatically fills missing columns with `NA`
+  - Better performance, handles row names, handles factors
+  - **Preferred** in most applications
 
-<br>
-
-*For these reasons (+ performance, handling or row names, and handling of factors), `dplyr::bind_rows()` is preferred in most applications.*
 
 ## Stack/row-bind: code example
 
+:::: {.columns}
+
+::: {.column width="50%"}
+
+Create three data frames
 ```{r, echo=TRUE}
-# Create three dfs
 subset1 <- data.frame(ID = c(1,2),
                       X = c("a", "b"),
                       Y = c(50,10))
@@ -930,24 +877,46 @@ subset2 <- data.frame(ID = c(3,4),
 subset3 <- data.frame(ID = c(5),
                       X = c("c"),
                       Z = "P")
+```
 
-# Inspect
+:::
+
+::: {.column width="50%"}
+Inspect
+```{r, echo=TRUE}
 subset1
 subset2
 subset3
 ```
 
+:::
+::::
+
 
 ## Stack/row-bind: code example
-```{r, error=TRUE, echo = TRUE, eval=TRUE}
-# Stack data frames
-combined_df_bind_rows <- bind_rows(subset1, subset2, subset3)
-combined_df_rbind     <- rbind(subset1, subset2, subset3)
 
-# What are the following objects?
-combined_df_bind_rows
+:::: {.columns}
+
+::: {.column width="50%"}
+
+#### Using `rbind()`
+```{r, error=TRUE, echo = TRUE, eval=TRUE}
+combined_df_rbind <- rbind(subset1, subset2, subset3)
 combined_df_rbind
 ```
+
+:::
+
+::: {.column width="50%"}
+
+#### Using `bind_rows()`
+```{r, error=TRUE, echo = TRUE, eval=TRUE}
+combined_df_bind_rows <- bind_rows(subset1, subset2, subset3)
+combined_df_bind_rows
+```
+
+:::
+::::
 
 
 
@@ -956,18 +925,195 @@ The errors are due to the requirements of `rbind()`.
 :::
 
 
-# Appendix
+# Duplicates and \ de-duplication
 
-## Tibbles vs data frames
+<style>
+/* calories data set: blue output lines only (R output lines "##" get class .do) */
+.reveal .df-calories pre code span.do { color: #64B5F6; }
+</style>
 
-- Unlike data frames, tibbles don’t show the entire dataset when you print it
-- Tibbles cannot access a column when you provide a partial name of the column, but data frames can.
-- When you access only one column of a tibble, it will keep the tibble structure. But when you access one column of a data frame, it will become a vector.
-- When assigning a new column to a tibble, the input will not be recycled, which means you have to provide an input of the same length of the other columns. But a data frame will recycle the input.
-- Tibbles preserve all the variable types, while data frames have the option to convert string into factor. (In older versions of R, data frames will convert string into factor by default)
 
-::: aside
-Source: https://jtr13.github.io/cc21fall1/tibble-vs.-dataframe.html
+## Duplicates: two examples 🫕
+
+:::: {.columns}
+
+::: {.column width="48%" style="font-size: 95%;"}
+
+#### Orders {style="margin-top: 0 !important;"}
+
+::: {.df-orders}
+```{r, eval=TRUE, echo=-1, collapse=TRUE}
+orders <- data.frame(
+    order_id = rep(2031, 6),
+    item_id = c(1001, 2014, 3001, 3001, 3026, 3022),
+    item = c(
+        "Moitié-Moitié Fondue", "Fendant Wine", "Dessert: meringues + dbl",
+        "Dessert: meringues + dbl", "Water", "Espresso"
+    ),
+    quantity = c(1, 1, 1, 1, 1, 1),
+    price_chf = c(24.00, 38.00, 21.00, 21.00, 3.00, 4.50)
+)
+orders
+```
+:::
+
 :::
 
 
+::: {.column width="48%" style="font-size: 95%;"}
+
+::: {.fragment}
+#### Calories {style="margin-top: 0 !important;"}
+
+::: {.df-calories}
+```{r, eval=TRUE, echo=-1, collapse=TRUE}
+calories <- data.frame(
+  item = c("Moitié-Moitié Fondue", "Moitié-Moitié Fondue",
+           "Fendant", "Fendant", "Meringues + dbl cream"),
+  unit = c("per 100 g", "per portion", "per dl", "per dl", "per portion"),
+  kcal = c(380, 950, 70, 85, 725)
+)
+calories
+```
+:::
+:::
+
+:::
+::::
+
+##### Which rows are duplicates? Which ones should we remove?
+
+
+
+
+## De-duplication: the trivial case
+
+
+::: {.df-orders}
+```{r, eval=TRUE, echo=TRUE, collapse=TRUE}
+orders
+```
+:::
+
+::: {.panel-tabset}
+
+### 1. Count rows
+
+::: {.df-orders}
+```{r, eval=TRUE, echo=TRUE, collapse=TRUE}
+nrow(orders)
+```
+:::
+
+### 2. Find
+
+::: {.df-orders}
+```{r, eval=TRUE, echo=TRUE, collapse=TRUE}
+duplicated(orders)
+
+orders[duplicated(orders), ]
+```
+:::
+
+- `duplicated()` (base R) flags only the duplicates from the second one. The first one stays `FALSE`.
+
+### 3. Remove
+
+::: {.df-orders}
+```{r, eval=TRUE, echo=TRUE, collapse=TRUE}
+orders_clean <- distinct(orders)
+orders_clean <- unique(orders) # base R
+orders_clean
+```
+:::
+
+### 4. Check
+
+::: {.df-orders}
+```{r, eval=TRUE, echo=TRUE, collapse=TRUE}
+nrow(orders_clean) - nrow(orders)
+```
+:::
+
+:::
+
+
+
+## De-duplication: the less trivial case
+
+::: {.df-calories}
+```{r, eval=TRUE, echo=TRUE, collapse=TRUE}
+calories
+```
+:::
+
+::: {.panel-tabset}
+
+### 1. Exact duplicates?
+
+::: {.df-calories}
+```{r, eval=TRUE, echo=TRUE, collapse=TRUE}
+duplicated(calories)
+```
+:::
+
+- Not *exact* duplicates...
+
+### 2. Check the key
+
+::: {.df-calories}
+```{r, eval=TRUE, echo=TRUE, collapse=TRUE}
+# One row should be one item in one unit
+count(calories, item, unit)
+```
+:::
+
+- Keys are identified as the variables that make each observation unique, i.e. the **unit of observation**!
+
+### 3. Look at the rows
+
+::: {.df-calories}
+```{r, eval=TRUE, echo=TRUE, collapse=TRUE}
+filter(
+  group_by(calories, item, unit),
+  n() > 1
+  )
+```
+:::
+
+- This code will be explained in Lecture 8: group the data by `item` and `unit`, compute the number of observations per group, and subset/filter the rows with more than 1 observations in their group.
+
+### 4. Keep one row
+
+
+
+::: {.df-calories}
+
+```{r, eval=FALSE, echo=TRUE, collapse=TRUE}
+slice(calories, 1, .by = c(item, unit)) # The first row of each item and unit
+slice_max(calories, kcal, n = 1, by = c(item, unit)) # The row with the highest kcal
+```
+:::
+
+`slice` keeps rows by their row number. `slice_` have variants that keep rows based on different ways.
+:::
+
+
+## Notes on duplicates
+
+#### Duplicates are tricky
+
+- They end up taking a lot of time in the data cleaning pipeline
+- Especially when merging (see next week)
+- Many analytical mistakes are made because of duplicates.
+
+#### Crucial questions:
+
+- Which variables identify the unit of observation?
+- And: which row has precedence?
+
+##### Sometimes simply data-driven, sometimes it is driven by the research question/the knowledge of the data.
+
+::: aside
+Source: [The Epidemiologist R Handbook, chapter "De-duplication"](https://www.epirhandbook.com/en/new_pages/deduplication.html)
+:::
