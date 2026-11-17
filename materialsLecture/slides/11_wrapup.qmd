@@ -560,8 +560,8 @@ include_graphics("../../img/tidyverse_pipeline.png")
 
 - Import data into R. What to do if the parsing fails?
 - Clean/prepare data in R. Aim: tidy data set (rows:observations, columns:variables).
-- Filter, select, mutate, summarise.
-- Compute basic summary statistics using group_by and summarise.
+- Filter, select, mutate, summarize.
+- Compute basic summary statistics using group_by and summarize.
 - Visualize raw data and basic statistics.
 
 :::

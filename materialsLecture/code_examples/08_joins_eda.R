@@ -165,7 +165,7 @@ df_mutated %>%
 # Summary statistics and aggregation -------------------------------------------
 
 # generate a simple descriptive statistics table
-summarise(df_mutated,
+summarize(df_mutated,
           mean = mean(money_spent_chf),
           standard_deviation = sd(money_spent_chf),
           median = median(money_spent_chf),
@@ -179,14 +179,14 @@ summarise(df_mutated,
 
 by_year <- df_mutated |> 
   group_by(year) |> 
-  summarise(mean = mean(money_spent_chf),
+  summarize(mean = mean(money_spent_chf),
             standard_deviation = sd(money_spent_chf),
             median = median(money_spent_chf),
             N = n()) 
 
 df_mutated |> 
   group_by(year) |> 
-  summarise(across(.cols = c(money_spent_chf),
+  summarize(across(.cols = c(money_spent_chf),
                    .fns = list(mean = mean, 
                                standard_deviation = sd, 
                                median = median)))

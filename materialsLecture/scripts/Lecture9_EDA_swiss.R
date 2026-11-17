@@ -33,23 +33,23 @@ swiss[swiss$municipality == "Gruyere", "Agriculture"] <- NA
 # Use standard summary
 summary(swiss)
 
-# Use dplyr summarise
-summarise(swiss,
+# Use dplyr summarize
+summarize(swiss,
           mean = mean(Agriculture),
           sd = sd(Agriculture),
           median = median(Agriculture),
           N = n())
 
-# Use dplyr summarise and rbind for a summary table
+# Use dplyr summarize and rbind for a summary table
 bind_rows(
-  summarise(swiss,
+  summarize(swiss,
             name = "Agriculture",
             min = min(Agriculture),
             mean = mean(Agriculture),
             sd = sd(Agriculture),
             median = median(Agriculture),
             N = n()),
-  summarise(swiss,
+  summarize(swiss,
             name = "Examination",
             min = min(Examination),
             mean = mean(Examination),

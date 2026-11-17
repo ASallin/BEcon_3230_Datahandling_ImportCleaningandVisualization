@@ -3,7 +3,6 @@ title: 'Data Handling: Import, Cleaning and Visualisation'
 author: "Dr. Aurélien Sallin"
 subtitle: 'Lecture 7:<br>Data Preparation, Manipulation, and Cleaning I'
 date: "2026-11-12"
-echo: false
 code-line-numbers: false
 format:
   revealjs:
@@ -28,9 +27,10 @@ library(tidyr)
 library(stringr)
 ```
 
-# Welcome back!
 
-# Recap of Part I
+# Welcome to Part II!
+
+# Recap
 
 ## Part I: Data, data processing, data structures
 ```{r pipeline 1, echo=FALSE, fig.align='center', out.width="80%", purl = FALSE}
@@ -52,8 +52,6 @@ include_graphics("../../img/data_science_pipeline.png")
 
 ![](../../img/lois_chatgpt.jpg){width="40%" fig-align="center"}
 
-
-# Recap: non-rectangular data
 
 ## XML vs JSON: Structure and Syntax
 
@@ -400,6 +398,17 @@ Which statements are TRUE?
 
 # Part II: Data preparation, analysis, and visualization
 
+## Objective for lecture 7 and 8
+
+- Know how to prepare a dataset for analysis:
+
+  - Handle data frames
+  - Reshape data frames
+  - Combine data frames
+  - Have consistent data: no duplicates, no missings
+
+
+
 ## The dataset is imported, now what?
 ```{r pipeline, echo=FALSE, fig.align='center', out.width="80%", purl = FALSE}
 include_graphics("../../img/data_science_pipeline.png")
@@ -504,17 +513,17 @@ In Economics, the definition of an **observation** can vary:
 #### Panel Data (Longitudinal Data)
 
   - Each unit observed repeatedly across multiple time periods.<br>
-  - **Observation**: One unit at one specific time point (e.g., Person A in 2020, Person A in 2021).
+  - **Unit of observation**: One unit at one specific time point (e.g., Person A in 2020, Person A in 2021).
 
 #### Cross-Sectional Data
 
   - "Snapshot" of different units at the same moment.
-  - **Observation**: One unit at a single point in time (e.g., Person A, Person B, Person C all measured in 2024).
+  - **Unit of observation**: One unit at a single point in time (e.g., Person A, Person B, Person C all measured in 2024).
 
 #### Time Series Data
 
   - Single unit tracked over time
-  - **Observation**: One measurement of the unit at each time period (e.g., Switzerland's GDP in 1990, 1991, 1992...).
+  - **Unit of observation**: One measurement of the unit at each time period (e.g., Switzerland's GDP in 1990, 1991, 1992...).
 
 :::
 
@@ -676,6 +685,7 @@ include_graphics("../../img/tidyverse.png")
 :::
 ::::
 
+
 ## Tidyverse for data handling in R
 
 ```{r, echo=FALSE, out.width = "40%", fig.align='center', purl=FALSE, fig.cap = "Source: https://www.storybench.org/wp-content/uploads/2017/05/tidyverse.png"}
@@ -720,6 +730,110 @@ as_tibble(swiss)
 
 
 
+# Manipulating data in the Tidyverse
+
+## 5 building blocks of `dplyr`
+
+:::: {.columns}
+
+::: {.column width="60%"}
+
+<div style="margin-top: 1.25em;"></div>
+
+- **Select** the subset of variables you need (e.g., for comparisons).
+- **Filter** the dataset by restricting your dataset to observations needed in _this_ analysis.
+- **Arrange** the dataset by reordering the rows.
+- **Mutate** the dataset by adding the values you need for your analysis.
+- **Group** and **summarize** the dataset by a variable to apply functions to groups of observations.
+
+:::
+
+::: {.column width="40%"}
+
+```{r, echo=FALSE, out.width = "90%", fig.align='center', fig.cap = 'Source: [Jasper Dag Tjaden 2021, Intro to R for Social Scientists](https://jaspertjaden.github.io/course-intro2r/week3.html)', purl=FALSE}
+include_graphics("../../img/dplyr_blocks.png")
+```
+
+:::
+::::
+
+
+## In the Tidyverse, we `pipe` commands {.nostretch}
+
+```{r magrittr, echo=FALSE, out.width="55%", fig.align='center', purl=FALSE}
+include_graphics("../../img/magrittr.png")
+```
+
+- The operator has been now replaced with `|>`.
+
+
+
+## Prepare your data in a `pipe`line with `dplyr`
+
+:::: {.columns}
+
+::: {.column width="50%"}
+
+#### The `dplyr` way
+```{r, eval=FALSE, echo=TRUE}
+# Load swiss data
+data(swiss)
+
+# Traditional way
+mydf <- swiss
+mydf <- arrange(mydf, -Catholic)
+mydf <- filter(mydf, Education > 8 & Catholic > 90)
+mydf <- mutate(mydf, Country = "Switzerland")
+mydf <- select(mydf, Examination)
+
+# The pipe way
+mydf <- swiss  |>
+  arrange(-Catholic) |>
+  filter(Education > 8 & Catholic > 90) |>
+  mutate(Country = "Switzerland") |>
+  select(Examination)
+
+```
+
+:::
+
+::: {.column width="50%"}
+
+#### Equivalence in base `R`
+```{r, eval=FALSE, echo=TRUE}
+# Base-R equivalent
+mydf <- data(swiss)
+mydf <- mydf[order(-mydf$Catholic), ]
+mydf <- mydf[mydf$Education > 8 & mydf$Catholic > 90, ]
+mydf$Country <- "Switzerland"
+mydf <- mydf["Examination"]
+```
+
+:::
+::::
+
+
+
+## Important additional tools
+
+- `ifelse(test, yes, no)` returns a value with the same shape as the logical test. Filled with elements selected from either `yes` or `no` depending on whether the element of `test` is `TRUE` or `FALSE`
+```{r, echo = TRUE, eval = FALSE}
+df |>
+  mutate(gender = ifelse(gender == "m", 1, 0))
+```
+- `case_when` vectorises multiple `ifelse()` statements. It is the `dplyr` equivalent of `if...else`
+```{r, echo = TRUE, eval = FALSE}
+df |>
+  mutate(
+    agegroup = case_when(
+      age >= 0 & age < 19 ~ "0-18",
+      age >= 19 & age < 66 ~ "19-65",
+      age >= 66 & age < 100 ~ ">65",
+      .default = "999"
+    )
+  )
+```
+- `count()` to count number of values per group.
 
 
 
@@ -729,26 +843,13 @@ as_tibble(swiss)
 
 ## Reshaping: the concept
 
-<!-- ```{r widetolong, echo=FALSE, out.width = "65%", fig.align='center',  purl=FALSE} -->
-<!-- include_graphics("../../img/reshape2_dark.png") -->
-<!-- ``` -->
-
 ```{r, echo=FALSE, out.width = "80%", fig.align='center', purl=FALSE, fig.cap="Long and wide data. Source: [Hugo Tavares](https://tavareshugo.github.io/r-intro-tidyverse-gapminder/09-reshaping/index.html)"}
 include_graphics("../../img/longvswide.png")
 ```
 
-## Wide vs Long Format: Key Differences
 
-:::: {.columns}
 
-::: {.column width="50%"}
-
-#### **Long Format**
-- **Structure**: Each measurement = one row
-- **Variables**: Stacked vertically
-- **Dimensions**: More rows, fewer columns
-- **Analysis**: Better for statistical operations
-- **Example**: Database-normalized format
+## Wide vs Long Format
 
 ```{r, echo = FALSE}
 grades_wide <- data.frame(
@@ -757,49 +858,106 @@ grades_wide <- data.frame(
   DataHandling = c(4.0, 4.5, 5.0),
   Management = c(5.5, 6.0, 6.0)
 )
-grades_long <- grades_wide %>%
-  pivot_longer(cols = -Student, names_to = "Subject", values_to = "Grade")
-grades_long
+grades_long <- grades_wide |>
+  pivot_longer(cols = -Student, names_to = "Subject", values_to = "Grade") |>
+  as.data.frame()
 ```
 
+<style>
+/* Wide vs Long grid: halve the space between rows */
+.reveal .wl-row p { margin-top: 8px; margin-bottom: 8px; }
+</style>
+
+:::: {.columns}
+::: {.column width="15%"}
 :::
+::: {.column width="42.5%"}
+#### Long Format
+:::
+::: {.column width="42.5%"}
+#### Wide Format
+:::
+::::
 
-::: {.column width="50%"}
+:::: {.columns .wl-row style="font-size: 90%;"}
+::: {.column width="15%"}
+**Structure**
+:::
+::: {.column width="42.5%"}
+Each measurement = one row
+:::
+::: {.column width="42.5%"}
+Each unit = one row
+:::
+::::
 
-#### **Wide Format**
-- **Structure**: Each observation = one row
-- **Variables**: Spread across multiple columns
-- **Dimensions**: More columns, fewer rows
-- **Analysis**: Easy for humans to read
-- **Example**: Spreadsheet-style layout
+:::: {.columns .wl-row style="font-size: 90%;"}
+::: {.column width="15%"}
+**Variables**
+:::
+::: {.column width="42.5%"}
+Column names become values of one variable
+:::
+::: {.column width="42.5%"}
+Values of one variable become column names
+:::
+::::
 
+:::: {.columns .wl-row style="font-size: 90%;"}
+::: {.column width="15%"}
+**Dimensions**
+:::
+::: {.column width="42.5%"}
+More rows, fewer columns
+:::
+::: {.column width="42.5%"}
+More columns, fewer rows
+:::
+::::
+
+:::: {.columns .wl-row style="font-size: 90%;"}
+::: {.column width="15%"}
+**Example**
+:::
+::: {.column width="42.5%"}
+Summary of grades per subject
+<br>
+```{r, echo = FALSE}
+grades_long
+```
+:::
+::: {.column width="42.5%"}
+`cor(Econ, Management)`
+<br>
 ```{r, echo = FALSE}
 grades_wide
 ```
-
 :::
-
 ::::
+
 
 
 
 ## Reshaping: implementation in `R`
 
-- From wide to long: `melt()`, `gather()`,
+- From wide to long: `melt()`, `gather()`
 
 👉 We'll use `tidyverse::pivot_longer()`.
 
 
-- From long to wide: `cast()`, `spread()`,
+- From long to wide: `cast()`, `spread()`
 
 👉 We'll use `tidyverse::pivot_wider()`.
 
 
-## Reshaping: implementation in `R` with `tidyverse()`
+
+
+## Reshaping with `tidyverse()`
 
 ```{r longvswideCode, echo=FALSE, out.width = "80%", fig.align='center', purl=FALSE, fig.cap="Long and wide data with code. Source: [Hugo Tavares](https://tavareshugo.github.io/r-intro-tidyverse-gapminder/09-reshaping/index.html)"}
 include_graphics("../../img/longvswideCode.png")
 ```
+
 
 
 ## When to Use Wide vs Long Format
@@ -808,33 +966,40 @@ include_graphics("../../img/longvswideCode.png")
 
 ::: {.column width="50%"}
 
-#### **Use Long Format for:**
+#### Use Long Format for:
 
-- **Data analysis** with tidyverse/ggplot2
-- **Grouping and summarizing operations** (summarize, mutate by groups)
-- **Time series analysis**
-- **Following tidy data principles**
-- **Creating visualizations** with multiple variables
+- Exploratory data analysis with tidyverse/ggplot2
+- Grouping and summarizing operations (`group_by()`, `summarize()`)
+- Panel data analysis (and in many packages, time series)
+- Plotting several series in one `ggplot` (e.g., colors, facets -> see lecture 9)
 
 :::
 
 ::: {.column width="50%"}
 
-#### **Use Wide Format for:**
+#### Use Wide Format for:
 
-- **Data entry** and manual correction
-- **Reports and tables** for presentation
-- **Statistical models** like regressions where each predictor should be a separate column (`lm`), many machine learning functions, matrix multiplication
-- **Spreadsheet analysis** (Excel-style operations)
-- **Human readability** and quick scanning
+- Data entry and manual correction
+- Spreadsheet analysis for readability and quick scanning
+- Reports and tables for presentation
+- Statistical models like regressions where each predictor should be a separate column (`lm(y ~ x1 + x2)`), many machine learning functions, matrix multiplication
 
 :::
 ::::
 
 
 <center>
-##### Rule of thumb: Wide format for presentation, long format for analysis
+##### My take: A data analysis requires moving between wide and long depending on the purpose.
 </center>
+
+
+
+## On the art of pivoting
+
+```{r pivot, echo=FALSE, out.width = "55%", fig.align='center', purl=FALSE}
+include_graphics("../../img/pivot.gif")
+```
+
 
 
 # Stack and row-bind
@@ -924,196 +1089,3 @@ combined_df_bind_rows
 The errors are due to the requirements of `rbind()`.
 :::
 
-
-# Duplicates and \ de-duplication
-
-<style>
-/* calories data set: blue output lines only (R output lines "##" get class .do) */
-.reveal .df-calories pre code span.do { color: #64B5F6; }
-</style>
-
-
-## Duplicates: two examples 🫕
-
-:::: {.columns}
-
-::: {.column width="48%" style="font-size: 95%;"}
-
-#### Orders {style="margin-top: 0 !important;"}
-
-::: {.df-orders}
-```{r, eval=TRUE, echo=-1, collapse=TRUE}
-orders <- data.frame(
-    order_id = rep(2031, 6),
-    item_id = c(1001, 2014, 3001, 3001, 3026, 3022),
-    item = c(
-        "Moitié-Moitié Fondue", "Fendant Wine", "Dessert: meringues + dbl",
-        "Dessert: meringues + dbl", "Water", "Espresso"
-    ),
-    quantity = c(1, 1, 1, 1, 1, 1),
-    price_chf = c(24.00, 38.00, 21.00, 21.00, 3.00, 4.50)
-)
-orders
-```
-:::
-
-:::
-
-
-::: {.column width="48%" style="font-size: 95%;"}
-
-::: {.fragment}
-#### Calories {style="margin-top: 0 !important;"}
-
-::: {.df-calories}
-```{r, eval=TRUE, echo=-1, collapse=TRUE}
-calories <- data.frame(
-  item = c("Moitié-Moitié Fondue", "Moitié-Moitié Fondue",
-           "Fendant", "Fendant", "Meringues + dbl cream"),
-  unit = c("per 100 g", "per portion", "per dl", "per dl", "per portion"),
-  kcal = c(380, 950, 70, 85, 725)
-)
-calories
-```
-:::
-:::
-
-:::
-::::
-
-##### Which rows are duplicates? Which ones should we remove?
-
-
-
-
-## De-duplication: the trivial case
-
-
-::: {.df-orders}
-```{r, eval=TRUE, echo=TRUE, collapse=TRUE}
-orders
-```
-:::
-
-::: {.panel-tabset}
-
-### 1. Count rows
-
-::: {.df-orders}
-```{r, eval=TRUE, echo=TRUE, collapse=TRUE}
-nrow(orders)
-```
-:::
-
-### 2. Find
-
-::: {.df-orders}
-```{r, eval=TRUE, echo=TRUE, collapse=TRUE}
-duplicated(orders)
-
-orders[duplicated(orders), ]
-```
-:::
-
-- `duplicated()` (base R) flags only the duplicates from the second one. The first one stays `FALSE`.
-
-### 3. Remove
-
-::: {.df-orders}
-```{r, eval=TRUE, echo=TRUE, collapse=TRUE}
-orders_clean <- distinct(orders)
-orders_clean <- unique(orders) # base R
-orders_clean
-```
-:::
-
-### 4. Check
-
-::: {.df-orders}
-```{r, eval=TRUE, echo=TRUE, collapse=TRUE}
-nrow(orders_clean) - nrow(orders)
-```
-:::
-
-:::
-
-
-
-## De-duplication: the less trivial case
-
-::: {.df-calories}
-```{r, eval=TRUE, echo=TRUE, collapse=TRUE}
-calories
-```
-:::
-
-::: {.panel-tabset}
-
-### 1. Exact duplicates?
-
-::: {.df-calories}
-```{r, eval=TRUE, echo=TRUE, collapse=TRUE}
-duplicated(calories)
-```
-:::
-
-- Not *exact* duplicates...
-
-### 2. Check the key
-
-::: {.df-calories}
-```{r, eval=TRUE, echo=TRUE, collapse=TRUE}
-# One row should be one item in one unit
-count(calories, item, unit)
-```
-:::
-
-- Keys are identified as the variables that make each observation unique, i.e. the **unit of observation**!
-
-### 3. Look at the rows
-
-::: {.df-calories}
-```{r, eval=TRUE, echo=TRUE, collapse=TRUE}
-filter(
-  group_by(calories, item, unit),
-  n() > 1
-  )
-```
-:::
-
-- This code will be explained in Lecture 8: group the data by `item` and `unit`, compute the number of observations per group, and subset/filter the rows with more than 1 observations in their group.
-
-### 4. Keep one row
-
-
-
-::: {.df-calories}
-
-```{r, eval=FALSE, echo=TRUE, collapse=TRUE}
-slice(calories, 1, .by = c(item, unit)) # The first row of each item and unit
-slice_max(calories, kcal, n = 1, by = c(item, unit)) # The row with the highest kcal
-```
-:::
-
-`slice` keeps rows by their row number. `slice_` have variants that keep rows based on different ways.
-:::
-
-
-## Notes on duplicates
-
-#### Duplicates are tricky
-
-- They end up taking a lot of time in the data cleaning pipeline
-- Especially when merging (see next week)
-- Many analytical mistakes are made because of duplicates.
-
-#### Crucial questions:
-
-- Which variables identify the unit of observation?
-- And: which row has precedence?
-
-##### Sometimes simply data-driven, sometimes it is driven by the research question/the knowledge of the data.
-
-::: aside
-Source: [The Epidemiologist R Handbook, chapter "De-duplication"](https://www.epirhandbook.com/en/new_pages/deduplication.html)
-:::

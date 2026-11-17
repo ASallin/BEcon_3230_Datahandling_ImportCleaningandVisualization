@@ -42,27 +42,6 @@ include_graphics("../../img/dplyr_blocks.png")
 ```
 
 
-## Important additional tools
-
-- `ifelse(test, yes, no)` returns a value with the same shape as the logical test. Filled with elements selected from either `yes` or `no` depending on whether the element of `test` is `TRUE` or `FALSE`
-```{r, echo = TRUE, eval = FALSE}
-df |>
-  mutate(gender = ifelse(gender == "m", 1, 0))
-```
-- `case_when` vectorises multiple `ifelse()` statements. It is the `dplyr` equivalent of `if...else`
-```{r, echo = TRUE, eval = FALSE}
-df |>
-  mutate(
-    agegroup = case_when(
-      age >= 0 & age < 19 ~ "0-18",
-      age >= 19 & age < 66 ~ "19-65",
-      age >= 66 & age < 100 ~ ">65",
-      .default = "999"
-    )
-  )
-```
-- `stringr`: str_replace(), str_detect(), etc.
-- `tolower` and `trimws`
 
 
 ## Exploratory data analysis

@@ -31,120 +31,6 @@ library(tidyr)
 ```
 
 
-
-# Recap: Data Preparation
-
----
-
-```{r pipeline, echo=FALSE, out.width = "85%", fig.align='center',  purl=FALSE}
-include_graphics("../../img/data_science_pipeline.png")
-```
-
-
-
-## Data preparation/data cleaning
-
-
-:::: {.columns}
-
-::: {.column width="60%"}
-
-#### Goal of data preparation: Dataset is ready for analysis.
-
-<br>
-
-#### Key conditions:
-  1. Data values are consistent/clean within each variable.
-  2. Variables are of proper data types.
-  3. Dataset is in 'tidy' (in long format)!
-
-:::
-
-::: {.column width="40%"}
-
-```{r , echo=FALSE, out.width = "90%", fig.align='center', fig.cap = '"Garbage in garbage out (GIGO)"', purl=FALSE}
-include_graphics("../../img/dalle_garbageinout.png")
-```
-
-
-:::
-::::
-
-
-## Data preparation consists of five main steps
-
-- **Tidy** data.
-- **Reshape** datasets from wide to long (and vice versa).
-- **Bind** or stack rows in datasets.
-- **Join** datasets.
-- **Clean** data.
-
-
-## Different data structures in Economics
-
-::: {style="margin-top: -5em;"}
-```{r , echo=FALSE, out.width = "100%", fig.align='center'}
-include_graphics("../../img/panel_crosssection_timeseries.svg")
-```
-:::
-
-
-## A tidy dataset is tidy, when ...
-
-  1. Each <span style="color:red">variable</span> is a <span style="color:red">column</span>; each column is a variable.
-  2. Each <span style="color:green">observation</span> is a <span style="color:green">row</span>; each row is an observation.
-  3. Each <span style="color:blue">value</span> is a <span style="color:blue">cell</span>; each cell is a single value.
-
-<!-- - *Dataset*: Collection of *values* (numbers and strings). -->
-<!-- - Every value belongs to a *variable* and an *observation*. -->
-<!-- - *Variable*: Contains all values that measure the same underlying attribute across units. -->
-<!-- - *Observation*: Contains all values measured on the same unit (e.g., a person). -->
-
-
-## Reshaping
-```{r longvswideCode, echo=FALSE, out.width = "80%", fig.align='center', purl=FALSE, fig.cap="Long and wide data. Source: [Hugo Tavares](https://tavareshugo.github.io/r-intro-tidyverse-gapminder/09-reshaping/index.html)"}
-include_graphics("../../img/longvswideCode.png")
-```
-
-
-## When to Use Wide vs Long Format
-
-:::: {.columns}
-
-::: {.column width="50%"}
-
-#### **Use Long Format for:**
-
-- **Data analysis** with tidyverse/ggplot2
-- **Grouping and summarizing operations** (summarize, mutate by groups)
-- **Time series analysis**
-- **Following tidy data principles**
-- **Creating visualizations** with multiple variables
-
-:::
-
-::: {.column width="50%"}
-
-#### **Use Wide Format for:**
-
-- **Data entry** and manual correction
-- **Reports and tables** for presentation
-- <span style="color:red">**Statistical models**</span> like regressions where each predictor should be a separate column (`lm`), many machine learning functions, matrix multiplication (erratum last time!)
-- **Spreadsheet analysis** (Excel-style operations)
-- **Human readability** and quick scanning
-
-:::
-::::
-
-
-## Stack/row-bind
-
-```{r, echo=FALSE, out.width = "55%", fig.align='center', purl=FALSE}
-include_graphics("../../img/rowbinding_dark.png")
-```
-
-
-
 # Warm up
 
 ## Reshaping: multiple/one/none answers correct
@@ -204,33 +90,6 @@ Which of the following statements is true?
 :::
 ::::
 :::
-
-## A "weird" dataset
-
-  1. Is this dataset tidy?
-  2. Is this dataset long or wide?
-  3. What are the correct arguments to pivot it?
-  4. Is this structure useful?
-
-```{r, echo = F}
-weird_df <- data.frame(last_name = c("Wayne", "Trump", "Marx",
-                                     "Wayne", "Trump", "Marx",
-                                     "Wayne", "Trump", "Marx"),
-                       first_name = c("John", "Melania", "Karl",
-                                      "John", "Melania", "Karl",
-                                      "John", "Melania", "Karl"),
-                       gender = c("male", "female", "male",
-                                  "male", "female", "male",
-                                  "male", "female", "male"),
-                       value = c("150000", "250000", "10000",
-                                 "2000000", "5000000", "NA",
-                                 "50", "25", "NA"),
-                       variable = c("income", "income", "income",
-                                    "assets", "assets", "assets",
-                                    "age", "age", "age"),
-                       stringsAsFactors = FALSE)
-weird_df
-```
 
 <!-- ```{r}
 temp_location_data <- data.frame(
@@ -449,110 +308,460 @@ dplyr (tidyverse)  | base::merge
 `right_join(x, y)` | `merge(x, y, all.y = TRUE)`,
 `full_join(x, y)`  | `merge(x, y, all = TRUE)`
 
+::: aside
+You are expected to know that `base::merge()` exists. For the exam, please focus on the `dplyr` functions.
+:::
 
 
-# Transforming and cleaning data
-
----
-
-```{r, echo=FALSE, out.width = "40%", fig.align='center', purl=FALSE, fig.cap = "Source: https://www.storybench.org/wp-content/uploads/2017/05/tidyverse.png"}
-include_graphics("../../img/tidyverse_pipeline.png")
-```
 
 
-## `select`, `filter`, `arrange`, `mutate` are the building blocks of `dplyr`
+
+# Duplicates and \ de-duplication
+
+<style>
+/* calories data set: blue output lines only (R output lines "##" get class .do) */
+.reveal .df-calories pre code span.do { color: #64B5F6; }
+</style>
+
+
+## Duplicates: two examples 🫕
 
 :::: {.columns}
 
-::: {.column width="60%"}
+::: {.column style="width: 48%; font-size: 95%;"}
 
-<br>
+#### Orders {style="margin-top: 0 !important;"}
 
-- **Select** the subset of variables you need (e.g., for comparisons).
-- **Filter** the dataset by restricting your dataset to observations needed in _this_ analysis.
-- **Arrange** the dataset by reordering the rows.
-- **Mutate** the dataset by adding the values you need for your analysis.
-- **Group** and **summarize** the dataset by a variable to apply functions to groups of observations.
+::: {.df-orders}
+```{r, eval=TRUE, echo=-1, collapse=TRUE}
+orders <- data.frame(
+    order_id = rep(2031, 6),
+    item_id = c(1001, 2014, 3001, 3001, 3026, 3022),
+    item = c(
+        "Moitié-Moitié Fondue", "Fendant Wine", "Dessert: meringues + dbl",
+        "Dessert: meringues + dbl", "Water", "Espresso"
+    ),
+    quantity = c(1, 1, 1, 1, 1, 1),
+    price_chf = c(24.00, 38.00, 21.00, 21.00, 3.00, 4.50)
+)
+orders
+```
+:::
 
 :::
 
-::: {.column width="40%"}
 
-```{r, echo=FALSE, out.width = "90%", fig.align='center', fig.cap = 'Source: [Intro to R for Social Scientists](https://jaspertjaden.github.io/course-intro2r/week3.html)', purl=FALSE}
-include_graphics("../../img/dplyr_blocks.png")
+::: {.column style="width: 48%; font-size: 95%;"}
+
+::: {.fragment}
+#### Calories {style="margin-top: 0 !important;"}
+
+::: {.df-calories}
+```{r, eval=TRUE, echo=-1, collapse=TRUE}
+calories <- data.frame(
+  item = c("Moitié-Moitié Fondue", "Moitié-Moitié Fondue",
+           "Fendant", "Fendant", "Meringues + dbl cream"),
+  unit = c("per 100 g", "per portion", "per dl", "per dl", "per portion"),
+  kcal = c(380, 950, 70, 85, 725)
+)
+calories
 ```
+:::
+:::
+
+:::
+::::
+
+##### Which rows are duplicates? Which ones should we remove?
+
+
+
+## De-duplication: the trivial case
+
+
+::: {.df-orders}
+```{r, eval=TRUE, echo=TRUE, collapse=TRUE}
+orders
+```
+:::
+
+::: {.panel-tabset}
+
+### 1. Count rows
+
+::: {.df-orders}
+```{r, eval=TRUE, echo=TRUE, collapse=TRUE}
+nrow(orders)
+```
+:::
+
+### 2. Find
+
+::: {.df-orders}
+```{r, eval=TRUE, echo=TRUE, collapse=TRUE}
+duplicated(orders)
+
+orders[duplicated(orders), ]
+```
+:::
+
+- `duplicated()` (base R) flags only the duplicates from the second one. The first one stays `FALSE`.
+
+### 3. Remove
+
+::: {.df-orders}
+```{r, eval=TRUE, echo=TRUE, collapse=TRUE}
+orders_clean <- distinct(orders)
+orders_clean <- unique(orders) # base R
+orders_clean
+```
+:::
+
+### 4. Check
+
+::: {.df-orders}
+```{r, eval=TRUE, echo=TRUE, collapse=TRUE}
+nrow(orders_clean) - nrow(orders)
+```
+:::
+:::
+
+
+## De-duplication: the less trivial case
+
+::: {.df-calories}
+```{r, eval=TRUE, echo=TRUE, collapse=TRUE}
+calories
+```
+:::
+
+::: {.panel-tabset}
+
+### 1. Exact duplicates?
+
+::: {.df-calories}
+```{r, eval=TRUE, echo=TRUE, collapse=TRUE}
+duplicated(calories)
+```
+:::
+
+- Not *exact* duplicates...
+
+### 2. Check the key
+
+::: {.df-calories}
+```{r, eval=TRUE, echo=TRUE, collapse=TRUE}
+# One row should be one item in one unit
+count(calories, item, unit)
+```
+:::
+
+- Keys are identified as the variables that make each observation unique, i.e. the **unit of observation**!
+
+### 3. Look at the rows
+
+::: {.df-calories}
+```{r, eval=TRUE, echo=TRUE, collapse=TRUE}
+calories |>
+    group_by(item, unit) |>
+    filter(n() > 1)
+```
+:::
+
+- `n()` is a `dplyr` function to compute the number of observations per group.
+
+### 4. Keep one row
+
+::: {.df-calories}
+
+```{r, eval=FALSE, echo=TRUE, collapse=TRUE}
+slice(calories, 1, .by = c(item, unit)) # The first row of each item and unit
+slice_max(calories, kcal, n = 1, by = c(item, unit)) # The row with the highest kcal
+```
+:::
+
+`slice` keeps rows by their row number. `slice_` have variants that keep rows based on different ways.
+:::
+
+
+
+## Notes on duplicates
+
+
+::: {.columns}
+
+::: {.column .column width="75%"}
+
+#### Duplicates are tricky
+
+- They end up taking a lot of time in the data cleaning pipeline
+- Especially after merging
+- Many analytical mistakes are made because of duplicates (speaking from experience 😨)
+
+#### Crucial questions:
+
+- Which variables identify the unit of observation?
+- And: which row has precedence?
+
+:::
+
+::: {.column .column width="25%"}
+
+
+```{r , echo=FALSE, out.width = "90%", fig.align='center', purl=FALSE}
+include_graphics("../../img/dupontetdupond.jpg")
+```
+
+:::
+
+:::
+
+
+##### Sometimes simply data-driven, sometimes driven by the research question/the knowledge of the data.
+
+<!--::: aside
+To know more: [The Epidemiologist R Handbook, chapter "De-duplication"](https://www.epirhandbook.com/en/new_pages/deduplication.html)
+:::
+-->
+
+
+
+
+# Missing values
+
+## Explicit and implicit missing values
+
+#### **Explicit** missing values
+- indicated with `NA` or `NaN`.
+- test if missing with `is.na()` and `!is.na()`
+- in R, sometimes happens with `NULL` or `Inf`
+- older software has no proper missing-value code: it uses `99` or `-999`.
+
+#### **Implicit** missing values
+- an entire row of data is absent from the data.
+- happens often with merge and pivot.
+
+
+::: aside
+Source: [R4DS, "Missing values"](https://r4ds.hadley.nz/missing-values.html). `NaN`: **N**ot **a** **N**umber. Generally behaves like `NA`, encountered with mathematical operations that have an indeterminate result (`0/0`).
+:::
+
+
+## Explicit and implicit missing values
+
+```{r, eval=TRUE, echo=-1, collapse=TRUE}
+stocks <- tibble(
+    year  = c(2020, 2020, 2020, 2020, 2021, 2021, 2021),
+    qtr   = c(1, 2, 3, 4, 2, 3, 4),
+    price = c(1.88, 0.59, 0.35, NA, 0.92, 0.17, 2.66)
+)
+stocks
+```
+
+❓ Which value is implicitly and explicitly missing?
+
+
+
+
+
+## The problem of missing values: potential bias
+
+
+:::: {.columns}
+
+::: {.column width="48%"}
+
+##### 1. How big is the problem?
+
+  - How many observations and variables are affected?
+  - Is missingness clustered in groups or time periods?
+
+:::
+
+::: {.column width="4%"}
+<div style="border-left: 20px solid #1c6b08ff; height: 100%; margin: 0 auto;"></div>
+:::
+
+::: {.column width="48%"}
+
+##### 2. What do missing values represent?
+
+  - Not collected, not available, not recorded, not applicable?
 
 
 :::
 ::::
 
-
-## Prepare your data in a `pipe`line
-
-- The operator has been now replaced with `|>`.
-
-
-```{r magrittr, echo=FALSE, out.width = "55%", fig.align='center', purl=FALSE}
-include_graphics("../../img/magrittr.png")
-```
-
-
-
-## Prepare your data in a `pipe`line with `dplyr`
-
-
 :::: {.columns}
 
-::: {.column width="50%"}
+::: {.column width="48%"}
+##### 3. What is the missingness mechanism?
 
-```{r, eval = FALSE}
-# Traditional way
-mydf <- data(swiss)
-mydf <- arrange(mydf, -Catholic)
-mydf <- filter(mydf, Education > 8 & Catholic > 90)
-mydf <- mutate(mydf, Country = "Switzerland")
-mydf <- select(mydf, Examination)
+  - **MCAR**: missing completely at random
+  - **MAR**: missing at random
+    <!-- If the probability of being missing is the same for all cases, then the data are said to be missing completely at random (MCAR). The causes of the missing data are unrelated to the data. If the probability of being missing is the same only within groups defined by the observed data, then the data are missing at random (MAR)./ -->
+  - **MNAR**: not missing at random<br><br>
 
-# The pipe way
-mydf <- data(swiss)  |>
-  arrange(-Catholic) |>
-  filter(Education > 8 & Catholic > 90) |>
-  mutate(Country = "Switzerland") |>
-  select(Examination)
+:::
 
+::: {.column width="4%"}
+<div style="border-left: 20px solid #1c6b08ff; height: 100%; margin: 0 auto;"></div>
+:::
+
+::: {.column width="48%"}
+##### 4. What are the risks for your analysis?
+
+  - Missing values can introduce selection bias
+  - Missing values can change distributions, shrink variances, or distort associations
+:::
+::::
+
+::: aside
+📖 [Flexible Imputation of Missing Data, Van Buuren, 2018](https://stefvanbuuren.name/fimd/)
+:::
+
+
+
+## Deal with missing values
+
+:::: {.columns}
+::: {.column width="45%"}
+
+```{r , echo=FALSE, out.width = "100%", fig.align='center', purl=FALSE}
+include_graphics("../../img/missingAlgo_v2.png")
 ```
 
 :::
 
-::: {.column width="50%"}
+::: {.column width="55%"}
+#### Drop observations with missing values:<br>Complete case analysis or listwise deletion
 
-```{r, eval = FALSE}
-# Base-R equivalent
-mydf <- data(swiss)
-mydf <- mydf[order(-mydf$Catholic), ]
-mydf <- mydf[mydf$Education > 8 & mydf$Catholic > 90, ]
-mydf$Country <- "Switzerland"
-mydf <- mydf["Examination"]
-
-
-
-
-
-
-```
+::: {style="font-size: 85%;"}
+  - `na.omit()`
+  - `complete.cases(df)` tests if row is complete (no `NA`)
+  - Many functions do this silently: `lm()` drops missings, `mean()` or `median()` return `NA` unless `na.rm = TRUE`
+:::
 
 :::
 ::::
 
 
-## Further tools for data transformation and cleaning in `dplyr`
+## Deal with missing values
 
-- `forecats` to deal with factors;
-- `lubridate` to deal with dates;
-- `stringr` to deal with strings and regular expressions.
+:::: {.columns}
+::: {.column width="45%"}
+
+```{r , echo=FALSE, out.width = "100%", fig.align='center', purl=FALSE}
+include_graphics("../../img/missingAlgo_v3.png")
+```
+
+:::
+
+::: {.column width="55%"}
+
+#### Imputation: replace missing values with a plausible value.
+
+::: {style="font-size: 85%;"}
+  - Fixed value: `mutate(x = ifelse(is.na(x), 0, x))` or `coalesce(x, 0)`
+  - Value from another column: `coalesce(x, y)` takes the first non-missing value
+  - Summary statistic: `mutate(x = ifelse(is.na(x), median(x, na.rm = TRUE), x))`
+  - Last known value (time series, panels): `tidyr::fill(x)`
+  - Other more advanced imputation methods: model-based imputation
+
+:::
+:::
+::::
 
 
-# The end -> see you in `R`
+
+## Deal with missing values
+
+:::: {.columns}
+
+::: {.column width="45%"}
+
+```{r , echo=FALSE, out.width = "100%", fig.align='center', purl=FALSE}
+include_graphics("../../img/missingAlgo_v4.png")
+```
+
+
+:::
+
+::: {.column width="55%"}
+
+#### Don't do anything and report
+
+::: {style="font-size: 90%;"}
+... in any case, **always report missing values**
+
+:::
+:::
+::::
+
+
+
+## My applied take on missing values
+
+##### 1. **Keep in mind the source of missingness throughout your analysis**
+
+::: {style="font-size: 90%;"}
+  - In my experience, missingness is rarely random.
+  - Common causes: data entry errors, expensive/unused variables, systematic non-response<br>
+:::
+
+##### 2. **Be aware of the trade-off between data loss and bias**
+
+::: {style="font-size: 90%;"}
+  - **Removing variables**: Loss of information. Usually ok, poorer analysis.
+  - **Removing observations**: Risk of sample bias, reduced statistical power. More problematic.<br>
+:::
+
+#####  3. **Choose imputation methods wisely** (or, maybe, *don't bother*)
+
+::: {style="font-size: 90%;"}
+  - Simple imputation (mean/median): acceptable for small amounts of missing data
+  - Multiple/model-based imputation: reserve for cases where data is highly valuable
+  - Document your approach and justify complex methods
+:::
+
+
+## Imputing missing values be like
+```{r echo= FALSE, out.width="100%", fig.align="center"}
+include_graphics("../../img/meme_missingvalues_imputation.jpg")
+```
+
+
+
+# Cleaning to get consistent values
+
+## Additional tools
+
+To do additional cleaning and make each variable consistent, you will need tools that are tailored to the problem at hand:
+
+- For strings and characters, `stringr` (str_replace(), str_detect(), etc.) or trim white spaces with `trimws()`, or convert to lower case with `tolower()`
+- For dates, use `lubridate`
+- For factors, clean levels and labels (see lecture 4)
+- ....
+
+
+
+## Our cleaning checklist
+
+- **Tidy data**
+- **Joins:** different sources are joined
+- **Duplicates:** found, explained, removed
+- **Missing values:** `-99`, `""`, `"NA"` recoded to `NA`
+- **Consistent values:** `"Zürich"` = `"Zurich"`, one unit per variable
+
+
+##
+
+### See you in `R`!
+
+
+##
+
+
 
 <!-- # A primer in linear regression/OLS (if time) -->
 

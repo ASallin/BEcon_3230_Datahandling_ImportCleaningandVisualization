@@ -87,7 +87,7 @@ dataSTAMM1 <- dataSTAMM |>
   mutate(age = JAHR_STA - year(B003_GEBURTSTAG),
     age_group = create_agegroups(age)) |> 
   group_by(JAHR_STA, KANTON, B003_GESCHLECHT_KBEZ, age_group, JAHRESFRANCHISE_E, JAHRESFRANCHISE_K) |> 
-  summarise(ANZAHL_VERS_MONATE = sum(ANZAHL_VERS_MONATE) ,
+  summarize(ANZAHL_VERS_MONATE = sum(ANZAHL_VERS_MONATE) ,
             ANZAHL_VERS = n_distinct(BO_PAR_BOID) )  %>% 
   ungroup()  
 
@@ -109,7 +109,7 @@ dataSTAMM  %>%
   mutate(JAHRESFRANCHISE = ifelse(age <18, JAHRESFRANCHISE_K, JAHRESFRANCHISE_E))  %>% 
   filter(age >18)  %>%
   group_by(JAHRESFRANCHISE, JAHR_STA)  %>% 
-  summarise(meanAge = mean(age))  %>% 
+  summarize(meanAge = mean(age))  %>% 
   ggplot(aes(x = as.factor(JAHRESFRANCHISE), y = meanAge, 
              color = as.factor(JAHR_STA),
              group = as.factor(JAHR_STA))) +

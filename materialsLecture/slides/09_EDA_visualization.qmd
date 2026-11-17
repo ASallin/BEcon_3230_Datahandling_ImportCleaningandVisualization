@@ -232,6 +232,35 @@ j4 <- left_join(df_family_work, df_family_budget, by = "name")  |>
 
 
 
+## A "weird" dataset
+
+  1. Is this dataset tidy?
+  2. Is this dataset long or wide?
+  3. What are the correct arguments to pivot it?
+  4. Is this structure useful?
+
+```{r, echo = F}
+weird_df <- data.frame(last_name = c("Wayne", "Trump", "Marx",
+                                     "Wayne", "Trump", "Marx",
+                                     "Wayne", "Trump", "Marx"),
+                       first_name = c("John", "Melania", "Karl",
+                                      "John", "Melania", "Karl",
+                                      "John", "Melania", "Karl"),
+                       gender = c("male", "female", "male",
+                                  "male", "female", "male",
+                                  "male", "female", "male"),
+                       value = c("150000", "250000", "10000",
+                                 "2000000", "5000000", "NA",
+                                 "50", "25", "NA"),
+                       variable = c("income", "income", "income",
+                                    "assets", "assets", "assets",
+                                    "age", "age", "age"),
+                       stringsAsFactors = FALSE)
+weird_df
+```
+
+
+
 # Today
 
 ## Goals for the next two lectures
@@ -241,6 +270,15 @@ j4 <- left_join(df_family_work, df_family_budget, by = "name")  |>
 3. Visualize data using the grammar of graphics.
 4. Produce effective data visualization.
 
+> "The first thing to do with data is to look at them." (Crowder & Hand)
+
+numbat course
+
+  Their closing checklist (4 points):
+  1. Check types, compare with outside sources, check quality.
+  2. Was the data collected the same way throughout?
+  3. Does the data match its description?
+  4. How were derived variables computed?
 
 # Exploratory Data Analysis and Descriptive Statistics
 
@@ -298,7 +336,7 @@ Source: [R4DS](https://r4ds.hadley.nz/eda), *"Statistics for Public Policy" by J
   - By group (observation categories, e.g. by location, year, etc.)
 
 :::: aside
-`summary()` in `base`; `summarise()` in `tidyverse`; `group_by()` in `tidyverse`; `sapply()`, `apply()`, `lapply()`, etc. in `base`; `skimr` package; etc.
+`summary()` in `base`; `summarize()` in `tidyverse`; `group_by()` in `tidyverse`; `sapply()`, `apply()`, `lapply()`, etc. in `base`; `skimr` package; etc.
 ::::
 
 ## EDA: an example with the `swiss` data
@@ -554,7 +592,7 @@ data("swiss")
 
 # compute summary statistics
 swiss_summary <- swiss |>
-  summarise(avg_education = mean(Education),
+  summarize(avg_education = mean(Education),
             avg_fertility = mean(Fertility),
             N = n()
   )

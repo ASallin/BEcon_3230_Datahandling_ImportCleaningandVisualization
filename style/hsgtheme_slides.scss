@@ -164,3 +164,32 @@ code {
 .inverse .quarto-slide-number {
     display: none;
 }
+
+// Tabsets (::: {.panel-tabset}): make the tabs look clickable.
+// Without this, the theme shows them as plain green links with no
+// sign of which tab is open. Inactive tabs = grey boxes, active tab = green.
+.reveal .panel-tabset [role="tablist"] {
+    border-bottom: 2px solid $hsg-green;
+    padding-left: 0;
+    margin: 0.4em 0 0.6em 0;
+}
+.reveal .panel-tabset [role="tab"] {
+    display: inline-block;
+    padding: 0.15em 0.8em;
+    margin-right: 0.25em;
+    border: 1px solid #c8c8c8;
+    border-bottom: none;
+    border-radius: 6px 6px 0 0;
+    background: #f2f2f2;
+    color: #555555;
+    text-decoration: none;
+}
+.reveal .panel-tabset [role="tab"]:hover {
+    background: #e2f2e9;
+    color: $hsg-green;
+}
+.reveal .panel-tabset [role="tab"][aria-selected="true"] {
+    background: $hsg-green;
+    border-color: $hsg-green;
+    color: #ffffff;
+}
