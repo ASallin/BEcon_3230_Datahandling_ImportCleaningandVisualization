@@ -2566,17 +2566,18 @@ Neuveville        76.9        43.5          17        15     5.16             20
 </section>
 <section id="tibbles-are-a-modern-version-of-data-frames" class="slide level2">
 <h2>Tibbles are a modern version of data frames</h2>
-<p>Similar!</p>
+<p>A tibble is a data frame with a few small changes.</p>
 <ul>
-<li>Tibbles are used in the <code>tidyverse</code> and <code>ggplot2</code> packages.</li>
-<li>Same information as a data frame.</li>
-<li>Small differences in the manipulation and representation of data.</li>
-<li>See <a href="https://jtr13.github.io/cc21fall1/tibble-vs.-dataframe.html#tibble-vs.-dataframe%22"><strong>Tibble vs. DataFrame</strong></a> for more details.</li>
+<li>You will meet tibbles as soon as you use the <code>tidyverse</code>: <code>read_csv()</code>, for example, gives you one.</li>
+<li>A tibble holds the same data as a data frame.</li>
+<li>The differences are in how it prints and in a few details of how it behaves.</li>
+<li>See <a href="https://jtr13.github.io/cc21fall1/tibble-vs.-dataframe.html#tibble-vs.-dataframe"><strong>Tibble vs. DataFrame</strong></a> for more details.</li>
 </ul>
 </section>
-<section id="tibbles-are-a-modern-version-of-data-frames-1" class="slide level2">
-<h2>Tibbles are a modern version of data frames</h2>
+<section id="a-tibble-prints-the-first-10-rows" class="slide level2">
+<h2>A tibble prints the first 10 rows</h2>
 <div class="cell">
+<div class="sourceCode cell-code" id="cb79"><pre class="sourceCode r chunkstyle code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">as_tibble</span>(swiss)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 47 × 6
    Fertility Agriculture Examination Education Catholic Infant.Mortality
@@ -2595,9 +2596,10 @@ Neuveville        76.9        43.5          17        15     5.16             20
 </div>
 </div>
 </section>
-<section id="tibbles-are-a-modern-version-of-data-frames-2" class="slide level2">
-<h2>Tibbles are a modern version of data frames</h2>
+<section id="a-data-frame-prints-every-row" class="slide level2">
+<h2>A data frame prints every row</h2>
 <div class="cell">
+<div class="sourceCode cell-code" id="cb81"><pre class="sourceCode r chunkstyle code-with-copy"><code class="sourceCode r"><span id="cb81-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">as.data.frame</span>(swiss)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>             Fertility Agriculture Examination Education Catholic Infant.Mortality
 Courtelary        80.2        17.0          15        12     9.96             22.2
@@ -2653,21 +2655,68 @@ Rive Gauche       42.8        27.7          22        29    58.33             19
 <section id="tibbles-vs-data-frames" class="slide level2">
 <h2>Tibbles vs data frames</h2>
 <ul>
-<li>Unlike data frames, tibbles don’t show the entire dataset when you print it</li>
-<li>Tibbles cannot access a column when you provide a partial name of the column, but data frames can.</li>
-<li>When you access only one column of a tibble, it will keep the tibble structure. But when you access one column of a data frame, it will become a vector.</li>
-<li>When assigning a new column to a tibble, the input will not be recycled, which means you have to provide an input of the same length of the other columns. But a data frame will recycle the input.</li>
-<li>Tibbles preserve all the variable types, while data frames have the option to convert string into factor. (In older versions of R, data frames will convert string into factor by default)</li>
+<li><strong>Printing:</strong> a tibble shows the first 10 rows and the columns that fit on your screen. A data frame prints everything.</li>
+<li><strong>Shortened column names:</strong> <code>swiss$Fert</code> finds the column <code>Fertility</code> in a data frame. A tibble gives a warning and returns <code>NULL</code>.</li>
+<li><strong>Selecting one column with <code>[ ]</code>:</strong> <code>df[, &quot;x&quot;]</code> gives a vector for a data frame, but a one-column tibble for a tibble. <code>df$x</code> gives a vector for both.</li>
+<li><strong>Adding a column:</strong> a data frame and a tibble do not repeat values in the same way (next slide).</li>
 </ul>
 
+<aside><div>
+<p>Source: https://jtr13.github.io/cc21fall1/tibble-vs.-dataframe.html</p>
+</div></aside></section>
+<section id="tibbles-vs-data-frames-repeating-values" class="slide level2">
+<h2>Tibbles vs data frames: repeating values</h2>
+<p>If a new column is shorter than the data, R may repeat its values to fill the column (<em>“recycling”</em>).</p>
+<div class="columns">
+<div class="column" style="font-size: 70%;">
+<h4 style="margin-top: 0 !important;" id="data-frame">Data frame</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb83"><pre class="sourceCode r chunkstyle code-with-copy"><code class="sourceCode r"><span id="cb83-1"><a href aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">id =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>)</span>
+<span id="cb83-2"><a href aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>country <span class="ot">&lt;-</span> <span class="st">&quot;CH&quot;</span></span>
+<span id="cb83-3"><a href aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>group <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;b&quot;</span>)</span>
+<span id="cb83-4"><a href aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  id country group
+1  1      CH     a
+2  2      CH     b
+3  3      CH     a
+4  4      CH     b</code></pre>
+</div>
+</div>
+</div><div class="column" style="font-size: 70%;">
+<h4 style="margin-top: 0 !important;" id="tibble">Tibble</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb85"><pre class="sourceCode r chunkstyle code-with-copy"><code class="sourceCode r"><span id="cb85-1"><a href aria-hidden="true" tabindex="-1"></a>tb <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">id =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>)</span>
+<span id="cb85-2"><a href aria-hidden="true" tabindex="-1"></a>tb<span class="sc">$</span>country <span class="ot">&lt;-</span> <span class="st">&quot;CH&quot;</span></span>
+<span id="cb85-3"><a href aria-hidden="true" tabindex="-1"></a>tb<span class="sc">$</span>group <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;b&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-error">
+<pre><code>Error in `$&lt;-`:
+! Assigned data `c(&quot;a&quot;, &quot;b&quot;)` must be compatible with existing data.
+✖ Existing data has 4 rows.
+✖ Assigned data has 2 rows.
+ℹ Only vectors of size 1 are recycled.
+Caused by error in `vectbl_recycle_rhs_rows()`:
+! Can&#39;t recycle input of size 2 to size 4.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb87"><pre class="sourceCode r chunkstyle code-with-copy"><code class="sourceCode r"><span id="cb87-1"><a href aria-hidden="true" tabindex="-1"></a>tb</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 2
+     id country
+  &lt;int&gt; &lt;chr&gt;  
+1     1 CH     
+2     2 CH     
+3     3 CH     
+4     4 CH     </code></pre>
+</div>
+</div>
+</div></div>
+<h4 id="a-tibble-only-repeats-a-single-value.-a-data-frame-also-repeats-longer-inputs-if-they-fit-evenly-with-no-warning.">A tibble only repeats a single value. A data frame also repeats longer inputs if they fit evenly, with no warning.</h4>
 <div class="quarto-auto-generated-content">
 <div class="footer footer-default">
 
 </div>
 </div>
-<aside><div>
-<p>Source: https://jtr13.github.io/cc21fall1/tibble-vs.-dataframe.html</p>
-</div></aside></section></section>
+</section></section>
     </div>
   </div>
 
