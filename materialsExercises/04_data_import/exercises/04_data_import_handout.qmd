@@ -1,15 +1,26 @@
 ---
 title: 'Data Handling: Import, Cleaning and Visualisation'
-subtitle: 'Exercise 4: Data Import and Data Preparation/Manipulation'
-author: "Aurélien Sallin (lecturer) and Andrea Burro (class tutor)"
+subtitle: 'Exercise/Workshop 4: Data import and data preparation'
+author:
+  - "Dr. Aurélien Sallin (Lecturer)"
+  - "Andrea Burro (Tutor)"
+date: "2026-11-12"
+date-format: "D MMMM YYYY"
 format:
   html:
-    theme: ../../../style/hsgtheme.scss
+    theme: ../../../style/hsgtheme_exercises.scss
     embed-resources: true
     self-contained: true
     self-contained-math: true
+    toc: true
+    toc-depth: 2
+  pdf:
+    toc: true
+    toc-depth: 2
+    geometry: margin=2.2cm
+    fontsize: 10pt
+    code-overflow: wrap
 highlight-style: dracula
-bibliography: ../../../references/datahandling.bib
 ---
 
 ```{r}
@@ -17,23 +28,232 @@ bibliography: ../../../references/datahandling.bib
 #| include: false
 options(width = 100)
 library(knitr)
-library(bookdown)
-library(tidyverse)
+# Run the chunks from the folder that contains data/, so that paths written as
+# "data/..." work both in this repository and in a student's own project folder.
+knitr::opts_knit$set(root.dir = if (dir.exists("data")) "." else "..")
 ```
 
+**All course material:**
+<https://github.com/ASallin/BEcon_3230_Datahandling_ImportCleaningandVisualization>
 
-## Exercise A
-Read Section 11.-11.4 in https://r4ds.had.co.nz/data-import.html and solve the problem posed in Section 11.4.2 ("Problems") by going step-by-step through the instructions. Hint: You will need to have the `readr` package installed and loaded (should be also installed/loaded with `tidyverse`).
+# Before we start
 
+These exercises continue with data import. We look at a file where the parser guesses wrong, at
+an Excel file with a typo hidden in one cell, and at JSON data that we load straight from the
+web.
 
-## Exercise B
-1. Download the file `airquality_data.xlsx` posted on Canvas and save it in your `r_course/data` folder.
-2. The file is a dataset that contains the New York air quality measurements. Familiarize with the data using `print`. Do you think the dataset has problems? (Hint: look at the `type` of each column).
-3. Fix the problem identified in point 2. Save the new dataset as airquality_data_fixed.xlsx using `write_xlsx` from `tidyverse/writexl`.
-4. Write your solution down in an R-Script and document in this script why certain problems occur and how you solved them (using comments).
+Write your code in an R script saved in `2026_Data_Handling/exercises/code`, for example
+`exercise_04.R`. Open your RStudio project first, so that every path starting with `data/`
+works. Type the code rather than copying it, and read every error message. If something does
+not work, raise your hand.
 
+| Exercise | What we do |
+|------|------------------------------------------------|
+| 1 | When the parser guesses wrong: `challenge.csv` |
+| 2 | Importing an Excel file and finding the problem |
+| 3 | Fixing the problem and writing the data back to disk |
+| 4 | JSON from the web: import without clicking and saving |
+| 5 | From nested JSON to a rectangular table |
 
-## Exercise C
-1. Visit the EU Open Data Portal on COVID cases.
-2. Download the "COVID-19 Cases Worldwide" data in JSON format. However, do not download these data manually (i.e., do not click-and-save). Instead, load the data directly into RStudio from the web. Hint 1: consider the `jsonlite` package. Hint2: the direct link to the JSON file (https://opendata.ecdc.europa.eu/covid19/casedistribution/json/) may be helpful.
-3. Reformat the JSON data that you have imported into RStudio to a rectangular format (such that each record is represented as a row and each field as a column).
+**The data.** We use one file, `airquality_data.xlsx`. Download it from the course repository,
+folder `materialsExercises/04_data_import/data`, and save it in your own `data` folder. The
+other two data sets come with R (`challenge.csv`, a file shipped with the `readr` package) and
+from the web (Exercise 4).
+
+The Excel file contains the New York air quality measurements from May to September 1973, one
+row per day, with ozone, solar radiation, wind and temperature. It is the `airquality` data
+set that ships with R, to which we added a mistake.
+
+# Exercise 1: when the parser guesses wrong
+
+`readr` guesses the type of every column from the values it sees. Most of the time that works.
+In this exercise we look at what happens when it does not. The example file `challenge.csv`
+is part of the `readr` package, and the chapter on data import in R for Data Science
+(<https://r4ds.had.co.nz/data-import.html>, Sections 11.1 to 11.4) is built on it.
+
+1. Import the file and look at what you got:
+
+```{r eval=FALSE, purl=FALSE}
+library(readr)
+
+challenge <- read_csv(readr_example("challenge.csv"))
+head(challenge)
+spec(challenge)
+```
+
+   How many rows and columns are there, and which type did `readr` assign to `x` and to `y`?
+
+2. Look at the rows around the first thousand, where the content of the columns changes:
+
+```{r eval=FALSE, purl=FALSE}
+challenge$x[c(1:5, 998:1003)]
+challenge$y[c(1:5, 998:1003)]
+```
+
+   What do the first rows of `y` contain, and what do the later ones contain? Explain why a
+   parser that looks only at the beginning of a file could get the type of `y` wrong.
+
+3. Reproduce the problem. Tell `readr` that `x` is a double and `y` is a logical, and ask for
+   the problems:
+
+```{r eval=FALSE, purl=FALSE}
+challenge_wrong <- read_csv(
+  readr_example("challenge.csv"),
+  col_types = cols(x = col_double(), y = col_logical())
+)
+problems(challenge_wrong)
+```
+
+   How many problems are reported? Read the columns `row`, `expected` and `actual`: what did
+   the parser expect, and what did it find?
+
+4. Now state the correct type for `y` yourself, and check the result:
+
+```{r eval=FALSE, purl=FALSE}
+challenge_fixed <- read_csv(
+  readr_example("challenge.csv"),
+  col_types = cols(x = col_double(), y = col_date())
+)
+tail(challenge_fixed)
+sum(is.na(challenge_fixed$y))
+```
+
+5. In older versions of `readr` the default call in question 1 produced the problem of
+   question 3. What does your version do, and why does this not make the exercise useless?
+
+# Exercise 2: importing an Excel file
+
+1. Import the file with `read_excel()` from the `readxl` package:
+
+```{r eval=FALSE, purl=FALSE}
+library(readxl)
+
+airquality_data <- read_excel("data/airquality_data.xlsx")
+```
+
+2. Familiarise yourself with the data with `print()`, `dim()` and `str()`. How many rows and
+   columns are there, and what do the columns measure?
+
+3. Look at the `type` of each column in the output of `print()`. One column has a type that
+   does not fit what it contains. Which one, and what type would you expect?
+
+4. Count the missing values in every column:
+
+```{r eval=FALSE, purl=FALSE}
+colSums(is.na(airquality_data))
+```
+
+   Which columns have missing values? Is a missing value in `Ozone` a problem in the same
+   sense as the problem in question 3?
+
+5. Find the cause of the wrong type. Look at the distinct values of the column:
+
+```{r eval=FALSE, purl=FALSE}
+sort(unique(airquality_data$Month))
+```
+
+   Which value does not belong, and in which row is it? Why did one cell change the type of the
+   whole column?
+
+# Exercise 3: fixing the problem and writing the data back
+
+1. Replace the wrong value with the number it stands for. Do it in a copy of the data, so that
+   you can always go back to the original:
+
+```{r eval=FALSE, purl=FALSE}
+airquality_fixed <- airquality_data
+airquality_fixed$Month[airquality_fixed$Month == "five"] <- "5"
+```
+
+   Print the column again. Is the problem solved?
+
+2. The column is still text. Convert it to a number and check the type:
+
+```{r eval=FALSE, purl=FALSE}
+airquality_fixed$Month <- as.numeric(airquality_fixed$Month)
+str(airquality_fixed)
+```
+
+   What would `as.numeric()` have done to the cell `"five"` if you had skipped question 1? Why
+   is that worse than the error we started from?
+
+3. Check that the repair worked: how many observations are there per month, and how many days
+   does each of the five months have in reality?
+
+4. Save the repaired data set as `airquality_data_fixed.xlsx` with `write_xlsx()` from the
+   `writexl` package, and open the file in Excel to look at the result.
+
+5. Write the whole solution in an R script. Document in comments why the problem occurs and
+   how you solved it.
+
+6. Could you have fixed the problem at import, without touching the data afterwards? Look at
+   the argument `col_types` of `read_excel()`. What happens with `col_types = "numeric"` for
+   `Month`, and what would you have to check afterwards?
+
+# Exercise 4: JSON from the web
+
+JSON is a format for data that is not rectangular, and many web services deliver it. We use
+the data of the European Centre for Disease Prevention and Control (ECDC) on COVID-19 cases
+worldwide, published through the EU Open Data Portal.
+
+1. Visit the EU Open Data Portal at <https://data.europa.eu/> and find the data set "COVID-19
+   Cases Worldwide". Which formats does the portal offer?
+
+2. Download the data in JSON format, but do not click and save. Load the data directly into R
+   from the web. The direct link to the JSON file is
+   <https://opendata.ecdc.europa.eu/covid19/casedistribution/json/>. The package to use is
+   `jsonlite`:
+
+```{r eval=FALSE, purl=FALSE}
+library(jsonlite)
+
+url_covid19 <- "https://opendata.ecdc.europa.eu/covid19/casedistribution/json/"
+data_json <- fromJSON(txt = url_covid19)
+```
+
+3. Why is it better to read data from a URL in the script than to download a file by hand? What
+   can go wrong with this approach?
+
+# Exercise 5: from nested JSON to a rectangular table
+
+1. Look at the object `fromJSON()` returned, with `class()`, `names()` and `str(max.level =
+   1)`. Is it a data frame?
+
+2. Extract the data frame from the list, once by position and once by name:
+
+```{r eval=FALSE, purl=FALSE}
+covid <- data_json[[1]]
+covid <- data_json$records
+```
+
+   Which of the two is more robust if the provider adds a second element to the list?
+
+3. Check that the result is rectangular: each record is a row, each field a column. How many
+   rows and columns are there, and which type does each column have?
+
+4. The columns `day`, `month` and `year` are text. Build a proper date from `dateRep` with
+   `as.Date()` and find out which period the data covers. Which format string do you need?
+
+5. Which country has the largest number of reported cases on a single day, and on which day?
+   Use `which.max()`.
+
+# Additional exercises for training
+
+::: {.callout-note}
+Exercise 6 uses what we did in Exercises 2 and 3 on another data set. Do it at home, the
+solution is published with the rest.
+:::
+
+## Exercise 6: a second Excel file
+
+1. Write a function `check_types(df)` that takes a data frame and returns the names of the
+   columns of type character.
+
+2. Apply it to `airquality_data`. Which columns does it report, and which of them are
+   expected to be text?
+
+3. Extend the function so that it also reports, for each text column, the values that cannot
+   be converted to a number. Hint: `suppressWarnings(as.numeric(x))` returns `NA` for those
+   values, and `is.na()` finds them.
+
+4. Why is a check like this worth writing as a function rather than running by hand once?
