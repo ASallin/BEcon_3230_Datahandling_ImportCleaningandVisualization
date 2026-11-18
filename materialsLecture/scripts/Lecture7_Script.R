@@ -5,7 +5,7 @@
 # In the first part, it prepares a messy data frame for analysis (analytical
 # data frame). In the second part, the ideas of reshaping and stacking
 # are illustrated with an example.
-# 
+#
 # A. Sallin, St. Gallen, 2024
 #######################################################################
 
@@ -13,133 +13,130 @@
 # Set up ------------------------------------------------------------------
 
 # Load packages (install if needed)
-library(tidyverse) # tidyverse contains dplyr, readr, tibble, and all other packages from the tidyverse universe. 
+library(tidyverse) # tidyverse contains dplyr, readr, tibble, and all other packages from the tidyverse universe.
 
-# Set fix variables for PATH (for each student different)
-INPUT_PATH <- "C:/Users/aurel/datahandling-lecture2023/data"
-OUTPUT_FILE <- ""
 
 
+# Load data ---------------------------------
 
-# Create messy data frame -------------------------------------------------
+# load example data
+df <- data.frame(
+    Student = c("Johannes", "Hannah", "Pam", "Igor", "Johannes"),
+    ID = c(1,2,3,4,1),
+    Gender = c("Male", "Female", "Female", "Male", "Male"),
+    Year = c(2026, 2026, 2026, 2026, 2025),
+    Econ = c(5.0, 5.25, 4.0, 5.25, 3.0),
+    DataHandling = c(4.0, 4.5, 5.5, 5.0, 4.0),
+    Management = c(5.5, 6.0, 4.75, 6.0, 2.5)
+)
 
-# We create a fake, messy dataframe for exercise purposes
-messy_df <- data.frame(last_name = c("Wayne", "Trump", "Karl Marx"),
-                       first_name = c("John", "Melania", ""),
-                       gender = c("male", "female", "Man"),
-                       date = c("2018-11-15", "2018.11.01", "2018/11/02"),
-                       income = c("150,000", "250000", "10000"), stringsAsFactors = FALSE)
+# inspect data
+df
 
-messy_df
-str(messy_df)
 
 
+# Selecting subsets (select columns) ------------------------------------------
 
+df_anon <- df |>
+    select(ID, Gender, Econ, DataHandling, Management, Year)
+df_anon
 
 
 
+# Arrange ---------------------------------
+df_anon |>
+    arrange(Econ)
 
-## define, clean categorical variables ------------------------------------------------------------------------
-messy_df$gender <- as.factor(messy_df$gender)
-messy_df$gender
-levels(messy_df$gender)
-# Problems?
+df_anon |>
+    arrange(Econ)
 
+df_anon |>
+    arrange(Management, desc = T)
 
 
 
+# Filtering datasets (filter rows based on variable values) ------------------------------------------
 
+# one filtering condition
+df_anon |>
+    filter(Gender == "Male")
 
+# several filtering conditions
+df_anon |>
+    filter(
+        Gender == "Male",
+        Year > 2025
+    )
 
+# Let's remove failing year
+df_anon <- df_anon |>
+    filter(Year == 2026)
 
 
 
 
-## standardize categories ------------------------------------------------------------------------
-messy_df$gender[messy_df$gender == "Man"] <- "male"
-messy_df$gender
+# Mutating datasets (add/change values/columns) ------------------------------------------
 
-levels(messy_df$gender)[3] <- "male"
+# Recode gender
+df_anon <- df_anon |>
+    mutate(
+        Female = if_else(Gender == "Male", 0, 1),
+        Avg = (Econ + DataHandling + Management) / 3
+    )
+df_anon
 
+# use across
+df_anon |>
+    mutate(across(c(Econ, DataHandling), function(x) {
+        x + 0.1
+    }))
 
-## tidyverse approach
-messy_df$gender <- fct_recode(messy_df$gender, "male" = "Man")
-messy_df$gender
+df_anon |>
+    mutate(across(c(everything()), function(x) {
+        as.character(x)
+    }))
 
 
 
 
+# Summary statistics and aggregation -------------------------------------------
 
+# generate a simple descriptive statistics table
+df_anon  |>
+    summarize(
+        mean = mean(Econ),
+        standard_deviation = sd(Econ),
+        median = median(Econ),
+        N = n()
+)
 
 
+# summarize by groups of observations ("split-apply-combine")
 
-## numeric/integer values ------------------------------------------------------------------------
-as.integer(messy_df$income)
-# Problem?
-
-
-
-
-
-
-
-
-## ------------------------------------------------------------------------
-messy_df$income <- str_replace(messy_df$income, 
-                               pattern = ",", 
-                               replacement = "")
-messy_df$income <- as.integer(messy_df$income)
-
-
-
-## clean up variables  ------------------------------------------------------------------------
-messy_df
-# remaining problems?
-
-
-
-
-
-
-
-## split strings, add new variables
-splitnames <- str_split(messy_df$last_name, 
-                        pattern = " ", 
-                        simplify = TRUE)
-splitnames
-
-## find rows with problematic cases, add correct first name, 
-problem_cases <- messy_df$first_name == ""
-messy_df$first_name[problem_cases] <- splitnames[problem_cases, 1]
-
-
-#last name
-messy_df$last_name[problem_cases] <- splitnames[problem_cases, 2]
-messy_df
-
-
-
-
-
-
-
-##  parse dates correctly -------------------------------------------------------
-library(lubridate)
-
-
-## ------------------------------------------------------------------------
-messy_df$date <- ymd(messy_df$date)
-
-
-## ------------------------------------------------------------------------
-messy_df
-
-
-## ------------------------------------------------------------------------
-str(messy_df)
-
-
-
+# split into gender-groups
+# apply statistics functions, and combine results in one table
+
+by_gender <- df_anon |>
+    group_by(Female) |>
+    summarize(
+        mean = mean(Econ),
+        standard_deviation = sd(Econ),
+        median = median(Econ),
+        N = n()
+    )
+
+df_anon |>
+    group_by(Female) |>
+    summarize(across(
+        .cols = c(Econ, Management),
+        .fns = list(mean = mean, standard_deviation = sd, median = median)
+    ))
+
+
+# Very handy: count ---------------------------------
+
+df_anon |>
+    count(Female, Year)
 
 
 
@@ -164,12 +161,15 @@ df <- data.frame(
 df
 
 
+
 # reshape from wide to long
-tidydf <- pivot_longer(data = df, 
-                       cols = c(Econ, DataHandling, Management),
-                    #    cols = -Student,
-                       names_to = "Subject",
-                       values_to = "Grade")
+tidydf <- pivot_longer(
+    data = df,
+    cols = c(Econ, DataHandling, Management),
+    # cols = -Student,
+    names_to = "Subject",
+    values_to = "Grade"
+)
 
 # inspect result
 tidydf
@@ -181,13 +181,15 @@ tidydf
 
 # Wide to Long --------------------------------------------
 
-
 ## initialize and inspect a wide example data-frame
-wide_df <- data.frame(last_name = c("Wayne", "Trump", "Marx"),
-                      first_name = c("John", "Melania", "Karl"),
-                      gender = c("male", "female", "male"),
-                      income.2018 = c("150000", "250000", "10000"),
-                      income.2017 = c( "140000", "230000", "15000"),stringsAsFactors = FALSE)
+wide_df <- data.frame(
+    last_name = c("Wayne", "Trump", "Marx"),
+    first_name = c("John", "Melania", "Karl"),
+    gender = c("male", "female", "male"),
+    income.2018 = c("150000", "250000", "10000"),
+    income.2017 = c("140000", "230000", "15000"),
+    stringsAsFactors = FALSE
+)
 wide_df
 
 
@@ -201,11 +203,14 @@ wide_df
 
 
 # transform from wide to long
-long_df <- pivot_longer(wide_df, 
-                        c(income.2018, income.2017),
-                        names_to = "year",
-                        names_prefix = "income.",
-                        values_to = "income")
+long_df <- pivot_longer(
+    wide_df,
+    c(income.2018, income.2017),
+    names_to = "year",
+    names_prefix = "income.",
+    values_to = "income"
+)
+
 # inspect the result
 long_df
 
@@ -219,22 +224,23 @@ long_df
 # Long to wide -------------------------------------------
 
 # initiate a weird long data.frame
-weird_df <- data.frame(last_name = c("Wayne", "Trump", "Marx",
-                                     "Wayne", "Trump", "Marx",
-                                     "Wayne", "Trump", "Marx"),
-                       first_name = c("John", "Melania", "Karl",
-                                      "John", "Melania", "Karl",
-                                      "John", "Melania", "Karl"),
-                       gender = c("male", "female", "male",
-                                  "male", "female", "male",
-                                  "male", "female", "male"),
-                       value = c("150000", "250000", "10000",
-                                 "2000000", "5000000", "NA",
-                                 "50", "25", "NA"),
-                       variable = c("income", "income", "income",
-                                    "assets", "assets", "assets",
-                                    "age", "age", "age"),
-                       stringsAsFactors = FALSE)
+weird_df <- data.frame(
+    last_name = c("Wayne", "Trump", "Marx",
+                  "Wayne", "Trump", "Marx",
+                  "Wayne", "Trump", "Marx"),
+    first_name = c("John", "Melania", "Karl",
+                    "John", "Melania", "Karl",
+                    "John", "Melania", "Karl"),
+    gender = c("male", "female", "male",
+                "male", "female", "male",
+                "male", "female", "male"),
+    value = c("150000", "250000", "10000",
+              "2000000", "5000000", "NA",
+              "50", "25", "NA"),
+    variable = c("income", "income", "income",
+                 "assets", "assets", "assets",
+                 "age", "age", "age"),
+    stringsAsFactors = FALSE)
 
 
 # inspect it, where are the problems?
@@ -289,3 +295,4 @@ combined_df1 <- rbind(subset1, subset2, subset3) # error
 combined_df
 
 
+# The end  ---------------------------------

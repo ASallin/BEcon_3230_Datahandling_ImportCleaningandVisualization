@@ -47,6 +47,13 @@ project:
     - materialsExercises/03_programming_data/data/Air_Quality.xml
     - materialsExercises/03_programming_data/data/temp_anomaly.txt
     - materialsLecture/slides/html/06_update_exam_groupproject.html
+    - materialsLecture/slides/html/07_data_preparation.html
+    - materialsLecture/scripts/Lecture7_Script.R
+    - materialsExercises/04_data_import/exercises/04_data_import_handout.html
+    - materialsExercises/04_data_import/exercises/04_data_import_sample_solution.html
+    - materialsExercises/04_data_import/data/airquality_data.xlsx
+    - materialsLecture/slides/html/08_data_preparation_II.html
+    - materialsLecture/scripts/Lecture8_Script.R
 
 website:
   title: "Data Handling 2026"

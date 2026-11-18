@@ -1757,7 +1757,7 @@ tidy_grades <- grades_data %>%
 <h4 id="duplicates-are-tricky">Duplicates are tricky</h4>
 <ul>
 <li>They end up taking a lot of time in the data cleaning pipeline</li>
-<li>Especially after merging</li>
+<li>Especially after merging (one to many)</li>
 <li>Many analytical mistakes are made because of duplicates (speaking from experience 😨)</li>
 </ul>
 <h4 id="crucial-questions">Crucial questions:</h4>
@@ -1794,12 +1794,12 @@ To know more: [The Epidemiologist R Handbook, chapter "De-duplication"](https://
 <li>indicated with <code>NA</code> or <code>NaN</code>.</li>
 <li>test if missing with <code>is.na()</code> and <code>!is.na()</code></li>
 <li>in R, sometimes happens with <code>NULL</code> or <code>Inf</code></li>
-<li>older software has no proper missing-value code: it uses <code>99</code> or <code>-999</code>.</li>
+<li>older software has no proper missing-value code: it uses <code>99</code> or <code>-999</code></li>
 </ul>
 <h4 id="implicit-missing-values"><strong>Implicit</strong> missing values</h4>
 <ul>
-<li>an entire row of data is absent from the data.</li>
-<li>happens often with merge and pivot.</li>
+<li>an entire row of data is absent from the data</li>
+<li>happens often with merge and pivot</li>
 </ul>
 
 <aside><div>

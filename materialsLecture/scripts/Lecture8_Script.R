@@ -1,8 +1,8 @@
-#######################################################################
+######################################################################
 # Project Lecture 8: Data Analytics
 #
 # This script is the main script for lecture 8 of Data Handling.
-# 
+#
 # A. Sallin, St. Gallen, 2025
 #######################################################################
 
@@ -10,11 +10,11 @@
 # Set up ------------------------------------------------------------------
 
 # Load packages (install if needed)
-library(tidyverse) # tidyverse contains dplyr, readr, tibble, and all other packages from the tidyverse universe. 
+library(tidyverse) # tidyverse contains dplyr, readr, tibble, and all other packages from the tidyverse universe.
 
 
 # Initiate data frame on persons' spending
-df_c <- data.frame(id = c(1:3,1:3,5),
+df_c <- data.frame(id = c(1:3, 1:3, 5),
                    money_spent= c(1000, 2000, 6000, 1500, 3000, 5500,3000),
                    currency = c("CHF", "CHF", "USD", "EUR", "CHF", "USD", "CAD"),
                    year = c(2017, 2017, 2017, 2018, 2018, 2018, 2018))
@@ -50,17 +50,25 @@ ij <- inner_join(df_p, df_c, by = "id")
 ij <- merge(df_p, df_c, by = "id")
 ij
 
-# Anti join
-aj <- anti_join(df_p, df_c, by = "id")
+# Filtering joins
+aj1 <- anti_join(df_p, df_c, by = "id")
+aj1
 sj <- semi_join(df_p, df_c, by = "id")
+sj
+aj2 <- anti_join(df_c, df_p, by = "id")
+aj2
+
 
 # Cross join (not seen in the course)
+# combines every row of x with every row of y
+# uses no key, and gives nrow(x) × nrow(y) rows (the "Cartesian product")
 merge(df_p, df_c, by = NULL)
 cross_join(df_p, df_c)
 
 
 
 # Check the many-to-many and one-to-many behavior -----------------------------------------
+# Self-study !!
 
 # Dataset 1: People (with duplicates - person appears multiple times)
 people_mtm <- data.frame(
@@ -78,13 +86,15 @@ transactions_mtm <- data.frame(
 )
 transactions_mtm
 
-# Example 1: MANY-TO-MANY (MTM) 
-# Problem: Multiple rows in both datasets with same key. Many-to-many join creates 
+# Example 1: MANY-TO-MANY (MTM)
+# Problem: Multiple rows in both datasets with same key.
+# Many-to-many join creates every combination of matching rows.
+# Not meaningful
 mtm_result <- left_join(people_mtm, transactions_mtm, by = "id")
-mtm_result # print
+mtm_result
 
-# We would need an additional unique identifier to properly link the datasets, 
-# for instance the year. 
+# We would need an additional unique identifier to properly link the datasets,
+# for instance the year.
 
 
 # Example 2: ONE-TO-MANY (OTM) - Clean and predictable
@@ -102,7 +112,7 @@ people_otm
 transactions_otm <- data.frame(
   id = c(1, 1, 1, 2, 2, 3),  # Anna has 3 transactions, Bob has 2, Claire has 1
   amount = c(100, 200, 50, 150, 300, 75),
-  date = c("2024-01-01", "2024-01-15", "2024-02-01", 
+  date = c("2024-01-01", "2024-01-15", "2024-02-01",
            "2024-01-10", "2024-01-20", "2024-02-05")
 )
 transactions_otm
@@ -113,137 +123,327 @@ otm_result <- left_join(people_otm, transactions_otm, by = "id")
 
 
 
-# Data summary ------------------------------------------------------------
 
-# Re-Initiate data frame on persons' spending
-df_c <- data.frame(id = c(1:3,1:3,4, 5),
-                   money_spent= c(1000, 2000, 6000, 1500, 3000, 5500, 3000, 4000),
-                   currency = c("CHF", "CHF", "USD", "EUR", "CHF", "USD", "CAD", "CAD"),
-                   year = c(2017, 2017, 2017, 2018, 2018, 2018, 2018, 2019))
-df_c
+################################################################
+# BREAK --------------------------
+################################################################
 
-# Re-Initiate data frame on persons' characteristics
-df_p <- data.frame(id = 1:5,
-                   first_name = c("Anna", "Betty", "Claire", "Diane", "Tom"),
-                   profession = c("Economist", "Data Scientist",
-                                  "Data Scientist", "Economist", "Ingeneer"))
-df_p
+# Duplicates ---------------------------------
 
-# Merge
-df_merged <- left_join(df_c, df_p, by = "id")
+orders <- data.frame(
+    order_id = rep(2031, 6),
+    item_id = c(1001, 2014, 3001, 3001, 3026, 3022),
+    item = c(
+        "Moitié-Moitié Fondue",
+        "Fendant Wine",
+        "Dessert: meringues + dbl",
+        "Dessert: meringues + dbl",
+        "Water",
+        "Espresso"
+    ),
+    quantity = c(1, 1, 1, 1, 1, 1),
+    price_chf = c(24.00, 38.00, 21.00, 21.00, 3.00, 4.50)
+)
+orders
 
-# summary statistics for each variable
-summary(df_merged)
-
-# cross-tabulation (categorical variables)
-table(df_merged$year)
-table(df_merged$year, df_merged$profession)
-
-# Use "count" from dplyr
-count(df_merged, year)
-
-count(df_merged, year) |> 
-  mutate(pct = n/sum(n))
-
-
-
-# Selecting subsets (select columns) ------------------------------------------
-
-df_selection <- select(df_merged, id, year, money_spent, currency)
-df_selection
+calories <- data.frame(
+    item = c(
+        "Moitié-Moitié Fondue",
+        "Moitié-Moitié Fondue",
+        "Fendant",
+        "Fendant",
+        "Meringues + dbl cream"
+    ),
+    unit = c("per 100 g", "per portion", "per dl", "per dl", "per portion"),
+    kcal = c(380, 950, 70, 85, 725)
+)
+calories
 
 
+# # Case 1: trivial ---------------------------------
 
-# Filtering datasets (filter rows based on variable values) ------------------------------------------
+# Always count rows to keep tracks
+nrow(orders)
 
-# one filtering condition
-filter(df_selection, year == 2018)
+# Using base R's duplicated
+duplicated(orders)
+orders[duplicated(orders), ]
 
-# several filtering conditions
-filter(df_selection, 
-       year == 2018, 
-       money_spent < 5000, 
-       currency=="EUR")
+# Remove using distinct
+orders_clean <- distinct(orders)
+orders_clean <- unique(orders) # base R
+orders_clean
 
-
-
-
-
-# Mutating datasets (add/change values/columns) ------------------------------------------
-
-# initiate an exchange-rate data frame
-exchange_rates <- data.frame(exchange_rate= c(0.9, 1, 1.2, 1.4),
-                             currency=c("USD", "CHF", "EUR", "CAD"), 
-                             stringsAsFactors = FALSE)
-
-# join the exchange-rate with the main dataset
-df_selection <- left_join(df_selection, exchange_rates, by = "currency")
-
-# add the new variable with money spent in CHF
-df_mutated <- mutate(df_selection, 
-                     money_spent_chf = money_spent * exchange_rate)
-df_mutated
-
-# use across 
-df_mutated %>%
-  mutate(across(c(money_spent, money_spent_chf), function(x) {x-10}))
-
-df_mutated %>%
-  mutate(across(c(everything()), function(x) {as.character(x)}))
+# Check again
+stopifnot(!anyDuplicated(orders_clean))
+!any(duplicated(orders_clean)) # Given a set of logical vectors, is at least one of the values true?
+nrow(orders_clean) - nrow(orders)
+count(orders_clean, order_id, item_id) |>
+    filter(n > 1)
 
 
 
-# Summary statistics and aggregation -------------------------------------------
+# Case 2: less trivial ---------------------------------
 
-# generate a simple descriptive statistics table
-summarize(df_mutated,
-          mean = mean(money_spent_chf),
-          standard_deviation = sd(money_spent_chf),
-          median = median(money_spent_chf),
-          N = n())
+# Check duplicates
+duplicated(calories)
 
+# What makes a dup a dup? The key
+count(calories, item, unit)
 
-# summarize by groups of observations ("split-apply-combine")
+# Check the rows
+calories |>
+    group_by(item, unit) |>
+    filter(n() > 1)
 
-# split into year-groups
-# apply statistics functions, and combine results in one table
+# Keep one row
+slice(calories, 1, .by = c(item, unit)) # The first row of each item and unit
+slice_max(calories, kcal, n = 1, by = c(item, unit)) # The row with the highest kcal
 
-by_year <- df_mutated |> 
-  group_by(year) |> 
-  summarize(mean = mean(money_spent_chf),
-            standard_deviation = sd(money_spent_chf),
-            median = median(money_spent_chf),
-            N = n()) 
+# Equivalent:
+calories |>
+    group_by(item, unit) |>
+    filter(n() > 1)
 
-df_mutated |> 
-  group_by(year) |> 
-  summarize(across(.cols = c(money_spent_chf),
-                   .fns = list(mean = mean, 
-                               standard_deviation = sd, 
-                               median = median)))
+# More on distinct
+calories |>
+    distinct(item)
 
+calories |>
+    distinct(item, unit)
 
-# Use skimr
-library(skimr) # install if needed
-skim(df_mutated)
-
-
-# use summarytools
-summarytools::descr(df_mutated)
-summarytools::freq(df_mutated)
-summarytools::dfSummary(df_mutated)
+# .keep_all = TRUE: keep all columns, first row per item and unit
+calories |>
+    distinct(item, unit, .keep_all = TRUE)
 
 
 
-# apply-type functions for data summaries
+# Missing values ---------------------------------
 
-# load data
-data("swiss")
+data_missing <- tibble(
+    Gender = c("Male", "Female", "Male", "Female", "Male", "Female"),
+    Participation = c(1, 0, 1, NA, 1, 1),
+    Wage = c(30, NA, 35, 28, 40, NA)
+)
+data_missing
+# Row 2: no wage because she does not work (Participation = 0).
+# This wage is not unknown, it is NOT APPLICABLE. Should we impute it?
+# Row 6: she works, but did not report her wage. This one is really missing.
 
-# compute the mean for each variable (column)
-apply(swiss, 1, mean)
-apply(swiss, 2, mean)
+
+# Complete case analysis ---------------------------------
+complete_case <- na.omit(data_missing)
+complete_case
+
+# Drop only the rows where the variable you analyze is missing
+complete_wage <- data_missing |>
+    filter(!is.na(Wage))
+complete_wage
+
+
+# Imputation ---------------------------------
+# Wage is missing only for women: probably not MCAR.
+mean_impute <- data_missing |>
+    mutate(
+        Wage = if_else(is.na(Wage), mean(Wage, na.rm = TRUE), Wage),
+        Participation = if_else(
+            is.na(Participation) & !is.na(Wage),
+            1,
+            Participation
+        )
+    )
+
+
+# Analysis ---------------------------------
+# Analyze mean Wage by gender: three methods
+# 1. Raw data (missings kicked out with na.rm = TRUE)
+data_missing |>
+    group_by(Gender) |>
+    summarize(
+        Mean_Wage = mean(Wage, na.rm = TRUE),
+        Participation_Rate = mean(Participation, na.rm = TRUE)
+    )
+
+# 2. Complete cases
+complete_case |>
+    group_by(Gender) |>
+    summarize(
+        Mean_Wage = mean(Wage, na.rm = TRUE),
+        Participation_Rate = mean(Participation, na.rm = TRUE)
+    )
+
+# 3. Mean imputation: the women's mean wage rises from 28 to 31.5,
+# because they get the overall mean, which includes the men's wages.
+mean_impute |>
+    group_by(Gender) |>
+    summarize(
+        Mean_Wage = mean(Wage, na.rm = TRUE),
+        Participation_Rate = mean(Participation, na.rm = TRUE)
+    )
 
 
 
 
+
+
+
+
+# Create messy data frame -------------------------------------------------
+
+# We create a fake, messy dataframe for exercise purposes
+messy_df <- data.frame(last_name = c("Wayne", "Trump", "Karl Marx"),
+                       first_name = c("John", "Melania", ""),
+                       gender = c("male", "female", "Man"),
+                       date = c("2018-11-15", "2018.11.01", "2018/11/02"),
+                       income = c("150,000", "250000", "10000"), stringsAsFactors = FALSE)
+
+messy_df
+str(messy_df)
+
+
+
+
+
+
+
+## define, clean categorical variables ------------------------------------------------------------------------
+messy_df <- messy_df |>
+    mutate(gender = as.factor(gender))
+messy_df$gender
+levels(messy_df$gender)
+# Problems?
+
+
+
+
+
+
+
+
+
+
+
+## standardize categories ------------------------------------------------------------------------
+messy_df <- messy_df |>
+    mutate(gender = if_else(gender == "Man", "male", gender)) |>
+    mutate(gender = as.factor(gender))
+messy_df$gender
+
+
+# Alternative: change the levels directls
+levels(messy_df$gender)[3] <- "male"
+
+
+## Alternative: tidyverse approach with forcats
+messy_df <- messy_df |>
+    mutate(gender = fct_recode(messy_df$gender, "male" = "Man"))
+messy_df$gender
+
+
+
+
+
+
+
+
+## numeric/integer values ------------------------------------------------------------------------
+as.integer(messy_df$income)
+# Problem?
+
+
+
+
+
+
+
+
+
+
+
+## ------------------------------------------------------------------------
+messy_df <- messy_df |>
+    mutate(
+        income = str_replace(
+            income,
+            pattern = ",",
+            replacement = ""
+        )
+    ) |>
+   mutate(income = as.integer(income))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## clean up variables  ------------------------------------------------------------------------
+messy_df
+# remaining problems?
+
+
+
+
+
+
+
+
+
+
+
+
+
+## split strings, add new variables
+splitnames <- str_split(
+    messy_df$last_name,
+    pattern = " ",
+    simplify = TRUE
+)
+splitnames
+
+## find rows with problematic cases, add correct first name,
+problem_cases <- messy_df$first_name == ""
+messy_df$first_name[problem_cases] <- splitnames[problem_cases, 1]
+
+
+#last name
+messy_df$last_name[problem_cases] <- splitnames[problem_cases, 2]
+messy_df
+
+
+
+# Or in one step
+  messy_df <- messy_df |>
+      mutate(
+          first_name = if_else(first_name == "", str_split_i(last_name, " ", 1), first_name), #i'th element of split
+          last_name  = if_else(str_detect(last_name, " "), str_split_i(last_name, " ", 2), last_name)
+      )
+
+
+
+
+##  parse dates correctly -------------------------------------------------------
+library(lubridate)
+
+
+## ------------------------------------------------------------------------
+messy_df <- messy_df |>
+    mutate(date = ymd(date))
+
+
+## ------------------------------------------------------------------------
+messy_df
+
+
+## ------------------------------------------------------------------------
+str(messy_df)
+
+
+# END ---------------------------------
