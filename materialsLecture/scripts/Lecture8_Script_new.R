@@ -234,8 +234,8 @@ complete_wage
 # Wage is missing only for women: probably not MCAR.
 mean_impute <- data_missing |>
     mutate(
-        Wage = ifelse(is.na(Wage), mean(Wage, na.rm = TRUE), Wage),
-        Participation = ifelse(
+        Wage = if_else(is.na(Wage), mean(Wage, na.rm = TRUE), Wage),
+        Participation = if_else(
             is.na(Participation) & !is.na(Wage),
             1,
             Participation

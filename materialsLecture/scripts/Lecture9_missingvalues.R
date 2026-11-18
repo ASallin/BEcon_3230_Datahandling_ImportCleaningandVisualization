@@ -20,8 +20,8 @@ complete_case <- na.omit(data)
 # Mean imputation for missing Wage
 mean_impute <- data |> 
   mutate(
-    Wage = ifelse(is.na(Wage), mean(Wage, na.rm = TRUE), Wage),
-    Participation = ifelse(
+    Wage = if_else(is.na(Wage), mean(Wage, na.rm = TRUE), Wage),
+    Participation = if_else(
       is.na(Participation), 
       round(mean(Participation, na.rm = TRUE), 0), 
       Participation

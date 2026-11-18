@@ -118,14 +118,14 @@ Select all the statements that are true.
 
 ```{r, eval = FALSE}
 main_dataset |>
-  mutate(temp_celsius = ifelse(scale == "Fahrenheit", (temp-32) * conversion_factor, temp))
+  mutate(temp_celsius = if_else(scale == "Fahrenheit", (temp-32) * conversion_factor, temp))
 ```
 replaces the variable `temp` with `temp_celsius`
 <!-- #NO -->
 
 ```{r, eval = FALSE}
 main_dataset |>
-  mutate(temp_celsius = ifelse(scale == "Fahrenheit", (temp-32) * conversion_factor, temp))
+  mutate(temp_celsius = if_else(scale == "Fahrenheit", (temp-32) * conversion_factor, temp))
 ```
 has 3 rows and 5 columns
 <!-- YES -->
@@ -488,8 +488,8 @@ complete_case <- na.omit(data)
 # Mean imputation for missing Wage
 mean_impute <- data |>
   mutate(
-    Wage = ifelse(is.na(Wage), mean(Wage, na.rm = TRUE), Wage),
-    Participation = ifelse(
+    Wage = if_else(is.na(Wage), mean(Wage, na.rm = TRUE), Wage),
+    Participation = if_else(
       is.na(Participation),
       round(mean(Participation, na.rm = TRUE), 0),
       Participation
@@ -805,7 +805,7 @@ Code a province as 'Catholic' if more than 50% of the inhabitants are catholic:
 # via tidyverse/mutate
 swiss <- mutate(swiss,
                 Religion =
-                  ifelse(50 < Catholic, 'Catholic', 'Protestant'))
+                  if_else(50 < Catholic, 'Catholic', 'Protestant'))
 
 # 'old school' alternative
 swiss$Religion <- 'Protestant'

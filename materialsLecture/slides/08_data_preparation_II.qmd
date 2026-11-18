@@ -133,11 +133,15 @@ tidy_grades <- grades_data %>%
 
 # Today
 
-## Goals of today's lecture
+## Goals of lectures 7 and 8
 
-1. Understand the concept of merging datasets.
-2. Perform basic data manipulation in `dplyr`.
-3. First steps in exploratory data analysis.
+##### Know how to prepare a dataset for analysis:
+
+  - Structure data: tidy data and the unit of observation
+  - Manipulate and transform data frames with `dplyr`
+  - Reshape data frames (wide to long and long to wide)
+  - Combine data frames
+  - Clean data: find duplicates, handle missing values, make values consistent
 
 
 # Data Preparation: merging
@@ -662,9 +666,9 @@ include_graphics("../../img/missingAlgo_v3.png")
 #### Imputation: replace missing values with a plausible value.
 
 ::: {style="font-size: 85%;"}
-  - Fixed value: `mutate(x = ifelse(is.na(x), 0, x))` or `coalesce(x, 0)`
+  - Fixed value: `mutate(x = if_else(is.na(x), 0, x))` or `coalesce(x, 0)`
   - Value from another column: `coalesce(x, y)` takes the first non-missing value
-  - Summary statistic: `mutate(x = ifelse(is.na(x), median(x, na.rm = TRUE), x))`
+  - Summary statistic: `mutate(x = if_else(is.na(x), median(x, na.rm = TRUE), x))`
   - Last known value (time series, panels): `tidyr::fill(x)`
   - Other more advanced imputation methods: model-based imputation
 

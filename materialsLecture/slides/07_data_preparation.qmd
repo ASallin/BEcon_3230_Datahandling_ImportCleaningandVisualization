@@ -38,7 +38,7 @@ include_graphics("../../img/data_science_pipeline.png")
 ```
 
 
-## Part I: Our story so far (explained by AI...)
+## Part I: Our story so far (explained by good ol' GPT-4o)
 
   - 🖥️Computers store data as bits (Bits → Bytes → Encoded Text)<br>
   - ✍🏻Text encodes meaning<br>
@@ -48,7 +48,7 @@ include_graphics("../../img/data_science_pipeline.png")
   - 💾R parses structure into memory. (→ R Parsing → R Data Structures)
 
 
-## Your own Group Project{.nostretch}
+## Your own Group Project {.nostretch visibility="hidden"}
 
 ![](../../img/lois_chatgpt.jpg){width="40%" fig-align="center"}
 
@@ -99,7 +99,8 @@ include_graphics("../../img/data_science_pipeline.png")
 
 ::: {style="font-size: 75%;"}
 ```{json, echo = TRUE}
-{"firstName": "John",
+{
+  "firstName": "John",
   "lastName": "Smith",
   "age": 25,
   "address": {
@@ -211,11 +212,13 @@ person_df
 ::::
 
 
-## HTML documents/webpages: *semi-structured data*
+## HTML documents/webpages
 
 :::: {.columns}
 
 ::: {.column width="50%"}
+
+#### Semi-structured data
 
   - A webpage can contain HTML tables (*structured data*)...
   - ...but likely also contains just raw text (*unstructured data*).
@@ -258,10 +261,9 @@ person_df
   - **Structured data**: APIs return data in JSON/XML format
   - **HTTP requests**: Use GET, POST, PUT, DELETE methods
   - **Real-time data**: Access current information (stock prices, weather, economic indicators)
-  - (**Authentication**: Often require API keys or tokens)
-  - **Rate limiting**: Restrictions on number of requests per time period
+  - (Authentication: Often require API keys or tokens)
 
-##### **In R**: Use `httr2`, `jsonlite` packages to consume APIs
+##### In R: use `httr2` and  `jsonlite` packages to consume APIs
 
 
 
@@ -272,12 +274,9 @@ person_df
 You import the following json file using fromJSON() and store the file in the object `students` in R, i.e. <br> `students <- fromJSON("students.json")`. Which statements are TRUE?
 :::
 
-:::: {.columns}
-::: {.column width="60%"}
-
-::: {style="font-size: 65%;"}
-```{json, echo = TRUE}
-{
+```{r, include=FALSE}
+# Hidden: the JSON below as a string, so it can be imported with fromJSON()
+students_json <- '{
   "students": [
     {
       "id": 19091,
@@ -310,7 +309,15 @@ You import the following json file using fromJSON() and store the file in the ob
           }
     }
   ]
-}
+}'
+students <- jsonlite::fromJSON(students_json)
+```
+
+:::: {.columns}
+::: {.column width="60%"}
+
+::: {style="font-size: 65%;"}
+```{json, echo = TRUE, code = students_json}
 ```
 :::
 :::
@@ -319,10 +326,10 @@ You import the following json file using fromJSON() and store the file in the ob
 
 ::: {style="font-size: 60%;"}
 
-- The object `students` is a list.
-- `students$students$firstName[2]` returns "Anna"
-- In JSON, the value for the "students" key is itself an object (key–value pair).
-- In JSON, you have two ways of writing data: arrays and objects. Objects are key-value pairs, and arrays are ordered lists.
+1. The object `students` is a list.
+2. `students$students$firstName[2]` returns "Anna"
+3. In JSON, the value for the "students" key is itself an object (key–value pair).
+4. In JSON, you have two ways of writing data: arrays and objects. Objects are key-value pairs, and arrays are ordered lists.
 ```
 {
   "name": "Anna",              // a key "name" with a string value "Anna"
@@ -381,9 +388,9 @@ Which statements are TRUE?
 ::: {.column width="40%"}
 
 ::: {style="font-size: 60%;"}
-  - 'students' is the root-node, 'grades' are its children
-  - The siblings of Trevor Noah are Anna Schmid and Peter Mueller
-  - This code would be an alternative, equivalent notation for the third student in the xml file above.
+  1. 'students' is the root-node, 'grades' are its children
+  2. The <student> element of Trevor Noah has two siblings: the <student> elements of Anna Schmid and Peter Mueller.
+  3. This code would be an alternative notation with the same information for the third student in the xml file above.
 ```{xml, echo = TRUE}
 <student id="19093" firstName="Trevor" lastName="Noah">
       <grades micro="4" macro="4.5" dataHandling="5" />
@@ -398,14 +405,33 @@ Which statements are TRUE?
 
 # Part II: Data preparation, analysis, and visualization
 
-## Objective for lecture 7 and 8
+## Goals of lectures 7 and 8
 
-- Know how to prepare a dataset for analysis:
+:::: {.columns}
 
-  - Handle data frames
+::: {.column width="50%"}
+
+##### Know how to prepare a dataset for analysis
+
+::: {style="font-size: 0.95em;"}
+  - Structure data: tidy data
+  - Manipulate data frames with `dplyr`
   - Reshape data frames
   - Combine data frames
-  - Have consistent data: no duplicates, no missings
+  - Clean data: find duplicates, handle missing values, make values consistent
+:::
+:::
+
+::: {.column .fragment width="50%"}
+
+####
+
+```{r garbage2, echo=FALSE, out.width = "100%", fig.align='center',  purl=FALSE}
+# include_graphics("../../img/dalle_garbageinout.png")
+include_graphics("../../img/GIGO.png")
+```
+:::
+::::
 
 
 
@@ -415,48 +441,34 @@ include_graphics("../../img/data_science_pipeline.png")
 ```
 
 
+
 ## The dataset is imported, now what?
 
-- In practice: still a long way to go.
-- Parsable, but messy data: inconsistencies, data types, missing observations, wide format.
-
-<br>
-
-##### **Goal** of data preparation: dataset is ready for analysis.
+- *In practice: still a long way to go.*
+- *The data is parsable, but messy: inconsistencies in data types and values, missing observations, wide format.*
 
 
-
-## Prepared data is ready in structure and content
+::: {.fragment}
+##### **Goal** of data preparation: dataset is ready for analysis in *structure* and *content*
+:::
 
 :::: {.columns}
-
-::: {.column width="50%"}
-
-#### Structure
-
+::: {.column .fragment style="width: 48%; box-sizing: border-box; background: #f2f2f2; border-radius: 4px; padding: 0.3em 0.8em;"}
+#### Structure {style="margin-top: 0 !important;"}
   - tidy format
-  - **reshape** (wide <-> long), **bind**, **join**
+  - **reshape** (wide ↔ long), **bind**, **join**
+:::
 
-#### Content
-  - values are consistent within each variable,<br>variables are of proper data types
+::: {.column width="4%"}
+:::
+
+::: {.column .fragment style="width: 48%; box-sizing: border-box; background: #f2f2f2; border-radius: 4px; padding: 0.3em 0.8em;"}
+#### Content {style="margin-top: 0 !important;"}
+  - values are consistent within each variable, variables are of proper data types
   - [**clean**]{.green}, remove **duplicates**, \ check **plausibility**, take care of **missings**
-
-:::
-
-::: {.column width="50%"}
-
-<br>
-
-::: {style="text-align: center;"}
-```{r garbage2, echo=FALSE, out.width = "90%", fig.align='center',  purl=FALSE}
-# include_graphics("../../img/dalle_garbageinout.png")
-include_graphics("../../img/GIGO.png")
-```
-:::
-
-
 :::
 ::::
+
 
 
 <!-- Tidying Data: This step focuses on structuring data to be analysis-ready, often using principles from tidy data. -->
@@ -507,23 +519,23 @@ In Economics, the definition of an **observation** can vary:
 
 
 
-## Tidy data is not trivial
+## Different data structures in Economics
 
 ::: {style="font-size: 0.925em;"}
 #### Panel Data (Longitudinal Data)
 
   - Each unit observed repeatedly across multiple time periods.<br>
-  - **Unit of observation**: One unit at one specific time point (e.g., Person A in 2020, Person A in 2021).
+  - **Unit of observation**: One unit at one specific time point (e.g., Country A in 2024, Country A in 2025).
 
 #### Cross-Sectional Data
 
   - "Snapshot" of different units at the same moment.
-  - **Unit of observation**: One unit at a single point in time (e.g., Person A, Person B, Person C all measured in 2024).
+  - **Unit of observation**: One unit at a single point in time (e.g., Country A, B, or C, all measured in 2024).
 
 #### Time Series Data
 
   - Single unit tracked over time
-  - **Unit of observation**: One measurement of the unit at each time period (e.g., Switzerland's GDP in 1990, 1991, 1992...).
+  - **Unit of observation**: One measurement of the unit at each time period (e.g., Switzerland's GDP in 2023, 2024, 2025...).
 
 :::
 
@@ -740,11 +752,11 @@ as_tibble(swiss)
 
 <div style="margin-top: 1.25em;"></div>
 
-- **Select** the subset of variables you need (e.g., for comparisons).
-- **Filter** the dataset by restricting your dataset to observations needed in _this_ analysis.
+- **Select** the variables (columns) you need.
+- **Filter** the observations (rows) you need.
 - **Arrange** the dataset by reordering the rows.
-- **Mutate** the dataset by adding the values you need for your analysis.
-- **Group** and **summarize** the dataset by a variable to apply functions to groups of observations.
+- **Mutate** the dataset by adding or changing variables.
+- **Group** by one or more variables and **summarize** the dataset using functions.
 
 :::
 
@@ -816,25 +828,27 @@ mydf <- mydf["Examination"]
 
 ## Important additional tools
 
-- `ifelse(test, yes, no)` returns a value with the same shape as the logical test. Filled with elements selected from either `yes` or `no` depending on whether the element of `test` is `TRUE` or `FALSE`
+- `if_else(test, yes, no)`: for each element, returns `yes` if `test` is `TRUE`, and `no` if `FALSE`. Base R version: `ifelse()`
 ```{r, echo = TRUE, eval = FALSE}
-df |>
-  mutate(gender = ifelse(gender == "m", 1, 0))
+if_else(age >= 18, "adult", "minor")
 ```
-- `case_when` vectorises multiple `ifelse()` statements. It is the `dplyr` equivalent of `if...else`
+
+- `case_when` vectorises multiple `if_else()` statements. `dplyr` equivalent of `if...else`
 ```{r, echo = TRUE, eval = FALSE}
-df |>
-  mutate(
-    agegroup = case_when(
+case_when(
       age >= 0 & age < 19 ~ "0-18",
       age >= 19 & age < 66 ~ "19-65",
       age >= 66 & age < 100 ~ ">65",
       .default = "999"
     )
-  )
 ```
-- `count()` to count number of values per group.
 
+- `count()` to count number of values per group
+
+```{r, echo = TRUE, eval = FALSE}
+df  |>
+  count(gender, agegroup)
+```
 
 
 
@@ -989,7 +1003,7 @@ include_graphics("../../img/longvswideCode.png")
 
 
 <center>
-##### My take: A data analysis requires moving between wide and long depending on the purpose.
+##### My two cents 🪙🪙 : A data analysis constantly requires moving between wide and long depending on the purpose.
 </center>
 
 
@@ -1089,3 +1103,5 @@ combined_df_bind_rows
 The errors are due to the requirements of `rbind()`.
 :::
 
+
+## The End

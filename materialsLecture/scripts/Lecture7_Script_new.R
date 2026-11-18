@@ -15,10 +15,6 @@
 # Load packages (install if needed)
 library(tidyverse) # tidyverse contains dplyr, readr, tibble, and all other packages from the tidyverse universe.
 
-# Set fix variables for PATH (for each student different)
-INPUT_PATH <- "C:/Users/aurel/datahandling-lecture2023/data"
-OUTPUT_FILE <- ""
-
 
 
 # Load data ---------------------------------
@@ -44,6 +40,7 @@ df
 df_anon <- df |>
     select(ID, Gender, Econ, DataHandling, Management, Year)
 df_anon
+
 
 
 # Arrange ---------------------------------
@@ -76,12 +73,14 @@ df_anon <- df_anon |>
     filter(Year == 2026)
 
 
+
+
 # Mutating datasets (add/change values/columns) ------------------------------------------
 
 # Recode gender
 df_anon <- df_anon |>
     mutate(
-        Female = ifelse(Gender == "Male", 0, 1),
+        Female = if_else(Gender == "Male", 0, 1),
         Avg = (Econ + DataHandling + Management) / 3
     )
 df_anon
@@ -162,12 +161,15 @@ df <- data.frame(
 df
 
 
+
 # reshape from wide to long
-tidydf <- pivot_longer(data = df,
-                       cols = c(Econ, DataHandling, Management),
-                    #    cols = -Student,
-                       names_to = "Subject",
-                       values_to = "Grade")
+tidydf <- pivot_longer(
+    data = df,
+    cols = c(Econ, DataHandling, Management),
+    # cols = -Student,
+    names_to = "Subject",
+    values_to = "Grade"
+)
 
 # inspect result
 tidydf
@@ -179,13 +181,15 @@ tidydf
 
 # Wide to Long --------------------------------------------
 
-
 ## initialize and inspect a wide example data-frame
-wide_df <- data.frame(last_name = c("Wayne", "Trump", "Marx"),
-                      first_name = c("John", "Melania", "Karl"),
-                      gender = c("male", "female", "male"),
-                      income.2018 = c("150000", "250000", "10000"),
-                      income.2017 = c( "140000", "230000", "15000"),stringsAsFactors = FALSE)
+wide_df <- data.frame(
+    last_name = c("Wayne", "Trump", "Marx"),
+    first_name = c("John", "Melania", "Karl"),
+    gender = c("male", "female", "male"),
+    income.2018 = c("150000", "250000", "10000"),
+    income.2017 = c("140000", "230000", "15000"),
+    stringsAsFactors = FALSE
+)
 wide_df
 
 
@@ -199,11 +203,14 @@ wide_df
 
 
 # transform from wide to long
-long_df <- pivot_longer(wide_df,
-                        c(income.2018, income.2017),
-                        names_to = "year",
-                        names_prefix = "income.",
-                        values_to = "income")
+long_df <- pivot_longer(
+    wide_df,
+    c(income.2018, income.2017),
+    names_to = "year",
+    names_prefix = "income.",
+    values_to = "income"
+)
+
 # inspect the result
 long_df
 
@@ -217,22 +224,23 @@ long_df
 # Long to wide -------------------------------------------
 
 # initiate a weird long data.frame
-weird_df <- data.frame(last_name = c("Wayne", "Trump", "Marx",
-                                     "Wayne", "Trump", "Marx",
-                                     "Wayne", "Trump", "Marx"),
-                       first_name = c("John", "Melania", "Karl",
-                                      "John", "Melania", "Karl",
-                                      "John", "Melania", "Karl"),
-                       gender = c("male", "female", "male",
-                                  "male", "female", "male",
-                                  "male", "female", "male"),
-                       value = c("150000", "250000", "10000",
-                                 "2000000", "5000000", "NA",
-                                 "50", "25", "NA"),
-                       variable = c("income", "income", "income",
-                                    "assets", "assets", "assets",
-                                    "age", "age", "age"),
-                       stringsAsFactors = FALSE)
+weird_df <- data.frame(
+    last_name = c("Wayne", "Trump", "Marx",
+                  "Wayne", "Trump", "Marx",
+                  "Wayne", "Trump", "Marx"),
+    first_name = c("John", "Melania", "Karl",
+                    "John", "Melania", "Karl",
+                    "John", "Melania", "Karl"),
+    gender = c("male", "female", "male",
+                "male", "female", "male",
+                "male", "female", "male"),
+    value = c("150000", "250000", "10000",
+              "2000000", "5000000", "NA",
+              "50", "25", "NA"),
+    variable = c("income", "income", "income",
+                 "assets", "assets", "assets",
+                 "age", "age", "age"),
+    stringsAsFactors = FALSE)
 
 
 # inspect it, where are the problems?
@@ -286,3 +294,5 @@ combined_df1 <- rbind(subset1, subset2, subset3) # error
 # inspect the result
 combined_df
 
+
+# The end  ---------------------------------

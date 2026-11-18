@@ -21,7 +21,7 @@ head(swiss)
 # via tidyverse/mutate
 swiss <- mutate(swiss, 
                 Religion = 
-                     ifelse(50 < Catholic, 'Catholic', 'Protestant'))
+                     if_else(50 < Catholic, 'Catholic', 'Protestant'))
 
 # 'old school' alternative
 swiss$Religion <- 'Protestant'
