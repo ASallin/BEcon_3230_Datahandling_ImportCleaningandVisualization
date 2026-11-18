@@ -14,7 +14,7 @@ library(tidyverse) # tidyverse contains dplyr, readr, tibble, and all other pack
 
 
 # Initiate data frame on persons' spending
-df_c <- data.frame(id = c(1:3,1:3,5),
+df_c <- data.frame(id = c(1:3, 1:3, 5),
                    money_spent= c(1000, 2000, 6000, 1500, 3000, 5500,3000),
                    currency = c("CHF", "CHF", "USD", "EUR", "CHF", "USD", "CAD"),
                    year = c(2017, 2017, 2017, 2018, 2018, 2018, 2018))
@@ -50,17 +50,25 @@ ij <- inner_join(df_p, df_c, by = "id")
 ij <- merge(df_p, df_c, by = "id")
 ij
 
-# Anti join
-aj <- anti_join(df_p, df_c, by = "id")
+# Filtering joins
+aj1 <- anti_join(df_p, df_c, by = "id")
+aj1
 sj <- semi_join(df_p, df_c, by = "id")
+sj
+aj2 <- anti_join(df_c, df_p, by = "id")
+aj2
+
 
 # Cross join (not seen in the course)
+# combines every row of x with every row of y
+# uses no key, and gives nrow(x) × nrow(y) rows (the "Cartesian product")
 merge(df_p, df_c, by = NULL)
 cross_join(df_p, df_c)
 
 
 
 # Check the many-to-many and one-to-many behavior -----------------------------------------
+# Self-study !!
 
 # Dataset 1: People (with duplicates - person appears multiple times)
 people_mtm <- data.frame(
@@ -79,9 +87,11 @@ transactions_mtm <- data.frame(
 transactions_mtm
 
 # Example 1: MANY-TO-MANY (MTM)
-# Problem: Multiple rows in both datasets with same key. Many-to-many join creates
+# Problem: Multiple rows in both datasets with same key.
+# Many-to-many join creates every combination of matching rows.
+# Not meaningful
 mtm_result <- left_join(people_mtm, transactions_mtm, by = "id")
-mtm_result # print
+mtm_result
 
 # We would need an additional unique identifier to properly link the datasets,
 # for instance the year.
@@ -109,6 +119,7 @@ transactions_otm
 
 # CLEAN: One-to-many join is predictable and meaningful
 otm_result <- left_join(people_otm, transactions_otm, by = "id")
+
 
 
 
@@ -222,7 +233,7 @@ data_missing
 
 # Complete case analysis ---------------------------------
 complete_case <- na.omit(data_missing)
-complete_case # All women are gone
+complete_case
 
 # Drop only the rows where the variable you analyze is missing
 complete_wage <- data_missing |>
@@ -244,8 +255,8 @@ mean_impute <- data_missing |>
 
 
 # Analysis ---------------------------------
-# Analyze mean Wage by gender: three methods, three different answers
-# Raw data
+# Analyze mean Wage by gender: three methods
+# 1. Raw data (missings kicked out with na.rm = TRUE)
 data_missing |>
     group_by(Gender) |>
     summarize(
@@ -296,7 +307,8 @@ str(messy_df)
 
 
 ## define, clean categorical variables ------------------------------------------------------------------------
-messy_df$gender <- as.factor(messy_df$gender)
+messy_df <- messy_df |>
+    mutate(gender = as.factor(gender))
 messy_df$gender
 levels(messy_df$gender)
 # Problems?
@@ -312,14 +324,19 @@ levels(messy_df$gender)
 
 
 ## standardize categories ------------------------------------------------------------------------
-messy_df$gender[messy_df$gender == "Man"] <- "male"
+messy_df <- messy_df |>
+    mutate(gender = if_else(gender == "Man", "male", gender)) |>
+    mutate(gender = as.factor(gender))
 messy_df$gender
 
+
+# Alternative: change the levels directls
 levels(messy_df$gender)[3] <- "male"
 
 
-## tidyverse approach
-messy_df$gender <- fct_recode(messy_df$gender, "male" = "Man")
+## Alternative: tidyverse approach with forcats
+messy_df <- messy_df |>
+    mutate(gender = fct_recode(messy_df$gender, "male" = "Man"))
 messy_df$gender
 
 
@@ -340,11 +357,30 @@ as.integer(messy_df$income)
 
 
 
+
+
+
 ## ------------------------------------------------------------------------
-messy_df$income <- str_replace(messy_df$income,
-                               pattern = ",",
-                               replacement = "")
-messy_df$income <- as.integer(messy_df$income)
+messy_df <- messy_df |>
+    mutate(
+        income = str_replace(
+            income,
+            pattern = ",",
+            replacement = ""
+        )
+    ) |>
+   mutate(income = as.integer(income))
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -358,10 +394,18 @@ messy_df
 
 
 
+
+
+
+
+
+
 ## split strings, add new variables
-splitnames <- str_split(messy_df$last_name,
-                        pattern = " ",
-                        simplify = TRUE)
+splitnames <- str_split(
+    messy_df$last_name,
+    pattern = " ",
+    simplify = TRUE
+)
 splitnames
 
 ## find rows with problematic cases, add correct first name,
@@ -375,6 +419,12 @@ messy_df
 
 
 
+# Or in one step
+  messy_df <- messy_df |>
+      mutate(
+          first_name = if_else(first_name == "", str_split_i(last_name, " ", 1), first_name), #i'th element of split
+          last_name  = if_else(str_detect(last_name, " "), str_split_i(last_name, " ", 2), last_name)
+      )
 
 
 
@@ -384,7 +434,8 @@ library(lubridate)
 
 
 ## ------------------------------------------------------------------------
-messy_df$date <- ymd(messy_df$date)
+messy_df <- messy_df |>
+    mutate(date = ymd(date))
 
 
 ## ------------------------------------------------------------------------
@@ -395,3 +446,4 @@ messy_df
 str(messy_df)
 
 
+# END ---------------------------------

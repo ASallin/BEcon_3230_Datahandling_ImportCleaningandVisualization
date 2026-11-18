@@ -68,7 +68,7 @@ include_graphics("../../img/schwiizerchuchi.jpg")
 :::
 ::::
 
-::: {style="margin-top: -1em;"}
+::: {style="margin-top: -3em;"}
 Which of the following statements is true?
 :::
 
@@ -79,12 +79,12 @@ Which of the following statements is true?
 ::: {.column width="50%"}
 
 - `nrow(schwiizerChuchiLong) == 12` returns `TRUE`
-- `dim(schwiizerChuchiLong)` returns `c(3, 12)`
+- `dim(schwiizerChuchiLong)` returns `[1] 3 12`
 :::
 
 ::: {.column width="50%"}
 
-- `dim(schwiizerChuchi)` returns `c(3, 12)`
+- `dim(schwiizerChuchi)` returns `[1] 3 12`
 - `mean(schwiizerChuchiLong$Raclette) == 8.333`
 
 :::
@@ -135,26 +135,45 @@ tidy_grades <- grades_data %>%
 
 ## Goals of lectures 7 and 8
 
-##### Know how to prepare a dataset for analysis:
+:::: {.columns}
 
-  - Structure data: tidy data and the unit of observation
-  - Manipulate and transform data frames with `dplyr`
-  - Reshape data frames (wide to long and long to wide)
+::: {.column width="50%"}
+
+##### Know how to prepare a dataset for analysis
+
+::: {style="font-size: 0.95em;"}
+  - Structure data: tidy data
+  - Manipulate data frames with `dplyr`
+  - Reshape data frames
   - Combine data frames
   - Clean data: find duplicates, handle missing values, make values consistent
+:::
+:::
+
+::: {.column .fragment width="50%"}
+
+####
+
+```{r garbage2, echo=FALSE, out.width = "100%", fig.align='center',  purl=FALSE}
+# include_graphics("../../img/dalle_garbageinout.png")
+include_graphics("../../img/GIGO.png")
+```
+:::
+::::
 
 
-# Data Preparation: merging
 
-## Merging (Joining) datasets
+# Merging datasets
+
+## Merging (joining) datasets
 
 - Combine data of two datasets in one dataset.
 - Needed: Unique identifiers for observations ('keys').
 
 
-## Merging (joining) datasets
+## Merging (joining) datasets {.nostretch}
 
-```{r setupjoin, echo=FALSE, out.width = "60%", fig.align='center', fig.cap= 'Join setup. Source: [R4DS](https://r4ds.hadley.nz/joins).', purl=FALSE}
+```{r setupjoin, echo=FALSE, out.width = "50%", fig.align='center', fig.cap= 'Join setup. Source: [R4DS](https://r4ds.hadley.nz/joins).', purl=FALSE}
 include_graphics("../../img/join-setup.png")
 ```
 
@@ -225,20 +244,22 @@ include_graphics("../../img/join-venn.png")
 <!-- A row from x can match any number of rows in y. -->
 <!-- A row from y can match any number of rows in x. -->
 
-::: aside
-**Always check how many rows are returned after your merge!** In `tidyverse`, warnings appear in case of "many-to-many". As of `dplyr 1.1.1`, no warning for one-to-many relationships.
-:::
-
 :::
 
 ::: {.column width="70%"}
 
-```{r , echo=FALSE, out.width = "90%", fig.align='center', fig.cap = "One-to-many joins. Source: [R4DS](https://r4ds.hadley.nz/joins)" , purl=FALSE}
+```{r , echo=FALSE, out.width = "70%", fig.align='center', fig.cap = "One-to-many joins. Source: [R4DS](https://r4ds.hadley.nz/joins)" , purl=FALSE}
 include_graphics("../../img/join-rowmatching.png")
 ```
 
 :::
 ::::
+
+##### **Always check how many rows are returned after your merge!**
+
+::: aside
+In `dplyr`, warnings appear in case of "many-to-many". As of `dplyr 1.1.1`, no warning for one-to-many relationships.
+:::
 
 
 ## Filtering joins with the <span style="color:#02934a;">semi join</span> and the <span style="color:#02934a;">anti join</span>
@@ -247,17 +268,21 @@ include_graphics("../../img/join-rowmatching.png")
 
 ::: {.column width="50%"}
 
-```{r , echo=FALSE, out.width = "90%", fig.align='center', fig.cap= 'The semi-join keeps rows in x that have one or more matches in y. Source: [R4DS](https://r4ds.hadley.nz/joins).',  purl=FALSE}
+```{r , echo=FALSE, out.width = "90%", fig.align='center', fig.cap= 'Source: [R4DS](https://r4ds.hadley.nz/joins).',  purl=FALSE}
 include_graphics("../../img/join-semi.png")
 ```
+
+The semi-join keeps rows in x that have one or more matches in y.
 
 :::
 
 ::: {.column width="50%"}
 
-```{r , echo=FALSE, out.width = "90%", fig.align='center', fig.cap= "The anti-join keeps rows in x that match zero rows in y. Source: [R4DS](https://r4ds.hadley.nz/joins).", purl=FALSE}
+```{r , echo=FALSE, out.width = "90%", fig.align='center', fig.cap= "Source: [R4DS](https://r4ds.hadley.nz/joins).", purl=FALSE}
 include_graphics("../../img/join-anti.png")
 ```
+
+The anti-join keeps rows in x that match zero rows in y.
 
 :::
 ::::
@@ -267,38 +292,52 @@ include_graphics("../../img/join-anti.png")
 
 ## Merging (joining) datasets: example
 
-```{r message=FALSE}
-# load packages
+```{r, include=FALSE}
 library(tidyverse)
 
-# initiate data frame on persons personal spending
+# persons' spending
 df_c <- data.frame(id = c(1:3,1:3),
                    money_spent= c(1000, 2000, 6000, 1500, 3000, 5500),
                    currency = c("CHF", "CHF", "USD", "EUR", "CHF", "USD"),
                    year=c(2017,2017,2017,2018,2018,2018))
-df_c
 
-```
-
-
-## Merging (joining) datasets: example
-
-```{r message=FALSE}
-# initiate data frame on persons' characteristics
+# persons' characteristics
 df_p <- data.frame(id = 1:4,
                    first_name = c("Anna", "Betty", "Claire", "Diane"),
                    profession = c("Economist", "Data Scientist",
                                   "Data Scientist", "Economist"))
+```
+
+:::: {.columns}
+
+::: {.column width="48%"}
+#### Left data
+
+```{r, echo=TRUE, collapse=TRUE}
 df_p
 ```
+:::
 
+::: {.column width="4%"}
+:::
 
-## Merging (joining) datasets: example
+::: {.column width="48%"}
+#### Right data
 
-```{r}
-df_merged <- left_join(df_p, df_c, by="id")
-df_merged
+```{r, echo=TRUE, collapse=TRUE}
+df_c
 ```
+:::
+
+::::
+
+::: {.fragment}
+#### Merged data
+```{r, echo=TRUE, collapse=TRUE}
+left_join(df_p, df_c, by = "id")
+```
+:::
+
 
 
 ## Merging (joining) datasets: R
@@ -499,7 +538,7 @@ slice_max(calories, kcal, n = 1, by = c(item, unit)) # The row with the highest 
 #### Duplicates are tricky
 
 - They end up taking a lot of time in the data cleaning pipeline
-- Especially after merging
+- Especially after merging (one to many)
 - Many analytical mistakes are made because of duplicates (speaking from experience 😨)
 
 #### Crucial questions:
@@ -539,11 +578,11 @@ To know more: [The Epidemiologist R Handbook, chapter "De-duplication"](https://
 - indicated with `NA` or `NaN`.
 - test if missing with `is.na()` and `!is.na()`
 - in R, sometimes happens with `NULL` or `Inf`
-- older software has no proper missing-value code: it uses `99` or `-999`.
+- older software has no proper missing-value code: it uses `99` or `-999`
 
 #### **Implicit** missing values
-- an entire row of data is absent from the data.
-- happens often with merge and pivot.
+- an entire row of data is absent from the data
+- happens often with merge and pivot
 
 
 ::: aside
