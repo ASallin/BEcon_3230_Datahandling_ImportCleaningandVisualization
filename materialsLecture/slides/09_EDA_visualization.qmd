@@ -280,6 +280,8 @@ numbat course
   3. Does the data match its description?
   4. How were derived variables computed?
 
+
+
 # Exploratory Data Analysis and Descriptive Statistics
 
 ## {class="inverse" background-image="../../img/terraincognita.jpg" background-size="100%" background-repeat="cover"}
@@ -389,145 +391,6 @@ swiss |>
           )
         )
 ```
-
-
-## The problem of missing values: potential bias
-
-
-:::: {.columns}
-
-::: {.column width="48%"}
-
-##### 1. How big is the problem?
-
-  - How many observations and variables are affected?
-  - Is missingness clustered in groups or time periods?
-
-##### 2. What do missing values represent?
-
-  - Not collected, not available, not recorded, not applicable?
-
-:::
-
-::: {.column width="4%"}
-<div style="border-left: 20px solid #1c6b08ff; height: 100%; margin: 0 auto;"></div>
-:::
-
-::: {.column width="48%"}
-
-##### 3. What is the missingness mechanism?
-
-  - **MCAR**: missing completely at random / **MAR**: missing at random
-    <!-- If the probability of being missing is the same for all cases, then the data are said to be missing completely at random (MCAR). The causes of the missing data are unrelated to the data. If the probability of being missing is the same only within groups defined by the observed data, then the data are missing at random (MAR)./ -->
-  - **MNAR**: not missing at random<br><br>
-
-##### 4. What are the risks for your analysis?
-
-  - Missing values can introduce selection bias
-  - Missing values can change distributions, shrink variances, or distort associations
-
-:::
-::::
-
-<br>
-
-📖 [Flexible Imputation of Missing Data, Van Buuren, 2018](https://stefvanbuuren.name/fimd/)
-
-
-## How to solve the problem of missing values
-
-- **Complete case analysis** (listwise deletion): remove all observations with missing values.
-
-  - `na.omit()` that thing! 💣
-  - `complete.cases(df)` gives the indices of rows that contain NAs
-  - Default behavior in many commands (for instance `mean(., na.rm = T)` or `lm()`)
-
-- **Imputation**: replace missing values with a plausible value.
-- **Multiple imputation**: create multiple datasets with plausible values.
-- **Model-based imputation**: use a model to predict missing values.
-
-
-## My applied take on missing values
-
-##### 1. **Keep in mind the source of missingness throughout your analysis**
-
-  - In my experience, missingness is rarely random.
-  - Common causes: data entry errors, expensive/unused variables, systematic non-response<br>
-
-##### 2. **Be aware of the trade-off between data loss and bias**
-
-  - **Removing variables**: Loss of information. Usually ok, poorer analysis.
-  - **Removing observations**: Risk of sample bias, reduced statistical power. More problematic.<br>
-
-#####  3. **Choose imputation methods wisely** (or maybe, don't bother)
-
-  - Simple imputation (mean/median): acceptable for small amounts of missing data
-  - Multiple/model-based imputation: reserve for cases where data is highly valuable
-  - Document your approach and justify complex methods
-
-
-
-## An example of handling missing values
-
-<details> <summary>Show example (see script)</summary>
-```{r, echo = TRUE, eval = FALSE}
-data <- data.frame(
-  Gender = c("Male", "Female", "Male", "Female", "Male", "Female"),
-  Participation = c(1, 0, 1, NA, 0, 1),
-  Wage = c(30, NA, 35, 28, 40, NA)
-)
-
-data
-
-# Complete case analysis ---------------------------------
-complete_case <- na.omit(data)
-
-
-
-# Imputation ---------------------------------
-# Mean imputation for missing Wage
-mean_impute <- data |>
-  mutate(
-    Wage = if_else(is.na(Wage), mean(Wage, na.rm = TRUE), Wage),
-    Participation = if_else(
-      is.na(Participation),
-      round(mean(Participation, na.rm = TRUE), 0),
-      Participation
-      )
-    )
-
-
-
-# Analysis ---------------------------------
-# Analyze mean Wage by gender
-data |>
-  group_by(Gender) |>
-  summarize(
-    Mean_Wage = mean(Wage, na.rm = TRUE),
-    Participation_Rate = mean(Participation, na.rm = TRUE)
-  )
-
-complete_case |>
-  group_by(Gender) |>
-  summarize(
-    Mean_Wage = mean(Wage, na.rm = TRUE),
-    Participation_Rate = mean(Participation, na.rm = TRUE)
-  )
-
-mean_impute |>
-  group_by(Gender) |>
-  summarize(
-    Mean_Wage = mean(Wage, na.rm = TRUE),
-    Participation_Rate = mean(Participation, na.rm = TRUE)
-  )
-
-```
-</details>
-
-#### Important commands
-
-- `na.omit()`
-- `f(..., na.rm = TRUE)` like in `mean()`, `sum()`, etc.
 
 
 # Visualizing data
