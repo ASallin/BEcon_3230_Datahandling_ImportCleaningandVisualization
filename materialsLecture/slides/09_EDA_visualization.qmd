@@ -1015,7 +1015,7 @@ tab <- costs |>
   arrange(desc(cost_2024))
 ```
 
-```{r, echo=c(2), collapse = TRUE}
+```{r, echo=FALSE}
 old <- options(pillar.sigfig = 7)
 tab
 options(old)
@@ -1087,7 +1087,7 @@ tab |>
 
 
 
-## Pump up your `gt` with some `gtExtras` sparklines 🔎
+## Pump up your `gt` with `gtExtras` sparklines 🔎
 
 <details> <summary>Show code</summary>
 ```{r eval = TRUE}

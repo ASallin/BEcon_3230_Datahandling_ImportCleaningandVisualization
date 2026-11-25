@@ -2428,7 +2428,7 @@ hand drawn charts on the situatio of black people.
 </section>
 <section id="tables-2" class="slide level2">
 <h2>Tables</h2>
-<p>The structure and content of a table depend on our analysis. Here: table on costs per sex.</p>
+<p>The structure and content of a table depend on the analysis. Here: table on costs per sex.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href aria-hidden="true" tabindex="-1"></a>tab <span class="ot">&lt;-</span> costs <span class="sc">|&gt;</span></span>
 <span id="cb30-2"><a href aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(canton <span class="sc">==</span> <span class="st">&quot;CH&quot;</span>, year <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">1997</span>, <span class="dv">2024</span>)) <span class="sc">|&gt;</span></span>
@@ -2442,13 +2442,14 @@ hand drawn charts on the situatio of black people.
 <span id="cb30-10"><a href aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(cost_2024))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href aria-hidden="true" tabindex="-1"></a>tab</span>
-<span id="cb31-2"><a href aria-hidden="true" tabindex="-1"></a><span class="do">## # A tibble: 3 × 4</span></span>
-<span id="cb31-3"><a href aria-hidden="true" tabindex="-1"></a><span class="do">##   sex   cost_1997 cost_2024   growth</span></span>
-<span id="cb31-4"><a href aria-hidden="true" tabindex="-1"></a><span class="do">##   &lt;chr&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;</span></span>
-<span id="cb31-5"><a href aria-hidden="true" tabindex="-1"></a><span class="do">## 1 women   2208.11   5197.82 1.353968</span></span>
-<span id="cb31-6"><a href aria-hidden="true" tabindex="-1"></a><span class="do">## 2 total   1885.3    4693.63 1.489593</span></span>
-<span id="cb31-7"><a href aria-hidden="true" tabindex="-1"></a><span class="do">## 3 men     1546.26   4185.11 1.706602</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 4
+  sex   cost_1997 cost_2024   growth
+  &lt;chr&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+1 women   2208.11   5197.82 1.353968
+2 total   1885.3    4693.63 1.489593
+3 men     1546.26   4185.11 1.706602</code></pre>
+</div>
 </div>
 <p><em>Problems?</em></p>
 </section>
@@ -2456,7 +2457,7 @@ hand drawn charts on the situatio of black people.
 <h2>Tables: make units clear at first sight</h2>
 <ul>
 <li>Decimal marks, units (e.g., currencies), other special characters for special formats (e.g. coordinates).</li>
-<li>Coerce to text using <code>format()</code> or <code>scales()</code>-function</li>
+<li>Coerce to text using <code>format()</code> or the <code>scales()</code> package</li>
 </ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href aria-hidden="true" tabindex="-1"></a>tab_improved <span class="ot">&lt;-</span> tab <span class="sc">|&gt;</span></span>
@@ -2478,35 +2479,32 @@ hand drawn charts on the situatio of black people.
 3 men   1&#39;546     4&#39;185     170.7%</code></pre>
 </div>
 </div>
-
-<aside><div>
-<p><strong>Note:</strong> Base R’s <code>format(x, big.mark = &quot;&#39;&quot;)</code> does the same, but you have to round first and add <code>%</code> yourself.</p>
-</div></aside></section>
-<section id="labels-and-column-names" class="slide level2">
-<h2>Labels and column names</h2>
+</section>
+<section id="tables-column-and-row-labels-must-be-self-explanatory" class="slide level2">
+<h2>Tables: column and row labels must be self-explanatory</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href aria-hidden="true" tabindex="-1"></a>tab_improved <span class="ot">&lt;-</span> tab_improved <span class="sc">|&gt;</span></span>
 <span id="cb34-2"><a href aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(</span>
 <span id="cb34-3"><a href aria-hidden="true" tabindex="-1"></a>        <span class="at">sex =</span> stringr<span class="sc">::</span><span class="fu">str_to_title</span>(sex)</span>
 <span id="cb34-4"><a href aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span></span>
 <span id="cb34-5"><a href aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(</span>
-<span id="cb34-6"><a href aria-hidden="true" tabindex="-1"></a>        <span class="at">sex =</span> <span class="fu">factor</span>(<span class="fu">str_to_title</span>(sex), <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;Women&quot;</span>, <span class="st">&quot;Men&quot;</span>, <span class="st">&quot;Total&quot;</span>))</span>
+<span id="cb34-6"><a href aria-hidden="true" tabindex="-1"></a>        <span class="at">sex =</span> <span class="fu">factor</span>(sex, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;Women&quot;</span>, <span class="st">&quot;Men&quot;</span>, <span class="st">&quot;Total&quot;</span>))</span>
 <span id="cb34-7"><a href aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span></span>
 <span id="cb34-8"><a href aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(sex) <span class="sc">|&gt;</span></span>
 <span id="cb34-9"><a href aria-hidden="true" tabindex="-1"></a>    <span class="fu">rename</span>(</span>
 <span id="cb34-10"><a href aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;Sex&quot;</span> <span class="ot">=</span> sex,</span>
 <span id="cb34-11"><a href aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;Costs in 1997&quot;</span> <span class="ot">=</span> cost_1997,</span>
 <span id="cb34-12"><a href aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;Costs in 2024&quot;</span> <span class="ot">=</span> cost_2024,</span>
-<span id="cb34-13"><a href aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;Growth rate (%)&quot;</span> <span class="ot">=</span> growth</span>
+<span id="cb34-13"><a href aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;Growth rate&quot;</span> <span class="ot">=</span> growth</span>
 <span id="cb34-14"><a href aria-hidden="true" tabindex="-1"></a>    )</span>
 <span id="cb34-15"><a href aria-hidden="true" tabindex="-1"></a>tab_improved</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 3 × 4
-  Sex   `Costs in 1997` `Costs in 2024` `Growth rate (%)`
-  &lt;fct&gt; &lt;chr&gt;           &lt;chr&gt;           &lt;chr&gt;            
-1 Women 2&#39;208           5&#39;198           135.4%           
-2 Men   1&#39;546           4&#39;185           170.7%           
-3 Total 1&#39;885           4&#39;694           149.0%           </code></pre>
+  Sex   `Costs in 1997` `Costs in 2024` `Growth rate`
+  &lt;fct&gt; &lt;chr&gt;           &lt;chr&gt;           &lt;chr&gt;        
+1 Women 2&#39;208           5&#39;198           135.4%       
+2 Men   1&#39;546           4&#39;185           170.7%       
+3 Total 1&#39;885           4&#39;694           149.0%       </code></pre>
 </div>
 </div>
 </section>

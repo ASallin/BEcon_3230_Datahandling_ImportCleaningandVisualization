@@ -181,7 +181,7 @@ tab <- costs |>
 tab
 
 
-# Tables: scales() example ------------------------------------------------
+# Tables: make units clear at first sight -------------------------------
 
 tab_improved <- tab |>
     mutate(
@@ -195,21 +195,21 @@ tab_improved <- tab |>
 tab_improved
 
 
-# Labels and column names -------------------------------------------------
+# Tables: column and row labels must be self-explanatory ------------------
 
 tab_improved <- tab_improved |>
     mutate(
         sex = stringr::str_to_title(sex)
     ) |>
     mutate(
-        sex = factor(str_to_title(sex), levels = c("Women", "Men", "Total"))
+        sex = factor(sex, levels = c("Women", "Men", "Total"))
     ) |>
     arrange(sex) |>
     rename(
         "Sex" = sex,
         "Costs in 1997" = cost_1997,
         "Costs in 2024" = cost_2024,
-        "Growth rate (%)" = growth
+        "Growth rate" = growth
     )
 tab_improved
 
