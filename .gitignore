@@ -14,3 +14,6 @@ datahandlingform-*.json
 
 # Quarto website build output
 /_site/
+
+# knitr chunk cache (execute: cache: true)
+*_cache/

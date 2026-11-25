@@ -54,6 +54,9 @@ project:
     - materialsExercises/04_data_import/data/airquality_data.xlsx
     - materialsLecture/slides/html/08_data_preparation_II.html
     - materialsLecture/scripts/Lecture8_Script.R
+    - materialsLecture/slides/html/09_EDA_visualization.html
+    - materialsLecture/scripts/Lecture9_EDA.R
+    - data/health_costs_canton.xlsx
 
 website:
   title: "Data Handling 2026"

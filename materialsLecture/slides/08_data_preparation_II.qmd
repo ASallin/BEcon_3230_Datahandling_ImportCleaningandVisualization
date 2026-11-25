@@ -421,7 +421,6 @@ calories
 
 ## De-duplication: the trivial case
 
-
 ::: {.df-orders}
 ```{r, eval=TRUE, echo=TRUE, collapse=TRUE}
 orders

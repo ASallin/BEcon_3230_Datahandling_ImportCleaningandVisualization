@@ -1,0 +1,285 @@
+---
+title: "Lecture 9: idea for a new running example"
+subtitle: "Health insurance costs per insured person, by canton, 1997-2024"
+format:
+  html:
+    toc: true
+    embed-resources: true
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+## The idea in one paragraph
+
+Replace `swiss` with real data: gross benefits (Bruttoleistungen) of mandatory health insurance (OKP) per insured person, by canton of residence and sex, 1997-2024 (BAG, MOKKE, Tabelle 1 b). The same dataset carries the whole lecture: **(1) are the data right?** (IDA), **(2) what do they say?** (EDA with `group_by()` + `summarise()`), **(3) calculations within groups** (`lag()`, index, ratios), **(4) from summaries to tables** (`gt`), and then the ggplot part in L10.
+
+`lag()` does not need its own slot: it appears first as an IDA tool (flag implausible jumps), then again as an EDA tool (growth rates).
+
+> Data file: [bh_total_kt_de.xlsx]{.path} is at the repo root for now; it probably belongs in [data/]{.path}.
+
+```{r setup}
+library(tidyverse)
+library(readxl)
+library(gt)
+library(gtExtras)
+```
+
+## 0. Import: the file is not tidy
+
+The sheet holds **three tables stacked on top of each other** (Total, Männer, Frauen), each wide (one column per year), with a title row, empty rows, a footnote, and `CH` mixed in with the cantons. A good short recap of L7/L8 (`pivot_longer()`, `fill()`, types).
+
+```{r import-raw}
+raw <- read_excel("../../bh_total_kt_de.xlsx", col_names = FALSE,
+                  .name_repair = "minimal")
+raw[1:6, 1:5]
+```
+
+```{r import-tidy}
+names(raw) <- c("canton", 1997:2024)
+
+costs <- raw |>
+  # the title row of each block says which group follows
+  mutate(sex = case_when(
+    str_detect(canton, fixed("(Total)"))  ~ "total",
+    str_detect(canton, fixed("(Männer)")) ~ "men",
+    str_detect(canton, fixed("(Frauen)")) ~ "women"
+  )) |>
+  fill(sex) |>
+  filter(str_detect(canton, "^[A-Z]{2}$")) |>       # keep CH + 26 cantons
+  mutate(across(-c(canton, sex), as.numeric)) |>    # 1997 was read as text
+  pivot_longer(`1997`:`2024`, names_to = "year", values_to = "cost_pc") |>
+  mutate(year = as.integer(year))
+
+glimpse(costs)
+```
+
+> Teaching moment: without the `as.numeric()` line, `pivot_longer()` fails with *"Can't combine `1997` <character> and `1998` <double>"*, because the header row "Total" sits in the 1997 column. Real files do this.
+
+A small lookup table so non-Swiss students get a meaningful grouping (language region by majority language; BE and GR counted as German, FR and VS as French). Joining it is a recap of L8.
+
+```{r lookup}
+cantons <- tribble(
+  ~canton, ~region,
+  "ZH","German", "BE","German", "LU","German", "UR","German", "SZ","German",
+  "OW","German", "NW","German", "GL","German", "ZG","German", "FR","French",
+  "SO","German", "BS","German", "BL","German", "SH","German", "AR","German",
+  "AI","German", "SG","German", "GR","German", "AG","German", "TG","German",
+  "TI","Italian","VD","French", "VS","French", "NE","French", "GE","French",
+  "JU","French"
+)
+
+costs <- costs |> left_join(cantons, join_by(canton))
+```
+
+## 1. Are the data right? (IDA as step 1 of EDA)
+
+*"The first thing to do with data is to look at them."* (Crowder & Hand, 1990)
+
+### What does one row represent?
+
+```{r unit}
+costs |> count(sex)            # 27 units x 28 years = 756 per group
+costs |> count(canton) |> head(3)
+```
+
+`CH` is **not a canton**: it is the national total. Keep it, but never average it together with the cantons.
+
+```{r ch-vs-mean}
+costs |>
+  filter(sex == "total", year %in% c(1997, 2024)) |>
+  summarise(
+    ch_official   = cost_pc[canton == "CH"],
+    mean_cantons  = mean(cost_pc[canton != "CH"]),
+    .by = year
+  )
+```
+
+The unweighted mean of the cantons is lower than the Swiss figure: Appenzell Innerrhoden counts as much as Zurich. Good discussion question: *which number would you report, and why?*
+
+### Ranges and missing values
+
+```{r ranges}
+costs |>
+  summarise(
+    n         = n(),
+    n_missing = sum(is.na(cost_pc)),
+    min       = min(cost_pc),
+    max       = max(cost_pc),
+    .by = sex
+  )
+```
+
+No `NA`s here, so the L8 missing-values examples still need a home (warm-up or exercise). Women cost more than men in every canton: plausible (maternity, longer life), worth one sentence.
+
+### Implausible jumps: first use of `lag()`
+
+```{r jumps}
+jumps <- costs |>
+  filter(canton != "CH", sex == "total") |>
+  arrange(canton, year) |>
+  mutate(growth = cost_pc / lag(cost_pc) - 1, .by = canton) |>
+  filter(abs(growth) > 0.10) |>
+  arrange(desc(abs(growth)))
+
+jumps
+```
+
+What students find (good for discussion, none needs Swiss knowledge):
+
+- **Fribourg 1998: costs fall by 12%.** Health costs almost never fall: suspicious 1997 value or a change in reporting.
+- **2012: several central/eastern cantons jump by 10-15% (NW, AR, OW, SG, GL).** Several cantons moving in the same year points to a system change, not to sicker people (I believe the new hospital financing / SwissDRG started in 2012; please check). 1999/2000 shows a similar cluster.
+- **Bern 2004: +15%.** Same question (TARMED was introduced around 2004; check).
+- **The footnote:** data are by treatment year, with billing delays, so the **latest year can still be revised**. Ask: should we trust 2024 as much as 2015?
+
+> This is the place for your own experience: a jump in a series that turned out to be a definition change.
+
+## 2. What do the data say? Summary statistics with `group_by()` + `summarise()`
+
+### By canton, over time
+
+```{r by-canton}
+costs |>
+  filter(sex == "total", canton != "CH") |>
+  group_by(canton) |>
+  summarise(
+    mean   = mean(cost_pc),
+    median = median(cost_pc),
+    min    = min(cost_pc),
+    max    = max(cost_pc)
+  ) |>
+  arrange(desc(max)) |>
+  head(5)
+```
+
+### By language region and sex, in 2024
+
+```{r by-region}
+costs |>
+  filter(year == 2024, canton != "CH") |>
+  summarise(
+    mean_cost  = mean(cost_pc),
+    n_cantons  = n(),
+    .by = c(region, sex)
+  ) |>
+  arrange(sex, desc(mean_cost))
+```
+
+Look at `n_cantons`: the "Italian" mean is one canton (TI), and every mean is unweighted (AI counts as much as ZH). Good reason to always report `n()` next to a mean.
+
+A natural place for `.by` vs `group_by()` (reminder from L8): same result, but `group_by()` stays until `ungroup()`.
+
+### Many statistics at once with `across()`
+
+```{r across}
+costs |>
+  filter(sex == "total", canton != "CH", year %in% c(1997, 2024)) |>
+  summarise(across(cost_pc, list(mean = mean, sd = sd, min = min, max = max)),
+            .by = year)
+```
+
+The spread (sd) grows with the level. Leads to a question for the index: *do cantons converge?*
+
+## 3. Calculations within groups: `group_by()` + `mutate()`
+
+### Growth rates (second use of `lag()`)
+
+```{r growth}
+ch <- costs |>
+  filter(canton == "CH", sex == "total") |>
+  mutate(growth = 100 * (cost_pc / lag(cost_pc) - 1))
+
+ch |> filter(year >= 2018)
+```
+
+COVID shows up clearly: **2020 is the only year costs fell (-0.5%), followed by +6.5% in 2021** (postponed treatments). Good story for the L10 line chart.
+
+### Index to a base year (1997 = 100)
+
+```{r index}
+indexed <- costs |>
+  filter(sex == "total") |>
+  mutate(index = 100 * cost_pc / cost_pc[year == 1997], .by = canton)
+
+indexed |>
+  filter(year == 2024) |>
+  arrange(desc(index)) |>
+  select(canton, region, cost_pc, index) |>
+  slice(c(1:3, (n() - 2):n()))      # fastest and slowest growth
+```
+
+Levels and growth tell different stories: the cheapest cantons in 1997 (AI, NW, AR) tripled, Geneva "only" doubled. So cantons converge in relative terms, while the sd in CHF (previous section) grew from 440 to 665. Nice discussion: *converging or diverging? It depends on the measure.*
+
+### Women/men ratio (recap `pivot_wider()`)
+
+```{r ratio}
+costs |>
+  filter(year == 2024, sex != "total") |>
+  pivot_wider(names_from = sex, values_from = cost_pc) |>
+  mutate(ratio = women / men) |>
+  arrange(desc(ratio)) |>
+  head(5)
+```
+
+## 4. From summaries to tables
+
+```{r table}
+tab <- costs |>
+  filter(sex == "total", canton != "CH") |>
+  arrange(year) |>
+  summarise(
+    region     = first(region),
+    cost_1997  = cost_pc[year == 1997],
+    cost_2024  = cost_pc[year == 2024],
+    trend      = list(cost_pc),
+    .by = canton
+  ) |>
+  mutate(growth = cost_2024 / cost_1997 - 1) |>
+  arrange(desc(cost_2024)) |>
+  slice(c(1:5, 22:26))
+
+tab |>
+  gt() |>
+  fmt_number(c(cost_1997, cost_2024), decimals = 0, sep_mark = "'") |>
+  fmt_percent(growth, decimals = 0) |>
+  gt_plt_sparkline(trend) |>
+  cols_label(canton = "Canton", region = "Language region",
+             cost_1997 = "CHF 1997", cost_2024 = "CHF 2024",
+             growth = "Growth", trend = "1997-2024") |>
+  tab_header(title = "Health insurance costs per insured person",
+             subtitle = "Five most and five least expensive cantons in 2024") |>
+  tab_source_note("Source: BAG, MOKKE, Tabelle 1 b (gross benefits, OKP).")
+```
+
+This replaces the `swiss_summary` + `round()` + `format()` slides with one table students would actually want to show.
+
+## 5. Teaser for L10 (ggplot)
+
+Questions the plots can answer, all on the same data:
+
+1. **Line chart, index 1997 = 100**, one line per canton, `CH` highlighted: do cantons converge? Where is 2012, where is COVID?
+2. **Facets by language region**: is the French-speaking "cost gap" a level effect or a growth effect?
+3. **Women vs men** scatter (one point per canton): who is above the 45° line?
+4. **Distribution in 2024** (histogram or dot plot): two bin widths, where is Geneva?
+
+```{r teaser}
+#| fig-width: 8
+#| fig-height: 4.5
+indexed |>
+  ggplot(aes(year, index, group = canton)) +
+  geom_line(colour = "grey75") +
+  geom_line(data = filter(indexed, canton == "CH"), colour = "darkgreen",
+            linewidth = 1.2) +
+  labs(x = NULL, y = "Index (1997 = 100)",
+       title = "Health costs per insured person grew in every canton",
+       subtitle = "Grey: cantons; green: Switzerland") +
+  theme_minimal()
+```
+
+## Open points for you
+
+- Check the two events I attributed from memory (2012 hospital financing, 2004 TARMED) before saying them in class.
+- Fribourg 1997: worth a look in the BAG documentation (Einstiegstext on billing delays).
+- No missing values in this file: decide where the skipped L8 missing-values examples go.
+- Exercise idea: same analysis with another BAG table (e.g. one cost group: hospital, doctors, drugs), or a comparison with the student's home country (OECD).

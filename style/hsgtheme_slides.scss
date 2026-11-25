@@ -193,3 +193,16 @@ code {
     border-color: $hsg-green;
     color: #ffffff;
 }
+
+// Code chunks with `output-location: column`: Quarto splits 50/50 and
+// stretches the code box to full column height. Give the plot more room
+// (code 40%, output 60%) and let the code box end with the code.
+.reveal .column-output-location .column:first-of-type {
+    width: 40%;
+}
+.reveal .column-output-location .column:last-of-type {
+    width: 60%;
+}
+.reveal .column-output-location .column:first-of-type div.sourceCode {
+    height: auto;
+}
