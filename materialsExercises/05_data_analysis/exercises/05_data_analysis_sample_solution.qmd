@@ -1,0 +1,290 @@
+---
+title: 'Data Handling: Import, Cleaning and Visualisation'
+subtitle: 'Solutions to Exercise/Workshop 5: Data reshaping, cleaning and merging'
+author:
+  - "Dr. Aurélien Sallin (Lecturer)"
+  - "Andrea Burro (Tutor)"
+date: "2026-11-26"
+date-format: "D MMMM YYYY"
+format:
+  html:
+    theme: ../../../style/hsgtheme_exercises.scss
+    embed-resources: true
+    self-contained: true
+    self-contained-math: true
+    toc: true
+    toc-depth: 2
+  pdf:
+    toc: true
+    toc-depth: 2
+    geometry: margin=2.2cm
+    fontsize: 10pt
+    code-overflow: wrap
+highlight-style: dracula
+---
+
+```{r}
+#| label: setup
+#| include: false
+options(width = 100)
+library(knitr)
+```
+
+The questions are repeated here in *italics*, so that this document can be read on its own.
+
+```{r message=FALSE}
+library(tidyverse)
+```
+
+# Exercise 1: reshaping data
+
+1. *Inspect the data. How many rows and columns are there, and which period is covered? Is
+   the data in long or in wide format?*
+
+```{r}
+head(economics)
+dim(economics)
+range(economics$date)
+```
+
+   574 rows and 6 columns, monthly from July 1967 to April 2015. The format is wide: one row
+   per month and one column per indicator.
+
+2. *Reshape the data into long format and save it as `df_long`. How many rows do you expect?*
+
+```{r}
+df_long <- pivot_longer(economics, cols = -date,
+                        names_to = "variable", values_to = "value")
+head(df_long)
+dim(df_long)
+```
+
+   Five indicators for each of the 574 months give 2,870 rows. `cols = -date` selects all
+   columns except `date`.
+
+3. *Reshape `df_long` back to wide format, save it as `df`, and check it against
+   `economics`.*
+
+```{r}
+df <- pivot_wider(df_long, names_from = variable, values_from = value)
+dim(df)
+identical(names(df), names(economics))
+```
+
+   Dimensions and names are the same. The values are all of type double now, because they
+   shared one column in the long format.
+
+4. *Give one task for which the long format is more convenient, and one for which the wide
+   format is.*
+
+   Long: plotting all indicators in one `ggplot()` with one panel or colour per variable.
+   Wide: computing with two indicators of the same month, as in the next exercise.
+
+# Exercise 2: cleaning and preparing data
+
+1. *Add `unemployment_rate` to `df`. Is this the unemployment rate you read about in the
+   news?*
+
+```{r}
+df <- df |> mutate(unemployment_rate = unemploy / pop)
+head(df$unemployment_rate)
+```
+
+   No. The official rate divides by the labour force, those who work or look for work. We
+   divide by the total population, which includes children and retired people, so our number
+   is much smaller.
+
+2. *Extract the year from `date` and save it as `year`.*
+
+```{r}
+library(lubridate)
+df <- df |> mutate(year = year(date))
+```
+
+3. *Keep the observations after the year 2000. What is the first date left?*
+
+```{r}
+df_reduced <- df |> filter(year > 2000)
+dim(df_reduced)
+min(df_reduced$date)
+```
+
+   January 2001, with 172 months left. "After 2000" means `year > 2000`; `year >= 2000` would
+   include the year 2000 itself.
+
+4. *Keep `date`, `pce` and `pop` in `df_reduced`.*
+
+```{r}
+df_reduced <- df_reduced |> select(date, pce, pop)
+head(df_reduced, 3)
+```
+
+5. *Add the indicator `after_2000` to `df` and count both groups. Why would it be of no use in
+   `df_reduced`?*
+
+```{r}
+df <- df |> mutate(after_2000 = year > 2000)
+count(df, after_2000)
+```
+
+   The comparison already returns `TRUE` or `FALSE`, so no `ifelse()` is needed. In
+   `df_reduced` every row is after 2000: the variable would be constant and carry no
+   information.
+
+# Exercise 3: merging data
+
+```{r}
+gdp <- data.frame(
+  date = seq(as.Date("2013-01-01"), as.Date("2017-10-01"), by = "quarter"),
+  gdp = c(16648.189, 16728.687, 16953.838, 17192.019,
+          17197.738, 17518.508, 17804.228, 17912.079,
+          18063.529, 18279.784, 18401.626, 18435.137,
+          18525.933, 18711.702, 18892.639, 19089.379,
+          19280.084, 19438.643, 19692.595, 20037.088)
+)
+```
+
+1. *Which table should be on the left and which on the right? What is the joining variable?
+   Which problems do you foresee?*
+
+   `df` goes on the left, since it is the data set we are working with and want to extend with
+   `gdp`. The key is `date`. The frequencies differ, monthly against quarterly, and so do the
+   periods: `df` ends in April 2015, `gdp` covers 2013 to 2017.
+
+2. *Merge with `left_join()`. How many rows does the result have?*
+
+```{r}
+df_left <- left_join(df, gdp, by = "date")
+nrow(df_left)
+```
+
+   574, the same as `df`: a left join keeps every row of the left table, and each date appears
+   only once in `gdp`.
+
+3. *Count the missing values of `gdp`, explain them, and propose a solution.*
+
+```{r}
+sum(is.na(df_left$gdp))
+```
+
+   564 months have no GDP value: those before 2013, and from 2013 on the months that do not
+   start a quarter. To analyse both variables together, we can keep the rows with a value,
+   `filter(!is.na(gdp))`. The alternative is to average the monthly data by quarter before
+   merging, which uses all months of each quarter. Filling in monthly GDP values would invent
+   data.
+
+4. *Merge with `inner_join()`. How does the result differ from `df_left`, and which one would
+   you use?*
+
+```{r}
+df_inner <- inner_join(df, gdp, by = "date")
+dim(df_inner)
+```
+
+   An inner join keeps only the dates found in both tables, 10 rows. It gives the same data as
+   the left join followed by the filter. Which to use depends on the question. A left join is
+   a good first step, because you see what did not match; an inner join drops rows without
+   saying so.
+
+5. *Which rows of `gdp` have no partner in `df`?*
+
+```{r}
+anti_join(gdp, df, by = "date")
+```
+
+   The ten quarters from July 2015 to October 2017, after the end of `economics`.
+
+6. *Create `summary_stats` per year and say what you observe.*
+
+```{r}
+summary_stats <- df_inner |>
+  group_by(year) |>
+  summarise(
+    n = n(),
+    across(c(unemployment_rate, gdp),
+           list(mean = mean, median = median, sd = sd))
+  )
+glimpse(summary_stats)
+```
+
+   From 2013 to 2015 the share of unemployed in the population falls while GDP rises. Be
+   careful with 2015: it has only two quarters, so it is not comparable to a full year, and a
+   standard deviation of two values says little. A common movement over three years is also no
+   evidence of a causal effect.
+
+7. *Arrange `summary_stats` by year in descending order.*
+
+```{r}
+summary_stats <- summary_stats |> arrange(desc(year))
+summary_stats[, c("year", "n", "unemployment_rate_mean", "gdp_mean")]
+```
+
+# Additional exercises for training
+
+## Exercise 4: tidy the pregnancy data
+
+1. *Is the data set tidy? What are the variables?*
+
+   No. The variables are pregnancy status, sex and count. Sex is spread over the column names
+   `male` and `female`.
+
+2. *Tidy `preg`.*
+
+```{r}
+preg <- tribble(
+  ~pregnant, ~male, ~female,
+  "yes", NA, 10,
+  "no", 20, 12
+)
+preg_long <- pivot_longer(preg, cols = c(male, female),
+                          names_to = "sex", values_to = "count")
+preg_long
+```
+
+   We need `pivot_longer()`, because column names have to become values.
+
+3. *What does the missing value stand for, and what would you do with it?*
+
+   It is the count of pregnant males. If this combination cannot occur in the population, the
+   count is not unknown, and we can replace it with 0 or drop the row with
+   `values_drop_na = TRUE`. Either choice should be documented. For a missing value that is
+   truly unknown, 0 would be wrong.
+
+## Exercise 5: correlations across countries and years
+
+1. *Is this data set in long or in wide format?*
+
+```{r}
+set.seed(3230)
+covid <- data.frame(Country = c("US", "DE", "CH", "FR"),
+                    Covid_2020 = runif(4, 0, 1),
+                    AntiCovidExpenses_2020 = runif(4, 500, 1000))
+covid <- cbind(covid,
+  Covid_2021 = covid$Covid_2020 + rnorm(4, 0, 0.1),
+  AntiCovidExpenses_2021 = covid$AntiCovidExpenses_2020 + rnorm(4, 0, 100))
+covid
+```
+
+   Wide: the year is hidden in the column names.
+
+2. *Reshape the data so that you can compute the correlation.*
+
+```{r}
+covid_long <- pivot_longer(covid, cols = -Country,
+                           names_to = c(".value", "year"), names_sep = "_")
+covid_long
+```
+
+   `names_sep` splits each column name at the underscore. The part matched by `".value"`
+   becomes a column name, the other part goes into `year`.
+
+3. *Compute the correlation. How much can you conclude from it?*
+
+```{r}
+cor(covid_long$Covid, covid_long$AntiCovidExpenses)
+```
+
+   About $-0.18$. Very little follows from it: there are eight observations, and the two
+   years of a country are not independent. The data is also simulated with spending and cases
+   drawn independently of each other, so the correlation we see is chance. In real data, a
+   correlation would still not tell us whether spending affects cases or the other way round.
